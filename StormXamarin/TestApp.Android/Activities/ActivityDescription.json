@@ -1,0 +1,17 @@
+﻿{
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "list": [
+        {
+            "activity": {
+                "inputFile": "MainActivity.cs",
+                "outputFile": "../gen/MainActivity.generated.cs",
+                "className": "MainActivity",
+                "namespaceName": "TestApp.Android.Activities"
+            },
+            "view": {
+                "inputFile": "../Views/Main.xml",
+                "outputFile": "../Resources/layout/Main.axml"
+            }
+        }
+    ]
+}
