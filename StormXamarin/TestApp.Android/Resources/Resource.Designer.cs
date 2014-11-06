@@ -26,6 +26,8 @@ namespace TestApp.Android
 		
 		public static void UpdateIdValues()
 		{
+			global::Storm.Framework.Android.Resource.String.ApplicationName = global::TestApp.Android.Resource.String.ApplicationName;
+			global::Storm.Framework.Android.Resource.String.Hello = global::TestApp.Android.Resource.String.Hello;
 			global::Storm.Mvvm.Android.Resource.String.ApplicationName = global::TestApp.Android.Resource.String.ApplicationName;
 			global::Storm.Mvvm.Android.Resource.String.Hello = global::TestApp.Android.Resource.String.Hello;
 		}

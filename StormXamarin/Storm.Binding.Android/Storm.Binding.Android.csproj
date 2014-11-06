@@ -46,7 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\ActivityInfo.cs" />
+    <Compile Include="Data\XmlElement.cs" />
     <Compile Include="Process\InformationReader.cs" />
+    <Compile Include="Process\ViewFileProcessor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

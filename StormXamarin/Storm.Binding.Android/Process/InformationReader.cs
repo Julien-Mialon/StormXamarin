@@ -11,7 +11,7 @@ namespace Storm.Binding.Android.Process
 {
 	class InformationReader
 	{
-		public List<BindingInfo> BindingInformations { get; private set; }
+		public List<ActivityViewInfo> ActivityViewInformations { get; private set; }
 
 		public InformationReader(string filename)
 		{
@@ -20,15 +20,18 @@ namespace Storm.Binding.Android.Process
 			StreamReader re = new StreamReader(filename);
 			JsonTextReader reader = new JsonTextReader(re);
 
-			BindingInfoCollection input = serializer.Deserialize<BindingInfoCollection>(reader);
+			ActivityViewInfoCollection input = serializer.Deserialize<ActivityViewInfoCollection>(reader);
 
-			BindingInformations = input.list;
+			ActivityViewInformations = input.list;
 
 			string baseDir = Path.GetDirectoryName(filename);
-
-			foreach(BindingInfo info in BindingInformations)
+			//rewrite all path using baseDir
+			foreach(ActivityViewInfo info in ActivityViewInformations)
 			{
-
+				info.Activity.InputFile = Path.Combine(baseDir, info.Activity.InputFile);
+				info.Activity.OutputFile = Path.Combine(baseDir, info.Activity.OutputFile);
+				info.View.InputFile = Path.Combine(baseDir, info.View.InputFile);
+				info.View.OutputFile = Path.Combine(baseDir, info.View.OutputFile);
 			}
 		}
 	}

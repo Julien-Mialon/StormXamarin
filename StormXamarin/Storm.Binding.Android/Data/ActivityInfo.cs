@@ -8,26 +8,26 @@ namespace Storm.Binding.Android.Data
 {
 	public class ActivityInfo
 	{
-		public string inputFile { get; set; }
-		public string outputFile { get; set; }
-		public string className { get; set; }
-		public string namespaceName { get; set; }
+		public string InputFile { get; set; }
+		public string OutputFile { get; set; }
+		public string ClassName { get; set; }
+		public string NamespaceName { get; set; }
 	}
 
 	public class ViewInfo
 	{
-		public string inputFile { get; set; }
-		public string outputFile { get; set; }
+		public string InputFile { get; set; }
+		public string OutputFile { get; set; }
 	}
 
-	public class BindingInfo
+	public class ActivityViewInfo
 	{
-		public ActivityInfo activity { get; set; }
-		public ViewInfo view { get; set; }
+		public ActivityInfo Activity { get; set; }
+		public ViewInfo View { get; set; }
 	}
 
-	public class BindingInfoCollection
+	public class ActivityViewInfoCollection
 	{
-		public List<BindingInfo> list { get; set; }
+		public List<ActivityViewInfo> list { get; set; }
 	}
 }
