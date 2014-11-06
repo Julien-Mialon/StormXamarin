@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivityBase.cs" />
+    <Compile Include="Bindings\BindingExpression.cs" />
     <Compile Include="NavigationService.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
