@@ -11,9 +11,11 @@ namespace Storm.Mvvm.Android.Bindings
 
 		public string SourcePath { get; set; }
 
-		public PropertyInfo TargetProperty { get; set; }
+		public PropertyInfo TargetPropertyHandler { get; set; }
 
-		public EventInfo TargetEvent { get; set; }
+		public EventInfo TargetEventHandler { get; set; }
+
+		public BindingObject BindingObject { get; set; }
 	}
 
 	public class BindingObject
@@ -23,5 +25,10 @@ namespace Storm.Mvvm.Android.Bindings
 		public IEnumerable<BindingExpression> Expressions { get; set; }
 
 		public object TargetObject { get; set; }
+	}
+
+	public class BindingProcessor
+	{
+		
 	}
 }

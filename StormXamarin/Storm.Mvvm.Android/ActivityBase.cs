@@ -13,6 +13,8 @@ namespace Storm.Mvvm.Android
 	{
 		protected ViewModelBase ViewModel { get; private set; }
 
+		
+
 		protected void SetViewModel(ViewModelBase viewModel, Type idContainerType)
 		{
 			ViewModel = viewModel;
@@ -31,11 +33,38 @@ namespace Storm.Mvvm.Android
 					//Process all expressions
 					foreach (BindingExpression expression in bindingObject.Expressions)
 					{
-						 //if a property exists, use it
-						targetType.GetPro
+						try
+						{
+							//if a property exists, use it
+							PropertyInfo property = targetType.GetProperty(expression.TargetField, BindingFlags.Public | BindingFlags.IgnoreCase);
+							if (property != null)
+							{
+								expression.TargetPropertyHandler = property;
+								continue;
+							}
+
+							//otherwise supposed its an event
+							EventInfo ev = targetType.GetEvent(expression.TargetField, BindingFlags.Public | BindingFlags.IgnoreCase);
+							if (ev != null)
+							{
+								expression.TargetEventHandler = ev;
+								continue;
+							}
+						}
+						catch (Exception)
+						{
+							//otherwise, an error happened, so throw an exception
+							throw;
+						}
+
 					}
 				}
 			}
+
+			List<BindingExpression> expressions = bindingObjects.SelectMany(x => x.Expressions)
+																.OrderBy(x => x.SourcePath)
+																.ToList();
+
 		}
 
 		protected virtual List<BindingObject> GetBindingPaths()
