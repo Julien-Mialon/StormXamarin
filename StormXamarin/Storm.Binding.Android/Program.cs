@@ -17,6 +17,7 @@ namespace Storm.Binding.Android
 			if (args.Length == 0)
 			{
 				Console.WriteLine("Invalid usage, pass json description file as argument to this program");
+				Console.ReadKey();
 				return;
 			}
 
@@ -26,6 +27,8 @@ namespace Storm.Binding.Android
 
 				ProcessReader(reader);
 			}
+
+			Console.WriteLine("==> Finished");
 
 			Console.ReadKey();
 		}
@@ -43,6 +46,9 @@ namespace Storm.Binding.Android
 				List<XmlAttribute> bindingInformations = processor.ExtractBindingInformations(root);
 
 				processor.Write(root, info.View.OutputFile);
+
+				PartialClassGenerator classGenerator = new PartialClassGenerator();
+				classGenerator.Generate(info.Activity, bindingInformations);
 			}
 		}
 	}

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Storm.Mvvm;
 
 namespace TestApp.Business
@@ -24,7 +20,7 @@ namespace TestApp.Business
 			: base(container)
 		{
 			ButtonCommand = new DelegateCommand(ButtonAction);
-			ButtonText = "Hello world !";
+			ButtonText = "Hello world !!!!";
 		}
 
 		private void ButtonAction()

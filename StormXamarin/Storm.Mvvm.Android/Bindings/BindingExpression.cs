@@ -16,15 +16,51 @@ namespace Storm.Mvvm.Android.Bindings
 		public EventInfo TargetEventHandler { get; set; }
 
 		public BindingObject BindingObject { get; set; }
+
+		public bool IsPropertyAttached
+		{
+			get { return TargetPropertyHandler != null; }
+		}
+
+		public bool IsEventAttached
+		{
+			get { return TargetEventHandler != null; }
+		}
+
+		public BindingExpression()
+		{
+			
+		}
+
+		public BindingExpression(string targetField, string sourcePath)
+		{
+			this.TargetField = targetField;
+			this.SourcePath = sourcePath;
+		}
 	}
 
 	public class BindingObject
 	{
 		public string TargetObjectName { get; set; }
 
-		public IEnumerable<BindingExpression> Expressions { get; set; }
+		public List<BindingExpression> Expressions { get; private set; }
 
 		public object TargetObject { get; set; }
+
+		public BindingObject()
+		{
+			Expressions = new List<BindingExpression>();
+		}
+
+		public BindingObject(string objectId) : this()
+		{
+			TargetObjectName = objectId;
+		}
+
+		public void AddExpression(BindingExpression expr)
+		{
+			this.Expressions.Add(expr);
+		}
 	}
 
 	public class BindingProcessor

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Android.App;
-using Android.OS;
 using Storm.Mvvm.Android.Bindings;
 
 namespace Storm.Mvvm.Android
@@ -13,10 +12,11 @@ namespace Storm.Mvvm.Android
 	{
 		protected ViewModelBase ViewModel { get; private set; }
 
-		
+		private ExpressionNode _rootExpressionNode;
 
 		protected void SetViewModel(ViewModelBase viewModel, Type idContainerType)
 		{
+			DateTime startTime = DateTime.Now;
 			ViewModel = viewModel;
 
 			List<BindingObject> bindingObjects = GetBindingPaths();
@@ -27,44 +27,81 @@ namespace Storm.Mvvm.Android
 			foreach (BindingObject bindingObject in bindingObjects)
 			{
 				bindingObject.TargetObject = FindViewById(ids[bindingObject.TargetObjectName]);
-				if (bindingObject.TargetObject != null)
+				if (bindingObject.TargetObject == null)
 				{
-					Type targetType = bindingObject.TargetObject.GetType();
-					//Process all expressions
-					foreach (BindingExpression expression in bindingObject.Expressions)
+					throw new Exception("Can not get object " + bindingObject.TargetObjectName);
+				}
+				Type targetType = bindingObject.TargetObject.GetType();
+				//Process all expressions
+				foreach (BindingExpression expression in bindingObject.Expressions)
+				{
+					expression.BindingObject = bindingObject;
+					//if a property exists, use it
+					PropertyInfo property = targetType.GetProperty(expression.TargetField, BindingFlags.Public | BindingFlags.IgnoreCase | BindingFlags.Instance);
+					if (property != null)
 					{
-						try
-						{
-							//if a property exists, use it
-							PropertyInfo property = targetType.GetProperty(expression.TargetField, BindingFlags.Public | BindingFlags.IgnoreCase);
-							if (property != null)
-							{
-								expression.TargetPropertyHandler = property;
-								continue;
-							}
-
-							//otherwise supposed its an event
-							EventInfo ev = targetType.GetEvent(expression.TargetField, BindingFlags.Public | BindingFlags.IgnoreCase);
-							if (ev != null)
-							{
-								expression.TargetEventHandler = ev;
-								continue;
-							}
-						}
-						catch (Exception)
-						{
-							//otherwise, an error happened, so throw an exception
-							throw;
-						}
-
+						expression.TargetPropertyHandler = property;
+						continue;
 					}
+
+					//otherwise supposed its an event
+					EventInfo ev = targetType.GetEvent(expression.TargetField, BindingFlags.Public | BindingFlags.IgnoreCase | BindingFlags.Instance);
+					if (ev != null)
+					{
+						expression.TargetEventHandler = ev;
+						continue;
+					}
+
+					
+
+					throw new Exception("ActivityBase : can not infer if binding expression " + expression.TargetField + " is an event or property in object of type " + targetType);
 				}
 			}
 
-			List<BindingExpression> expressions = bindingObjects.SelectMany(x => x.Expressions)
-																.OrderBy(x => x.SourcePath)
-																.ToList();
+			_rootExpressionNode = new ExpressionNode()
+			{
+				PropertyName = "",
+			};
+			ParseExpressionNodes("", bindingObjects.SelectMany(x => x.Expressions), _rootExpressionNode);
 
+			_rootExpressionNode.FullUpdate(this.ViewModel);
+
+			DateTime endTime = DateTime.Now;
+			TimeSpan diff = endTime - startTime;
+			System.Diagnostics.Debug.WriteLine("===> Time to process binding and update values : " + diff.TotalMilliseconds);
+		}
+
+		private void ParseExpressionNodes(string prefix, IEnumerable<BindingExpression> expressions, ExpressionNode rootNode)
+		{
+			//RMQ : prefix do not contains final dot "."
+
+			Dictionary<string, ExpressionNode> newNodes = new Dictionary<string, ExpressionNode>();
+			string fullPrefix = string.IsNullOrEmpty(prefix) ? prefix : prefix + ".";
+			List<BindingExpression> validExpressions = expressions.Where(x => x.SourcePath.StartsWith(prefix)).ToList();
+			foreach (BindingExpression expression in validExpressions)
+			{
+				if (expression.SourcePath == prefix)
+				{
+					// Add to bindingExpression list in the node
+					rootNode.Expressions.Add(expression);
+				}
+				else
+				{
+					string prefixRemoved = expression.SourcePath.Substring(fullPrefix.Length);
+					string currentBindingEvaluation = (prefixRemoved.Contains(".") ? prefixRemoved.Substring(0, prefixRemoved.IndexOf('.')) : prefixRemoved);
+
+					if (!newNodes.ContainsKey(currentBindingEvaluation))
+					{
+						ExpressionNode currentChildNode = new ExpressionNode()
+						{
+							PropertyName = currentBindingEvaluation,
+						};
+						rootNode.Children.Add(currentChildNode.PropertyName, currentChildNode);
+						newNodes.Add(currentBindingEvaluation, currentChildNode);
+						ParseExpressionNodes(fullPrefix + currentBindingEvaluation, validExpressions, currentChildNode);
+					}
+				}
+			}
 		}
 
 		protected virtual List<BindingObject> GetBindingPaths()
