@@ -7,6 +7,6 @@
 	<Button android:id="MyButton"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			text="{Binding ButtonText}"
+			android:text="{Binding ButtonText}"
 			click="{Binding ButtonCommand}" />
 </LinearLayout>

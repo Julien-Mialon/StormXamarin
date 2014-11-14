@@ -111,7 +111,7 @@ namespace Storm.Binding.Android.Process
 
 					BindingExpression expr = new BindingExpression()
 					{
-						TargetFieldId = attribute.Name,
+						TargetFieldId = attribute.LocalName,
 						TargetObjectId = attribute.AttachedId,
 						SourcePath = bindingValue,
 					};
