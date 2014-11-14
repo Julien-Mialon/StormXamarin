@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Input;
 
 namespace Storm.Mvvm.Android.Bindings
 {
@@ -42,7 +43,25 @@ namespace Storm.Mvvm.Android.Bindings
 			{
 				if (expression.IsEventAttached)
 				{
-					//TODO
+					if (value == null || value is ICommand)
+					{
+						if (expression.EventHelper == null)
+						{
+							expression.EventHelper = new EventToCommandHelper();
+
+							Type delegateType = expression.TargetEventHandler.EventHandlerType;
+							Delegate handler = Delegate.CreateDelegate(delegateType, expression.EventHelper, EventToCommandHelper.EventMethodInfo);
+
+							MethodInfo addHandler = expression.TargetEventHandler.GetAddMethod();
+							addHandler.Invoke(expression.BindingObject.TargetObject, new object[] {handler});
+						}
+
+						expression.EventHelper.Command = value as ICommand;
+					}
+					else
+					{
+						throw new Exception("Type other than ICommand are not supported for event binding");
+					}
 				}
 				else if(expression.IsPropertyAttached)
 				{

@@ -27,6 +27,8 @@ namespace Storm.Mvvm.Android.Bindings
 			get { return TargetEventHandler != null; }
 		}
 
+		public EventToCommandHelper EventHelper { get; set; }
+
 		public BindingExpression()
 		{
 			
