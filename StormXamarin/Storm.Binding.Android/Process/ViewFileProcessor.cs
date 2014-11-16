@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Configuration;
 using System.Text;
 using System.Xml;
+using Storm.Binding.Android.Data;
 using XmlAttribute = Storm.Binding.Android.Data.XmlAttribute;
 using XmlElement = Storm.Binding.Android.Data.XmlElement;
 
@@ -25,15 +27,21 @@ namespace Storm.Binding.Android.Process
 					continueWithoutRead = false;
 					if (reader.NodeType == XmlNodeType.Element)
 					{
+						Console.WriteLine("Open " + reader.Name);
+						bool isAutoClose = reader.IsEmptyElement;
+
+						XmlElement childElement = new XmlElement
+						{
+							Name = reader.Name,
+						};
+
 						if (current != null)
 						{
-							elements.Push(current);
-						}
-						current = new XmlElement { Name = reader.Name };
-
-						if (elements.Any())
-						{
-							elements.Peek().Children.Add(current);
+							current.Children.Add(childElement);
+							if (!isAutoClose)
+							{
+								elements.Push(current);
+							}
 						}
 
 						if (reader.HasAttributes)
@@ -41,20 +49,33 @@ namespace Storm.Binding.Android.Process
 							reader.MoveToFirstAttribute();
 							do
 							{
-								current.Attributes.Add(new XmlAttribute {Name = reader.Name, Value = reader.Value});
+								childElement.Attributes.Add(new XmlAttribute {Name = reader.Name, Value = reader.Value});
 							} while (reader.MoveToNextAttribute());
 						}
 
 						reader.Read();
 						continueWithoutRead = !reader.HasValue;
+
+						if (!isAutoClose)
+						{
+							current = childElement;
+						}
+						else
+						{
+							Console.WriteLine("Close " + childElement.Name);
+						}
 					}
 					else if (reader.NodeType == XmlNodeType.EndElement)
 					{
-						current = elements.Pop();
+						Console.WriteLine("Close " + reader.Name);
+						if (elements.Any())
+						{
+							current = elements.Pop();
+						}
 					}
 				}
 			}
-
+			Console.WriteLine("Return " + current.Name);
 			return current;
 		}
 
@@ -81,17 +102,20 @@ namespace Storm.Binding.Android.Process
 
 		private void WriteElement(XmlWriter writer, XmlElement element)
 		{
-			writer.WriteStartElement(element.Name);
-			foreach (XmlAttribute attr in element.Attributes)
+			if (element.Name != "Resources")
 			{
-				WriteAttribute(writer, attr);
-			}
+				writer.WriteStartElement(element.Name);
+				foreach (XmlAttribute attr in element.Attributes)
+				{
+					WriteAttribute(writer, attr);
+				}
 
-			foreach (XmlElement child in element.Children)
-			{
-				WriteElement(writer, child);
+				foreach (XmlElement child in element.Children)
+				{
+					WriteElement(writer, child);
+				}
+				writer.WriteEndElement();
 			}
-			writer.WriteEndElement();
 		}
 		
 		private void WriteAttribute(XmlWriter writer, XmlAttribute attribute)
@@ -149,6 +173,49 @@ namespace Storm.Binding.Android.Process
 				}
 				Console.WriteLine("{0}</{1}>", indentString, element.Name);
 			}
+		}
+
+		public List<XmlResource> ExtractResources(XmlElement element)
+		{
+			if (element.Name == "Resources")
+			{
+				//Process each child to extract resources
+				List<XmlResource> resources = new List<XmlResource>();
+				foreach (XmlElement child in element.Children)
+				{
+					if (child.Name == "Converter")
+					{
+						XmlAttribute keyAttribute = child.Attributes.SingleOrDefault(x => x.Name == "Key");
+						XmlAttribute classAttribute = child.Attributes.SingleOrDefault(x => x.Name == "Class");
+
+						if (keyAttribute == null || classAttribute == null)
+						{
+							throw new Exception("Missing attribute for converter : key = " + ((keyAttribute == null) ? "null" : keyAttribute.Value) + " class = " + ((classAttribute == null) ? "null" : classAttribute.Value));
+						}
+
+						resources.Add(new ResourceConverter(keyAttribute.Value, classAttribute.Value));
+
+					}
+					else
+					{
+						throw new Exception("Resource type not supported : " + child.Name);
+					}
+				}
+				return resources;
+			}
+			else if (element.Children.Any())
+			{
+				foreach (XmlElement child in element.Children)
+				{
+					List<XmlResource> res = ExtractResources(child);
+					if (res != null)
+					{
+						return res;
+					}
+				}
+			}
+			
+			return null;
 		}
 
 		public List<XmlAttribute> ExtractBindingInformations(XmlElement element)

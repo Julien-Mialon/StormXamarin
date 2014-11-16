@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Input;
@@ -65,6 +66,10 @@ namespace Storm.Mvvm.Android.Bindings
 				}
 				else if(expression.IsPropertyAttached)
 				{
+					if (expression.Converter != null)
+					{
+						value = expression.Converter.Convert(value, expression.TargetPropertyHandler.PropertyType, expression.ConverterParameter, CultureInfo.CurrentCulture);
+					}
 					expression.TargetPropertyHandler.SetValue(expression.BindingObject.TargetObject, value);
 				}
 			}

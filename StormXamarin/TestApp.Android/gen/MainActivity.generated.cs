@@ -20,9 +20,12 @@ namespace TestApp.Android.Activities
 		protected override List<BindingObject> GetBindingPaths()
 		{
 			List<BindingObject> result = new List<BindingObject>();
+			TestApp.Android.Converters.StringToUpperConverter rsx_0 = new TestApp.Android.Converters.StringToUpperConverter();
 			BindingObject o0 = new BindingObject("MyButton");
 			result.Add(o0);
 			BindingExpression e0 = new BindingExpression("text", "ButtonText");
+			e0.Converter = rsx_0;
+			e0.ConverterParameter = "True";
 			o0.AddExpression(e0);
 			BindingExpression e1 = new BindingExpression("click", "ButtonCommand");
 			o0.AddExpression(e1);

@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="CompositionRoot\BootStrapper.cs" />
+    <Compile Include="Converters\StringToUpperConverter.cs" />
     <Compile Include="gen\MainActivity.generated.cs" />
     <Compile Include="gen\SecondActivity.generated.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -102,9 +103,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Views\Main.xml" />
+    <None Include="Views\Main.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>$(SolutionDir)Storm.Binding.Android\bin\Debug\Storm.Binding.Android.exe $(ProjectDir)Activities\ActivityDescription.json</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
      Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

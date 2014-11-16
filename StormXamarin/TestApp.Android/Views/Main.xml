@@ -3,10 +3,12 @@
 			  android:orientation="vertical"
 			  android:layout_width="fill_parent"
 			  android:layout_height="fill_parent">
-	
+	<Resources>
+    	<Converter Key="StringToUpperConverter" Class="TestApp.Android.Converters.StringToUpperConverter" />
+    </Resources>
 	<Button android:id="MyButton"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:text="{Binding ButtonText}"
-			click="{Binding ButtonCommand}" />
+			android:text="{Binding ButtonText, Converter={Resource StringToUpperConverter}, ConverterParameter='True', Mode=OneWay}"
+			click="{Binding Path=ButtonCommand}" />
 </LinearLayout>

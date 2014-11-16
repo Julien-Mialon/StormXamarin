@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Android.App;
@@ -41,30 +40,43 @@ namespace Storm.Mvvm.Android
 					if (property != null)
 					{
 						expression.TargetPropertyHandler = property;
-						continue;
 					}
-
-					//otherwise supposed its an event
-					EventInfo ev = targetType.GetEvent(expression.TargetField, BindingFlags.Public | BindingFlags.IgnoreCase | BindingFlags.Instance);
-					if (ev != null)
+					else
 					{
-						expression.TargetEventHandler = ev;
-						continue;
+						//otherwise supposed its an event
+						EventInfo ev = targetType.GetEvent(expression.TargetField, BindingFlags.Public | BindingFlags.IgnoreCase | BindingFlags.Instance);
+						if (ev != null)
+						{
+							expression.TargetEventHandler = ev;
+						}
+						else
+						{
+							throw new Exception("ActivityBase : can not infer if binding expression " + expression.TargetField + " is an event or property in object of type " + targetType);
+						}
 					}
-
 					
-
-					throw new Exception("ActivityBase : can not infer if binding expression " + expression.TargetField + " is an event or property in object of type " + targetType);
+					if (!string.IsNullOrWhiteSpace(expression.UpdateEvent))
+					{
+						EventInfo ev = targetType.GetEvent(expression.UpdateEvent, BindingFlags.Public | BindingFlags.IgnoreCase | BindingFlags.Instance);
+						if (ev != null)
+						{
+							expression.UpdateEventHandler = ev;
+						}
+						else
+						{
+							throw new Exception("ActivityBase : no update event " + expression.UpdateEvent + " in type " + targetType);
+						}
+					}
 				}
 			}
 
-			_rootExpressionNode = new ExpressionNode()
+			_rootExpressionNode = new ExpressionNode
 			{
 				PropertyName = "",
 			};
 			ParseExpressionNodes("", bindingObjects.SelectMany(x => x.Expressions), _rootExpressionNode);
 
-			_rootExpressionNode.FullUpdate(this.ViewModel);
+			_rootExpressionNode.FullUpdate(ViewModel);
 
 			DateTime endTime = DateTime.Now;
 			TimeSpan diff = endTime - startTime;
@@ -74,6 +86,10 @@ namespace Storm.Mvvm.Android
 		private void ParseExpressionNodes(string prefix, IEnumerable<BindingExpression> expressions, ExpressionNode rootNode)
 		{
 			//RMQ : prefix do not contains final dot "."
+			if (prefix == null)
+			{
+				prefix = "";
+			}
 
 			Dictionary<string, ExpressionNode> newNodes = new Dictionary<string, ExpressionNode>();
 			string fullPrefix = string.IsNullOrEmpty(prefix) ? prefix : prefix + ".";
@@ -92,7 +108,7 @@ namespace Storm.Mvvm.Android
 
 					if (!newNodes.ContainsKey(currentBindingEvaluation))
 					{
-						ExpressionNode currentChildNode = new ExpressionNode()
+						ExpressionNode currentChildNode = new ExpressionNode
 						{
 							PropertyName = currentBindingEvaluation,
 						};

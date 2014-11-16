@@ -30,7 +30,7 @@ namespace Storm.Binding.Android
 
 			Console.WriteLine("==> Finished");
 
-			Console.ReadKey();
+			//Console.ReadKey();
 		}
 
 		private static void ProcessReader(InformationReader reader)
@@ -44,11 +44,12 @@ namespace Storm.Binding.Android
 				ViewFileProcessor processor = new ViewFileProcessor();
 				XmlElement root = processor.Read(info.View.InputFile);
 				List<XmlAttribute> bindingInformations = processor.ExtractBindingInformations(root);
+				List<XmlResource> resourceCollection = processor.ExtractResources(root);
 
 				processor.Write(root, info.View.OutputFile);
 
 				PartialClassGenerator classGenerator = new PartialClassGenerator();
-				classGenerator.Generate(info.Activity, bindingInformations);
+				classGenerator.Generate(info.Activity, bindingInformations, resourceCollection);
 			}
 		}
 	}
