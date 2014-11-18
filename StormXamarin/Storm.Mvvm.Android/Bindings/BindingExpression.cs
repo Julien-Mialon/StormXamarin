@@ -34,6 +34,43 @@ namespace Storm.Mvvm.Android.Bindings
 
 		public BindingObject BindingObject { get; set; }
 
+		private object _sourceContext;
+		public object SourceContext
+		{
+			get { return _sourceContext; }
+			set
+			{
+				if (!object.Equals(_sourceContext, value))
+				{
+					_sourceContext = value;
+
+					int lastIndex = SourcePath.LastIndexOf('.');
+					if (lastIndex >= 0)
+					{
+						lastIndex++;
+					}
+					else
+					{
+						lastIndex = 0;
+					}
+					string lastPath = SourcePath.Substring(lastIndex);
+					PropertyInfo property = _sourceContext.GetType().GetProperty(lastPath, BindingFlags.Public | BindingFlags.Instance);
+					if (property == null)
+					{
+						//ERROR
+						SourceProperty = null;
+						throw new Exception("Binding issue, can not access property " + lastPath + " in object of type " + _sourceContext.GetType());
+					}
+					else
+					{
+						SourceProperty = property;
+					}
+				}
+			}
+		}
+
+		public PropertyInfo SourceProperty { get; set; }
+
 		public bool IsPropertyAttached
 		{
 			get { return TargetPropertyHandler != null; }
@@ -45,6 +82,7 @@ namespace Storm.Mvvm.Android.Bindings
 		}
 
 		public EventToCommandHelper EventHelper { get; set; }
+		public TwoWayHelper TwoWayEventHelper { get; set; }
 
 		#endregion
 

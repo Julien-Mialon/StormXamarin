@@ -21,14 +21,24 @@ namespace TestApp.Android.Activities
 		{
 			List<BindingObject> result = new List<BindingObject>();
 			TestApp.Android.Converters.StringToUpperConverter rsx_0 = new TestApp.Android.Converters.StringToUpperConverter();
-			BindingObject o0 = new BindingObject("MyButton");
+			BindingObject o0 = new BindingObject("MyInputText");
 			result.Add(o0);
-			BindingExpression e0 = new BindingExpression("text", "ButtonText");
-			e0.Converter = rsx_0;
-			e0.ConverterParameter = "True";
+			BindingExpression e0 = new BindingExpression("text", "InputText");
+			e0.Mode = BindingMode.TwoWay;
+			e0.UpdateEvent = "TextChanged";
 			o0.AddExpression(e0);
-			BindingExpression e1 = new BindingExpression("click", "ButtonCommand");
-			o0.AddExpression(e1);
+			BindingObject o1 = new BindingObject("MyButton");
+			result.Add(o1);
+			BindingExpression e1 = new BindingExpression("text", "ButtonText");
+			e1.Converter = rsx_0;
+			e1.ConverterParameter = "True";
+			o1.AddExpression(e1);
+			BindingExpression e2 = new BindingExpression("click", "ButtonCommand");
+			o1.AddExpression(e2);
+			BindingObject o2 = new BindingObject("MyTextView");
+			result.Add(o2);
+			BindingExpression e3 = new BindingExpression("text", "InputText");
+			o2.AddExpression(e3);
 			return result;
 		}
 	}

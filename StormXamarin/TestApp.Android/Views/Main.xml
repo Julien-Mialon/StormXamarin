@@ -6,9 +6,22 @@
 	<Resources>
     	<Converter Key="StringToUpperConverter" Class="TestApp.Android.Converters.StringToUpperConverter" />
     </Resources>
+	
+	<EditText android:id="MyInputText"
+			  android:layout_width="fill_parent"
+			  android:layout_height="60dp"
+			  android:text="{Binding InputText, Mode=TwoWay, UpdateEvent=TextChanged}"
+			  />
+	
 	<Button android:id="MyButton"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:text="{Binding ButtonText, Converter={Resource StringToUpperConverter}, ConverterParameter='True', Mode=OneWay}"
 			click="{Binding Path=ButtonCommand}" />
+	
+	<TextView android:id="MyTextView"
+			  android:layout_width="fill_parent"
+			  android:layout_height="wrap_content"
+			  android:text="{Binding InputText}"
+			  />
 </LinearLayout>

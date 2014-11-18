@@ -7,6 +7,17 @@ namespace TestApp.Business
     {
 		private string _buttonText = "";
 		private int _counter = 0;
+	    private string _inputText;
+
+	    public string InputText
+	    {
+			get { return _inputText; }
+			set
+			{
+				_inputText = value;
+				//SetProperty(ref _inputText, value);
+			}
+	    }
 
 		public string ButtonText
 		{

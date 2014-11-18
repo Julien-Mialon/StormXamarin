@@ -76,6 +76,7 @@ namespace Storm.Mvvm.Android
 			};
 			ParseExpressionNodes("", bindingObjects.SelectMany(x => x.Expressions), _rootExpressionNode);
 
+			_rootExpressionNode.Initialize();
 			_rootExpressionNode.FullUpdate(ViewModel);
 
 			DateTime endTime = DateTime.Now;

@@ -1,4 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+	<EditText android:id="@+id/MyInputText" android:layout_width="fill_parent" android:layout_height="60dp" />
 	<Button android:id="@+id/MyButton" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+	<TextView android:id="@+id/MyTextView" android:layout_width="fill_parent" android:layout_height="wrap_content" />
 </LinearLayout>

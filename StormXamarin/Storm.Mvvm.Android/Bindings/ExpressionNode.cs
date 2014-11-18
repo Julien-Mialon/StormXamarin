@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Input;
 
@@ -121,7 +122,33 @@ namespace Storm.Mvvm.Android.Bindings
 			// root node, just attach the event and go to children
 			foreach (ExpressionNode node in Children.Values)
 			{
+				foreach (BindingExpression expr in node.Expressions)
+				{
+					expr.SourceContext = context;
+				}
 				node.FullUpdate(node.GetValue(context));
+			}
+		}
+
+		public void Initialize()
+		{
+			foreach(BindingExpression expr in Expressions.Where(x => x.UpdateEventHandler != null))
+			{
+				if (expr.TwoWayEventHelper == null)
+				{
+					expr.TwoWayEventHelper = new TwoWayHelper(expr);
+				}
+
+				Type delegateType = expr.UpdateEventHandler.EventHandlerType;
+				Delegate handler = Delegate.CreateDelegate(delegateType, expr.TwoWayEventHelper, TwoWayHelper.EventMethodInfo);
+
+				MethodInfo addHandler = expr.UpdateEventHandler.GetAddMethod();
+				addHandler.Invoke(expr.BindingObject.TargetObject, new object[] {handler});
+			}
+
+			foreach (ExpressionNode node in Children.Values)
+			{
+				node.Initialize();
 			}
 		}
 	}

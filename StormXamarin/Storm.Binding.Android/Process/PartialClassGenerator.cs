@@ -82,7 +82,7 @@ namespace Storm.Binding.Android.Process
 				method.Statements.Add(new CodeMethodInvokeExpression(resultReference, "Add", objectReference));
 
 				//add all expressions
-				foreach (BindingExpression expr in expressions)
+				foreach (BindingExpression expr in bindingExpressions)
 				{
 					CodeObjectCreateExpression exprCreateExpression = new CodeObjectCreateExpression("BindingExpression", new CodePrimitiveExpression(expr.TargetFieldId), new CodePrimitiveExpression(expr.SourcePath));
 					string exprName = string.Format("e{0}", expressionCounter++);
@@ -256,6 +256,12 @@ namespace Storm.Binding.Android.Process
 				if (expression.Mode != BindingExpression.BindingModes.TwoWay && !string.IsNullOrWhiteSpace(expression.UpdateEvent))
 				{
 					Console.WriteLine("Binding Error : UpdateEvent is not authorized if Mode is not TwoWay " + bindingValue);
+					return null;
+				}
+
+				if (expression.Mode == BindingExpression.BindingModes.TwoWay && string.IsNullOrWhiteSpace(expression.UpdateEvent))
+				{
+					Console.WriteLine("Binding error : missing update event for two way binding : " + bindingValue);
 					return null;
 				}
 
