@@ -24,4 +24,22 @@
 			  android:layout_height="wrap_content"
 			  android:text="{Binding InputText}"
 			  />
+
+	<TextView android:id="TTextView"
+			  android:layout_width="fill_parent"
+			  android:layout_height="wrap_content"
+			  text="{Binding Data.Text}"
+			  />
+
+	<TextView android:id="TCTextView"
+			  android:layout_width="fill_parent"
+			  android:layout_height="wrap_content"
+			  text="{Binding Data.Text.Length}"
+			  />
+
+	<TextView android:id="CTextView"
+			  android:layout_width="fill_parent"
+			  android:layout_height="wrap_content"
+			  text="{Binding Data.Count}"
+			  />
 </LinearLayout>

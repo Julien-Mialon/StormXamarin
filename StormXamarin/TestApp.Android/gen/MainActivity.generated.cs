@@ -39,6 +39,18 @@ namespace TestApp.Android.Activities
 			result.Add(o2);
 			BindingExpression e3 = new BindingExpression("text", "InputText");
 			o2.AddExpression(e3);
+			BindingObject o3 = new BindingObject("TTextView");
+			result.Add(o3);
+			BindingExpression e4 = new BindingExpression("text", "Data.Text");
+			o3.AddExpression(e4);
+			BindingObject o4 = new BindingObject("TCTextView");
+			result.Add(o4);
+			BindingExpression e5 = new BindingExpression("text", "Data.Text.Length");
+			o4.AddExpression(e5);
+			BindingObject o5 = new BindingObject("CTextView");
+			result.Add(o5);
+			BindingExpression e6 = new BindingExpression("text", "Data.Count");
+			o5.AddExpression(e6);
 			return result;
 		}
 	}

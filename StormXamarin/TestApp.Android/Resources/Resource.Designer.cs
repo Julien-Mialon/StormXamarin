@@ -64,6 +64,9 @@ namespace TestApp.Android
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f050005
+			public const int CTextView = 2131034117;
+			
 			// aapt resource value: 0x7f050001
 			public const int MyButton = 2131034113;
 			
@@ -72,6 +75,12 @@ namespace TestApp.Android
 			
 			// aapt resource value: 0x7f050002
 			public const int MyTextView = 2131034114;
+			
+			// aapt resource value: 0x7f050004
+			public const int TCTextView = 2131034116;
+			
+			// aapt resource value: 0x7f050003
+			public const int TTextView = 2131034115;
 			
 			static Id()
 			{
