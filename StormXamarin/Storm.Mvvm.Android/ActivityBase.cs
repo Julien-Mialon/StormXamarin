@@ -16,7 +16,6 @@ namespace Storm.Mvvm.Android
 
 		protected void SetViewModel(ViewModelBase viewModel, Type idContainerType)
 		{
-			DateTime startTime = DateTime.Now;
 			ViewModel = viewModel;
 
 			List<BindingObject> bindingObjects = GetBindingPaths();
@@ -43,10 +42,6 @@ namespace Storm.Mvvm.Android
 			}
 
 			_rootExpressionNode.UpdateValue(ViewModel);
-
-			DateTime endTime = DateTime.Now;
-			TimeSpan diff = endTime - startTime;
-			System.Diagnostics.Debug.WriteLine("===> Time to process binding and update values : " + diff.TotalMilliseconds);
 		}
 
 		protected virtual List<BindingObject> GetBindingPaths()

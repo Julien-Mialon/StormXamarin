@@ -15,11 +15,19 @@ namespace Storm.Binding.Android.Process
 {
 	class PartialClassGenerator
 	{
-		public void Generate(ActivityInfo activityInformations, List<XmlAttribute> bindingInformations, List<XmlResource> resourceCollection)
+		public void Generate(ActivityInfo activityInformations, List<IdViewObject> views, List<XmlAttribute> bindingInformations, List<XmlResource> resourceCollection)
 		{
 			CodeCompileUnit codeUnit = new CodeCompileUnit();
+
+			CodeNamespace globalNamespace = new CodeNamespace("");
+			codeUnit.Namespaces.Add(globalNamespace);
+
 			CodeNamespace codeNamespace = new CodeNamespace(activityInformations.NamespaceName);
 			codeUnit.Namespaces.Add(codeNamespace);
+
+			globalNamespace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
+			globalNamespace.Imports.Add(new CodeNamespaceImport("Android.Widget"));
+			globalNamespace.Imports.Add(new CodeNamespaceImport("Storm.Mvvm.Android.Bindings"));
 
 			CodeTypeDeclaration classDeclaration = new CodeTypeDeclaration(activityInformations.ClassName)
 			{
@@ -27,10 +35,9 @@ namespace Storm.Binding.Android.Process
 				IsPartial = true,
 				TypeAttributes = TypeAttributes.Public,
 			};
-
 			codeNamespace.Types.Add(classDeclaration);
-			codeNamespace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
-			codeNamespace.Imports.Add(new CodeNamespaceImport("Storm.Mvvm.Android.Bindings"));
+
+			GenerateClassProperty(classDeclaration, views);
 
 			CodeMemberMethod overrideMethod = new CodeMemberMethod
 			{
@@ -56,7 +63,54 @@ namespace Storm.Binding.Android.Process
 			}
 		}
 
-		private void GenerateMethodContent(CodeMemberMethod method, IEnumerable<XmlAttribute> bindings, List<XmlResource> resourceCollection)
+		/// <summary>
+		/// This method generate all property to access view element with id just as Xaml do
+		/// </summary>
+		/// <param name="classDeclaration">The class container</param>
+		/// <param name="views">The list of view elements</param>
+		private void GenerateClassProperty(CodeTypeDeclaration classDeclaration, IEnumerable<IdViewObject> views)
+		{
+			foreach (IdViewObject viewItem in views)
+			{
+				Console.WriteLine("Generating property for field => " + viewItem.Id + " / " + viewItem.TypeName);
+				//generate a field with _id as name
+				//generate a readonly property with Id as name
+				// get { _id ?? (_id = findViewById(Resources.Id.<ID>))
+
+				string fieldName = string.Format("_{0}", viewItem.Id);
+				CodeMemberField field = new CodeMemberField(viewItem.TypeName, fieldName)
+				{
+					Attributes = MemberAttributes.Private
+				};
+
+				classDeclaration.Members.Add(field);
+
+				CodeMemberProperty property = new CodeMemberProperty
+				{
+					Attributes = MemberAttributes.Family | MemberAttributes.Final, 
+					Name = viewItem.Id,
+					Type = new CodeTypeReference(viewItem.TypeName)
+				};
+
+				CodeMethodInvokeExpression findViewExpression = new CodeMethodInvokeExpression(
+					new CodeMethodReferenceExpression(new CodeThisReferenceExpression(), "FindViewById", new CodeTypeReference(viewItem.TypeName)),
+					new CodeFieldReferenceExpression(new CodeTypeReferenceExpression("Resource.Id"), viewItem.Id)
+				);
+
+				CodeFieldReferenceExpression fieldReference = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), fieldName);
+				CodeConditionStatement ifStatement = new CodeConditionStatement(
+					new CodeBinaryOperatorExpression(fieldReference, CodeBinaryOperatorType.IdentityEquality, new CodePrimitiveExpression(null)),
+					new CodeAssignStatement(fieldReference, findViewExpression)
+				);
+
+				property.GetStatements.Add(ifStatement);
+				property.GetStatements.Add(new CodeMethodReturnStatement(fieldReference));
+
+				classDeclaration.Members.Add(property);
+			}
+		}
+
+		private void GenerateMethodContent(CodeMemberMethod method, IEnumerable<XmlAttribute> bindings, IEnumerable<XmlResource> resourceCollection)
 		{
 			CodeObjectCreateExpression resultCollectionInitializer = new CodeObjectCreateExpression("List<BindingObject>");
 			method.Statements.Add(new CodeVariableDeclarationStatement("List<BindingObject>", "result", resultCollectionInitializer));
@@ -275,7 +329,6 @@ namespace Storm.Binding.Android.Process
 		{
 			public enum BindingModes
 			{
-				OneTime,
 				OneWay,
 				TwoWay
 			}

@@ -8,14 +8,101 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Android.Widget;
+using Storm.Mvvm.Android.Bindings;
+using System.Collections.Generic;
+
+
 namespace TestApp.Android.Activities
 {
-	using System.Collections.Generic;
-	using Storm.Mvvm.Android.Bindings;
 	
 	
 	public partial class MainActivity
 	{
+		
+		private EditText _MyInputText;
+		
+		private Button _MyButton;
+		
+		private TextView _MyTextView;
+		
+		private TextView _TTextView;
+		
+		private TextView _TCTextView;
+		
+		private TextView _CTextView;
+		
+		protected EditText MyInputText
+		{
+			get
+			{
+				if ((this._MyInputText == null))
+				{
+					this._MyInputText = this.FindViewById<EditText>(Resource.Id.MyInputText);
+				}
+				return this._MyInputText;
+			}
+		}
+		
+		protected Button MyButton
+		{
+			get
+			{
+				if ((this._MyButton == null))
+				{
+					this._MyButton = this.FindViewById<Button>(Resource.Id.MyButton);
+				}
+				return this._MyButton;
+			}
+		}
+		
+		protected TextView MyTextView
+		{
+			get
+			{
+				if ((this._MyTextView == null))
+				{
+					this._MyTextView = this.FindViewById<TextView>(Resource.Id.MyTextView);
+				}
+				return this._MyTextView;
+			}
+		}
+		
+		protected TextView TTextView
+		{
+			get
+			{
+				if ((this._TTextView == null))
+				{
+					this._TTextView = this.FindViewById<TextView>(Resource.Id.TTextView);
+				}
+				return this._TTextView;
+			}
+		}
+		
+		protected TextView TCTextView
+		{
+			get
+			{
+				if ((this._TCTextView == null))
+				{
+					this._TCTextView = this.FindViewById<TextView>(Resource.Id.TCTextView);
+				}
+				return this._TCTextView;
+			}
+		}
+		
+		protected TextView CTextView
+		{
+			get
+			{
+				if ((this._CTextView == null))
+				{
+					this._CTextView = this.FindViewById<TextView>(Resource.Id.CTextView);
+				}
+				return this._CTextView;
+			}
+		}
 		
 		protected override List<BindingObject> GetBindingPaths()
 		{

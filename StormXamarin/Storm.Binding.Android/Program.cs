@@ -43,13 +43,15 @@ namespace Storm.Binding.Android
 
 				ViewFileProcessor processor = new ViewFileProcessor();
 				XmlElement root = processor.Read(info.View.InputFile);
-				List<XmlAttribute> bindingInformations = processor.ExtractBindingInformations(root);
+				Tuple<List<XmlAttribute>, List<IdViewObject>> tupleResult = processor.ExtractBindingInformations(root);
+				List<XmlAttribute> bindingInformations = tupleResult.Item1;
+				List<IdViewObject> views = tupleResult.Item2;
 				List<XmlResource> resourceCollection = processor.ExtractResources(root);
 
 				processor.Write(root, info.View.OutputFile);
 
 				PartialClassGenerator classGenerator = new PartialClassGenerator();
-				classGenerator.Generate(info.Activity, bindingInformations, resourceCollection);
+				classGenerator.Generate(info.Activity, views, bindingInformations, resourceCollection);
 			}
 		}
 	}

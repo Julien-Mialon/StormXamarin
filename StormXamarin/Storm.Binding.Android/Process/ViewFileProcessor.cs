@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Configuration;
+using System.Security.Policy;
 using System.Text;
 using System.Xml;
 using Storm.Binding.Android.Data;
@@ -13,6 +14,8 @@ namespace Storm.Binding.Android.Process
 	class ViewFileProcessor
 	{
 		private readonly Dictionary<string, string> _nsDictionary = new Dictionary<string, string>(); 
+
+		public List<IdViewObject> Views = new List<IdViewObject>(); 
 
 		public XmlElement Read(string fileName)
 		{
@@ -27,7 +30,6 @@ namespace Storm.Binding.Android.Process
 					continueWithoutRead = false;
 					if (reader.NodeType == XmlNodeType.Element)
 					{
-						Console.WriteLine("Open " + reader.Name);
 						bool isAutoClose = reader.IsEmptyElement;
 
 						XmlElement childElement = new XmlElement
@@ -60,14 +62,9 @@ namespace Storm.Binding.Android.Process
 						{
 							current = childElement;
 						}
-						else
-						{
-							Console.WriteLine("Close " + childElement.Name);
-						}
 					}
 					else if (reader.NodeType == XmlNodeType.EndElement)
 					{
-						Console.WriteLine("Close " + reader.Name);
 						if (elements.Any())
 						{
 							current = elements.Pop();
@@ -75,7 +72,6 @@ namespace Storm.Binding.Android.Process
 					}
 				}
 			}
-			Console.WriteLine("Return " + current.Name);
 			return current;
 		}
 
@@ -203,22 +199,24 @@ namespace Storm.Binding.Android.Process
 				}
 				return resources;
 			}
-			else if (element.Children.Any())
+			if (element.Children.Any())
 			{
-				foreach (XmlElement child in element.Children)
-				{
-					List<XmlResource> res = ExtractResources(child);
-					if (res != null)
-					{
-						return res;
-					}
-				}
+				return element.Children.Select(ExtractResources).FirstOrDefault(res => res != null);
 			}
-			
+
 			return null;
 		}
 
-		public List<XmlAttribute> ExtractBindingInformations(XmlElement element)
+		public Tuple<List<XmlAttribute>, List<IdViewObject>> ExtractBindingInformations(XmlElement element)
+		{
+			this.Views.Clear();
+
+			List<XmlAttribute> attributes = _ExtractBindingInformations(element);
+
+			return new Tuple<List<XmlAttribute>, List<IdViewObject>>(attributes, this.Views.ToList());
+		}
+
+		private List<XmlAttribute> _ExtractBindingInformations(XmlElement element)
 		{
 			List<XmlAttribute> bindings = new List<XmlAttribute>();
 			string id = null;
@@ -231,8 +229,11 @@ namespace Storm.Binding.Android.Process
 					{
 						throw new Exception("Multiple id for same element");
 					}
+
 					id = attribute.Value;
 					attribute.Value = "@+id/" + id;
+
+					Views.Add(new IdViewObject(element.Name, id));
 				}
 				else
 				{
@@ -256,10 +257,28 @@ namespace Storm.Binding.Android.Process
 
 			foreach (XmlElement child in element.Children)
 			{
-				bindings.AddRange(ExtractBindingInformations(child));
+				bindings.AddRange(_ExtractBindingInformations(child));
 			}
 
 			return bindings;
+		}
+	}
+
+	public class IdViewObject
+	{
+		public string TypeName { get; set; }
+
+		public string Id { get; set; }
+
+		public IdViewObject()
+		{
+			
+		}
+
+		public IdViewObject(string typeName, string id)
+		{
+			TypeName = typeName;
+			Id = id;
 		}
 	}
 }
