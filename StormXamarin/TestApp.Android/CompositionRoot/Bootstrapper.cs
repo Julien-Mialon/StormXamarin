@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Storm.Framework.Android;
+﻿using Storm.Framework.Android;
 using Storm.Framework.Services;
 using Storm.Mvvm;
 using Storm.Mvvm.Android;

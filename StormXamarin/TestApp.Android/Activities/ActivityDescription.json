@@ -4,8 +4,8 @@
             "activity": {
                 "inputFile": "MainActivity.cs",
                 "outputFile": "../gen/MainActivity.generated.cs",
-                "className": "MainActivity",
-                "namespaceName": "TestApp.Android.Activities"
+                "namespaceName": "TestApp.Android.Activities",
+                "className": "MainActivity"
             },
             "view": {
                 "inputFile": "../Views/Main.xml",

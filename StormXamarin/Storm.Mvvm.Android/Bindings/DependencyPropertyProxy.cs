@@ -57,7 +57,7 @@ namespace Storm.Mvvm.Android.Bindings
 			object referenceValue = _property.GetValue(_context);
 
 			value = Convert.ChangeType(value, _property.PropertyType);
-			if (!object.Equals(referenceValue, value))
+			if (!Equals(referenceValue, value))
 			{
 				_property.SetValue(_context, value);
 			}

@@ -51,7 +51,7 @@ namespace Storm.Framework.Localization
 
 			if (attachedObject != null)
 			{
-				string properties = LocalizationHelper.GetProperties(attachedObject);
+				string properties = GetProperties(attachedObject);
 
 				if (!String.IsNullOrEmpty(properties))
 				{
@@ -73,7 +73,7 @@ namespace Storm.Framework.Localization
 
 			if (attachedObject != null)
 			{
-				string uid = LocalizationHelper.GetUid(attachedObject);
+				string uid = GetUid(attachedObject);
 
 				UpdateProperties(attachedObject, properties, uid);
 			}

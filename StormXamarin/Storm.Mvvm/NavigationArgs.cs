@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Storm.Mvvm
+﻿namespace Storm.Mvvm
 {
 	public class NavigationArgs
 	{
@@ -21,7 +15,7 @@ namespace Storm.Mvvm
 
 		public NavigationArgs(NavigationMode _mode)
 		{
-			this.Mode = _mode;
+			Mode = _mode;
 		}
 	}
 }

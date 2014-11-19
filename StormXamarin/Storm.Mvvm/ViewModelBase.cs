@@ -1,11 +1,6 @@
 ﻿using Storm.Framework.Services;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Storm.Mvvm
 {
@@ -33,9 +28,9 @@ namespace Storm.Mvvm
 
 		public ViewModelBase(IContainer _container) : base()
 		{
-			this.Container = _container;
-			this.NavigationService = this.Container.Resolve<INavigationService>();
-			this.DispatcherService = this.Container.Resolve<IDispatcherService>();
+			Container = _container;
+			NavigationService = Container.Resolve<INavigationService>();
+			DispatcherService = Container.Resolve<IDispatcherService>();
 		}
 
 		#endregion
@@ -67,7 +62,7 @@ namespace Storm.Mvvm
 
 		protected bool SetProperty<T>(ref T _storage, T _value, [CallerMemberName] string _propertyName = "")
 		{
-			if(object.Equals(_storage, _value))
+			if(Equals(_storage, _value))
 			{
 				return false;
 			}

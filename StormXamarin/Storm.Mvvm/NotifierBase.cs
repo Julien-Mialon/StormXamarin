@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Storm.Mvvm
 {
@@ -23,7 +18,7 @@ namespace Storm.Mvvm
 
 		public bool SetProperty<T>(ref T _storage, T _value, [CallerMemberName] string _propertyName = "")
 		{
-			if(object.Equals(_storage, _value))
+			if(Equals(_storage, _value))
 			{
 				return false;
 			}

@@ -23,8 +23,8 @@ namespace Storm.Mvvm.Android.Bindings
 
 		public BindingExpression(string targetField, string sourcePath)
 		{
-			this.TargetField = targetField;
-			this.SourcePath = sourcePath;
+			TargetField = targetField;
+			SourcePath = sourcePath;
 		}
 	}
 }

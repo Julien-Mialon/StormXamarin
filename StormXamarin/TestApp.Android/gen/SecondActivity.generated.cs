@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace TestApp.Android.Activities
+﻿namespace TestApp.Android.Activities
 {
 	public partial class SecondActivity
 	{
