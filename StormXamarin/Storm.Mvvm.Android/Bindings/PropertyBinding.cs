@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Reflection;
 
-namespace Storm.Mvvm.Android.Bindings
+namespace Storm.Mvvm.Bindings
 {
 	/// <summary>
 	/// This class handle proccess of updating value for OneWay Binding

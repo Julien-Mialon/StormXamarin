@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Reflection;
+using Storm.Mvvm.Annotations;
 
-namespace Storm.Mvvm.Android.Bindings
+namespace Storm.Mvvm.Bindings
 {
 	class DependencyPropertyChangedEventArgs : EventArgs
 	{
@@ -63,6 +64,7 @@ namespace Storm.Mvvm.Android.Bindings
 			}
 		}
 
+		[UsedImplicitly]
 		private void OnUpdateEventTriggered(object sender, EventArgs e)
 		{
 			//Event raised mean property changed so : 

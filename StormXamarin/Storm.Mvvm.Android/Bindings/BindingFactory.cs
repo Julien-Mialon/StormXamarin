@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace Storm.Mvvm.Android.Bindings
+namespace Storm.Mvvm.Bindings
 {
 	static class BindingFactory
 	{

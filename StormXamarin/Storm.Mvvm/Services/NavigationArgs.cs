@@ -1,4 +1,4 @@
-﻿namespace Storm.Mvvm
+﻿namespace Storm.Mvvm.Services
 {
 	public class NavigationArgs
 	{
@@ -13,9 +13,9 @@
 
 		public NavigationMode Mode { get; private set; }
 
-		public NavigationArgs(NavigationMode _mode)
+		public NavigationArgs(NavigationMode mode)
 		{
-			Mode = _mode;
+			Mode = mode;
 		}
 	}
 }

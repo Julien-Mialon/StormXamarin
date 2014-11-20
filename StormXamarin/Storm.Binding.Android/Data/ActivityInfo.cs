@@ -24,6 +24,6 @@ namespace Storm.Binding.Android.Data
 
 	public class ActivityViewInfoCollection
 	{
-		public List<ActivityViewInfo> list { get; set; }
+		public List<ActivityViewInfo> List { get; set; }
 	}
 }

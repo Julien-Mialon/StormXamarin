@@ -1,7 +1,7 @@
 ﻿using System;
-using Storm.Framework.Services;
+using Storm.Mvvm.Services;
 
-namespace Storm.Framework.Android
+namespace Storm.Mvvm
 {
 	public class DispatcherService : IDispatcherService
 	{

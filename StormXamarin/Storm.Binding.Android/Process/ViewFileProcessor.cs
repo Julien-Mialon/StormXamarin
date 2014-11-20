@@ -116,12 +116,9 @@ namespace Storm.Binding.Android.Process
 		{
 			if (attribute.Name.Contains(":"))
 			{
-				string ns = "";
-				string name = "";
-
 				string[] splitted = attribute.Name.Split(':');
-				ns = splitted[0];
-				name = splitted[1];
+				string ns = splitted[0];
+				string name = splitted[1];
 
 				if (ns == "xmlns")
 				{

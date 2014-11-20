@@ -1,7 +1,6 @@
-﻿using Storm.Framework.Android;
-using Storm.Framework.Services;
-using Storm.Mvvm;
-using Storm.Mvvm.Android;
+﻿using Storm.Mvvm;
+using Storm.Mvvm.Inject;
+using Storm.Mvvm.Services;
 using TestApp.Business;
 
 namespace TestApp.Android.CompositionRoot
@@ -44,8 +43,8 @@ namespace TestApp.Android.CompositionRoot
 
 		private static void RegisterService()
 		{
-			_container.RegisterInstance<INavigationService>(_navigationService);
-			_container.RegisterInstance<IDispatcherService>(_dispatcherService);
+			_container.RegisterInstance(_navigationService);
+			_container.RegisterInstance(_dispatcherService);
 		}
 	}
 }

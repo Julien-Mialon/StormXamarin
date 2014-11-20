@@ -91,14 +91,6 @@
     <None Include="Views\Second.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Storm.Framework.Android\Storm.Framework.Android.csproj">
-      <Project>{fc898b1d-99de-4a90-a609-624b075bdb62}</Project>
-      <Name>Storm.Framework.Android</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Storm.Framework\Storm.Framework.csproj">
-      <Project>{c85fe110-4072-4307-bcf1-b3635165d87e}</Project>
-      <Name>Storm.Framework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Storm.Mvvm.Android\Storm.Mvvm.Android.csproj">
       <Project>{eb3f7ef1-b9f8-42b7-899b-6873dd7f46a4}</Project>
       <Name>Storm.Mvvm.Android</Name>
@@ -120,7 +112,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>$(SolutionDir)Storm.Binding.Android\bin\Debug\Storm.Binding.Android.exe $(ProjectDir)Activities\ActivityDescription.json</PreBuildEvent>
+    <PreBuildEvent>$(SolutionDir)Storm.Binding.Android\$(OutDir)Storm.Binding.Android.exe $(ProjectDir)Activities\ActivityDescription.json</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
      Other similar extension points exist, see Microsoft.Common.targets.

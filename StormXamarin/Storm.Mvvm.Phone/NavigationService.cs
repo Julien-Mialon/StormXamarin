@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Phone.Controls;
+using Storm.Mvvm.Services;
 
 namespace Storm.Mvvm
 {
@@ -8,7 +9,7 @@ namespace Storm.Mvvm
 	{
 		#region Fields
 
-		private PhoneApplicationFrame m_service = null;
+		private readonly PhoneApplicationFrame _service = null;
 
 		#endregion
 
@@ -18,7 +19,7 @@ namespace Storm.Mvvm
 		{
 			get
 			{
-				return m_service.CanGoBack;
+				return _service.CanGoBack;
 			}
 		}
 
@@ -26,7 +27,7 @@ namespace Storm.Mvvm
 		{
 			get
 			{
-				return m_service.CanGoForward;
+				return _service.CanGoForward;
 			}
 		}
 
@@ -34,45 +35,45 @@ namespace Storm.Mvvm
 
 		#region Constructors
 
-		public NavigationService(PhoneApplicationFrame _service)
+		public NavigationService(PhoneApplicationFrame service)
 		{
-			m_service = _service;
+			this._service = service;
 		}
 
 		#endregion
 
 		#region Public methods
 
-		public void Navigate(string _view)
+		public void Navigate(string view)
 		{
-			m_service.Navigate(new Uri(string.Format("/Views/{0}.xaml", _view), UriKind.Relative));
+			_service.Navigate(new Uri(string.Format("/Views/{0}.xaml", view), UriKind.Relative));
 		}
 
-		public void Navigate(string _view, Dictionary<string, object> _parameters)
+		public void Navigate(string view, Dictionary<string, object> parameters)
 		{
-			m_service.Navigate(new Uri(string.Format("/Views/{0}.xaml", _view), UriKind.Relative));
+			_service.Navigate(new Uri(string.Format("/Views/{0}.xaml", view), UriKind.Relative));
 		}
 
-		public void NavigateAndReplace(string _view)
+		public void NavigateAndReplace(string view)
 		{
-			Navigate(_view);
-			m_service.RemoveBackEntry();
+			Navigate(view);
+			_service.RemoveBackEntry();
 		}
 
-		public void NavigateAndReplace(string _view, Dictionary<string, object> _parameters)
+		public void NavigateAndReplace(string view, Dictionary<string, object> parameters)
 		{
-			Navigate(_view);
-			m_service.RemoveBackEntry();
+			Navigate(view);
+			_service.RemoveBackEntry();
 		}
 
 		public void GoBack()
 		{
-			m_service.GoBack();
+			_service.GoBack();
 		}
 
 		public void GoForward()
 		{
-			m_service.GoForward();
+			_service.GoForward();
 		}
 
 		#endregion

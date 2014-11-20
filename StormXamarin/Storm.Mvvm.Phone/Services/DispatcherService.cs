@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Windows.Threading;
 
-namespace Storm.Framework.Services
+namespace Storm.Mvvm.Services
 {
 	public class DispatcherService : IDispatcherService
 	{
-		private Dispatcher m_dispatcher;
+		private readonly Dispatcher _dispatcher;
 
 		public DispatcherService(Dispatcher dispatcher)
 		{
-			m_dispatcher = dispatcher;
+			_dispatcher = dispatcher;
 		}
 
 		public void InvokeOnUIThread(Action action)
 		{
-			m_dispatcher.BeginInvoke(action);
+			_dispatcher.BeginInvoke(action);
 		}
 
 		public void InvokeOnUIThread<T>(Func<T> action, Action<T> callback)
 		{
-			m_dispatcher.BeginInvoke(() =>
+			_dispatcher.BeginInvoke(() =>
 			{
 				T result = action();
 				callback(result);

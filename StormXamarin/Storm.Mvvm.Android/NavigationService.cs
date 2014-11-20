@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Storm.Mvvm.Services;
 
-namespace Storm.Mvvm.Android
+namespace Storm.Mvvm
 {
 	public class NavigationService : INavigationService
 	{
@@ -15,22 +16,22 @@ namespace Storm.Mvvm.Android
 			get { return false; }
 		}
 
-		public void Navigate(string _view)
+		public void Navigate(string view)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void Navigate(string _view, Dictionary<string, object> _parameters)
+		public void Navigate(string view, Dictionary<string, object> parameters)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void NavigateAndReplace(string _view)
+		public void NavigateAndReplace(string view)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void NavigateAndReplace(string _view, Dictionary<string, object> _parameters)
+		public void NavigateAndReplace(string view, Dictionary<string, object> parameters)
 		{
 			throw new NotImplementedException();
 		}

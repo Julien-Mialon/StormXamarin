@@ -1,17 +1,10 @@
-﻿using Storm.Framework.Services;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using Storm.Mvvm.Inject;
+using Storm.Mvvm.Services;
 
 namespace Storm.Mvvm
 {
-	public abstract class ViewModelBase : INotifyPropertyChanged
+	public abstract class ViewModelBase : NotifierBase
 	{
-		#region Events
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		#endregion
-
 		#region Fields
 
 		protected IContainer Container = null;
@@ -26,9 +19,9 @@ namespace Storm.Mvvm
 
 		#region Constructors
 
-		public ViewModelBase(IContainer _container) : base()
+		protected ViewModelBase(IContainer container)
 		{
-			Container = _container;
+			Container = container;
 			NavigationService = Container.Resolve<INavigationService>();
 			DispatcherService = Container.Resolve<IDispatcherService>();
 		}
@@ -37,39 +30,14 @@ namespace Storm.Mvvm
 
 		#region Public methods
 
-		public virtual void OnNavigatedFrom(NavigationArgs _e)
+		public virtual void OnNavigatedFrom(NavigationArgs e)
 		{
 
 		}
 
-		public virtual void OnNavigatedTo(NavigationArgs _e)
+		public virtual void OnNavigatedTo(NavigationArgs e)
 		{
 
-		}
-
-		#endregion
-
-		#region Protected methods
-
-		protected void OnPropertyChanged([CallerMemberName] string _propertyName = "")
-		{
-			PropertyChangedEventHandler handler = PropertyChanged;
-			if(handler != null)
-			{
-				handler(this, new PropertyChangedEventArgs(_propertyName));
-			}
-		}
-
-		protected bool SetProperty<T>(ref T _storage, T _value, [CallerMemberName] string _propertyName = "")
-		{
-			if(Equals(_storage, _value))
-			{
-				return false;
-			}
-
-			_storage = _value;
-			OnPropertyChanged(_propertyName);
-			return true;
 		}
 
 		#endregion

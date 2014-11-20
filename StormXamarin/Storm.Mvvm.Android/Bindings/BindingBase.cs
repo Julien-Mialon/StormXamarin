@@ -1,4 +1,4 @@
-﻿namespace Storm.Mvvm.Android.Bindings
+﻿namespace Storm.Mvvm.Bindings
 {
 	abstract class BindingBase
 	{

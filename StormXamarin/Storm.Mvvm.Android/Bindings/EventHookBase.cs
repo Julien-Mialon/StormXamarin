@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Storm.Mvvm.Android.Bindings
+namespace Storm.Mvvm.Bindings
 {
 	public abstract class EventHookBase
 	{

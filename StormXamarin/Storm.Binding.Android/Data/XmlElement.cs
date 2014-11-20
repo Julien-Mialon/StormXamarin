@@ -13,15 +13,12 @@ namespace Storm.Binding.Android.Data
 		{
 			get
 			{
-				if (Name.Contains(':'))
-				{
-					string[] splitted = Name.Split(':');
-					return splitted[1];
-				}
-				else
+				if (!Name.Contains(':'))
 				{
 					return Name;
 				}
+				string[] splitted = Name.Split(':');
+				return splitted[1];
 			}
 		}
 

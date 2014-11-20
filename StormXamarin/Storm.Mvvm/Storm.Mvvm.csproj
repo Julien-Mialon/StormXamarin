@@ -34,20 +34,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\Storm.Framework\Storm.Framework.csproj">
-      <Project>{c85fe110-4072-4307-bcf1-b3635165d87e}</Project>
-      <Name>Storm.Framework</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ContainerBase.cs" />
-    <Compile Include="DelegateCommand.cs" />
-    <Compile Include="IContainer.cs" />
-    <Compile Include="INavigationService.cs" />
-    <Compile Include="NavigationArgs.cs" />
+    <Compile Include="Commands\AbstractCommand.cs" />
+    <Compile Include="Inject\ContainerBase.cs" />
+    <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Inject\IContainer.cs" />
+    <Compile Include="Services\INavigationService.cs" />
+    <Compile Include="Services\NavigationArgs.cs" />
     <Compile Include="NotifierBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IDispatcherService.cs" />
+    <Compile Include="Services\ILocalizationService.cs" />
+    <Compile Include="Services\ILoggerService.cs" />
     <Compile Include="ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>

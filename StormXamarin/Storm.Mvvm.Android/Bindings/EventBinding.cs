@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Windows.Input;
 
-namespace Storm.Mvvm.Android.Bindings
+namespace Storm.Mvvm.Bindings
 {
 	/// <summary>
 	/// This class provide highlevel method to handle update of Command associated to the event

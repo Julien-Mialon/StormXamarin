@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection;
 using Android.App;
 using Android.Views;
-using Storm.Mvvm.Android.Bindings;
+using Storm.Mvvm.Bindings;
 
-namespace Storm.Mvvm.Android
+namespace Storm.Mvvm
 {
 	public class ActivityBase : Activity
 	{

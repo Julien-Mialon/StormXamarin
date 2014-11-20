@@ -1,6 +1,6 @@
 ﻿using Android.App;
 using Android.OS;
-using Storm.Mvvm.Android;
+using Storm.Mvvm;
 using TestApp.Android.CompositionRoot;
 
 namespace TestApp.Android.Activities

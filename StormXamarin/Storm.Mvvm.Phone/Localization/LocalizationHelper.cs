@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
-using Storm.Framework.Services;
+using Storm.Mvvm.Services;
 
-namespace Storm.Framework.Localization
+namespace Storm.Mvvm.Localization
 {
 	public static class LocalizationHelper
 	{
@@ -90,23 +89,12 @@ namespace Storm.Framework.Localization
 			IEnumerable<string> props = properties.Split(',');
 
 			Type attachedType = attachedObject.GetType();
-			bool hasProperties = props.Count() > 0;
+			bool hasProperties = props.Any();
 
-			foreach (string prop in props)
+			foreach (PropertyInfo propInfo in props.Select(attachedType.GetRuntimeProperty).Where(propInfo => propInfo != null))
 			{
-				PropertyInfo propInfo = attachedObject.GetType().GetRuntimeProperty(prop);
-
-				if (propInfo != null)
-				{
-					if (hasProperties)
-					{
-						propInfo.SetValue(attachedObject, ResourceService.GetString(uid, properties));
-					}
-					else
-					{
-						propInfo.SetValue(attachedObject, ResourceService.GetString(uid));
-					}
-				}
+				string value = hasProperties ? ResourceService.GetString(uid, properties) : ResourceService.GetString(uid);
+				propInfo.SetValue(attachedObject, value);
 			}
 		}
 	}

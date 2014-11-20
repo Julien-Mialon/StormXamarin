@@ -1,4 +1,4 @@
-﻿namespace Storm.Framework.Services
+﻿namespace Storm.Mvvm.Services
 {
 	public interface ILocalizationService
 	{

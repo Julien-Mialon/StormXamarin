@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Reflection;
 
-namespace Storm.Mvvm.Android.Bindings
+namespace Storm.Mvvm.Bindings
 {
 	class TwoWayPropertyBinding : PropertyBinding
 	{

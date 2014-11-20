@@ -1,4 +1,4 @@
-﻿using Storm.Mvvm;
+﻿using Storm.Mvvm.Inject;
 
 namespace TestApp.Business
 {
@@ -6,11 +6,10 @@ namespace TestApp.Business
 	{
 		private static IContainer _container;
 
-		public static void Initialize(IContainer _container)
+		public static void Initialize(IContainer container)
 		{
-			_container.RegisterFactory<MainPageViewModel>(container => new MainPageViewModel(container));
-
-			ViewModelsLocator._container = _container;
+			container.RegisterFactory(x => new MainPageViewModel(x));
+			_container = container;
 		}
 
 		public MainPageViewModel MainPageViewModel

@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Storm.Framework.Services
+namespace Storm.Mvvm.Services
 {
 	public class LocalizationService : ILocalizationService
 	{
-		private Dictionary<string, string> _props = new Dictionary<string, string>();
+		private readonly Dictionary<string, string> _props = new Dictionary<string, string>();
 
-		public LocalizationService(object _resource)
+		public LocalizationService(object resource)
 		{
-			Type type = _resource.GetType();
+			Type type = resource.GetType();
 			IEnumerable<PropertyInfo> properties = type.GetRuntimeProperties();
 
 			foreach(PropertyInfo property in properties)
 			{
-				_props.Add(property.Name, property.GetValue(_resource) as string);
+				_props.Add(property.Name, property.GetValue(resource) as string);
 			}
 		}
 

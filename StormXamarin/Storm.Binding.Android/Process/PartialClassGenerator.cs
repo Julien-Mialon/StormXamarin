@@ -10,6 +10,7 @@ using System.CodeDom;
 
 namespace Storm.Binding.Android.Process
 {
+	// ReSharper disable BitwiseOperatorOnEnumWithoutFlags
 	class PartialClassGenerator
 	{
 		public void Generate(ActivityInfo activityInformations, List<IdViewObject> views, List<XmlAttribute> bindingInformations, List<XmlResource> resourceCollection)
@@ -24,7 +25,7 @@ namespace Storm.Binding.Android.Process
 
 			globalNamespace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
 			globalNamespace.Imports.Add(new CodeNamespaceImport("Android.Widget"));
-			globalNamespace.Imports.Add(new CodeNamespaceImport("Storm.Mvvm.Android.Bindings"));
+			globalNamespace.Imports.Add(new CodeNamespaceImport("Storm.Mvvm.Bindings"));
 
 			CodeTypeDeclaration classDeclaration = new CodeTypeDeclaration(activityInformations.ClassName)
 			{
@@ -216,8 +217,8 @@ namespace Storm.Binding.Android.Process
 				Regex pattern = new Regex("^([a-zA-Z0-9]+) ?= ?(.+)$");
 				foreach (string attr in bindingValue.Split(',').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()))
 				{
-					string attributeName = "";
-					string attributeValue = "";
+					string attributeName;
+					string attributeValue;
 
 					if (pattern.IsMatch(attr))
 					{
@@ -355,4 +356,6 @@ namespace Storm.Binding.Android.Process
 			}
 		}
 	}
+
+	// ReSharper restore BitwiseOperatorOnEnumWithoutFlags
 }

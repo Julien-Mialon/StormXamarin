@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 using Android.Widget;
-using Storm.Mvvm.Android.Bindings;
+using Storm.Mvvm.Bindings;
 using System.Collections.Generic;
 
 

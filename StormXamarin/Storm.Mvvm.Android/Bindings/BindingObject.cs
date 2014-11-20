@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Storm.Mvvm.Android.Bindings
+namespace Storm.Mvvm.Bindings
 {
 	public class BindingObject
 	{

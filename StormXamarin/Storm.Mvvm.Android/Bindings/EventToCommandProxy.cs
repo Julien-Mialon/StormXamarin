@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Reflection;
 using System.Windows.Input;
+using Storm.Mvvm.Annotations;
 
-namespace Storm.Mvvm.Android.Bindings
+namespace Storm.Mvvm.Bindings
 {
 	public class EventToCommandProxy : EventHookBase
 	{
@@ -25,6 +26,7 @@ namespace Storm.Mvvm.Android.Bindings
 			Command = command;
 		}
 
+		[UsedImplicitly]
 		private void OnEventTriggered(object sender, EventArgs e)
 		{
 			ICommand command = Command;
