@@ -204,7 +204,7 @@ namespace Storm.Binding.Android.Process
 				return element.Children.Select(ExtractResources).FirstOrDefault(res => res != null);
 			}
 
-			return null;
+			return new List<XmlResource>();
 		}
 
 		public Tuple<List<XmlAttribute>, List<IdViewObject>> ExtractBindingInformations(XmlElement element)
