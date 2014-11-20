@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Funq;
 
 namespace Storm.Mvvm
@@ -20,8 +16,8 @@ namespace Storm.Mvvm
 
 		public ContainerBase()
 		{
-			this.m_container = new Container();
-			this.Initialize();
+			m_container = new Container();
+			Initialize();
 		}
 
 		#endregion
@@ -30,33 +26,33 @@ namespace Storm.Mvvm
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		public void RegisterInstance<TClass>(TClass _object)
 		{
-			this.m_container.Register<TClass>(_object);
+			m_container.Register<TClass>(_object);
 		}
 
 		public void RegisterInstance<TInterface, TClass>(TClass _object) where TClass : TInterface
 		{
-			this.m_container.Register<TInterface>(_object);
+			m_container.Register<TInterface>(_object);
 		}
 
 		public void RegisterFactory<TClass>(Func<ContainerBase, TClass> _factory)
 		{
-			this.m_container.Register<TClass>((container) => _factory(this));
+			m_container.Register<TClass>((container) => _factory(this));
 		}
 
 		public void RegisterFactory<TInterface, TClass>(Func<ContainerBase, TClass> _factory) where TClass : TInterface
 		{
-			this.m_container.Register<TInterface>((container) => _factory(this));
+			m_container.Register<TInterface>((container) => _factory(this));
 		}
 
 		public TClass Resolve<TClass>()
 		{
-			return this.m_container.Resolve<TClass>();
+			return m_container.Resolve<TClass>();
 		}
 
 		#endregion
@@ -65,18 +61,18 @@ namespace Storm.Mvvm
 
 		protected virtual void Dispose(bool _disposing)
 		{
-			if(this.m_disposed)
+			if(m_disposed)
 			{
 				return;
 			}
 
 			if(_disposing)
 			{
-				this.m_container.Dispose();
-				this.Clean();
+				m_container.Dispose();
+				Clean();
 			}
 
-			this.m_disposed = true;
+			m_disposed = true;
 		}
 
 		protected virtual void Initialize()

@@ -69,8 +69,8 @@ namespace Storm.Framework.Cryptography
 			set
 			{
 				/// raise the event to notify the changing 
-				if (this.OnValueChanging != null)
-					this.OnValueChanging(this, new MD5ChangingEventArgs(value));
+				if (OnValueChanging != null)
+					OnValueChanging(this, new MD5ChangingEventArgs(value));
 
 
 				m_byteInput = new byte[value.Length];
@@ -79,8 +79,8 @@ namespace Storm.Framework.Cryptography
 				dgFingerPrint = CalculateMD5Value();
 
 				/// raise the event to notify the change
-				if (this.OnValueChanged != null)
-					this.OnValueChanged(this, new MD5ChangedEventArgs(value, dgFingerPrint.ToString()));
+				if (OnValueChanged != null)
+					OnValueChanged(this, new MD5ChangedEventArgs(value, dgFingerPrint.ToString()));
 
 			}
 		}
@@ -100,8 +100,8 @@ namespace Storm.Framework.Cryptography
 			set
 			{
 				/// raise the event to notify the changing
-				if (this.OnValueChanging != null)
-					this.OnValueChanging(this, new MD5ChangingEventArgs(value));
+				if (OnValueChanging != null)
+					OnValueChanging(this, new MD5ChangingEventArgs(value));
 
 				m_byteInput = new byte[value.Length];
 				for (int i = 0; i < value.Length; i++)
@@ -110,8 +110,8 @@ namespace Storm.Framework.Cryptography
 
 
 				/// notify the changed  value
-				if (this.OnValueChanged != null)
-					this.OnValueChanged(this, new MD5ChangedEventArgs(value, dgFingerPrint.ToString()));
+				if (OnValueChanged != null)
+					OnValueChanged(this, new MD5ChangedEventArgs(value, dgFingerPrint.ToString()));
 			}
 		}
 

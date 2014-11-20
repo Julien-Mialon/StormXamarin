@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Configuration;
-using System.Security.Policy;
 using System.Text;
 using System.Xml;
 using Storm.Binding.Android.Data;
@@ -209,11 +207,11 @@ namespace Storm.Binding.Android.Process
 
 		public Tuple<List<XmlAttribute>, List<IdViewObject>> ExtractBindingInformations(XmlElement element)
 		{
-			this.Views.Clear();
+			Views.Clear();
 
 			List<XmlAttribute> attributes = _ExtractBindingInformations(element);
 
-			return new Tuple<List<XmlAttribute>, List<IdViewObject>>(attributes, this.Views.ToList());
+			return new Tuple<List<XmlAttribute>, List<IdViewObject>>(attributes, Views.ToList());
 		}
 
 		private List<XmlAttribute> _ExtractBindingInformations(XmlElement element)

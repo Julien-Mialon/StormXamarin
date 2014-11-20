@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Phone.Controls;
 
 namespace Storm.Mvvm
@@ -39,7 +36,7 @@ namespace Storm.Mvvm
 
 		public NavigationService(PhoneApplicationFrame _service)
 		{
-			this.m_service = _service;
+			m_service = _service;
 		}
 
 		#endregion
@@ -48,34 +45,34 @@ namespace Storm.Mvvm
 
 		public void Navigate(string _view)
 		{
-			this.m_service.Navigate(new Uri(string.Format("/Views/{0}.xaml", _view), UriKind.Relative));
+			m_service.Navigate(new Uri(string.Format("/Views/{0}.xaml", _view), UriKind.Relative));
 		}
 
 		public void Navigate(string _view, Dictionary<string, object> _parameters)
 		{
-			this.m_service.Navigate(new Uri(string.Format("/Views/{0}.xaml", _view), UriKind.Relative));
+			m_service.Navigate(new Uri(string.Format("/Views/{0}.xaml", _view), UriKind.Relative));
 		}
 
 		public void NavigateAndReplace(string _view)
 		{
-			this.Navigate(_view);
-			this.m_service.RemoveBackEntry();
+			Navigate(_view);
+			m_service.RemoveBackEntry();
 		}
 
 		public void NavigateAndReplace(string _view, Dictionary<string, object> _parameters)
 		{
-			this.Navigate(_view);
-			this.m_service.RemoveBackEntry();
+			Navigate(_view);
+			m_service.RemoveBackEntry();
 		}
 
 		public void GoBack()
 		{
-			this.m_service.GoBack();
+			m_service.GoBack();
 		}
 
 		public void GoForward()
 		{
-			this.m_service.GoForward();
+			m_service.GoForward();
 		}
 
 		#endregion

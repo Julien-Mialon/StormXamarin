@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows.Data;
 
 namespace TestApp.Android.Converters
 {
-	public class StringToUpperConverter : System.Windows.Data.IValueConverter
+	public class StringToUpperConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{

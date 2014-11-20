@@ -20,7 +20,7 @@ namespace Storm.Mvvm.Android.Bindings
 
 		public void AddExpression(BindingExpression expr)
 		{
-			this.Expressions.Add(expr);
+			Expressions.Add(expr);
 		}
 	}
 }
