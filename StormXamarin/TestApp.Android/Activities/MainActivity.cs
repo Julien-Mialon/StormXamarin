@@ -12,11 +12,11 @@ namespace TestApp.Android.Activities
 		{
 			base.OnCreate(bundle);
 
-			BootStrapper.Initialize();
-
 			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Main);
-			SetViewModel(BootStrapper.ViewModelsLocator.MainPageViewModel, typeof(Resource.Id));
+			SetViewModel(Container.ViewModelsLocator.MainPageViewModel, typeof(Resource.Id));
+
+			//MyButton.Click += (sender, args) => StartActivity(typeof(SecondActivity));
 		}
 	}
 }

@@ -5,6 +5,8 @@ using System.Reflection;
 using Android.App;
 using Android.Views;
 using Storm.Mvvm.Bindings;
+using Storm.Mvvm.Inject;
+using Storm.Mvvm.Services;
 
 namespace Storm.Mvvm
 {
@@ -12,6 +14,7 @@ namespace Storm.Mvvm
 	{
 		protected ViewModelBase ViewModel { get; private set; }
 
+		private ActivityState _activityState = ActivityState.Uninitialized;
 		private BindingNode _rootExpressionNode;
 
 		protected void SetViewModel(ViewModelBase viewModel, Type idContainerType)
@@ -47,6 +50,48 @@ namespace Storm.Mvvm
 		protected virtual List<BindingObject> GetBindingPaths()
 		{
 			return new List<BindingObject>();
+		}
+
+		protected override void OnStart()
+		{
+			base.OnStart();
+			AndroidContainer.GetInstance().UpdateActivity(this);
+			if (ViewModel != null && _activityState != ActivityState.Running)
+			{
+				ViewModel.OnNavigatedTo(new NavigationArgs(NavigationArgs.NavigationMode.New));
+			}
+			_activityState = ActivityState.Running;
+		}
+
+		protected override void OnResume()
+		{
+			base.OnResume();
+			AndroidContainer.GetInstance().UpdateActivity(this);
+			if (ViewModel != null && _activityState != ActivityState.Running)
+			{
+				ViewModel.OnNavigatedTo(new NavigationArgs(NavigationArgs.NavigationMode.Back));
+			}
+			_activityState = ActivityState.Running;
+		}
+
+		protected override void OnPause()
+		{
+			base.OnPause();
+			if (ViewModel != null && _activityState != ActivityState.Stopped)
+			{
+				ViewModel.OnNavigatedFrom(new NavigationArgs(NavigationArgs.NavigationMode.Forward));
+			}
+			_activityState = ActivityState.Stopped;
+		}
+
+		protected override void OnStop()
+		{
+			base.OnStop();
+			if (ViewModel != null && _activityState != ActivityState.Stopped)
+			{
+				ViewModel.OnNavigatedFrom(new NavigationArgs(NavigationArgs.NavigationMode.Back));
+			}
+			_activityState = ActivityState.Running;
 		}
 	}
 }

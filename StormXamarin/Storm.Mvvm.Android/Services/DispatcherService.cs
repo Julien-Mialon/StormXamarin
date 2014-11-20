@@ -1,7 +1,6 @@
 ﻿using System;
-using Storm.Mvvm.Services;
 
-namespace Storm.Mvvm
+namespace Storm.Mvvm.Services
 {
 	public class DispatcherService : IDispatcherService
 	{

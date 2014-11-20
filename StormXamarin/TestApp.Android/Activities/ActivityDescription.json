@@ -14,14 +14,14 @@
         },
         {
             "activity": {
-                "inputFile": "MainActivity.cs",
-                "outputFile": "../gen/MainActivity.generated.cs",
-                "className": "MainActivity",
+                "inputFile": "SecondActivity.cs",
+                "outputFile": "../gen/SecondActivity.generated.cs",
+                "className": "SecondActivity",
                 "namespaceName": "TestApp.Android.Activities"
             },
             "view": {
-                "inputFile": "../Views/Main.xml",
-                "outputFile": "../Resources/layout/Main.axml"
+                "inputFile": "../Views/Second.xml",
+                "outputFile": "../Resources/layout/Second.axml"
             }
         }
     ]

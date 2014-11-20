@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Phone.Controls;
-using Storm.Mvvm.Services;
 
-namespace Storm.Mvvm
+namespace Storm.Mvvm.Services
 {
 	public class NavigationService : INavigationService
 	{

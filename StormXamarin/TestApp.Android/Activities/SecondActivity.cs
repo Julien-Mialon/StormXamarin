@@ -1,16 +1,19 @@
 using Android.App;
 using Android.OS;
+using Storm.Mvvm;
+using TestApp.Android.CompositionRoot;
 
 namespace TestApp.Android.Activities
 {
 	[Activity(Label = "SecondActivity")]
-	public partial class SecondActivity : Activity
+	public partial class SecondActivity : ActivityBase
 	{
 		protected override void OnCreate(Bundle bundle)
 		{
 			base.OnCreate(bundle);
 
-			// Create your application here
+			SetContentView(Resource.Layout.Second);
+			SetViewModel(Container.ViewModelsLocator.SecondPageViewModel, typeof(Resource.Id));
 		}
 	}
 }

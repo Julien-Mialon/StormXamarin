@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" />
+    android:layout_height="fill_parent"
+	android:orientation="vertical"		  
+	>
+
+	<TextView android:id="GreetingText"
+			  android:layout_width="fill_parent"
+			  android:layout_height="wrap_content"
+			  text="{Binding Greetings}"
+			  />
+</LinearLayout>

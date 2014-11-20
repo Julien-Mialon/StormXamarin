@@ -69,6 +69,8 @@ namespace TestApp.Business
 			Data.Text = "Plop x " + _counter;
 
 			ButtonText = string.Format("You've clicked {0} times on this button", _counter);
+
+			NavigationService.Navigate("Second");
 		}
     }
 }

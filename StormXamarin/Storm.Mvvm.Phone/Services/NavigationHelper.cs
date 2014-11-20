@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows.Navigation;
-using Storm.Mvvm.Services;
 
-namespace Storm.Mvvm
+namespace Storm.Mvvm.Services
 {
 	internal static class NavigationHelper
 	{

@@ -43,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivityBase.cs" />
+    <Compile Include="ActivityState.cs" />
+    <Compile Include="ApplicationBase.cs" />
     <Compile Include="Bindings\BindingBase.cs" />
     <Compile Include="Bindings\BindingFactory.cs" />
     <Compile Include="Bindings\BindingNode.cs" />
@@ -56,8 +58,9 @@
     <Compile Include="Bindings\PropertyBinding.cs" />
     <Compile Include="Bindings\TwoWayPropertyBinding.cs" />
     <Compile Include="Converters\IValueConverter.cs" />
-    <Compile Include="DispatcherService.cs" />
-    <Compile Include="NavigationService.cs" />
+    <Compile Include="Services\DispatcherService.cs" />
+    <Compile Include="Inject\AndroidContainer.cs" />
+    <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

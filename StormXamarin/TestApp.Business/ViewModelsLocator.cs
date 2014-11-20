@@ -9,12 +9,18 @@ namespace TestApp.Business
 		public static void Initialize(IContainer container)
 		{
 			container.RegisterFactory(x => new MainPageViewModel(x));
+			container.RegisterFactory(x => new SecondPageViewModel(x));
 			_container = container;
 		}
 
 		public MainPageViewModel MainPageViewModel
 		{
 			get { return _container.Resolve<MainPageViewModel>(); }
+		}
+
+		public SecondPageViewModel SecondPageViewModel
+		{
+			get { return _container.Resolve<SecondPageViewModel>(); }
 		}
 	}
 }

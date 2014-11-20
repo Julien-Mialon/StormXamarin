@@ -63,6 +63,9 @@ namespace TestApp.Android
 			// aapt resource value: 0x7f050005
 			public const int CTextView = 2131034117;
 			
+			// aapt resource value: 0x7f050006
+			public const int GreetingText = 2131034118;
+			
 			// aapt resource value: 0x7f050001
 			public const int MyButton = 2131034113;
 			

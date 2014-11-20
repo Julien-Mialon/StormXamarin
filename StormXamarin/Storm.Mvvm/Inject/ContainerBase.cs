@@ -14,7 +14,7 @@ namespace Storm.Mvvm.Inject
 
 		#region Constructors
 
-		public ContainerBase()
+		protected ContainerBase()
 		{
 			_container = new Container();
 		}
@@ -74,7 +74,7 @@ namespace Storm.Mvvm.Inject
 			_disposed = true;
 		}
 
-		public virtual void Initialize()
+		protected virtual void Initialize()
 		{
 			
 		}
