@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using Android.App;
 using Android.Content;
+using Storm.Mvvm.Inject;
 using Storm.Mvvm.Navigation;
 
 namespace Storm.Mvvm.Services
 {
-	public class NavigationService : AbstractNavigationService
+	public class NavigationService : AbstractNavigationService, IActivityUpdatable
 	{
 		private Activity _currentActivity;
 		private readonly Dictionary<string, Type> _views; 

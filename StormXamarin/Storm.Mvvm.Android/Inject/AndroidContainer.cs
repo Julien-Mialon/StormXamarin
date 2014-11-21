@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using Android.App;
 using Java.Security;
+using Java.Text;
 using Storm.Mvvm.Services;
 
 namespace Storm.Mvvm.Inject
 {
 	public class AndroidContainer : ContainerBase
 	{
+		#region Static members
+
 		private static AndroidContainer _instance = null;
+
 		public static T CreateInstance<T>(Application application, Dictionary<string, Type> views) where T : AndroidContainer, new()
 		{
 			if (_instance != null)
@@ -27,7 +31,12 @@ namespace Storm.Mvvm.Inject
 			return _instance;
 		}
 
+		#endregion
+
+		private readonly List<IActivityUpdatable> _activityUpdatables = new List<IActivityUpdatable>();
+
 		protected Application Application { get; private set; }
+		protected Activity CurrentActivity { get; private set; }
 
 		protected NavigationService NavigationService;
 		protected DispatcherService DispatcherService;
@@ -39,7 +48,11 @@ namespace Storm.Mvvm.Inject
 
 		public virtual void UpdateActivity(Activity currentActivity)
 		{
-			NavigationService.UpdateActivity(currentActivity);
+			CurrentActivity = currentActivity;
+			foreach (IActivityUpdatable updatable in _activityUpdatables)
+			{
+				updatable.UpdateActivity(CurrentActivity);
+			}
 		}
 
 		protected virtual void Initialize(Application application, Dictionary<string, Type> views)
@@ -50,6 +63,10 @@ namespace Storm.Mvvm.Inject
 			NavigationService = new NavigationService(views);
 			DispatcherService = new DispatcherService();
 			
+			//Register for activity update
+			RegisterForActivityUpdate(NavigationService);
+			RegisterForActivityUpdate(DispatcherService);
+
 			//Register services
 			RegisterInstance<INavigationService, NavigationService>(NavigationService);
 			RegisterInstance<IDispatcherService, DispatcherService>(DispatcherService);
@@ -57,7 +74,16 @@ namespace Storm.Mvvm.Inject
 			Initialize();
 		}
 
-		protected virtual void Clean()
+		protected void RegisterForActivityUpdate(IActivityUpdatable updatable)
+		{
+			if (CurrentActivity != null)
+			{
+				updatable.UpdateActivity(CurrentActivity);
+			}
+			_activityUpdatables.Add(updatable);
+		}
+
+		protected override void Clean()
 		{
 			
 		}
