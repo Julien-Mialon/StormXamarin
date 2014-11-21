@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Storm.Mvvm.Navigation;
 
 namespace Storm.Mvvm.Services
 {
@@ -19,5 +20,7 @@ namespace Storm.Mvvm.Services
 		void GoBack();
 
 		void GoForward();
+
+		NavigationParametersContainer GetParameters(string parametersKey);
 	}
 }

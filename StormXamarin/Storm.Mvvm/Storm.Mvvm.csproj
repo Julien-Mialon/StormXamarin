@@ -38,6 +38,8 @@
     <Compile Include="Inject\ContainerBase.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Inject\IContainer.cs" />
+    <Compile Include="Navigation\AbstractNavigationService.cs" />
+    <Compile Include="Navigation\NavigationParametersContainer.cs" />
     <Compile Include="Services\INavigationService.cs" />
     <Compile Include="Services\NavigationArgs.cs" />
     <Compile Include="NotifierBase.cs" />

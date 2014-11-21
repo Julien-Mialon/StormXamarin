@@ -3,7 +3,7 @@ using Storm.Mvvm;
 using Storm.Mvvm.Commands;
 using Storm.Mvvm.Inject;
 
-namespace TestApp.Business
+namespace TestApp.Business.ViewModels
 {
 	public class DataContainer : NotifierBase
 	{
@@ -70,7 +70,7 @@ namespace TestApp.Business
 
 			ButtonText = string.Format("You've clicked {0} times on this button", _counter);
 
-			NavigationService.Navigate("Second");
+			NavigationService.NavigateAndReplace(Views.SECOND);
 		}
     }
 }

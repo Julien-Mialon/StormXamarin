@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using Android.App;
+using Android.Content;
+using Storm.Mvvm.Navigation;
 
 namespace Storm.Mvvm.Services
 {
-	public class NavigationService : INavigationService
+	public class NavigationService : AbstractNavigationService
 	{
 		private Activity _currentActivity;
 		private readonly Dictionary<string, Type> _views; 
@@ -19,45 +21,37 @@ namespace Storm.Mvvm.Services
 			_currentActivity = currentActivity;
 		}
 
-		public bool CanGoBack
+		public override bool CanGoBack
 		{
-			get { return true; }
+			get { return _currentActivity != null; }
 		}
 
-		public bool CanGoForward
+		public override bool CanGoForward
 		{
 			get { return false; }
 		}
 
-		public void Navigate(string view)
+		public override void GoBack()
 		{
-			Type viewType = GetViewOrThrow(view);
-			_currentActivity.StartActivity(viewType);
+			_currentActivity.OnBackPressed();
 		}
 
-		public void Navigate(string view, Dictionary<string, object> parameters)
+		public override void GoForward()
 		{
 			throw new NotImplementedException();
 		}
 
-		public void NavigateAndReplace(string view)
+		protected override void RemoveBackEntry()
 		{
-			throw new NotImplementedException();
+			GoBack();
 		}
 
-		public void NavigateAndReplace(string view, Dictionary<string, object> parameters)
+		protected override void NavigateToView(string view, string parametersKey)
 		{
-			throw new NotImplementedException();
-		}
-
-		public void GoBack()
-		{
-			throw new NotImplementedException();
-		}
-
-		public void GoForward()
-		{
-			throw new NotImplementedException();
+			Type activityType = GetViewOrThrow(view);
+			Intent activity = new Intent(_currentActivity, activityType);
+			activity.PutExtra("key", parametersKey);
+			_currentActivity.StartActivity(activity);
 		}
 
 		protected Type GetViewOrThrow(string view)

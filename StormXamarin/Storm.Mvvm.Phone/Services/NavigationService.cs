@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Phone.Controls;
+using Storm.Mvvm.Navigation;
 
 namespace Storm.Mvvm.Services
 {
-	public class NavigationService : INavigationService
+	public class NavigationService : AbstractNavigationService
 	{
 		#region Fields
 
 		private readonly PhoneApplicationFrame _service = null;
+		private readonly Dictionary<string, string> _views; 
 
 		#endregion
 
 		#region Properties
 
-		public bool CanGoBack
+		public override bool CanGoBack
 		{
 			get
 			{
@@ -22,7 +24,7 @@ namespace Storm.Mvvm.Services
 			}
 		}
 
-		public bool CanGoForward
+		public override bool CanGoForward
 		{
 			get
 			{
@@ -34,43 +36,42 @@ namespace Storm.Mvvm.Services
 
 		#region Constructors
 
-		public NavigationService(PhoneApplicationFrame service)
+		public NavigationService(PhoneApplicationFrame service, Dictionary<string, string> views)
 		{
-			this._service = service;
+			_service = service;
+			_views = views;
 		}
 
 		#endregion
 
 		#region Public methods
 
-		public void Navigate(string view)
+		protected override void RemoveBackEntry()
 		{
-			_service.Navigate(new Uri(string.Format("/Views/{0}.xaml", view), UriKind.Relative));
-		}
-
-		public void Navigate(string view, Dictionary<string, object> parameters)
-		{
-			_service.Navigate(new Uri(string.Format("/Views/{0}.xaml", view), UriKind.Relative));
-		}
-
-		public void NavigateAndReplace(string view)
-		{
-			Navigate(view);
 			_service.RemoveBackEntry();
 		}
 
-		public void NavigateAndReplace(string view, Dictionary<string, object> parameters)
+		protected override void NavigateToView(string view, string parametersKey)
 		{
-			Navigate(view);
-			_service.RemoveBackEntry();
+			string viewUri = GetViewOrThrow(view);
+			_service.Navigate(new Uri(string.Format("{0}?key={1}", viewUri, parametersKey), UriKind.Relative));
 		}
 
-		public void GoBack()
+		protected virtual string GetViewOrThrow(string view)
+		{
+			if (_views.ContainsKey(view))
+			{
+				return _views[view];
+			}
+			throw new Exception(string.Format("View named {0} does not exists", view));
+		}
+
+		public override void GoBack()
 		{
 			_service.GoBack();
 		}
 
-		public void GoForward()
+		public override void GoForward()
 		{
 			_service.GoForward();
 		}

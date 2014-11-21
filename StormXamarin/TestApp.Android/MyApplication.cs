@@ -6,6 +6,7 @@ using Storm.Mvvm;
 using Storm.Mvvm.Inject;
 using TestApp.Android.Activities;
 using TestApp.Android.CompositionRoot;
+using TestApp.Business;
 
 namespace TestApp.Android
 {
@@ -24,8 +25,8 @@ namespace TestApp.Android
 
 			Dictionary<string, Type> views = new Dictionary<string, Type>
 			{
-				{"Main", typeof(MainActivity)},
-				{"Second", typeof(SecondActivity)},
+				{Views.MAIN, typeof(MainActivity)},
+				{Views.SECOND, typeof(SecondActivity)},
 			};
 
 			AndroidContainer.CreateInstance<Container>(this, views);

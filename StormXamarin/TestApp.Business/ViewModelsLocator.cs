@@ -1,4 +1,5 @@
 ﻿using Storm.Mvvm.Inject;
+using TestApp.Business.ViewModels;
 
 namespace TestApp.Business
 {
