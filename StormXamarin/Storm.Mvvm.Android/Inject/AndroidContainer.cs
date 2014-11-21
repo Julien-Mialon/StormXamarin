@@ -28,6 +28,10 @@ namespace Storm.Mvvm.Inject
 
 		public static AndroidContainer GetInstance()
 		{
+			if (_instance == null)
+			{
+				throw new Exception("AndroidContainer has not been created");
+			}
 			return _instance;
 		}
 
