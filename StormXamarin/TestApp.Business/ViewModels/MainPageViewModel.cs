@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.Generic;
+using System.Windows.Input;
 using Storm.Mvvm;
 using Storm.Mvvm.Commands;
 using Storm.Mvvm.Inject;
@@ -70,7 +71,7 @@ namespace TestApp.Business.ViewModels
 
 			ButtonText = string.Format("You've clicked {0} times on this button", _counter);
 
-			NavigationService.NavigateAndReplace(Views.SECOND);
+			NavigationService.Navigate(Views.SECOND, new Dictionary<string, object>(){{"Greetings", "Plop !"}});
 		}
     }
 }

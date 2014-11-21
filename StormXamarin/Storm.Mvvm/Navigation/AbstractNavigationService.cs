@@ -42,12 +42,11 @@ namespace Storm.Mvvm.Navigation
 
 		public virtual NavigationParametersContainer GetParameters(string parametersKey)
 		{
-			if (_parametersContainers.ContainsKey(parametersKey))
+			if (parametersKey != null && _parametersContainers.ContainsKey(parametersKey))
 			{
 				return _parametersContainers[parametersKey];
 			}
-
-			throw new Exception("No parameters exists with this key");
+			return null;
 		}
 		
 		protected virtual string CreateContainer(string view, Dictionary<string, object> parameters)

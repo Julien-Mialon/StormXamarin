@@ -37,10 +37,11 @@ namespace Storm.Mvvm
 			base.OnNavigatedTo(e);
 
 			NavigationArgs args = NavigationHelper.FromArgs(e);
+			string parametersKey = NavigationContext.QueryString["key"];
 			ViewModelBase vm = DataContext as ViewModelBase;
 			if (vm != null)
 			{
-				vm.OnNavigatedTo(args);
+				vm.OnNavigatedTo(args, parametersKey);
 			}
 		}
 

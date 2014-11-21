@@ -1,5 +1,9 @@
-﻿using Storm.Mvvm.Inject;
+﻿using System;
+using System.Linq;
+using Storm.Mvvm.Inject;
+using Storm.Mvvm.Navigation;
 using Storm.Mvvm.Services;
+using System.Reflection;
 
 namespace Storm.Mvvm
 {
@@ -10,6 +14,8 @@ namespace Storm.Mvvm
 		protected IContainer Container = null;
 		protected INavigationService NavigationService = null;
 		protected IDispatcherService DispatcherService = null;
+
+		protected NavigationParametersContainer NavigationParameters = null;
 
 		#endregion
 
@@ -35,9 +41,23 @@ namespace Storm.Mvvm
 
 		}
 
-		public virtual void OnNavigatedTo(NavigationArgs e)
+		public virtual void OnNavigatedTo(NavigationArgs e, string parametersKey)
 		{
+			NavigationParameters = NavigationService.GetParameters(parametersKey);
 
+			if (NavigationParameters != null)
+			{
+				//Process auto navigation parameters property
+				foreach (PropertyInfo property in this.GetType().GetRuntimeProperties().Where(x => x.GetCustomAttribute<NavigationParameterAttribute>(true) != null))
+				{
+					NavigationParameterAttribute attribute = property.GetCustomAttribute<NavigationParameterAttribute>(true);
+
+					string parameterName = attribute.Name ?? property.Name;
+					object keyValue = NavigationParameters.Get<object>(parameterName);
+
+					property.SetValue(this, keyValue);
+				}
+			}
 		}
 
 		#endregion

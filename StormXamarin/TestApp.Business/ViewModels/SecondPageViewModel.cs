@@ -1,5 +1,6 @@
 ﻿using Storm.Mvvm;
 using Storm.Mvvm.Inject;
+using Storm.Mvvm.Navigation;
 
 namespace TestApp.Business.ViewModels
 {
@@ -7,6 +8,7 @@ namespace TestApp.Business.ViewModels
 	{
 		private string _greetings;
 
+		[NavigationParameter]
 		public string Greetings
 		{
 			get { return _greetings; }
