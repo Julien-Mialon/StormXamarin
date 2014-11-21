@@ -5,9 +5,9 @@ using System.Reflection;
 // l'ensemble d'attributs suivant. Changez les valeurs de ces attributs pour modifier les informations
 // associées à un assembly.
 [assembly: AssemblyTitle("Storm.Mvvm")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Mvvm base compounds as PCL to implement on other platform")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Julien Mialon")]
 [assembly: AssemblyProduct("Storm.Mvvm")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
