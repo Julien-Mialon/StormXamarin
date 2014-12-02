@@ -45,12 +45,14 @@
     <Compile Include="ActivityBase.cs" />
     <Compile Include="ActivityState.cs" />
     <Compile Include="ApplicationBase.cs" />
+    <Compile Include="Bindings\BindingAttribute.cs" />
     <Compile Include="Bindings\BindingBase.cs" />
     <Compile Include="Bindings\BindingFactory.cs" />
     <Compile Include="Bindings\BindingNode.cs" />
     <Compile Include="Bindings\BindingObject.cs" />
     <Compile Include="Bindings\BindingMode.cs" />
     <Compile Include="Bindings\BindingExpression.cs" />
+    <Compile Include="Bindings\BindingTargetType.cs" />
     <Compile Include="Bindings\DependencyPropertyProxy.cs" />
     <Compile Include="Bindings\EventBinding.cs" />
     <Compile Include="Bindings\EventHookBase.cs" />

@@ -10,11 +10,13 @@ namespace Storm.Mvvm.Bindings
 
 		public IValueConverter Converter { get; set; }
 
-		public string ConverterParameter { get; set; }
+		public object ConverterParameter { get; set; }
 
 		public BindingMode Mode { get; set; }
 
 		public string UpdateEvent { get; set; }
+
+		public BindingTargetType TargetType { get; set; }
 
 		public BindingExpression()
 		{

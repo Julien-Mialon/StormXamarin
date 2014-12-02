@@ -268,7 +268,7 @@ namespace Storm.Binding.Android.Process
 			return bindings;
 		}
 
-		private string GetSha256Hash(string input, int length = 64)
+		private static string GetSha256Hash(string input, int length = 64)
 		{
 			byte[] bytes = Encoding.Unicode.GetBytes(input);
 			SHA256Managed hashstring = new SHA256Managed();

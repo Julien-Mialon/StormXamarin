@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Android.App;
-using Java.Security;
-using Java.Text;
 using Storm.Mvvm.Services;
 
 namespace Storm.Mvvm.Inject

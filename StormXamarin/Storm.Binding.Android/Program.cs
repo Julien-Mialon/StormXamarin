@@ -23,7 +23,7 @@ namespace Storm.Binding.Android
 				ProcessReader(reader);
 			}
 
-			Console.WriteLine("==> Finished");
+			//Console.WriteLine("==> Finished");
 
 			//Console.ReadKey();
 		}
@@ -32,10 +32,11 @@ namespace Storm.Binding.Android
 		{
 			foreach (ActivityViewInfo info in reader.ActivityViewInformations)
 			{
+				/*
 				Console.WriteLine("Activity : {3}.{2}\n\tInputFile {0}\n\tOutputFile {1}", info.Activity.InputFile, info.Activity.OutputFile, info.Activity.ClassName, info.Activity.NamespaceName);
 				Console.WriteLine("View : \n\tInputFile {0}\n\tOutputFile {1}", info.View.InputFile, info.View.OutputFile);
 				Console.WriteLine("");
-
+				*/
 				ViewFileProcessor processor = new ViewFileProcessor();
 				XmlElement root = processor.Read(info.View.InputFile);
 				Tuple<List<XmlAttribute>, List<IdViewObject>> tupleResult = processor.ExtractBindingInformations(root);
