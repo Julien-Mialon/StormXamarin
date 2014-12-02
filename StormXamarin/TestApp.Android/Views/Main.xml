@@ -17,7 +17,7 @@
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:text="{Binding ButtonText, Converter={Resource StringToUpperConverter}, ConverterParameter='True', Mode=OneWay}"
-			click="{Binding Path=ButtonCommand}" />
+			click="{Binding ButtonCommand}" />
 	
 	<TextView android:id="MyTextView"
 			  android:layout_width="fill_parent"
