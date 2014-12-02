@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using Android.Views;
 
 namespace Storm.Mvvm.Bindings
 {
 	public class BindingObject
 	{
-		public string TargetObjectName { get; set; }
+		public View TargetObject { get; set; }
 
 		public List<BindingExpression> Expressions { get; private set; }
 
@@ -13,9 +14,9 @@ namespace Storm.Mvvm.Bindings
 			Expressions = new List<BindingExpression>();
 		}
 
-		public BindingObject(string objectId) : this()
+		public BindingObject(View targetObject) : this()
 		{
-			TargetObjectName = objectId;
+			TargetObject = targetObject;
 		}
 
 		public void AddExpression(BindingExpression expr)

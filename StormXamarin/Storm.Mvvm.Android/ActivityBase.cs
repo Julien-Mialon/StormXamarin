@@ -26,30 +26,20 @@ namespace Storm.Mvvm
 			_parametersKey = Intent.GetStringExtra("key");
 		}
 
-		protected void SetViewModel(ViewModelBase viewModel, Type idContainerType)
+		protected void SetViewModel(ViewModelBase viewModel)
 		{
 			ViewModel = viewModel;
 
 			List<BindingObject> bindingObjects = GetBindingPaths();
 
 			//Get ids values 
-			Dictionary<string, View> views = idContainerType.GetRuntimeFields().Where(field => field.IsLiteral).ToDictionary(field => field.Name, field => FindViewById((int)field.GetRawConstantValue()));
-
 			_rootExpressionNode = new BindingNode("");
 
 			foreach (BindingObject bindingObject in bindingObjects)
 			{
-				if (views.ContainsKey(bindingObject.TargetObjectName))
+				foreach (BindingExpression expression in bindingObject.Expressions)
 				{
-					object targetView = views[bindingObject.TargetObjectName];
-					foreach (BindingExpression expression in bindingObject.Expressions)
-					{
-						_rootExpressionNode.AddExpression(expression, targetView);
-					}
-				}
-				else
-				{
-					throw new Exception("ActivityBase : can not access view element " + bindingObject.TargetObjectName);
+					_rootExpressionNode.AddExpression(expression, bindingObject.TargetObject);
 				}
 			}
 

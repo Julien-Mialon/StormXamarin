@@ -91,7 +91,7 @@ namespace Storm.Binding.Android.Process
 		{
 			foreach (IdViewObject viewItem in views)
 			{
-				Console.WriteLine("Generating property for field => " + viewItem.Id + " / " + viewItem.TypeName);
+				//Console.WriteLine("Generating property for field => " + viewItem.Id + " / " + viewItem.TypeName);
 				//generate a field with _id as name
 				//generate a readonly property with Id as name
 				// get { _id ?? (_id = findViewById(Resources.Id.<ID>))
@@ -145,7 +145,7 @@ namespace Storm.Binding.Android.Process
 			foreach (IGrouping<string, BindingExpression> bindingExpressions in expressions.GroupBy(x => x.TargetObjectId))
 			{
 				//create binding objects and get a code reference on it
-				CodeObjectCreateExpression objectCreateExpression = new CodeObjectCreateExpression("BindingObject", new CodePrimitiveExpression(bindingExpressions.Key));
+				CodeObjectCreateExpression objectCreateExpression = new CodeObjectCreateExpression("BindingObject", new CodePropertyReferenceExpression(new CodeThisReferenceExpression(), bindingExpressions.Key));
 				string objectName = string.Format("o{0}", objectCounter++);
 				method.Statements.Add(new CodeVariableDeclarationStatement("BindingObject", objectName, objectCreateExpression));
 

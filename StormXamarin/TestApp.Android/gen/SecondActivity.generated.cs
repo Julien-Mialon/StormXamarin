@@ -31,7 +31,7 @@ namespace TestApp.Android.Activities
 		protected override List<BindingObject> GetBindingPaths()
 		{
 			List<BindingObject> result = new List<BindingObject>();
-			BindingObject o0 = new BindingObject("GreetingText");
+			BindingObject o0 = new BindingObject(this.GreetingText);
 			result.Add(o0);
 			BindingExpression e0 = new BindingExpression("text", "Greetings");
 			o0.AddExpression(e0);

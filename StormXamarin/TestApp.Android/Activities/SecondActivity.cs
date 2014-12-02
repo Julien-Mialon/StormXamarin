@@ -13,7 +13,7 @@ namespace TestApp.Android.Activities
 			base.OnCreate(bundle);
 
 			SetContentView(Resource.Layout.Second);
-			SetViewModel(Container.ViewModelsLocator.SecondPageViewModel, typeof(Resource.Id));
+			SetViewModel(Container.ViewModelsLocator.SecondPageViewModel);
 		}
 	}
 }
