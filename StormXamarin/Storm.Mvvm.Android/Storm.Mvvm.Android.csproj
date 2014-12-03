@@ -61,8 +61,10 @@
     <Compile Include="Bindings\TwoWayPropertyBinding.cs" />
     <Compile Include="Converters\IValueConverter.cs" />
     <Compile Include="Inject\IActivityUpdatable.cs" />
+    <Compile Include="Services\AssetsService.cs" />
     <Compile Include="Services\DispatcherService.cs" />
     <Compile Include="Inject\AndroidContainer.cs" />
+    <Compile Include="Services\LocalizationService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

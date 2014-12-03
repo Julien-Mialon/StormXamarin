@@ -16,7 +16,7 @@ namespace TestApp.Android
 		public MyApplication(IntPtr handle, JniHandleOwnership transfer)
             : base(handle,transfer)
         {
-
+			
         }
 
 		public override void OnCreate()
@@ -28,6 +28,7 @@ namespace TestApp.Android
 				{Views.MAIN, typeof(MainActivity)},
 				{Views.SECOND, typeof(SecondActivity)},
 			};
+
 
 			AndroidContainer.CreateInstance<Container>(this, views);
 		}

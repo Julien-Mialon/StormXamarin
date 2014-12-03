@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using Microsoft.Phone.Controls;
 using Storm.Mvvm.Navigation;
 
@@ -74,6 +75,11 @@ namespace Storm.Mvvm.Services
 		public override void GoForward()
 		{
 			_service.GoForward();
+		}
+
+		public override void ExitApplication()
+		{
+			Application.Current.Terminate();
 		}
 
 		#endregion

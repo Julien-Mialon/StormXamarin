@@ -42,6 +42,11 @@ namespace Storm.Mvvm.Services
 			throw new NotImplementedException();
 		}
 
+		public override void ExitApplication()
+		{
+			_currentActivity.Finish();
+		}
+
 		protected override void RemoveBackEntry()
 		{
 			GoBack();

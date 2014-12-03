@@ -22,5 +22,7 @@ namespace Storm.Mvvm.Services
 		void GoForward();
 
 		NavigationParametersContainer GetParameters(string parametersKey);
+
+		void ExitApplication();
 	}
 }

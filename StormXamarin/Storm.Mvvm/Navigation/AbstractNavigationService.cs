@@ -13,6 +13,8 @@ namespace Storm.Mvvm.Navigation
 		public abstract void GoBack();
 		public abstract void GoForward();
 
+		public abstract void ExitApplication();
+
 		public virtual void Navigate(string view)
 		{
 			NavigateToView(view, null);
@@ -44,7 +46,7 @@ namespace Storm.Mvvm.Navigation
 			}
 			return null;
 		}
-		
+
 		protected virtual string CreateContainer(string view, Dictionary<string, object> parameters)
 		{
 			NavigationParametersContainer container = new NavigationParametersContainer(view, parameters);

@@ -3,6 +3,7 @@ using System.Windows.Input;
 using Storm.Mvvm;
 using Storm.Mvvm.Commands;
 using Storm.Mvvm.Inject;
+using Storm.Mvvm.Services;
 
 namespace TestApp.Business.ViewModels
 {
@@ -60,6 +61,10 @@ namespace TestApp.Business.ViewModels
 			Data = new DataContainer();
 			ButtonCommand = new DelegateCommand(ButtonAction);
 			ButtonText = "Hello world !!!!";
+
+			ILocalizationService localizationService = container.Resolve<ILocalizationService>();
+			string name = localizationService.GetString("Hello");
+			ButtonText = name;
 		}
 
 		private void ButtonAction()
