@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using Android.App;
 using Android.OS;
@@ -17,7 +14,6 @@ namespace Storm.Mvvm
 		protected ViewModelBase ViewModel { get; private set; }
 
 		private ActivityState _activityState = ActivityState.Uninitialized;
-		private BindingNode _rootExpressionNode;
 		private string _parametersKey;
 
 		protected override void OnCreate(Bundle savedInstanceState)
@@ -30,66 +26,7 @@ namespace Storm.Mvvm
 		protected void SetViewModel(ViewModelBase viewModel)
 		{
 			ViewModel = viewModel;
-
-			List<BindingObject> bindingObjects = GetBindingPaths();
-
-			_rootExpressionNode = new BindingNode("");
-
-			foreach (BindingObject bindingObject in bindingObjects)
-			{
-				foreach (BindingExpression expression in bindingObject.Expressions)
-				{
-					_rootExpressionNode.AddExpression(expression, bindingObject.TargetObject);
-				}
-			}
-
-			//also process expressions attached to the activity with attribute
-			IEnumerable<PropertyInfo> properties = this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(x => x.GetCustomAttribute<BindingAttribute>(true) != null);
-			IEnumerable<EventInfo> events = this.GetType().GetEvents(BindingFlags.Public | BindingFlags.Instance).Where(x => x.GetCustomAttribute<BindingAttribute>(true) != null);
-
-			foreach (PropertyInfo property in properties)
-			{
-				BindingAttribute attribute = property.GetCustomAttribute<BindingAttribute>(true);
-
-				if (string.IsNullOrEmpty(attribute.Path))
-				{
-					throw new Exception("Path can not be empty for binding on property " + property.Name + " activity type " + this.GetType());
-				}
-
-				_rootExpressionNode.AddExpression(new BindingExpression()
-				{
-					Converter = attribute.GetConverter(),
-					ConverterParameter = attribute.ConverterParameter,
-					Mode = attribute.Mode,
-					UpdateEvent = "PropertyChanged",
-					TargetField = property.Name,
-					SourcePath = attribute.Path,
-					TargetType = BindingTargetType.Property,
-				}, this);
-			}
-
-			foreach (EventInfo eventInfo in events)
-			{
-				BindingAttribute attribute = eventInfo.GetCustomAttribute<BindingAttribute>(true);
-
-				if (string.IsNullOrEmpty(attribute.Path))
-				{
-					throw new Exception("Path can not be empty for binding on event " + eventInfo.Name + " activity type " + this.GetType());
-				}
-				if (attribute.Mode == BindingMode.TwoWay)
-				{
-					throw new Exception("BindingMode TwoWay is not supported on event " + eventInfo.Name + " activity type " + this.GetType());
-				}
-
-				_rootExpressionNode.AddExpression(new BindingExpression()
-				{
-					TargetField = eventInfo.Name,
-					SourcePath = attribute.Path,
-					TargetType = BindingTargetType.Event,
-				}, this);
-			}
-
-			_rootExpressionNode.UpdateValue(ViewModel);
+			BindingProcessor.ProcessBinding(ViewModel, this, GetBindingPaths());
 		}
 
 		protected virtual List<BindingObject> GetBindingPaths()

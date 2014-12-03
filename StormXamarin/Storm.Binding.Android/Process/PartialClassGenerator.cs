@@ -35,7 +35,7 @@ namespace Storm.Binding.Android.Process
 			};
 			codeNamespace.Types.Add(classDeclaration);
 
-			GenerateClassProperty(classDeclaration, views);
+			GenerateClassProperty(classDeclaration, views, activityInformations);
 
 			CodeMemberMethod overrideMethod = new CodeMemberMethod
 			{
@@ -87,7 +87,8 @@ namespace Storm.Binding.Android.Process
 		/// </summary>
 		/// <param name="classDeclaration">The class container</param>
 		/// <param name="views">The list of view elements</param>
-		private void GenerateClassProperty(CodeTypeDeclaration classDeclaration, IEnumerable<IdViewObject> views)
+		/// <param name="activityInformations"></param>
+		private void GenerateClassProperty(CodeTypeDeclaration classDeclaration, IEnumerable<IdViewObject> views, ActivityInfo activityInformations)
 		{
 			foreach (IdViewObject viewItem in views)
 			{
@@ -111,8 +112,25 @@ namespace Storm.Binding.Android.Process
 					Type = new CodeTypeReference(viewItem.TypeName)
 				};
 
+				CodeMethodReferenceExpression findViewReferenceExpression;
+				if (activityInformations.IsFragment)
+				{
+					findViewReferenceExpression = new CodeMethodReferenceExpression(
+						new CodePropertyReferenceExpression(new CodeThisReferenceExpression(), "RootView"),
+ 						"FindViewById",
+						new CodeTypeReference(viewItem.TypeName)
+						);
+				}
+				else
+				{
+					findViewReferenceExpression = new CodeMethodReferenceExpression(
+						new CodeThisReferenceExpression(), 
+						"FindViewById", 
+						new CodeTypeReference(viewItem.TypeName));
+				}
+
 				CodeMethodInvokeExpression findViewExpression = new CodeMethodInvokeExpression(
-					new CodeMethodReferenceExpression(new CodeThisReferenceExpression(), "FindViewById", new CodeTypeReference(viewItem.TypeName)),
+					findViewReferenceExpression,
 					new CodeFieldReferenceExpression(new CodeTypeReferenceExpression("Resource.Id"), viewItem.Id)
 				);
 
