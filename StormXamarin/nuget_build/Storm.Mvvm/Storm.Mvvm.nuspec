@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Storm.Mvvm</id>
+	<version>1.1</version>
+	<title>Storm.Mvvm</title>
+	<authors>Julien Mialon</authors>
+	<owners>Julien Mialon</owners>
+	<licenseUrl>https://github.com/Julien-Mialon/StormXamarin/blob/master/LICENSE</licenseUrl>
+	<projectUrl>https://github.com/Julien-Mialon/StormXamarin</projectUrl>
+	<requireLicenseAcceptance>false</requireLicenseAcceptance>
+	<description>Mvvm base compounds as PCL to implement on other platform</description>
+	<releaseNotes>Initial release with basic system for Mvvm.</releaseNotes>
+	<copyright>Copyright 2014</copyright>
+	<tags>mvvm pcl storm</tags>
+	<dependencies>
+		<dependency id="Funq.Portable" version="1.0.1" />
+	</dependencies>
+  </metadata>
+</package>

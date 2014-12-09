@@ -1,0 +1,16 @@
+﻿{
+    "list": [
+        {
+            "activity": {
+                "inputFile": "Activity/MainActivity.cs",
+                "outputFile": "Generated/MainActivity.generated.cs",
+                "namespaceName": "TestApp.Android.Activities",
+                "className": "MainActivity"
+            },
+            "view": {
+                "inputFile": "Views/Main.xml",
+                "outputFile": "Resources/layout/Main.axml"
+            }
+        }
+    ]
+}
