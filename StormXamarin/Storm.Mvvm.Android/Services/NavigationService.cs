@@ -44,7 +44,9 @@ namespace Storm.Mvvm.Services
 
 		public override void ExitApplication()
 		{
-			_currentActivity.Finish();
+			Java.Lang.JavaSystem.RunFinalizersOnExit(true);
+			Java.Lang.JavaSystem.Exit(0);
+			//_currentActivity.Finish();
 		}
 
 		protected override void RemoveBackEntry()

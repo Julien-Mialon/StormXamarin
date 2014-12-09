@@ -13,8 +13,15 @@ namespace Storm.Mvvm
 	{
 		protected ViewModelBase ViewModel { get; private set; }
 
+		protected Dictionary<int, List<BindingObject>> AdapterBindings { get; private set; } 
+
 		private ActivityState _activityState = ActivityState.Uninitialized;
 		private string _parametersKey;
+
+		public ActivityBase()
+		{
+			AdapterBindings = new Dictionary<int, List<BindingObject>>();
+		}
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -26,12 +33,23 @@ namespace Storm.Mvvm
 		protected void SetViewModel(ViewModelBase viewModel)
 		{
 			ViewModel = viewModel;
+			InitializeBindingsForAdapters();
 			BindingProcessor.ProcessBinding(ViewModel, this, GetBindingPaths());
 		}
 
 		protected virtual List<BindingObject> GetBindingPaths()
 		{
 			return new List<BindingObject>();
+		}
+
+		protected virtual void InitializeBindingsForAdapters()
+		{
+			
+		}
+
+		public List<BindingObject> GetBindingsForAdapters(int viewId)
+		{
+			return AdapterBindings.ContainsKey(viewId) ? AdapterBindings[viewId] : new List<BindingObject>();
 		}
 
 		#region Lifecycle implementation

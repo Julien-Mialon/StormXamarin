@@ -10,7 +10,13 @@
             "view": {
                 "inputFile": "../Views/Main.xml",
                 "outputFile": "../Resources/layout/Main.axml"
-            }
+            },
+            "adapters": [
+                {
+                    "inputFile": "../Views/Adapter/line.xml",
+                    "outputFile": "../Resources/layout/Adapter_line.axml"
+                }
+            ]
         },
         {
             "activity": {

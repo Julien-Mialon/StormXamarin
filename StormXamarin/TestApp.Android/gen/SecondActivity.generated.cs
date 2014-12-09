@@ -22,7 +22,7 @@ namespace TestApp.Android.Activities
 			{
 				if ((this._GreetingText == null))
 				{
-					this._GreetingText = this.RootView.FindViewById<TextView>(Resource.Id.GreetingText);
+					this._GreetingText = this.FindViewById<TextView>(Resource.Id.GreetingText);
 				}
 				return this._GreetingText;
 			}

@@ -43,8 +43,13 @@ namespace Storm.Binding.Android
 				List<XmlAttribute> bindingInformations = tupleResult.Item1;
 				List<IdViewObject> views = tupleResult.Item2;
 				List<XmlResource> resourceCollection = processor.ExtractResources(root);
-
 				processor.Write(root, info.View.OutputFile);
+
+				//foreach (ViewInfo adapterInfo in info.Adapters)
+				//{
+				//	XmlElement adapterRoot = processor.Read(adapterInfo.InputFile);
+				//	Tuple<List<XmlAttribute>, List<IdViewObject>> adapterTuple
+				//}
 
 				PartialClassGenerator classGenerator = new PartialClassGenerator();
 				classGenerator.Generate(info.Activity, views, bindingInformations, resourceCollection);

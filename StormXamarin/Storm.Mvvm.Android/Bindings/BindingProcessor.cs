@@ -66,7 +66,6 @@ namespace Storm.Mvvm.Bindings
 			}
 
 			rootExpressionNode.UpdateValue(viewModel);
-			return rootExpressionNode;
 		}
 	}
 }

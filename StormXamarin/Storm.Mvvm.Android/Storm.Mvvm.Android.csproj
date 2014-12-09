@@ -45,6 +45,7 @@
     <Compile Include="ActivityBase.cs" />
     <Compile Include="ActivityState.cs" />
     <Compile Include="ApplicationBase.cs" />
+    <Compile Include="BindableArrayAdapter.cs" />
     <Compile Include="Bindings\BindingAttribute.cs" />
     <Compile Include="Bindings\BindingBase.cs" />
     <Compile Include="Bindings\BindingFactory.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Converters\IValueConverter.cs" />
     <Compile Include="FragmentBase.cs" />
     <Compile Include="Inject\IActivityUpdatable.cs" />
+    <Compile Include="ViewSelectors\IViewSelector.cs" />
     <Compile Include="Services\AssetsService.cs" />
     <Compile Include="Services\DispatcherService.cs" />
     <Compile Include="Inject\AndroidContainer.cs" />
@@ -70,6 +72,8 @@
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewSelectors\SimpleViewSelector.cs" />
+    <Compile Include="ViewSelectors\ViewSelectorBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Storm.Mvvm\Storm.Mvvm.csproj">

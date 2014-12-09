@@ -28,6 +28,12 @@ namespace Storm.Binding.Android.Data
 		public FragmentInfo Fragment { set { Activity = value; } }
 		public ActivityInfo Activity { get; set; }
 		public ViewInfo View { get; set; }
+		public List<ViewInfo> Adapters { get; private set; }
+
+		public ActivityViewInfo()
+		{
+			Adapters = new List<ViewInfo>();
+		}
 	}
 
 	public class ActivityViewInfoCollection
