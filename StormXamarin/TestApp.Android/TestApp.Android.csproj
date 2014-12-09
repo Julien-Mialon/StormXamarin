@@ -73,8 +73,7 @@
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="CompositionRoot\Container.cs" />
     <Compile Include="Converters\StringToUpperConverter.cs" />
-    <Compile Include="gen\MainActivity.generated.cs" />
-    <Compile Include="gen\SecondActivity.generated.cs" />
+    <Compile Include="gen\**\*.generated.cs" />
     <Compile Include="MyApplication.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
