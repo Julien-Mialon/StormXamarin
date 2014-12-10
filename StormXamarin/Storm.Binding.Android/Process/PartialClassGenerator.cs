@@ -77,6 +77,7 @@ namespace Storm.Binding.Android.Process
 						return;
 					}
 				}
+				File.Delete(activityInformations.OutputFile);
 			}
 
 			using (StreamWriter writer = new StreamWriter(File.OpenWrite(activityInformations.OutputFile)))

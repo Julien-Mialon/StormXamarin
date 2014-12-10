@@ -94,8 +94,9 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(ProjectDir)$(OutDir)$(TargetName).exe $(ProjectDir)..\nuget_build\Storm.Mvvm.Android\tools\Preprocessor\Android.BindingPreprocessor.exe
+IF EXIST $(ProjectDir)$(OutDir)Newtonsoft.Json.dll (
 copy $(ProjectDir)$(OutDir)Newtonsoft.Json.dll $(ProjectDir)..\nuget_build\Storm.Mvvm.Android\tools\Preprocessor\Newtonsoft.Json.dll
-</PostBuildEvent>
+) ELSE (echo "newtonsoft.json not copied")</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
