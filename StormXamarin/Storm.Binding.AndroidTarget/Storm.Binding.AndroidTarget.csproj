@@ -66,6 +66,7 @@
   <PropertyGroup>
     <PostBuildEvent>copy $(ProjectDir)Storm.Mvvm.Android.targets $(ProjectDir)..\nuget_build\Storm.Mvvm.Android\build\
 copy $(TargetPath) $(ProjectDir)..\nuget_build\Storm.Mvvm.Android\tools\
+copy $(TargetDir)Newtonsoft.json.dll $(ProjectDir)..\nuget_build\Storm.Mvvm.Android\tools\
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
