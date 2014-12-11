@@ -4,11 +4,11 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
-using Storm.Binding.Android.Data;
-using XmlAttribute = Storm.Binding.Android.Data.XmlAttribute;
-using XmlElement = Storm.Binding.Android.Data.XmlElement;
+using Storm.Binding.AndroidTarget.Data;
+using XmlAttribute = Storm.Binding.AndroidTarget.Data.XmlAttribute;
+using XmlElement = Storm.Binding.AndroidTarget.Data.XmlElement;
 
-namespace Storm.Binding.Android.Process
+namespace Storm.Binding.AndroidTarget.Process
 {
 	class ViewFileProcessor
 	{

@@ -1,4 +1,4 @@
-﻿namespace Storm.Binding.Android.Data
+﻿namespace Storm.Binding.AndroidTarget.Data
 {
 	public class XmlResource
 	{

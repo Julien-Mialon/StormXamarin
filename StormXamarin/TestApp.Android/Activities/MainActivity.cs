@@ -1,4 +1,5 @@
 ﻿using Android.App;
+using Android.Content.Res;
 using Android.OS;
 using Android.Widget;
 using Storm.Mvvm;

@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace Storm.Binding.Android.Data
+namespace Storm.Binding.AndroidTarget.Data
 {
 	public class ActivityInfo
 	{
-		public string InputFile { get; set; }
 		public string OutputFile { get; set; }
 		public string ClassName { get; set; }
 		public string NamespaceName { get; set; }

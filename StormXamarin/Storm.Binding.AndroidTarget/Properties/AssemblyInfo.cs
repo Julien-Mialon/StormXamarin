@@ -1,14 +1,15 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // Les informations générales relatives à un assembly dépendent de 
 // l'ensemble d'attributs suivant. Changez les valeurs de ces attributs pour modifier les informations
 // associées à un assembly.
-[assembly: AssemblyTitle("Storm.Binding.Android")]
+[assembly: AssemblyTitle("Storm.Binding.AndroidTarget")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Storm.Binding.Android")]
+[assembly: AssemblyProduct("Storm.Binding.AndroidTarget")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Le GUID suivant est pour l'ID de la typelib si ce projet est exposé à COM
-[assembly: Guid("81e82987-ee20-4de5-a4d6-101ed7869384")]
+[assembly: Guid("947ffb44-dfa0-4b36-95f9-fba00b4a6f10")]
 
 // Les informations de version pour un assembly se composent des quatre valeurs suivantes :
 //

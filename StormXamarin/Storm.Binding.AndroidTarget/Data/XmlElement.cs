@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Storm.Binding.Android.Data
+namespace Storm.Binding.AndroidTarget.Data
 {
 	public class XmlAttribute
 	{
