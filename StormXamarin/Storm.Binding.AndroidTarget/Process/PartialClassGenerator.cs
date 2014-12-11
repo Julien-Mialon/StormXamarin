@@ -23,9 +23,23 @@ namespace Storm.Binding.AndroidTarget.Process
 			CodeNamespace codeNamespace = new CodeNamespace(activityInformations.NamespaceName);
 			codeUnit.Namespaces.Add(codeNamespace);
 
-			globalNamespace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
-			globalNamespace.Imports.Add(new CodeNamespaceImport("Android.Widget"));
-			globalNamespace.Imports.Add(new CodeNamespaceImport("Storm.Mvvm.Bindings"));
+			string[] namespaces = new string[]
+			{
+				"System",
+				"System.Collections.Generic",
+				"Android.App",
+				"Android.Content",
+				"Android.Runtime",
+				"Android.Views",
+				"Android.Widget",
+				"Android.OS",
+				"Storm.Mvvm.Bindings"
+			};
+
+			foreach (string name in namespaces)
+			{
+				globalNamespace.Imports.Add(new CodeNamespaceImport(name));
+			}
 
 			CodeTypeDeclaration classDeclaration = new CodeTypeDeclaration(activityInformations.ClassName)
 			{
