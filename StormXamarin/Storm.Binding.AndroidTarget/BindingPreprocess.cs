@@ -107,7 +107,7 @@ namespace Storm.Binding.AndroidTarget
 
 				string classOutputRelativePath = GetRelativePath(projectDir, info.Activity.OutputFile);
 				Log.LogMessage(MessageImportance.High, "\t### Generating class file {0}", classOutputRelativePath);
-				classGenerator.Generate(info.Activity, views, bindingInformations, resourceCollection);
+				classGenerator.Generate(info.Activity, reader.AdditionalNamespaces, views, bindingInformations, resourceCollection);
 				result.Add(new Tuple<string, FileType>(classOutputRelativePath, FileType.Class));
 			}
 			return result;

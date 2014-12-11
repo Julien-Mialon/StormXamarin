@@ -14,6 +14,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{EF8DA5B4-B136-4530-8E13-1DEC0B1FFE62}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp.Android", "TestApp.Android\TestApp.Android.csproj", "{0225013B-5A23-48E6-91B9-C0CA5F96410D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{25A36E16-5762-4053-9F46-C105577EBD2F} = {25A36E16-5762-4053-9F46-C105577EBD2F}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp.Business", "TestApp.Business\TestApp.Business.csproj", "{54DE00C9-B9E6-46AE-AD49-6D70D18D6232}"
 EndProject

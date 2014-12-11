@@ -13,7 +13,7 @@ namespace Storm.Binding.AndroidTarget.Process
 	// ReSharper disable BitwiseOperatorOnEnumWithoutFlags
 	class PartialClassGenerator
 	{
-		public void Generate(ActivityInfo activityInformations, List<IdViewObject> views, List<XmlAttribute> bindingInformations, List<XmlResource> resourceCollection)
+		public void Generate(ActivityInfo activityInformations, List<string> additionalNamespaces, List<IdViewObject> views, List<XmlAttribute> bindingInformations, List<XmlResource> resourceCollection)
 		{
 			CodeCompileUnit codeUnit = new CodeCompileUnit();
 
@@ -23,7 +23,7 @@ namespace Storm.Binding.AndroidTarget.Process
 			CodeNamespace codeNamespace = new CodeNamespace(activityInformations.NamespaceName);
 			codeUnit.Namespaces.Add(codeNamespace);
 
-			string[] namespaces = new string[]
+			List<string> namespaces = new List<string>()
 			{
 				"System",
 				"System.Collections.Generic",
@@ -35,6 +35,7 @@ namespace Storm.Binding.AndroidTarget.Process
 				"Android.OS",
 				"Storm.Mvvm.Bindings"
 			};
+			namespaces.AddRange(additionalNamespaces);
 
 			foreach (string name in namespaces)
 			{

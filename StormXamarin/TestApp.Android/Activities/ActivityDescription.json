@@ -1,4 +1,5 @@
 ﻿{
+    "namespaces":  ["Storm.Mvvm"],
     "list": [
         {
             "activity": {

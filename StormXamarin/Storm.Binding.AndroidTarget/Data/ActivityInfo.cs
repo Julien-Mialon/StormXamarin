@@ -37,6 +37,8 @@ namespace Storm.Binding.AndroidTarget.Data
 
 	public class ActivityViewInfoCollection
 	{
+		public List<string> Namespaces { get; set; } 
+
 		public List<ActivityViewInfo> List { get; set; }
 	}
 }
