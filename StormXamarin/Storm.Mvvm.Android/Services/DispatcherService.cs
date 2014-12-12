@@ -1,19 +1,11 @@
 ﻿using System;
 using System.Threading;
-using Android.App;
 using Storm.Mvvm.Inject;
 
 namespace Storm.Mvvm.Services
 {
-	public class DispatcherService : IDispatcherService, IActivityUpdatable
+	public class DispatcherService : AbstractActivityUpdatable, IDispatcherService
 	{
-		private Activity _currentActivity;
-
-		public void UpdateActivity(Activity activity)
-		{
-			_currentActivity = activity;
-		}
-
 		public void InvokeOnUIThread(Action action)
 		{
 			if (SynchronizationContext.Current != null)
@@ -22,7 +14,7 @@ namespace Storm.Mvvm.Services
 			}
 			else
 			{
-				_currentActivity.RunOnUiThread(action);
+				CurrentActivity.RunOnUiThread(action);
 			}
 		}
 
@@ -40,7 +32,7 @@ namespace Storm.Mvvm.Services
 			}
 			else
 			{
-				_currentActivity.RunOnUiThread(execution);
+				CurrentActivity.RunOnUiThread(execution);
 			}
 		}
 	}

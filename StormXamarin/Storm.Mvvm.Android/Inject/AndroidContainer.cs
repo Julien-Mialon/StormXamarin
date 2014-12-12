@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Android.App;
+using Storm.Mvvm.Interfaces;
 using Storm.Mvvm.Services;
 
 namespace Storm.Mvvm.Inject
@@ -35,26 +36,29 @@ namespace Storm.Mvvm.Inject
 
 		#endregion
 
-		private readonly List<IActivityUpdatable> _activityUpdatables = new List<IActivityUpdatable>();
-
 		protected Application Application { get; private set; }
-		protected Activity CurrentActivity { get; private set; }
 
+		protected IActivityService ActivityService;
 		protected NavigationService NavigationService;
 		protected DispatcherService DispatcherService;
 
 		protected AndroidContainer()
 		{
-			
+			ActivityService = new ActivityService();
+		}
+
+		protected AndroidContainer(IActivityService activityService)
+		{
+			if (activityService == null)
+			{
+				throw new ArgumentException("activityService");
+			}
+			ActivityService = activityService;
 		}
 
 		public virtual void UpdateActivity(Activity currentActivity)
 		{
-			CurrentActivity = currentActivity;
-			foreach (IActivityUpdatable updatable in _activityUpdatables)
-			{
-				updatable.UpdateActivity(CurrentActivity);
-			}
+			ActivityService.CurrentActivity = currentActivity;
 		}
 
 		protected virtual void Initialize(Application application, Dictionary<string, Type> views)
@@ -65,24 +69,11 @@ namespace Storm.Mvvm.Inject
 			NavigationService = new NavigationService(views);
 			DispatcherService = new DispatcherService();
 			
-			//Register for activity update
-			RegisterForActivityUpdate(NavigationService);
-			RegisterForActivityUpdate(DispatcherService);
-
 			//Register services
 			RegisterInstance<INavigationService, NavigationService>(NavigationService);
 			RegisterInstance<IDispatcherService, DispatcherService>(DispatcherService);
 
 			Initialize();
-		}
-
-		protected void RegisterForActivityUpdate(IActivityUpdatable updatable)
-		{
-			if (CurrentActivity != null)
-			{
-				updatable.UpdateActivity(CurrentActivity);
-			}
-			_activityUpdatables.Add(updatable);
 		}
 
 		protected override void Clean()
