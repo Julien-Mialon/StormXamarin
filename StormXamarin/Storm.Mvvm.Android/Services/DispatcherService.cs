@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Threading;
-using Storm.Mvvm.Inject;
+using Storm.Mvvm.Interfaces;
 
 namespace Storm.Mvvm.Services
 {
-	public class DispatcherService : AbstractActivityUpdatable, IDispatcherService
+	public class DispatcherService : AbstractServiceWithActivity, IDispatcherService
 	{
+		public DispatcherService(IActivityService activityService) : base(activityService)
+		{
+
+		}
+
 		public void InvokeOnUIThread(Action action)
 		{
 			if (SynchronizationContext.Current != null)

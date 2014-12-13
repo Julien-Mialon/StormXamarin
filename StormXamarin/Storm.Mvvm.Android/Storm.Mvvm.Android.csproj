@@ -63,7 +63,9 @@
     <Compile Include="Bindings\TwoWayPropertyBinding.cs" />
     <Compile Include="Converters\IValueConverter.cs" />
     <Compile Include="FragmentBase.cs" />
-    <Compile Include="Inject\IActivityUpdatable.cs" />
+    <Compile Include="Interfaces\IActivityService.cs" />
+    <Compile Include="Services\AbstractServiceWithActivity.cs" />
+    <Compile Include="Services\ActivityService.cs" />
     <Compile Include="ViewSelectors\IViewSelector.cs" />
     <Compile Include="Services\AssetsService.cs" />
     <Compile Include="Services\DispatcherService.cs" />

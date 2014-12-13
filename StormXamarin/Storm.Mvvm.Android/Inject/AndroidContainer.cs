@@ -39,8 +39,11 @@ namespace Storm.Mvvm.Inject
 		protected Application Application { get; private set; }
 
 		protected IActivityService ActivityService;
-		protected NavigationService NavigationService;
-		protected DispatcherService DispatcherService;
+
+		protected INavigationService NavigationService;
+		protected IDispatcherService DispatcherService;
+		protected IAssetsService AssetsService;
+
 
 		protected AndroidContainer()
 		{
@@ -66,12 +69,14 @@ namespace Storm.Mvvm.Inject
 			Application = application;
 
 			//Create services
-			NavigationService = new NavigationService(views);
-			DispatcherService = new DispatcherService();
+			NavigationService = new NavigationService(ActivityService, views);
+			DispatcherService = new DispatcherService(ActivityService);
+			AssetsService = new AssetsService(ActivityService);
 			
 			//Register services
-			RegisterInstance<INavigationService, NavigationService>(NavigationService);
-			RegisterInstance<IDispatcherService, DispatcherService>(DispatcherService);
+			RegisterInstance<INavigationService>(NavigationService);
+			RegisterInstance<IDispatcherService>(DispatcherService);
+			RegisterInstance<IAssetsService>(AssetsService);
 
 			Initialize();
 		}

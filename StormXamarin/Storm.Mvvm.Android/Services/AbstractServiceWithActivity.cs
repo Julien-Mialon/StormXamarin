@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Android.App;
+﻿using Android.App;
 using Storm.Mvvm.Interfaces;
 
 namespace Storm.Mvvm.Services
@@ -13,6 +10,11 @@ namespace Storm.Mvvm.Services
 		protected Activity CurrentActivity
 		{
 			get { return ActivityService.CurrentActivity; }
+		}
+
+		protected AbstractServiceWithActivity(IActivityService activityService)
+		{
+			ActivityService = activityService;
 		}
 	}
 }

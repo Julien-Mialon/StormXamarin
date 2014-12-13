@@ -35,6 +35,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Commands\AbstractCommand.cs" />
+    <Compile Include="Events\ValueChangedEventArgs.cs" />
+    <Compile Include="Events\ValueChangingEventArgs.cs" />
     <Compile Include="Inject\ContainerBase.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Inject\IContainer.cs" />
