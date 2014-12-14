@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activities\MainActivity.cs" />
+    <Compile Include="Activities\MainFragment.cs" />
     <Compile Include="CompositionRoot\Container.cs" />
     <Compile Include="Converters\StringToUpperConverter.cs" />
     <Compile Include="MyApplication.cs" />
@@ -93,6 +94,9 @@
     <Content Include="Properties\AndroidManifest.xml" />
     <AndroidResource Include="Resources\values-en\Strings.xml" />
     <AndroidResource Include="Resources\values-fr\Strings.xml" />
+    <None Include="Views\MainFragment.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\Second.xml" />
   </ItemGroup>
   <ItemGroup>

@@ -22,6 +22,17 @@
                 "inputFile": "../Views/Second.xml",
                 "outputFile": "Second.axml"
             }
+        },
+        {
+            "fragment": {
+                "outputFile": "MainFragment.ui.cs",
+                "className": "MainFragment",
+                "namespaceName": "TestApp.Android.Activities"
+            },
+            "view": {
+                "inputFile": "../Views/MainFragment.xml",
+                "outputFile": "MainFragment.axml"
+            }
         }
     ]
 }

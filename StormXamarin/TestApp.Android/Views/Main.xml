@@ -17,6 +17,12 @@
 			android:text="{Binding ButtonText, Converter={Resource StringToUpperConverter}, ConverterParameter='True', Mode=OneWay}"
 			click="{Binding ButtonCommand}" />
 	
+	<Button android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="Push to alert"
+			id="MyButton"
+			/>
+	
 	<TextView android:layout_width="fill_parent"
 			  android:layout_height="wrap_content"
 			  android:text="{Binding InputText}"
@@ -37,4 +43,10 @@
 			  android:layout_height="wrap_content"
 			  text="{Binding Data.Count}"
 			  />
+	
+	<!--<Fragment class="TestApp.Android.Activities.MainFragment"
+			  android:layout_width="fill_parent"
+			  android:layout_height="fill_parent"
+			  id="MyFragment"
+			  />-->
 </LinearLayout>

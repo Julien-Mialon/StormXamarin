@@ -218,6 +218,7 @@ namespace Storm.Binding.AndroidTarget.Process
 		{
 			List<XmlAttribute> bindings = new List<XmlAttribute>();
 			string id = null;
+			bool isFragment = "fragment".Equals(element.Name, StringComparison.CurrentCultureIgnoreCase);
 
 			foreach (XmlAttribute attribute in element.Attributes)
 			{
@@ -231,7 +232,10 @@ namespace Storm.Binding.AndroidTarget.Process
 					id = attribute.Value;
 					attribute.Value = "@+id/" + id;
 
-					Views.Add(new IdViewObject(element.Name, id));
+					if (!isFragment)
+					{
+						Views.Add(new IdViewObject(element.Name, id));
+					}
 				}
 				else
 				{
@@ -251,7 +255,10 @@ namespace Storm.Binding.AndroidTarget.Process
 				attribute.Name = "android:id";
 
 				element.Attributes.Add(attribute);
-				Views.Add(new IdViewObject(element.Name, id));
+				if (!isFragment)
+				{
+					Views.Add(new IdViewObject(element.Name, id));
+				}
 			}
 
 			foreach (XmlAttribute attribute in bindings)

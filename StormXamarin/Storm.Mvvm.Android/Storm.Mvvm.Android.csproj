@@ -62,6 +62,7 @@
     <Compile Include="Bindings\PropertyBinding.cs" />
     <Compile Include="Bindings\TwoWayPropertyBinding.cs" />
     <Compile Include="Converters\IValueConverter.cs" />
+    <Compile Include="DialogFragmentBase.cs" />
     <Compile Include="FragmentBase.cs" />
     <Compile Include="Interfaces\IActivityService.cs" />
     <Compile Include="Services\AbstractServiceWithActivity.cs" />

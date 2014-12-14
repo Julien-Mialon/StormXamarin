@@ -34,6 +34,12 @@ namespace TestApp.Android.Activities
 			SetViewModel(Container.ViewModelsLocator.MainPageViewModel);
 
 			//MyButton.Click += (sender, args) => StartActivity(typeof(SecondActivity));
+			/*
+			MyButton.Click += (sender, args) =>
+			{
+				
+			};
+			 */
 		}
 	}
 }
