@@ -93,7 +93,7 @@ namespace Storm.Mvvm
 			{
 				ViewModel.OnNavigatedFrom(new NavigationArgs(NavigationArgs.NavigationMode.Back));
 			}
-			_activityState = ActivityState.Running;
+			_activityState = ActivityState.Stopped;
 		}
 
 		#endregion

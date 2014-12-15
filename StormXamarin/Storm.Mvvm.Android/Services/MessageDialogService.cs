@@ -1,20 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using Java.Text;
 using Storm.Mvvm.Dialogs;
 using Storm.Mvvm.Interfaces;
+using Storm.Mvvm.Navigation;
 
 namespace Storm.Mvvm.Services
 {
-	public class MessageDialogService : AbstractServiceWithActivity, IMessageDialogService
+	public class MessageDialogService : AbstractMessageDialogService, IMessageDialogService
 	{
-		private readonly Dictionary<string, Type> _dialogs; 
+		private readonly Dictionary<string, Type> _dialogs;
 
-		public MessageDialogService(Dictionary<string, Type> dialogs, IActivityService activityService) : base(activityService)
+		private readonly IActivityService _activityService;
+
+		public MessageDialogService(Dictionary<string, Type> dialogs, IActivityService activityService, INavigationService navigationService) : base(navigationService)
 		{
 			_dialogs = dialogs;
+			_activityService = activityService;
 		}
 
-		public void Show(string dialogKey)
+		protected override void ShowDialog(string dialogKey, string parametersKey)
 		{
 			if (!_dialogs.ContainsKey(dialogKey))
 			{
@@ -26,13 +31,8 @@ namespace Storm.Mvvm.Services
 			{
 				throw new Exception("Fragment does not inherit AbstractDialogFragmentBase");
 			}
-			fragment.Show(CurrentActivity.FragmentManager, null);
-		}
-
-		public void Show(string dialogKey, Dictionary<string, object> parameters)
-		{
-			//TODO : implement it
-			throw new NotImplementedException();
+			fragment.ParametersKey = parametersKey;
+			fragment.Show(_activityService.CurrentActivity.FragmentManager, null);
 		}
 	}
 }

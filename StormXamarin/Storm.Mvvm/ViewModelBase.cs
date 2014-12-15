@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Storm.Mvvm.Inject;
 using Storm.Mvvm.Navigation;
 using Storm.Mvvm.Services;

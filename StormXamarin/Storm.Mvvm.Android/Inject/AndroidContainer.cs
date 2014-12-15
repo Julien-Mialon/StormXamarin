@@ -75,7 +75,7 @@ namespace Storm.Mvvm.Inject
 			DispatcherService = new DispatcherService(ActivityService);
 			AssetsService = new AssetsService(ActivityService);
 			LoggerService = new LoggerService();
-			MessageDialogService = new MessageDialogService(dialogs, ActivityService);
+			MessageDialogService = new MessageDialogService(dialogs, ActivityService, NavigationService);
 			
 			//Register services
 			RegisterInstance<INavigationService>(NavigationService);

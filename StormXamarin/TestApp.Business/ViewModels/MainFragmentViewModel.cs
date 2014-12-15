@@ -2,6 +2,7 @@
 using Storm.Mvvm;
 using Storm.Mvvm.Commands;
 using Storm.Mvvm.Inject;
+using Storm.Mvvm.Navigation;
 using Storm.Mvvm.Services;
 
 namespace TestApp.Business.ViewModels
@@ -17,6 +18,7 @@ namespace TestApp.Business.ViewModels
 			set { SetProperty(ref _inputText, value); }
 		}
 
+		[NavigationParameter]
 		public string LabelText
 		{
 			get { return _labelText; }

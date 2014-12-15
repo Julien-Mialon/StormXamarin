@@ -23,6 +23,8 @@ namespace Storm.Mvvm.Services
 
 		NavigationParametersContainer GetParameters(string parametersKey);
 
+		string StoreMessageDialogParameters(string dialog, Dictionary<string, object> parameters);
+
 		void ExitApplication();
 	}
 }

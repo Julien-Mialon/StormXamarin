@@ -6,20 +6,28 @@ using Android.App;
 using Android.Content;
 using Android.Views;
 using Storm.Mvvm.Bindings;
+using Storm.Mvvm.Services;
 
 namespace Storm.Mvvm.Dialogs
 {
 	public abstract class AbstractDialogFragmentBase : DialogFragment, INotifyPropertyChanged
 	{
+		private ActivityState _activityState = ActivityState.Uninitialized;
+
 		public event EventHandler CancelEvent;
 
 		protected ViewModelBase ViewModel { get; set; }
 
 		protected View RootView { get; set; }
 
+		public string ParametersKey { get; set; }
+
+
 		protected abstract View CreateView(LayoutInflater inflater, ViewGroup container);
 
 		protected abstract ViewModelBase CreateViewModel();
+
+
 
 		protected void SetViewModel(ViewModelBase viewModel)
 		{
@@ -31,19 +39,7 @@ namespace Storm.Mvvm.Dialogs
 		{
 			return new List<BindingObject>();
 		}
-
-		public override void OnCancel(IDialogInterface dialog)
-		{
-			RaiseCancelEvent();
-			base.OnCancel(dialog);
-		}
-
-		public override void OnStart()
-		{
-			SetViewModel(CreateViewModel());
-			base.OnStart();
-		}
-
+		
 		protected void RaiseCancelEvent()
 		{
 			EventHandler handler = CancelEvent;
@@ -52,6 +48,57 @@ namespace Storm.Mvvm.Dialogs
 				handler(this, EventArgs.Empty);
 			}
 		}
+		
+		#region Lifecycle implementation
+
+		public override void OnStart()
+		{
+			base.OnStart();
+			SetViewModel(CreateViewModel());
+			if (ViewModel != null && _activityState != ActivityState.Running)
+			{
+				ViewModel.OnNavigatedTo(new NavigationArgs(NavigationArgs.NavigationMode.New), ParametersKey);
+			}
+			_activityState = ActivityState.Running;
+		}
+
+		public override void OnResume()
+		{
+			base.OnResume();
+			if (ViewModel != null && _activityState != ActivityState.Running)
+			{
+				ViewModel.OnNavigatedTo(new NavigationArgs(NavigationArgs.NavigationMode.Back), ParametersKey);
+			}
+			_activityState = ActivityState.Running;
+		}
+
+		public override void OnPause()
+		{
+			base.OnPause();
+			if (ViewModel != null && _activityState != ActivityState.Stopped)
+			{
+				ViewModel.OnNavigatedFrom(new NavigationArgs(NavigationArgs.NavigationMode.Forward));
+			}
+			_activityState = ActivityState.Stopped;
+		}
+
+		public override void OnStop()
+		{
+			base.OnStop();
+			if (ViewModel != null && _activityState != ActivityState.Stopped)
+			{
+				ViewModel.OnNavigatedFrom(new NavigationArgs(NavigationArgs.NavigationMode.Back));
+			}
+			_activityState = ActivityState.Stopped;
+		}
+
+		public override void OnCancel(IDialogInterface dialog)
+		{
+			RaiseCancelEvent();
+			base.OnCancel(dialog);
+		}
+
+		#endregion
 
 		#region INotifyPropertyChanged implementation
 

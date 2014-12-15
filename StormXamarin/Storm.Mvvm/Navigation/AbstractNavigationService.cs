@@ -47,6 +47,11 @@ namespace Storm.Mvvm.Navigation
 			return null;
 		}
 
+		public string StoreMessageDialogParameters(string dialog, Dictionary<string, object> parameters)
+		{
+			return CreateContainer(string.Format("_DIALOG_{0}", dialog), parameters);
+		}
+
 		protected virtual string CreateContainer(string view, Dictionary<string, object> parameters)
 		{
 			NavigationParametersContainer container = new NavigationParametersContainer(view, parameters);
@@ -54,7 +59,7 @@ namespace Storm.Mvvm.Navigation
 
 			return container.Key;
 		}
-
+		
 		protected abstract void RemoveBackEntry();
 		protected abstract void NavigateToView(string view, string parametersKey);
 	}

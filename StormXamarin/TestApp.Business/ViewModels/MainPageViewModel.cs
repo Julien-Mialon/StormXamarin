@@ -80,7 +80,10 @@ namespace TestApp.Business.ViewModels
 
 	    private void PushAlertAction()
 	    {
-		    Container.Resolve<IMessageDialogService>().Show(Dialogs.MAIN);
+		    Container.Resolve<IMessageDialogService>().Show(Dialogs.MAIN, new Dictionary<string, object>()
+		    {
+			    {"LabelText", "Default value for label text"}
+		    });
 	    }
 
 	    private void ButtonAction()
