@@ -21,7 +21,7 @@ namespace Storm.Mvvm.Inject
 			T container = new T();
 			_instance = container;
 
-			container.Initialize(application, views, dialogs ?? new Dictionary<string, Type>());
+			container.Initialize(application, views ?? new Dictionary<string, Type>(), dialogs ?? new Dictionary<string, Type>());
 			return container;
 		}
 
@@ -47,7 +47,7 @@ namespace Storm.Mvvm.Inject
 		protected IMessageDialogService MessageDialogService;
 
 
-		protected AndroidContainer()
+		public AndroidContainer()
 		{
 			ActivityService = new ActivityService();
 		}
