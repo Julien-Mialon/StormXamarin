@@ -4,10 +4,10 @@
 	{
 		public void Log(string message)
 		{
-			
+			Log(message, MessageSeverity.Info);
 		}
 
-		public void LogFileContent(string filename, string fileContent)
+		public void Log(string message, MessageSeverity severity)
 		{
 			
 		}

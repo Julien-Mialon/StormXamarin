@@ -19,8 +19,8 @@
 	
 	<Button android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:text="Push to alert"
-			id="MyButton"
+			android:text="{Binding PushText}"
+			android:id="MyFucking123Button"
 			/>
 	
 	<TextView android:layout_width="fill_parent"
@@ -43,9 +43,4 @@
 			  android:layout_height="wrap_content"
 			  text="{Binding Data.Count}"
 			  />
-	
-	<FrameLayout android:id="MainFragmentContainer"
-				 android:layout_width="fill_parent"
-				 android:layout_height="fill_parent"
-				 />
 </LinearLayout>

@@ -1,10 +1,10 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
 using Android.OS;
 using Android.Util;
 using Android.Widget;
 using Storm.Mvvm;
 using Storm.Mvvm.Bindings;
-using TestApp.Android.CompositionRoot;
 using TestApp.Android.Converters;
 
 namespace TestApp.Android.Activities
@@ -13,6 +13,8 @@ namespace TestApp.Android.Activities
 	public partial class MainActivity : ActivityBase
 	{
 		private string _myString;
+
+		private Random _generator = new Random((int)DateTime.Now.Ticks);
 
 		[Binding("InputText", Converter = typeof(StringToUpperConverter))]
 		public string MyString
@@ -32,17 +34,15 @@ namespace TestApp.Android.Activities
 			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Main);
 			SetViewModel(TestApp.Android.CompositionRoot.Container.ViewModelsLocator.MainPageViewModel);
-
-			Log.Wtf("MainActivity", "Create android fragment !");
-			FragmentManager.BeginTransaction().Add(Resource.Id.MainFragmentContainer, new MainFragment()).Commit();
-
-			//MyButton.Click += (sender, args) => StartActivity(typeof(SecondActivity));
-			/*
-			MyButton.Click += (sender, args) =>
+			
+			MyFucking123Button.Click += (sender, args) =>
 			{
+				MainFragment mf = new MainFragment();
 				
+				string mytag = "TAG_" + _generator.Next(0, 100000000);
+				mf.Show(FragmentManager, mytag);
 			};
-			 */
+
 		}
 	}
 }

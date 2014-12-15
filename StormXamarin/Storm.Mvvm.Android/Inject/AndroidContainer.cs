@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Android.App;
+using Java.Util.Logging;
 using Storm.Mvvm.Interfaces;
 using Storm.Mvvm.Services;
 
@@ -43,6 +44,7 @@ namespace Storm.Mvvm.Inject
 		protected INavigationService NavigationService;
 		protected IDispatcherService DispatcherService;
 		protected IAssetsService AssetsService;
+		protected ILoggerService LoggerService;
 
 
 		protected AndroidContainer()
@@ -72,11 +74,13 @@ namespace Storm.Mvvm.Inject
 			NavigationService = new NavigationService(ActivityService, views);
 			DispatcherService = new DispatcherService(ActivityService);
 			AssetsService = new AssetsService(ActivityService);
+			LoggerService = new LoggerService();
 			
 			//Register services
 			RegisterInstance<INavigationService>(NavigationService);
 			RegisterInstance<IDispatcherService>(DispatcherService);
 			RegisterInstance<IAssetsService>(AssetsService);
+			RegisterInstance<ILoggerService>(LoggerService);
 
 			Initialize();
 		}

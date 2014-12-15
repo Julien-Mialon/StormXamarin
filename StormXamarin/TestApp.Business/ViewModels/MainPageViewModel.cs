@@ -31,6 +31,13 @@ namespace TestApp.Business.ViewModels
 		private int _counter = 0;
 	    private string _inputText;
 	    private DataContainer _data;
+	    private string _pushText = "";
+
+	    public string PushText
+	    {
+			get { return _pushText; }
+			set { SetProperty(ref _pushText, value); }
+	    }
 
 	    public string InputText
 	    {
@@ -61,6 +68,7 @@ namespace TestApp.Business.ViewModels
 			Data = new DataContainer();
 			ButtonCommand = new DelegateCommand(ButtonAction);
 			ButtonText = "Hello world !!!!";
+			PushText = "ALERT !!!";
 
 			ILocalizationService localizationService = container.Resolve<ILocalizationService>();
 			string name = localizationService.GetString("Hello");

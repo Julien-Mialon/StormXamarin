@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Funq;
 
 namespace Storm.Mvvm.Inject
@@ -9,6 +10,8 @@ namespace Storm.Mvvm.Inject
 
 		private bool _disposed = false;
 		private readonly Container _container = null;
+
+		private Dictionary<Type, IInjectionFactory> _factories = new Dictionary<Type, IInjectionFactory>(); 
 
 		#endregion
 
@@ -39,19 +42,31 @@ namespace Storm.Mvvm.Inject
 			_container.Register<TInterface>(_object);
 		}
 
-		public void RegisterFactory<TClass>(Func<ContainerBase, TClass> factory)
+		public void RegisterFactory<TClass>(Func<IContainer, TClass> factory)
 		{
-			_container.Register(container => factory(this));
+			IInjectionFactory<TClass> objectFactory = new InjectionFactory<TClass>(factory);
+			_factories.Add(typeof(TClass), objectFactory);
 		}
 
-		public void RegisterFactory<TInterface, TClass>(Func<ContainerBase, TClass> factory) where TClass : TInterface
+		public void RegisterFactory<TInterface, TClass>(Func<IContainer, TClass> factory) where TClass : TInterface
 		{
-			_container.Register<TInterface>(container => factory(this));
+			IInjectionFactory<TClass> objectFactory = new InjectionFactory<TClass>(factory);
+			_factories.Add(typeof(TInterface), objectFactory);
 		}
 
 		public TClass Resolve<TClass>()
 		{
-			return _container.Resolve<TClass>();
+			if (!_factories.ContainsKey(typeof (TClass)))
+			{
+				return _container.Resolve<TClass>();
+			}
+
+			IInjectionFactory<TClass> factory = _factories[typeof (TClass)] as IInjectionFactory<TClass>;
+			if (factory == null)
+			{
+				throw new ArgumentException("TClass : factory = null");
+			}
+			return factory.Create(this);
 		}
 
 		#endregion

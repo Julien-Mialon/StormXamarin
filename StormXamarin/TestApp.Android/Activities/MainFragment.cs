@@ -1,24 +1,34 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using Android.App;
 using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Storm.Mvvm;
+using Storm.Mvvm.Dialogs;
 using TestApp.Business;
 using Container = TestApp.Android.CompositionRoot.Container;
 
 namespace TestApp.Android.Activities
 {
-	public partial class MainFragment : FragmentBase
+	public partial class MainFragment : DialogFragmentBase
 	{
-		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+		public override Dialog OnCreateDialog(Bundle savedInstanceState)
 		{
-			return base.OnCreateView(inflater, container, savedInstanceState);
+			return CreateDialog(savedInstanceState, "My Title", "My message", new Dictionary<DialogsButton, string>()
+			{
+				{DialogsButton.Positive, "Valider"},
+				{DialogsButton.Negative, "Annuler"}
+			});
 		}
 
 		protected override View CreateView(LayoutInflater inflater, ViewGroup container)
 		{
-			return inflater.Inflate(Resource.Layout.MainFragment, container, false);
+			View view = inflater.Inflate(Resource.Layout.MainFragment, null, false);
+			
+			return view;
 		}
 
 		protected override ViewModelBase CreateViewModel()

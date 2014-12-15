@@ -4,9 +4,9 @@ namespace Storm.Mvvm.Inject
 {
 	public interface IContainer
 	{
-		void RegisterFactory<TClass>(Func<ContainerBase, TClass> factory);
+		void RegisterFactory<TClass>(Func<IContainer, TClass> factory);
 		
-		void RegisterFactory<TInterface, TClass>(Func<ContainerBase, TClass> factory) where TClass : TInterface;
+		void RegisterFactory<TInterface, TClass>(Func<IContainer, TClass> factory) where TClass : TInterface;
 		
 		void RegisterInstance<TClass>(TClass _object);
 		

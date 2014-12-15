@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Android.App;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Storm.Mvvm.Bindings;
 
@@ -18,7 +15,6 @@ namespace Storm.Mvvm
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Android.OS.Bundle savedInstanceState)
 		{
-			Log.Wtf("FragmentBase", " => RootView = " + (object) RootView);
 			if (RootView != null)
 			{
 				ViewGroup parent = (ViewGroup)RootView.Parent;
@@ -26,11 +22,9 @@ namespace Storm.Mvvm
 			}
 			else
 			{
-				Log.Wtf("FragmentBase", "Create root view");
 				RootView = CreateView(inflater, container);
 			}
 
-			Log.Wtf("FragmentBase", "SetViewModel");
 			SetViewModel(CreateViewModel());
 
 			return RootView;

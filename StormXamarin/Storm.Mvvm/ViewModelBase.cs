@@ -14,6 +14,7 @@ namespace Storm.Mvvm
 		protected IContainer Container = null;
 		protected INavigationService NavigationService = null;
 		protected IDispatcherService DispatcherService = null;
+		protected ILoggerService LoggerService = null;
 
 		protected NavigationParametersContainer NavigationParameters = null;
 
@@ -30,6 +31,7 @@ namespace Storm.Mvvm
 			Container = container;
 			NavigationService = Container.Resolve<INavigationService>();
 			DispatcherService = Container.Resolve<IDispatcherService>();
+			LoggerService = Container.Resolve<ILoggerService>();
 		}
 
 		#endregion

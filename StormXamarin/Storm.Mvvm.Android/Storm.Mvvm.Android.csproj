@@ -62,11 +62,13 @@
     <Compile Include="Bindings\PropertyBinding.cs" />
     <Compile Include="Bindings\TwoWayPropertyBinding.cs" />
     <Compile Include="Converters\IValueConverter.cs" />
-    <Compile Include="DialogFragmentBase.cs" />
+    <Compile Include="Dialogs\DialogFragmentBase.cs" />
+    <Compile Include="Dialogs\DialogsButton.cs" />
     <Compile Include="FragmentBase.cs" />
     <Compile Include="Interfaces\IActivityService.cs" />
     <Compile Include="Services\AbstractServiceWithActivity.cs" />
     <Compile Include="Services\ActivityService.cs" />
+    <Compile Include="Services\LoggerService.cs" />
     <Compile Include="ViewSelectors\IViewSelector.cs" />
     <Compile Include="Services\AssetsService.cs" />
     <Compile Include="Services\DispatcherService.cs" />
