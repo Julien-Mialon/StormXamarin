@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Microsoft.Build.Framework;
-using Microsoft.Build.Tasks;
 using Microsoft.Build.Utilities;
 using Storm.Binding.AndroidTarget.Data;
 using Storm.Binding.AndroidTarget.Process;

@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using Android.App;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Storm.Mvvm;
+using Storm.Mvvm.Bindings;
 using Storm.Mvvm.Dialogs;
-using TestApp.Business;
 using Container = TestApp.Android.CompositionRoot.Container;
 
 namespace TestApp.Android.Activities
 {
-	public partial class MainFragment : DialogFragmentBase
+	[BindingElement(Path = "PositiveCommand", TargetPath = "PositiveButtonEvent")]
+	[BindingElement(Path = "NegativeCommand", TargetPath = "NegativeButtonEvent")]
+	public partial class MainFragment : AlertDialogFragmentBase
 	{
-		public override Dialog OnCreateDialog(Bundle savedInstanceState)
+		public MainFragment()
 		{
-			return CreateDialog(savedInstanceState, "My Title", "My message", new Dictionary<DialogsButton, string>()
-			{
-				{DialogsButton.Positive, "Valider"},
-				{DialogsButton.Negative, "Annuler"}
-			});
+			Title = "My Title";
+			Message = "My Message";
+			Buttons.Add(DialogsButton.Positive, "Valider");
+			Buttons.Add(DialogsButton.Negative, "Annuler");
 		}
 
 		protected override View CreateView(LayoutInflater inflater, ViewGroup container)

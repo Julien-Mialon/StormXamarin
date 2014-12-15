@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Windows.Data;
+using Java.Lang.Annotation;
 
 namespace Storm.Mvvm.Bindings
 {
-	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Event, Inherited = true, AllowMultiple = false)]
-	public sealed class BindingAttribute : Attribute
+	[AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
+	public sealed class BindingElementAttribute : Attribute
 	{
 		public string Path { get; set; }
+
+		public string TargetPath { get; set; }
 
 		public Type Converter { get; set; }
 
@@ -17,14 +22,9 @@ namespace Storm.Mvvm.Bindings
 		//FIX : to fix 
 		public BindingMode Mode { get; set; }
 
-		public BindingAttribute()
+		public BindingElementAttribute()
 		{
 			
-		}
-
-		public BindingAttribute(string path)
-		{
-			Path = path;
 		}
 
 		internal IValueConverter GetConverter()

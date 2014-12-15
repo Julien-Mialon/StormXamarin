@@ -22,6 +22,7 @@ namespace Storm.Mvvm.Bindings
 			//also process expressions attached to the activity with attribute
 			IEnumerable<PropertyInfo> properties = context.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(x => x.GetCustomAttribute<BindingAttribute>(true) != null);
 			IEnumerable<EventInfo> events = context.GetType().GetEvents(BindingFlags.Public | BindingFlags.Instance).Where(x => x.GetCustomAttribute<BindingAttribute>(true) != null);
+			IEnumerable<BindingElementAttribute> classAttributes = context.GetType().GetCustomAttributes<BindingElementAttribute>(true);
 
 			foreach (PropertyInfo property in properties)
 			{
@@ -62,6 +63,29 @@ namespace Storm.Mvvm.Bindings
 					TargetField = eventInfo.Name,
 					SourcePath = attribute.Path,
 					TargetType = BindingTargetType.Event,
+				}, context);
+			}
+
+			foreach (BindingElementAttribute attribute in classAttributes)
+			{
+				if (string.IsNullOrEmpty(attribute.Path))
+				{
+					throw new Exception("Path can not be empty for binding on class " + context.GetType());
+				}
+				if (string.IsNullOrEmpty(attribute.TargetPath))
+				{
+					throw new Exception("Target path can not be empty for binding on class " + context.GetType());
+				}
+
+				rootExpressionNode.AddExpression(new BindingExpression()
+				{
+					Converter = attribute.GetConverter(),
+					ConverterParameter = attribute.ConverterParameter,
+					Mode = attribute.Mode,
+					UpdateEvent = "PropertyChanged",
+					TargetField = attribute.TargetPath,
+					SourcePath = attribute.Path,
+					TargetType = BindingTargetType.Property,
 				}, context);
 			}
 

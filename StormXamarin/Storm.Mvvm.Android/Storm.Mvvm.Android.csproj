@@ -48,6 +48,7 @@
     <Compile Include="BindableArrayAdapter.cs" />
     <Compile Include="Bindings\BindingAttribute.cs" />
     <Compile Include="Bindings\BindingBase.cs" />
+    <Compile Include="Bindings\BindingElementAttribute.cs" />
     <Compile Include="Bindings\BindingFactory.cs" />
     <Compile Include="Bindings\BindingNode.cs" />
     <Compile Include="Bindings\BindingObject.cs" />
@@ -62,6 +63,8 @@
     <Compile Include="Bindings\PropertyBinding.cs" />
     <Compile Include="Bindings\TwoWayPropertyBinding.cs" />
     <Compile Include="Converters\IValueConverter.cs" />
+    <Compile Include="Dialogs\AbstractDialogFragmentBase.cs" />
+    <Compile Include="Dialogs\AlertDialogFragmentBase.cs" />
     <Compile Include="Dialogs\DialogFragmentBase.cs" />
     <Compile Include="Dialogs\DialogsButton.cs" />
     <Compile Include="FragmentBase.cs" />
@@ -82,13 +85,13 @@
     <Compile Include="ViewSelectors\ViewSelectorBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Storm.Mvvm.Android.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Storm.Mvvm\Storm.Mvvm.csproj">
       <Project>{1106aaa1-d2dd-4e12-8b9b-62bdfb7aee88}</Project>
       <Name>Storm.Mvvm</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Storm.Mvvm.Android.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>

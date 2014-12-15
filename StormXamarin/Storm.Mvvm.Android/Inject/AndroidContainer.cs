@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Android.App;
-using Java.Util.Logging;
 using Storm.Mvvm.Interfaces;
 using Storm.Mvvm.Services;
 

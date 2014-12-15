@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Android.App;
 using Storm.Mvvm.Dialogs;
 using Storm.Mvvm.Interfaces;
 
@@ -23,10 +21,10 @@ namespace Storm.Mvvm.Services
 				throw new ArgumentException("DialogKey does not exists");
 			}
 			Type fragmentType = _dialogs[dialogKey];
-			DialogFragmentBase fragment = Activator.CreateInstance(fragmentType) as DialogFragmentBase;
+			AbstractDialogFragmentBase fragment = Activator.CreateInstance(fragmentType) as AbstractDialogFragmentBase;
 			if (fragment == null)
 			{
-				throw new Exception("Fragment does not inherit DialogFragmentBase");
+				throw new Exception("Fragment does not inherit AbstractDialogFragmentBase");
 			}
 			fragment.Show(CurrentActivity.FragmentManager, null);
 		}

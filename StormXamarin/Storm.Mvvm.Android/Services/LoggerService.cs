@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Storm.Mvvm.Services
+﻿namespace Storm.Mvvm.Services
 {
 	public class LoggerService : ILoggerService
 	{
