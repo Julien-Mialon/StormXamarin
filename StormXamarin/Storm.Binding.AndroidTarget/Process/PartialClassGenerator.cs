@@ -353,24 +353,28 @@ namespace Storm.Binding.AndroidTarget.Process
 
 				if (!pathFound)
 				{
+					BindingPreprocess.Logger.LogError("Binding Error : no binding path in " + bindingValue);
 					Console.WriteLine("Binding Error : no binding path in " + bindingValue);
 					return null;
 				}
 
 				if (expression.ConverterReference == null && !string.IsNullOrWhiteSpace(expression.ConverterParameter))
 				{
+					BindingPreprocess.Logger.LogError("Binding Error : ConverterParameter is not authorized if no converter is specified " + bindingValue);
 					Console.WriteLine("Binding Error : ConverterParameter is not authorized if no converter is specified " + bindingValue);
 					return null;
 				}
 
 				if (expression.Mode != BindingExpression.BindingModes.TwoWay && !string.IsNullOrWhiteSpace(expression.UpdateEvent))
 				{
+					BindingPreprocess.Logger.LogError("Binding Error : UpdateEvent is not authorized if Mode is not TwoWay " + bindingValue);
 					Console.WriteLine("Binding Error : UpdateEvent is not authorized if Mode is not TwoWay " + bindingValue);
 					return null;
 				}
 
 				if (expression.Mode == BindingExpression.BindingModes.TwoWay && string.IsNullOrWhiteSpace(expression.UpdateEvent))
 				{
+					BindingPreprocess.Logger.LogError("Binding error : missing update event for two way binding : " + bindingValue);
 					Console.WriteLine("Binding error : missing update event for two way binding : " + bindingValue);
 					return null;
 				}

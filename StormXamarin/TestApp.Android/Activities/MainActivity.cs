@@ -1,6 +1,6 @@
 ﻿using Android.App;
-using Android.Content.Res;
 using Android.OS;
+using Android.Util;
 using Android.Widget;
 using Storm.Mvvm;
 using Storm.Mvvm.Bindings;
@@ -31,7 +31,10 @@ namespace TestApp.Android.Activities
 
 			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Main);
-			SetViewModel(Container.ViewModelsLocator.MainPageViewModel);
+			SetViewModel(TestApp.Android.CompositionRoot.Container.ViewModelsLocator.MainPageViewModel);
+
+			Log.Wtf("MainActivity", "Create android fragment !");
+			FragmentManager.BeginTransaction().Add(Resource.Id.MainFragmentContainer, new MainFragment()).Commit();
 
 			//MyButton.Click += (sender, args) => StartActivity(typeof(SecondActivity));
 			/*

@@ -64,8 +64,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(ProjectDir)Storm.Mvvm.Android.targets $(ProjectDir)..\nuget_build\Storm.Mvvm.Android\build\
+    <PostBuildEvent>echo "Copy targets file"
+copy $(ProjectDir)Storm.Mvvm.Android.targets $(ProjectDir)..\nuget_build\Storm.Mvvm.Android\build\
+echo "Copy dll file"
 copy $(TargetPath) $(ProjectDir)..\nuget_build\Storm.Mvvm.Android\tools\
+echo "Copy dependency file"
 copy $(TargetDir)Newtonsoft.json.dll $(ProjectDir)..\nuget_build\Storm.Mvvm.Android\tools\
 </PostBuildEvent>
   </PropertyGroup>

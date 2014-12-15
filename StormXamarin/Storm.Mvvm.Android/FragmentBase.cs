@@ -1,21 +1,47 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Android.App;
+using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Storm.Mvvm.Bindings;
 
 namespace Storm.Mvvm
 {
-	public class FragmentBase : Fragment, INotifyPropertyChanged
+	public abstract class FragmentBase : Fragment, INotifyPropertyChanged
 	{
 		protected ViewModelBase ViewModel { get; private set; }
 
 		protected View RootView { get; private set; }
 
-		protected void SetViewModel(View rootView, ViewModelBase viewModel)
+		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Android.OS.Bundle savedInstanceState)
 		{
-			RootView = rootView;
+			Log.Wtf("FragmentBase", " => RootView = " + (object) RootView);
+			if (RootView != null)
+			{
+				ViewGroup parent = (ViewGroup)RootView.Parent;
+				parent.RemoveView(RootView);
+			}
+			else
+			{
+				Log.Wtf("FragmentBase", "Create root view");
+				RootView = CreateView(inflater, container);
+			}
+
+			Log.Wtf("FragmentBase", "SetViewModel");
+			SetViewModel(CreateViewModel());
+
+			return RootView;
+		}
+
+		protected abstract View CreateView(LayoutInflater inflater, ViewGroup container);
+
+		protected abstract ViewModelBase CreateViewModel();
+
+		protected void SetViewModel(ViewModelBase viewModel)
+		{
 			ViewModel = viewModel;
 			BindingProcessor.ProcessBinding(ViewModel, this, GetBindingPaths());
 		}

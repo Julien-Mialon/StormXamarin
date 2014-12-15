@@ -44,9 +44,8 @@
 			  text="{Binding Data.Count}"
 			  />
 	
-	<!--<Fragment class="TestApp.Android.Activities.MainFragment"
-			  android:layout_width="fill_parent"
-			  android:layout_height="fill_parent"
-			  id="MyFragment"
-			  />-->
+	<FrameLayout android:id="MainFragmentContainer"
+				 android:layout_width="fill_parent"
+				 android:layout_height="fill_parent"
+				 />
 </LinearLayout>

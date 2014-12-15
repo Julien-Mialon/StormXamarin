@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Android.OS;
+using Android.Runtime;
 using Android.Views;
 using Storm.Mvvm;
 using TestApp.Business;
@@ -11,11 +13,17 @@ namespace TestApp.Android.Activities
 	{
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			View view = inflater.Inflate(Resource.Layout.MainFragment, container);
+			return base.OnCreateView(inflater, container, savedInstanceState);
+		}
 
-			SetViewModel(view, Container.ViewModelsLocator.MainFragmentViewModel);
+		protected override View CreateView(LayoutInflater inflater, ViewGroup container)
+		{
+			return inflater.Inflate(Resource.Layout.MainFragment, container, false);
+		}
 
-			return view;
+		protected override ViewModelBase CreateViewModel()
+		{
+			return Container.ViewModelsLocator.MainFragmentViewModel;
 		}
 	}
 }

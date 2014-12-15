@@ -3,17 +3,22 @@
 			  android:orientation="vertical"
 			  android:layout_width="fill_parent"
 			  android:layout_height="fill_parent">
-	<EditText android:layout_width="fill_parent"
+	
+	
+	<EditText android:id="Frag_InputText"
+				android:layout_width="fill_parent"
 			  android:layout_height="wrap_content"
-			  android:text="{Binding InputText, Mode=TwoWay}"
+			  android:text="{Binding InputText, Mode=TwoWay, UpdateEvent=TextChanged}"
 			  />
 	<Button android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:text="Valider"
 			click="{Binding ButtonCommand}"
+			android:id="Frag_Button"
 			/>
 	<TextView android:layout_width="wrap_content"
 			  android:layout_height="wrap_content"
 			  android:text="{Binding LabelText}"
+			  android:id="Frag_TW"
 			  />
 </LinearLayout>
