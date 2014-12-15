@@ -62,11 +62,14 @@ namespace TestApp.Business.ViewModels
 
 		public ICommand ButtonCommand { get; private set; }
 
+		public ICommand PushAlertCommand { get; private set; }
+
 		public MainPageViewModel(IContainer container)
 			: base(container)
 		{
 			Data = new DataContainer();
 			ButtonCommand = new DelegateCommand(ButtonAction);
+			PushAlertCommand = new DelegateCommand(PushAlertAction);
 			ButtonText = "Hello world !!!!";
 			PushText = "ALERT !!!";
 
@@ -75,7 +78,12 @@ namespace TestApp.Business.ViewModels
 			ButtonText = name;
 		}
 
-		private void ButtonAction()
+	    private void PushAlertAction()
+	    {
+		    Container.Resolve<IMessageDialogService>().Show(Dialogs.MAIN);
+	    }
+
+	    private void ButtonAction()
 		{
 			_counter++;
 

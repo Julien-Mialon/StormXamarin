@@ -28,9 +28,12 @@ namespace TestApp.Android
 				{Views.MAIN, typeof(MainActivity)},
 				{Views.SECOND, typeof(SecondActivity)},
 			};
+			Dictionary<string, Type> dialogs = new Dictionary<string, Type>
+			{
+				{Dialogs.MAIN, typeof(MainFragment)},
+			};
 
-
-			AndroidContainer.CreateInstance<Container>(this, views);
+			AndroidContainer.CreateInstance<Container>(this, views, dialogs);
 		}
 	}
 }

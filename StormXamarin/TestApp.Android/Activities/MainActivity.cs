@@ -35,14 +35,7 @@ namespace TestApp.Android.Activities
 			SetContentView(Resource.Layout.Main);
 			SetViewModel(TestApp.Android.CompositionRoot.Container.ViewModelsLocator.MainPageViewModel);
 			
-			MyFucking123Button.Click += (sender, args) =>
-			{
-				MainFragment mf = new MainFragment();
-				
-				string mytag = "TAG_" + _generator.Next(0, 100000000);
-				mf.Show(FragmentManager, mytag);
-			};
-
+			
 		}
 	}
 }

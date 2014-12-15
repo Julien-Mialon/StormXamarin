@@ -20,7 +20,7 @@
 	<Button android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:text="{Binding PushText}"
-			android:id="MyFucking123Button"
+			click="{Binding PushAlertCommand}"
 			/>
 	
 	<TextView android:layout_width="fill_parent"

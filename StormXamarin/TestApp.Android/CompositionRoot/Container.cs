@@ -11,9 +11,9 @@ namespace TestApp.Android.CompositionRoot
 	{
 		public static readonly ViewModelsLocator ViewModelsLocator = new ViewModelsLocator();
 
-		protected override void Initialize(Application application, Dictionary<string, Type> views)
+		protected override void Initialize(Application application, Dictionary<string, Type> views, Dictionary<string, Type> dialogs)
 		{
-			base.Initialize(application, views);
+			base.Initialize(application, views, dialogs);
 
 			ILocalizationService localizationService = new LocalizationService(application, typeof(Resource.String));
 			RegisterInstance(localizationService);

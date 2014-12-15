@@ -26,9 +26,7 @@ namespace TestApp.Android.Activities
 
 		protected override View CreateView(LayoutInflater inflater, ViewGroup container)
 		{
-			View view = inflater.Inflate(Resource.Layout.MainFragment, null, false);
-			
-			return view;
+			return inflater.Inflate(Resource.Layout.MainFragment, container, false);
 		}
 
 		protected override ViewModelBase CreateViewModel()

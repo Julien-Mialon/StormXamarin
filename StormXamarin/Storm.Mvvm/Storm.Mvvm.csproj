@@ -46,6 +46,7 @@
     <Compile Include="Navigation\NavigationParameterAttribute.cs" />
     <Compile Include="Navigation\NavigationParametersContainer.cs" />
     <Compile Include="Services\IAssetsService.cs" />
+    <Compile Include="Services\IMessageDialogService.cs" />
     <Compile Include="Services\INavigationService.cs" />
     <Compile Include="Services\NavigationArgs.cs" />
     <Compile Include="NotifierBase.cs" />

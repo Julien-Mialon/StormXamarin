@@ -69,6 +69,7 @@
     <Compile Include="Services\AbstractServiceWithActivity.cs" />
     <Compile Include="Services\ActivityService.cs" />
     <Compile Include="Services\LoggerService.cs" />
+    <Compile Include="Services\MessageDialogService.cs" />
     <Compile Include="ViewSelectors\IViewSelector.cs" />
     <Compile Include="Services\AssetsService.cs" />
     <Compile Include="Services\DispatcherService.cs" />

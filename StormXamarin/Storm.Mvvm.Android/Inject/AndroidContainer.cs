@@ -13,7 +13,7 @@ namespace Storm.Mvvm.Inject
 
 		private static AndroidContainer _instance = null;
 
-		public static T CreateInstance<T>(Application application, Dictionary<string, Type> views) where T : AndroidContainer, new()
+		public static T CreateInstance<T>(Application application, Dictionary<string, Type> views, Dictionary<string, Type> dialogs = null) where T : AndroidContainer, new()
 		{
 			if (_instance != null)
 			{
@@ -22,7 +22,7 @@ namespace Storm.Mvvm.Inject
 			T container = new T();
 			_instance = container;
 
-			container.Initialize(application, views);
+			container.Initialize(application, views, dialogs ?? new Dictionary<string, Type>());
 			return container;
 		}
 
@@ -45,6 +45,7 @@ namespace Storm.Mvvm.Inject
 		protected IDispatcherService DispatcherService;
 		protected IAssetsService AssetsService;
 		protected ILoggerService LoggerService;
+		protected IMessageDialogService MessageDialogService;
 
 
 		protected AndroidContainer()
@@ -66,7 +67,7 @@ namespace Storm.Mvvm.Inject
 			ActivityService.CurrentActivity = currentActivity;
 		}
 
-		protected virtual void Initialize(Application application, Dictionary<string, Type> views)
+		protected virtual void Initialize(Application application, Dictionary<string, Type> views, Dictionary<string, Type> dialogs)
 		{
 			Application = application;
 
@@ -75,12 +76,14 @@ namespace Storm.Mvvm.Inject
 			DispatcherService = new DispatcherService(ActivityService);
 			AssetsService = new AssetsService(ActivityService);
 			LoggerService = new LoggerService();
+			MessageDialogService = new MessageDialogService(dialogs, ActivityService);
 			
 			//Register services
 			RegisterInstance<INavigationService>(NavigationService);
 			RegisterInstance<IDispatcherService>(DispatcherService);
 			RegisterInstance<IAssetsService>(AssetsService);
 			RegisterInstance<ILoggerService>(LoggerService);
+			RegisterInstance<IMessageDialogService>(MessageDialogService);
 
 			Initialize();
 		}
