@@ -9,7 +9,7 @@ namespace Storm.Mvvm.Dialogs
 	{
 		private string _title;
 		private string _message;
-		private Dictionary<DialogsButton, string> _buttons = new Dictionary<DialogsButton, string>(); 
+		private readonly Dictionary<DialogsButton, string> _buttons = new Dictionary<DialogsButton, string>(); 
 
 		public event EventHandler PositiveButtonEvent;
 		public event EventHandler NeutralButtonEvent;
