@@ -35,7 +35,10 @@ namespace Storm.Binding.AndroidTarget.Process
 				"Android.OS",
 				"Storm.Mvvm.Bindings"
 			};
-			namespaces.AddRange(additionalNamespaces);
+			if (additionalNamespaces != null && additionalNamespaces.Count > 0)
+			{
+				namespaces.AddRange(additionalNamespaces);
+			}
 
 			foreach (string name in namespaces)
 			{
