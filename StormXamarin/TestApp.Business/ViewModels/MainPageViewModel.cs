@@ -33,11 +33,18 @@ namespace TestApp.Business.ViewModels
 	    private DataContainer _data;
 	    private string _pushText = "";
 
+	    public ColorContainer ColorStatic
+	    {
+			get { return ColorPickerViewModel.ColorStatic; }
+	    }
+
 	    public string PushText
 	    {
 			get { return _pushText; }
 			set { SetProperty(ref _pushText, value); }
 	    }
+
+	    public int Color { get; set; }	
 
 	    public string InputText
 	    {
@@ -80,10 +87,11 @@ namespace TestApp.Business.ViewModels
 
 	    private void PushAlertAction()
 	    {
-		    Container.Resolve<IMessageDialogService>().Show(Dialogs.MAIN, new Dictionary<string, object>()
-		    {
-			    {"LabelText", "Default value for label text"}
-		    });
+		    Container.Resolve<IMessageDialogService>().Show(Dialogs.COLOR_PICKER);
+			//, new Dictionary<string, object>()
+			//{
+			//	{"LabelText", "Default value for label text"}
+			//});
 	    }
 
 	    private void ButtonAction()

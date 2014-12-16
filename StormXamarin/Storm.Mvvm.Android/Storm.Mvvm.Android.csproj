@@ -68,6 +68,9 @@
     <Compile Include="Dialogs\DialogFragmentBase.cs" />
     <Compile Include="Dialogs\DialogsButton.cs" />
     <Compile Include="FragmentBase.cs" />
+    <Compile Include="Framework\ColorPicker\ColorPanelView.cs" />
+    <Compile Include="Framework\ColorPicker\ColorPickerDialog.cs" />
+    <Compile Include="Framework\ColorPicker\ColorPickerView.cs" />
     <Compile Include="Interfaces\IActivityService.cs" />
     <Compile Include="Services\AbstractServiceWithActivity.cs" />
     <Compile Include="Services\ActivityService.cs" />
@@ -93,6 +96,7 @@
       <Name>Storm.Mvvm</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetPath) $(ProjectDir)..\nuget_build\Storm.Mvvm.Android\lib\MonoAndroid22\</PostBuildEvent>

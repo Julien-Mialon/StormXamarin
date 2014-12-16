@@ -43,4 +43,8 @@
 			  android:layout_height="wrap_content"
 			  text="{Binding Data.Count}"
 			  />
+	<View android:id="ColorPanel"
+		  android:layout_width="40dp"
+		  android:layout_height="40dp"
+		  />
 </LinearLayout>

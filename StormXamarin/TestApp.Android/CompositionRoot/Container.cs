@@ -23,8 +23,6 @@ namespace TestApp.Android.CompositionRoot
 		{
 			base.Initialize();
 			ViewModelsLocator.Initialize(this);
-
-			
 		}
 	}
 }

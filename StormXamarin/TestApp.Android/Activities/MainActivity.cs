@@ -1,6 +1,9 @@
 ﻿using System;
 using Android.App;
+using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.OS;
+using Android.Util;
 using Android.Widget;
 using Storm.Mvvm;
 using Storm.Mvvm.Bindings;
@@ -23,6 +26,17 @@ namespace TestApp.Android.Activities
 			{
 				_myString = value;
 				Toast.MakeText(this, "I just changed !", ToastLength.Short);
+			}
+		}
+
+		[Binding("ColorStatic.Color")]
+		public uint CurrentColor
+		{
+			get { return 0; }
+			set
+			{
+				Log.Wtf("SetColor", "ColorValue = " + value);
+				ColorPanel.Background = new ColorDrawable(new Color((int) value));
 			}
 		}
 

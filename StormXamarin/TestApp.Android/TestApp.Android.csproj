@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\ColorPicker.cs" />
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Activities\MainFragment.cs" />
     <Compile Include="CompositionRoot\Container.cs" />

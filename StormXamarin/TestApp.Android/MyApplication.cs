@@ -31,6 +31,7 @@ namespace TestApp.Android
 			Dictionary<string, Type> dialogs = new Dictionary<string, Type>
 			{
 				{Dialogs.MAIN, typeof(MainFragment)},
+				{Dialogs.COLOR_PICKER, typeof(ColorPicker)},
 			};
 
 			AndroidContainer.CreateInstance<Container>(this, views, dialogs);
