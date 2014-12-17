@@ -55,10 +55,20 @@ namespace Storm.Mvvm.Bindings
 
 		public void SetValue(object value)
 		{
-			object referenceValue = _property.GetValue(_context);
+			if (!_property.PropertyType.IsInstanceOfType(value))
+			{
+				value = Convert.ChangeType(value, _property.PropertyType);
+			}
 
-			value = Convert.ChangeType(value, _property.PropertyType);
-			if (!Equals(referenceValue, value))
+			if (_property.CanRead)
+			{
+				object referenceValue = _property.GetValue(_context);
+				if (!Equals(referenceValue, value))
+				{
+					_property.SetValue(_context, value);
+				}
+			}
+			else
 			{
 				_property.SetValue(_context, value);
 			}

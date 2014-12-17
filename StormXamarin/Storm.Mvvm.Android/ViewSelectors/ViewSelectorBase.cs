@@ -24,7 +24,7 @@ namespace Storm.Mvvm.ViewSelectors
 			}
 			else
 			{
-				resultView = LayoutInflater.Inflate(newViewId, parent);
+				resultView = LayoutInflater.Inflate(newViewId, parent, false);
 				resultView.Tag = newViewId;
 			}
 

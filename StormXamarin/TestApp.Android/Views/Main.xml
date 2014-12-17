@@ -5,6 +5,35 @@
 			  android:layout_height="fill_parent">
 	<Resources>
     	<Converter Key="StringToUpperConverter" Class="TestApp.Android.Converters.StringToUpperConverter" />
+		<Converter Key="IntToColorConverter" Class="TestApp.Android.Converters.IntToColorConverter" />
+		<Converter Key="ToStringConverter" Class="TestApp.Android.Converters.ToStringConverter" />
+
+		<!--<ViewSelector Key="SpinnerAdapter" 
+					  Class="TestApp.Android.Selectors.SpinnerViewSelector"
+					  DefaultView="{Resource SpinnerItemTemplate}"
+					  />
+		
+		<DataTemplate Key="SpinnerItemTemplate">
+			<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+						  android:orientation="horizontal"
+						  android:layout_width="fill_parent"
+						  android:layout_height="fill_parent">
+				
+				<TextView android:layout_width="wrap_content"
+						  android:layout_height="fill_parent"
+						  text="{Binding}"
+						  />
+				<TextView android:layout_width="wrap_content"
+						  android:layout_height="fill_parent"
+						  android:text=" / "
+						  />
+				<TextView android:layout_width="wrap_content"
+						  android:layout_height="fill_parent"
+						  text="{Binding}"
+						  />
+				
+			</LinearLayout>
+		</DataTemplate>-->
     </Resources>
 	
 	<EditText android:layout_width="fill_parent"
@@ -43,8 +72,21 @@
 			  android:layout_height="wrap_content"
 			  text="{Binding Data.Count}"
 			  />
+
+	<TextView android:layout_width="fill_parent"
+			  android:layout_height="wrap_content"
+			  text="{Binding Converter={Resource ToStringConverter}}"
+			  />	
+
 	<View android:id="ColorPanel"
 		  android:layout_width="40dp"
 		  android:layout_height="40dp"
+		  background="{Binding ColorStatic.Color, Converter={Resource IntToColorConverter}}"
 		  />
+	
+	<!--<Spinner android:id="ComboBox"
+			 android:layout_width="120dp"
+			 android:layout_height="40dp"
+			 adapter="{Binding MyCollection, Adapter={Resource SpinnerAdapter}}"
+			 />-->
 </LinearLayout>

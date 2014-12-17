@@ -356,9 +356,7 @@ namespace Storm.Binding.AndroidTarget.Process
 
 				if (!pathFound)
 				{
-					BindingPreprocess.Logger.LogError("Binding Error : no binding path in " + bindingValue);
-					Console.WriteLine("Binding Error : no binding path in " + bindingValue);
-					return null;
+					expression.SourcePath = "";
 				}
 
 				if (expression.ConverterReference == null && !string.IsNullOrWhiteSpace(expression.ConverterParameter))

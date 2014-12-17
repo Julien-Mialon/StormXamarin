@@ -37,7 +37,7 @@ namespace Storm.Mvvm
 
 		public override Object GetItem(int position)
 		{
-			throw new NotImplementedException();
+			return null;
 		}
 
 		public override T this[int position]
