@@ -45,7 +45,7 @@
     <Compile Include="ActivityBase.cs" />
     <Compile Include="ActivityState.cs" />
     <Compile Include="ApplicationBase.cs" />
-    <Compile Include="BindableArrayAdapter.cs" />
+    <Compile Include="BindableAdapter.cs" />
     <Compile Include="Bindings\BindingAttribute.cs" />
     <Compile Include="Bindings\BindingBase.cs" />
     <Compile Include="Bindings\BindingElementAttribute.cs" />

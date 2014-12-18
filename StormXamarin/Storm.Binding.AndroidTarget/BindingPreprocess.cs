@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using Storm.Binding.AndroidTarget.Data;
@@ -93,13 +94,25 @@ namespace Storm.Binding.AndroidTarget
 				Tuple<List<XmlAttribute>, List<IdViewObject>> tupleResult = processor.ExtractBindingInformations(root);
 				List<XmlAttribute> bindingInformations = tupleResult.Item1;
 				List<IdViewObject> views = tupleResult.Item2;
-				List<XmlResource> resourceCollection = processor.ExtractResources(root);
+				List<XmlResource> resourceCollection = ResourceParser.ParseResources(root, info.View).ToList();
 
 				string viewOutputRelativePath = GetRelativePath(projectDir, info.View.OutputFile);
 				Log.LogMessage(MessageImportance.High, "\t### Generating view file {0}", viewOutputRelativePath);
 				processor.Write(root, info.View.OutputFile);
-
 				result.Add(new Tuple<string, FileType>(viewOutputRelativePath, FileType.Resource));
+
+				// output all DataTemplates files
+				string viewName = Path.GetFileNameWithoutExtension(info.View.OutputFile);
+				foreach (ResourceDataTemplate dataTemplate in resourceCollection.OfType<ResourceDataTemplate>())
+				{
+					dataTemplate.ResourceId = viewName + "_DataTemplates_" + dataTemplate.Key;
+					string outputFile = Path.Combine(ResourceLocation, dataTemplate.ResourceId + ".axml");
+					string relativePath = GetRelativePath(projectDir, outputFile);
+					Log.LogMessage(MessageImportance.High, "\t\t### Generating view for DataTemplate {0} to file {1}", dataTemplate.Key, relativePath);
+					processor.Write(dataTemplate.RootElement, outputFile);
+
+					result.Add(new Tuple<string, FileType>(relativePath, FileType.Resource));
+				}
 
 				PartialClassGenerator classGenerator = new PartialClassGenerator();
 

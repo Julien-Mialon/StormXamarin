@@ -28,12 +28,12 @@ namespace Storm.Mvvm.ViewSelectors
 				resultView.Tag = newViewId;
 			}
 
-			AssociateViewWithModel(resultView, model);
+			AssociateViewWithModel(newViewId, resultView, model);
 
 			return resultView;
 		}
 
-		public virtual void AssociateViewWithModel(View view, object model)
+		public virtual void AssociateViewWithModel(int viewId, View view, object model)
 		{
 			
 		}

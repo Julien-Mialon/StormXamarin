@@ -55,12 +55,15 @@
     <Compile Include="Data\XmlResource.cs" />
     <Compile Include="Process\InformationReader.cs" />
     <Compile Include="Process\PartialClassGenerator.cs" />
+    <Compile Include="Process\ResourceParser.cs" />
     <Compile Include="Process\ViewFileProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Storm.Mvvm.Android.targets" />
+    <None Include="Storm.Mvvm.Android.targets">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

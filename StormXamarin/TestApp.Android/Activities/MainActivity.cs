@@ -50,13 +50,14 @@ namespace TestApp.Android.Activities
 			SetContentView(Resource.Layout.Main);
 			SetViewModel(TestApp.Android.CompositionRoot.Container.ViewModelsLocator.MainPageViewModel);
 
+			
 			//Spinner spinner = FindViewById<Spinner>(Resource.Id.ComboBox);
 
 			//List<string> spinnerList = new List<string>()
 			//{
 			//	"NY", "Paris", "London", "Berlin", "Moscov", "Gdansk"
 			//};
-			//BindableArrayAdapter<string> adapter = new BindableArrayAdapter<string>(
+			//BindableAdapter<string> adapter = new BindableAdapter<string>(
 			//	spinnerList, this, 
 			//	new SpinnerViewSelector(this.LayoutInflater, global::Android.Resource.Layout.SimpleSpinnerItem));
 			//ArrayAdapter<string> javaAdapter = new ArrayAdapter<string>(this, global::Android.Resource.Layout.SimpleSpinnerItem, spinnerList);

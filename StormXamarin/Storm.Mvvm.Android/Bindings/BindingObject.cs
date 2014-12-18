@@ -5,7 +5,7 @@ namespace Storm.Mvvm.Bindings
 {
 	public class BindingObject
 	{
-		public View TargetObject { get; set; }
+		public object TargetObject { get; set; }
 
 		public List<BindingExpression> Expressions { get; private set; }
 
@@ -14,7 +14,7 @@ namespace Storm.Mvvm.Bindings
 			Expressions = new List<BindingExpression>();
 		}
 
-		public BindingObject(View targetObject) : this()
+		public BindingObject(object targetObject) : this()
 		{
 			TargetObject = targetObject;
 		}

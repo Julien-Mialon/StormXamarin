@@ -6,11 +6,11 @@ namespace TestApp.Android.Selectors
 {
 	public class SpinnerViewSelector : SimpleViewSelector
 	{
-		public SpinnerViewSelector(LayoutInflater layoutInflater, int viewId) : base(layoutInflater, viewId)
+		public SpinnerViewSelector(LayoutInflater layoutInflater) : base(layoutInflater)
 		{
 		}
 
-		public override void AssociateViewWithModel(View view, object model)
+		public override void AssociateViewWithModel(int viewId, View view, object model)
 		{
 			if (view is TextView)
 			{
@@ -18,7 +18,7 @@ namespace TestApp.Android.Selectors
 				tw.Text = model.ToString();
 			}
 
-			base.AssociateViewWithModel(view, model);
+			base.AssociateViewWithModel(viewId, view, model);
 		}
 	}
 }

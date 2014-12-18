@@ -32,6 +32,16 @@ namespace TestApp.Business.ViewModels
 	    private string _inputText;
 	    private DataContainer _data;
 	    private string _pushText = "";
+		private List<string> _myCollection = new List<string>()
+		{
+			"NY", "Paris", "Milan", "Barcelone", "Moscou"
+		};
+
+
+	    public List<string> MyCollection
+	    {
+		    get { return _myCollection; }
+	    }
 
 	    public ColorContainer ColorStatic
 	    {

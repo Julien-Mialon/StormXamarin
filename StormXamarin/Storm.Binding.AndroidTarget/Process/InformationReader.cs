@@ -30,6 +30,7 @@ namespace Storm.Binding.AndroidTarget.Process
 				//rewrite all path using baseDir
 				foreach (ActivityViewInfo info in ActivityViewInformations)
 				{
+					//TODO : test if baseDir is necessary for *.OutputFile
 					info.Activity.OutputFile = NormalizePath(Path.Combine(baseDir, classLocation, info.Activity.OutputFile));
 					info.View.InputFile = NormalizePath(Path.Combine(baseDir, info.View.InputFile));
 					info.View.OutputFile = NormalizePath(Path.Combine(baseDir, resourceLocation, info.View.OutputFile));

@@ -169,42 +169,6 @@ namespace Storm.Binding.AndroidTarget.Process
 			}
 		}
 
-		public List<XmlResource> ExtractResources(XmlElement element)
-		{
-			if (element.Name == "Resources")
-			{
-				//Process each child to extract resources
-				List<XmlResource> resources = new List<XmlResource>();
-				foreach (XmlElement child in element.Children)
-				{
-					if (child.Name == "Converter")
-					{
-						XmlAttribute keyAttribute = child.Attributes.SingleOrDefault(x => x.Name == "Key");
-						XmlAttribute classAttribute = child.Attributes.SingleOrDefault(x => x.Name == "Class");
-
-						if (keyAttribute == null || classAttribute == null)
-						{
-							throw new Exception("Missing attribute for converter : key = " + ((keyAttribute == null) ? "null" : keyAttribute.Value) + " class = " + ((classAttribute == null) ? "null" : classAttribute.Value));
-						}
-
-						resources.Add(new ResourceConverter(keyAttribute.Value, classAttribute.Value));
-
-					}
-					else
-					{
-						throw new Exception("Resource type not supported : " + child.Name);
-					}
-				}
-				return resources;
-			}
-			if (element.Children.Any())
-			{
-				return element.Children.Select(ExtractResources).FirstOrDefault(res => res != null);
-			}
-
-			return new List<XmlResource>();
-		}
-
 		public Tuple<List<XmlAttribute>, List<IdViewObject>> ExtractBindingInformations(XmlElement element)
 		{
 			Views.Clear();
@@ -217,6 +181,11 @@ namespace Storm.Binding.AndroidTarget.Process
 		private List<XmlAttribute> _ExtractBindingInformations(XmlElement element)
 		{
 			List<XmlAttribute> bindings = new List<XmlAttribute>();
+			if ("Resources".Equals(element.Name, StringComparison.OrdinalIgnoreCase))
+			{
+				return bindings;
+			}
+
 			string id = null;
 			bool isFragment = "fragment".Equals(element.Name, StringComparison.CurrentCultureIgnoreCase);
 
