@@ -1,4 +1,7 @@
-﻿using Android.Views;
+﻿using System.Collections.Generic;
+using Android.Views;
+using Java.Util;
+using Storm.Mvvm.Bindings;
 
 namespace Storm.Mvvm.ViewSelectors
 {
@@ -6,9 +9,12 @@ namespace Storm.Mvvm.ViewSelectors
 	{
 		protected LayoutInflater LayoutInflater { get; private set; }
 
+		public Dictionary<int, List<BindingObject>> BindingDictionary { get; private set; }
+
 		protected ViewSelectorBase(LayoutInflater layoutInflater)
 		{
 			LayoutInflater = layoutInflater;
+			BindingDictionary = new Dictionary<int, List<BindingObject>>();
 		}
 
 		public View GetView(object model, ViewGroup parent, View oldView)

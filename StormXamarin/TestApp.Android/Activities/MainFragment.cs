@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Android.App;
-using Android.OS;
-using Android.Views;
+﻿using Android.Views;
 using Storm.Mvvm;
 using Storm.Mvvm.Bindings;
 using Storm.Mvvm.Dialogs;

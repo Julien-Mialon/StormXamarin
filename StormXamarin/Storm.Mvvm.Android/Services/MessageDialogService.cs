@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Java.Text;
 using Storm.Mvvm.Dialogs;
 using Storm.Mvvm.Interfaces;
 using Storm.Mvvm.Navigation;

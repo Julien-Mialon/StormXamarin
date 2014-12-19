@@ -8,7 +8,7 @@
 		<Converter Key="IntToColorConverter" Class="TestApp.Android.Converters.IntToColorConverter" />
 		<Converter Key="ToStringConverter" Class="TestApp.Android.Converters.ToStringConverter" />
 
-		<!--<DataTemplate Key="SpinnerItemTemplate">
+		<DataTemplate Key="SpinnerItemTemplate">
 			<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 						  android:orientation="horizontal"
 						  android:layout_width="fill_parent"
@@ -28,14 +28,6 @@
 						  />
 				
 			</LinearLayout>
-		</DataTemplate>-->
-
-		<DataTemplate Key="SpinnerItemTemplate">
-			<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-					  android:layout_width="wrap_content"
-						android:layout_height="fill_parent"
-						text="{Binding}"
-						/>
 		</DataTemplate>
 
 		<ViewSelector Key="SpinnerAdapter"

@@ -53,10 +53,17 @@
     <Compile Include="Data\ActivityInfo.cs" />
     <Compile Include="Data\XmlElement.cs" />
     <Compile Include="Data\XmlResource.cs" />
+    <Compile Include="Process\AbstractClassGenerator.cs" />
+    <Compile Include="Process\BindingExpression.cs" />
+    <Compile Include="Process\ClassGeneratorHelper.cs" />
+    <Compile Include="Process\IdViewObject.cs" />
     <Compile Include="Process\InformationReader.cs" />
+    <Compile Include="Process\PartialActivityClassGenerator.cs" />
     <Compile Include="Process\PartialClassGenerator.cs" />
+    <Compile Include="Process\PartialFragmentClassGenerator.cs" />
     <Compile Include="Process\ResourceParser.cs" />
     <Compile Include="Process\ViewFileProcessor.cs" />
+    <Compile Include="Process\ViewHolderClassGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

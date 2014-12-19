@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Android.Content;
-using Android.Content.Res;
 using Android.Graphics;
 using Android.Util;
 using Android.Views;
-using Storm.Mvvm.Events;
 
 namespace Storm.Mvvm.Framework.ColorPicker
 {

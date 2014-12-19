@@ -1,4 +1,5 @@
-﻿using Android.Views;
+﻿using Android.Graphics;
+using Android.Views;
 using Android.Widget;
 using Storm.Mvvm.ViewSelectors;
 
@@ -16,6 +17,7 @@ namespace TestApp.Android.Selectors
 			{
 				TextView tw = view as TextView;
 				tw.Text = model.ToString();
+				tw.SetTextColor(new Color(0, 0, 0));
 			}
 
 			base.AssociateViewWithModel(viewId, view, model);

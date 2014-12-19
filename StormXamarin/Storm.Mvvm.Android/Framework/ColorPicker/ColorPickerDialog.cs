@@ -1,7 +1,5 @@
 ﻿using Android.App;
-using Android.Content;
 using Android.Graphics;
-using Android.Provider;
 using Android.Views;
 using Android.Widget;
 using Storm.Mvvm.Dialogs;

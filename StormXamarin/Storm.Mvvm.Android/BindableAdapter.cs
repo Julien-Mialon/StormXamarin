@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Collections.Specialized;
-using System.Linq;
-using Android.App;
 using Android.Views;
 using Android.Widget;
 using Storm.Mvvm.ViewSelectors;
-using Object = Java.Lang.Object;
 
 namespace Storm.Mvvm
 {
@@ -26,7 +21,7 @@ namespace Storm.Mvvm
 					Unregister(_collection);
 					_collection = value as IList;
 					Register(_collection);
-					NotifyDataSetChanged();
+					NotifyDataChanged();
 				}
 			}
 		}
@@ -34,11 +29,6 @@ namespace Storm.Mvvm
 		public BindableAdapter(IViewSelector viewSelector)
 		{
 			_viewSelector = viewSelector;
-		}
-
-		public override Object GetItem(int position)
-		{
-			return null;
 		}
 
 		public override object this[int position]
@@ -83,6 +73,11 @@ namespace Storm.Mvvm
 		}
 
 		private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
+		{
+			NotifyDataChanged();
+		}
+
+		private void NotifyDataChanged()
 		{
 			NotifyDataSetChanged();
 		}

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using Storm.Binding.AndroidTarget.Data;
@@ -12,6 +11,9 @@ namespace Storm.Binding.AndroidTarget
 {
 	public class BindingPreprocess : Task
 	{
+		private const string VIEWHOLDER_FORMAT = "AutoGen_ViewHolder_{0}";
+		private int _viewHolderCounter;
+
 		public enum FileType
 		{
 			Class,
@@ -112,13 +114,42 @@ namespace Storm.Binding.AndroidTarget
 					processor.Write(dataTemplate.RootElement, outputFile);
 
 					result.Add(new Tuple<string, FileType>(relativePath, FileType.Resource));
+
+					string viewHolderClassName = string.Format(VIEWHOLDER_FORMAT, _viewHolderCounter++);
+					ViewHolderClassGenerator viewHolderGenerator = new ViewHolderClassGenerator(info.Activity.NamespaceName, viewHolderClassName);
+					Tuple<List<XmlAttribute>, List<IdViewObject>> dataTemplateBindingResult = processor.ExtractBindingInformations(dataTemplate.RootElement);
+					viewHolderGenerator.BindingAttributes = dataTemplateBindingResult.Item1;
+					viewHolderGenerator.ViewElements = dataTemplateBindingResult.Item2;
+					viewHolderGenerator.Resources = resourceCollection;
+					viewHolderGenerator.Namespaces = reader.AdditionalNamespaces;
+					string classOutputFile = Path.Combine(ClassLocation, viewHolderClassName + ".ui.cs");
+					string classRelativePath = GetRelativePath(projectDir, classOutputFile);
+					Log.LogMessage(MessageImportance.High, "\t\t### Generating class for DataTemplate {0} to file {1}", dataTemplate.Key, classRelativePath);
+					viewHolderGenerator.Generate(classOutputFile);
+
+					result.Add(new Tuple<string, FileType>(classRelativePath, FileType.Class));
 				}
 
-				PartialClassGenerator classGenerator = new PartialClassGenerator();
+				AbstractClassGenerator classGenerator;
+				if (info.Activity.IsFragment)
+				{
+					classGenerator = new PartialFragmentClassGenerator(info.Activity.NamespaceName, info.Activity.ClassName);
+				}
+				else
+				{
+					classGenerator = new PartialActivityClassGenerator(info.Activity.NamespaceName, info.Activity.ClassName);
+				}
+				classGenerator.BindingAttributes = bindingInformations;
+				classGenerator.ViewElements = views;
+				classGenerator.Resources = resourceCollection;
+				classGenerator.Namespaces = reader.AdditionalNamespaces;
+
+
+				//PartialClassGenerator classGenerator = new PartialClassGenerator();
 
 				string classOutputRelativePath = GetRelativePath(projectDir, info.Activity.OutputFile);
 				Log.LogMessage(MessageImportance.High, "\t### Generating class file {0}", classOutputRelativePath);
-				classGenerator.Generate(info.Activity, reader.AdditionalNamespaces, views, bindingInformations, resourceCollection);
+				classGenerator.Generate(info.Activity.OutputFile);
 				result.Add(new Tuple<string, FileType>(classOutputRelativePath, FileType.Class));
 			}
 			return result;

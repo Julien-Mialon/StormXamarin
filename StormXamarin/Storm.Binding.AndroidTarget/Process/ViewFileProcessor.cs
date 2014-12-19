@@ -4,7 +4,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
-using Storm.Binding.AndroidTarget.Data;
 using XmlAttribute = Storm.Binding.AndroidTarget.Data.XmlAttribute;
 using XmlElement = Storm.Binding.AndroidTarget.Data.XmlElement;
 
@@ -255,24 +254,6 @@ namespace Storm.Binding.AndroidTarget.Process
 				stringBuilder.AppendFormat("{0:x2}", x);
 			}
 			return stringBuilder.ToString().Substring(0, length);
-		}
-	}
-
-	public class IdViewObject
-	{
-		public string TypeName { get; set; }
-
-		public string Id { get; set; }
-
-		public IdViewObject()
-		{
-			
-		}
-
-		public IdViewObject(string typeName, string id)
-		{
-			TypeName = typeName;
-			Id = id;
 		}
 	}
 }

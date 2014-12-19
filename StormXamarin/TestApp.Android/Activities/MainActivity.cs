@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using Android.App;
-using Android.Graphics;
-using Android.Graphics.Drawables;
 using Android.OS;
-using Android.Util;
 using Android.Widget;
 using Storm.Mvvm;
 using Storm.Mvvm.Bindings;
 using TestApp.Android.Converters;
-using TestApp.Android.Selectors;
 
 namespace TestApp.Android.Activities
 {
