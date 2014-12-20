@@ -25,6 +25,7 @@ namespace Storm.Binding.AndroidTarget.Process
 		private int _objectCounter;
 		private int _expressionCounter;
 
+		//TODO: ajouter la génération du constructeur pour les ViewHolder
 
 		public bool IsPartialClass { get; set; }
 
