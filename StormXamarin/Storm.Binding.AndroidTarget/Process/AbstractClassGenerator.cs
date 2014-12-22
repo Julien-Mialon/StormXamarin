@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Microsoft.Build.Framework;
 using Storm.Binding.AndroidTarget.Data;
 
 namespace Storm.Binding.AndroidTarget.Process
@@ -100,6 +101,8 @@ namespace Storm.Binding.AndroidTarget.Process
 			Dictionary<string, CodePropertyReferenceExpression> resourceReferences = GenerateResourceProperty(classDeclaration);
 			List<BindingExpression> bindingExpressions = BindingAttributes.Select(x => ClassGeneratorHelper.EvaluateBindingExpression(x, resourceReferences)).Where(x => x != null).ToList();
 
+			BindingPreprocess.Logger.LogMessage(MessageImportance.High, "BindingExpressions : {0}", string.Join(";", bindingExpressions.Select(x => string.Format("({0}, {1}, {2})", x.TargetObjectId, x.TargetFieldId, x.SourcePath))));
+
 			GenerateAdapterProperty(classDeclaration, bindingExpressions, viewElementReferences);
 
 
@@ -113,6 +116,7 @@ namespace Storm.Binding.AndroidTarget.Process
 			GenerateMethodContent(overrideMethod, bindingExpressions, viewElementReferences);
 			classDeclaration.Members.Add(overrideMethod);
 
+			GenerateOtherMembers(classDeclaration);
 
 			#region File writing
 
@@ -154,6 +158,11 @@ namespace Storm.Binding.AndroidTarget.Process
 			}
 
 			#endregion
+		}
+
+		protected virtual void GenerateOtherMembers(CodeTypeDeclaration classDeclaration)
+		{
+			
 		}
 
 		private void GenerateMethodContent(CodeMemberMethod method, IEnumerable<BindingExpression> expressions, Dictionary<string, CodePropertyReferenceExpression> viewElementReferences)

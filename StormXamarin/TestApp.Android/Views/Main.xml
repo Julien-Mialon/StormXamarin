@@ -16,7 +16,7 @@
 				
 				<TextView android:layout_width="wrap_content"
 						  android:layout_height="fill_parent"
-						  text="{Binding}"
+						  text="{Binding Plop}"
 						  />
 				<TextView android:layout_width="wrap_content"
 						  android:layout_height="fill_parent"

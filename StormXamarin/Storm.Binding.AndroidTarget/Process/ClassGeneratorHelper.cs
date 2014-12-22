@@ -2,9 +2,7 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Storm.Binding.AndroidTarget.Data;
 
 namespace Storm.Binding.AndroidTarget.Process
@@ -16,6 +14,8 @@ namespace Storm.Binding.AndroidTarget.Process
 
 		const string BINDING_EXPRESSION_START = "{Binding ";
 		const string BINDING_EXPRESSION_END = "}";
+
+		const string BINDING_EXPRESSION_EMPTY = "{Binding}";
 
 
 		public static bool IsResourceReferenceExpression(string input)
@@ -189,7 +189,18 @@ namespace Storm.Binding.AndroidTarget.Process
 
 				return expression;
 			}
-			Console.WriteLine("Binding error : " + bindingValue);
+
+			if (bindingValue == BINDING_EXPRESSION_EMPTY)
+			{
+				return new BindingExpression
+				{
+					TargetFieldId = attribute.LocalName,
+					TargetObjectId = attribute.AttachedId, 
+					SourcePath = ""
+				};
+			}
+
+			BindingPreprocess.Logger.LogError("Error in binding expression : " + attribute.Value);
 			return null;
 		}
 	}

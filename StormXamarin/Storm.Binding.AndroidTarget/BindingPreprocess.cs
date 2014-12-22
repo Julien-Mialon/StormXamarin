@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using Storm.Binding.AndroidTarget.Data;
@@ -87,11 +88,11 @@ namespace Storm.Binding.AndroidTarget
 		private IEnumerable<Tuple<string, FileType>> ProcessReader(InformationReader reader, string projectDir)
 		{
 			List<Tuple<string, FileType>> result = new List<Tuple<string, FileType>>();
+			ViewFileProcessor processor = new ViewFileProcessor();
 			foreach (ActivityViewInfo info in reader.ActivityViewInformations)
 			{
 				Log.LogMessage(MessageImportance.High, "\t# Generating for activity {0}.{1}", info.Activity.NamespaceName, info.Activity.ClassName);
 
-				ViewFileProcessor processor = new ViewFileProcessor();
 				XmlElement root = processor.Read(info.View.InputFile);
 				Tuple<List<XmlAttribute>, List<IdViewObject>> tupleResult = processor.ExtractBindingInformations(root);
 				List<XmlAttribute> bindingInformations = tupleResult.Item1;
@@ -108,26 +109,7 @@ namespace Storm.Binding.AndroidTarget
 				foreach (ResourceDataTemplate dataTemplate in resourceCollection.OfType<ResourceDataTemplate>())
 				{
 					dataTemplate.ResourceId = viewName + "_DataTemplates_" + dataTemplate.Key;
-					string outputFile = Path.Combine(ResourceLocation, dataTemplate.ResourceId + ".axml");
-					string relativePath = GetRelativePath(projectDir, outputFile);
-					Log.LogMessage(MessageImportance.High, "\t\t### Generating view for DataTemplate {0} to file {1}", dataTemplate.Key, relativePath);
-					processor.Write(dataTemplate.RootElement, outputFile);
-
-					result.Add(new Tuple<string, FileType>(relativePath, FileType.Resource));
-
-					string viewHolderClassName = string.Format(VIEWHOLDER_FORMAT, _viewHolderCounter++);
-					ViewHolderClassGenerator viewHolderGenerator = new ViewHolderClassGenerator(info.Activity.NamespaceName, viewHolderClassName);
-					Tuple<List<XmlAttribute>, List<IdViewObject>> dataTemplateBindingResult = processor.ExtractBindingInformations(dataTemplate.RootElement);
-					viewHolderGenerator.BindingAttributes = dataTemplateBindingResult.Item1;
-					viewHolderGenerator.ViewElements = dataTemplateBindingResult.Item2;
-					viewHolderGenerator.Resources = resourceCollection;
-					viewHolderGenerator.Namespaces = reader.AdditionalNamespaces;
-					string classOutputFile = Path.Combine(ClassLocation, viewHolderClassName + ".ui.cs");
-					string classRelativePath = GetRelativePath(projectDir, classOutputFile);
-					Log.LogMessage(MessageImportance.High, "\t\t### Generating class for DataTemplate {0} to file {1}", dataTemplate.Key, classRelativePath);
-					viewHolderGenerator.Generate(classOutputFile);
-
-					result.Add(new Tuple<string, FileType>(classRelativePath, FileType.Class));
+					ProcessDataTemplate(dataTemplate, result, projectDir, processor, resourceCollection, reader.AdditionalNamespaces, info.Activity.NamespaceName);
 				}
 
 				AbstractClassGenerator classGenerator;
@@ -153,6 +135,35 @@ namespace Storm.Binding.AndroidTarget
 				result.Add(new Tuple<string, FileType>(classOutputRelativePath, FileType.Class));
 			}
 			return result;
+		}
+
+		private void ProcessDataTemplate(ResourceDataTemplate dataTemplate, List<Tuple<string, FileType>> result, string projectDir, ViewFileProcessor processor, IEnumerable<XmlResource> resourceCollection, IEnumerable<string> additionalNamespaces, string namespaceName)
+		{
+			Tuple<List<XmlAttribute>, List<IdViewObject>> tupleResult = processor.ExtractBindingInformations(dataTemplate.RootElement);
+			List<XmlAttribute> bindingInformations = tupleResult.Item1;
+			List<IdViewObject> views = tupleResult.Item2;
+
+			string viewOutputFile = Path.Combine(ResourceLocation, dataTemplate.ResourceId + ".axml");
+			string viewOutputRelativeFile = GetRelativePath(projectDir, viewOutputFile);
+			Log.LogMessage(MessageImportance.High, "\t\t### Generating view for DataTemplate {0} to file {1}", dataTemplate.Key, viewOutputRelativeFile);
+			processor.Write(dataTemplate.RootElement, viewOutputFile);
+
+			result.Add(new Tuple<string, FileType>(viewOutputRelativeFile, FileType.Resource));
+
+			string viewHolderClassName = string.Format(VIEWHOLDER_FORMAT, _viewHolderCounter++);
+			ViewHolderClassGenerator viewHolderGenerator = new ViewHolderClassGenerator(namespaceName, viewHolderClassName)
+			{
+				BindingAttributes = bindingInformations, 
+				ViewElements = views, 
+				Resources = resourceCollection, 
+				Namespaces = additionalNamespaces
+			};
+			string classOutputFile = Path.Combine(ClassLocation, viewHolderClassName + ".ui.cs");
+			string classRelativePath = GetRelativePath(projectDir, classOutputFile);
+			Log.LogMessage(MessageImportance.High, "\t\t### Generating class for DataTemplate {0} to file {1}", dataTemplate.Key, classRelativePath);
+			viewHolderGenerator.Generate(classOutputFile);
+
+			result.Add(new Tuple<string, FileType>(classRelativePath, FileType.Class));
 		}
 	}
 }

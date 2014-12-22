@@ -14,6 +14,20 @@ namespace Storm.Binding.AndroidTarget.Process
 			IsPartialClass = false;
 		}
 
+		protected override void GenerateOtherMembers(CodeTypeDeclaration classDeclaration)
+		{
+			base.GenerateOtherMembers(classDeclaration);
+
+			CodeConstructor constructor = new CodeConstructor();
+			constructor.Parameters.Add(new CodeParameterDeclarationExpression("LayoutInflater", "layoutInflater"));
+			constructor.Parameters.Add(new CodeParameterDeclarationExpression("View", "view"));
+
+			constructor.BaseConstructorArgs.Add(new CodeVariableReferenceExpression("layoutInflater"));
+			constructor.BaseConstructorArgs.Add(new CodeVariableReferenceExpression("view"));
+
+			classDeclaration.Members.Add(constructor);
+		}
+
 		protected override CodeMethodReferenceExpression GetFindViewReferenceExpression(string type)
 		{
 			return new CodeMethodReferenceExpression(
@@ -39,3 +53,4 @@ namespace Storm.Binding.AndroidTarget.Process
 		}
 	}
 }
+
