@@ -29,7 +29,6 @@ namespace Storm.Mvvm.Framework.ColorPicker
 		private Paint mHuePaint;
 		private Paint mHueAlphaTrackerPaint;
 
-		private Paint mAlphaPaint;
 		private Paint mAlphaTextPaint;
 
 		private Paint mBorderPaint;
@@ -37,7 +36,6 @@ namespace Storm.Mvvm.Framework.ColorPicker
 		private Shader mValShader;
 		private Shader mSatShader;
 		private Shader mHueShader;
-		private Shader mAlphaShader;
 
 
 		/*
@@ -143,7 +141,7 @@ namespace Storm.Mvvm.Framework.ColorPicker
 			mSatValTrackerPaint = new Paint();
 			mHuePaint = new Paint();
 			mHueAlphaTrackerPaint = new Paint();
-			mAlphaPaint = new Paint();
+			new Paint();
 			mAlphaTextPaint = new Paint();
 			mBorderPaint = new Paint();
 
@@ -812,7 +810,7 @@ namespace Storm.Mvvm.Framework.ColorPicker
 			mValShader = null;
 			mSatShader = null;
 			mHueShader = null;
-			mAlphaShader = null; ;
+			;
 
 			setUpSatValRect();
 			setUpHueRect();
@@ -954,7 +952,7 @@ namespace Storm.Mvvm.Framework.ColorPicker
 				mValShader = null;
 				mSatShader = null;
 				mHueShader = null;
-				mAlphaShader = null; ;
+				;
 
 				RequestLayout();
 			}

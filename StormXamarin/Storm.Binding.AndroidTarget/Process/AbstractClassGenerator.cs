@@ -59,20 +59,7 @@ namespace Storm.Binding.AndroidTarget.Process
 			CodeNamespace codeNamespace = new CodeNamespace(NamespaceName);
 			codeUnit.Namespaces.Add(codeNamespace);
 
-			List<string> usings = new List<string>
-			{
-				"System",
-				"System.Collections.Generic",
-				"Android.App",
-				"Android.Content",
-				"Android.Runtime",
-				"Android.Views",
-				"Android.Widget",
-				"Android.OS",
-				"Storm.Mvvm",
-				"Storm.Mvvm.Bindings",
-				"Storm.Mvvm.ViewSelectors",
-			};
+			List<string> usings = ClassGeneratorHelper.DefaultNamespaces;
 			if (Namespaces != null && Namespaces.Any())
 			{
 				usings.AddRange(Namespaces);
@@ -232,10 +219,20 @@ namespace Storm.Binding.AndroidTarget.Process
 
 				CodeVariableReferenceExpression adapterReference = new CodeVariableReferenceExpression(ADAPTER_INTERNAL_NAME);
 				//Execute MyViewObject.MyAdapterProperty = MyNewAdapter
-				statements.Add(new CodeAssignStatement(
-					new CodePropertyReferenceExpression(new CodePropertyReferenceExpression(new CodeThisReferenceExpression(), expression.TargetObjectId), expression.TargetFieldId),
-					adapterReference
-					));
+				//statements.Add(new CodeAssignStatement(
+				//	new CodePropertyReferenceExpression(new CodePropertyReferenceExpression(new CodeThisReferenceExpression(), expression.TargetObjectId), expression.TargetFieldId),
+				//	adapterReference
+				//	));
+
+				//Get the property with reflection to avoid effect of case naming
+				CodePropertyReferenceExpression targetReference = new CodePropertyReferenceExpression(new CodeThisReferenceExpression(), expression.TargetObjectId);
+				CodeMethodInvokeExpression getTypeMethodInvoke = new CodeMethodInvokeExpression(targetReference, "GetType");
+				CodeMethodInvokeExpression getPropertyMethodInvoke = new CodeMethodInvokeExpression(getTypeMethodInvoke, "GetProperty",
+					new CodePrimitiveExpression(expression.TargetFieldId),
+					new CodeSnippetExpression("BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance")
+					);
+				CodeMethodInvokeExpression setValueMethodInvoke = new CodeMethodInvokeExpression(getPropertyMethodInvoke, "SetValue", targetReference, adapterReference);
+				statements.Add(new CodeExpressionStatement(setValueMethodInvoke));
 
 				viewElementReferences.Add(adapterName, GenerateProxyProperty(classDeclaration, adapterName, "BindableAdapter", adapterReference, statements));
 				

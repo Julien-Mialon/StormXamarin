@@ -48,20 +48,7 @@ namespace Storm.Binding.AndroidTarget.Process
 			CodeNamespace codeNamespace = new CodeNamespace(_namespaceName);
 			codeUnit.Namespaces.Add(codeNamespace);
 
-			List<string> usings = new List<string>
-			{
-				"System",
-				"System.Collections.Generic",
-				"Android.App",
-				"Android.Content",
-				"Android.Runtime",
-				"Android.Views",
-				"Android.Widget",
-				"Android.OS",
-				"Storm.Mvvm",
-				"Storm.Mvvm.Bindings",
-				"Storm.Mvvm.ViewSelectors",
-			};
+			List<string> usings = ClassGeneratorHelper.DefaultNamespaces;
 			if (Namespaces != null && Namespaces.Any())
 			{
 				usings.AddRange(Namespaces);

@@ -17,6 +17,21 @@ namespace Storm.Binding.AndroidTarget.Process
 
 		const string BINDING_EXPRESSION_EMPTY = "{Binding}";
 
+		public static readonly List<string> DefaultNamespaces = new List<string>
+		{
+			"System",
+			"System.Collections.Generic",
+			"System.Reflection",
+			"Android.App",
+			"Android.Content",
+			"Android.Runtime",
+			"Android.Views",
+			"Android.Widget",
+			"Android.OS",
+			"Storm.Mvvm",
+			"Storm.Mvvm.Bindings",
+			"Storm.Mvvm.ViewSelectors",
+		};
 
 		public static bool IsResourceReferenceExpression(string input)
 		{
