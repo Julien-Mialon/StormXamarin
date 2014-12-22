@@ -18,7 +18,10 @@ namespace Storm.Binding.AndroidTarget.Process
 		{
 			base.GenerateOtherMembers(classDeclaration);
 
-			CodeConstructor constructor = new CodeConstructor();
+			CodeConstructor constructor = new CodeConstructor
+			{
+				Attributes = MemberAttributes.Public
+			};
 			constructor.Parameters.Add(new CodeParameterDeclarationExpression("LayoutInflater", "layoutInflater"));
 			constructor.Parameters.Add(new CodeParameterDeclarationExpression("View", "view"));
 

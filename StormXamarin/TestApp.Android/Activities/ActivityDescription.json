@@ -1,5 +1,5 @@
 ﻿{
-    "namespaces":  ["Storm.Mvvm"],
+    "namespaces":  ["Storm.Mvvm", "TestApp.Android"],
     "list": [
         {
             "activity": {

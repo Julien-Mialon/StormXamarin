@@ -7,7 +7,7 @@ namespace Storm.Mvvm.Bindings
 {
 	internal static class BindingProcessor
 	{
-		public static void ProcessBinding(ViewModelBase viewModel, object context, List<BindingObject> bindingObjects)
+		public static void ProcessBinding(object viewModel, object context, List<BindingObject> bindingObjects)
 		{
 			BindingNode rootExpressionNode = new BindingNode("");
 

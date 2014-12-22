@@ -64,6 +64,7 @@
     <Compile Include="Process\ResourceParser.cs" />
     <Compile Include="Process\ViewFileProcessor.cs" />
     <Compile Include="Process\ViewHolderClassGenerator.cs" />
+    <Compile Include="Process\ViewHolderFactoryGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

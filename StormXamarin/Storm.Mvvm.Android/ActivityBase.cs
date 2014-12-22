@@ -33,18 +33,12 @@ namespace Storm.Mvvm
 		protected void SetViewModel(ViewModelBase viewModel)
 		{
 			ViewModel = viewModel;
-			InitializeBindingsForAdapters();
 			BindingProcessor.ProcessBinding(ViewModel, this, GetBindingPaths());
 		}
 
 		protected virtual List<BindingObject> GetBindingPaths()
 		{
 			return new List<BindingObject>();
-		}
-
-		protected virtual void InitializeBindingsForAdapters()
-		{
-			
 		}
 
 		public List<BindingObject> GetBindingsForAdapters(int viewId)

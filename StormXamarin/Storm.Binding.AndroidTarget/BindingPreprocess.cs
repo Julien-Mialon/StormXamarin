@@ -87,7 +87,11 @@ namespace Storm.Binding.AndroidTarget
 
 		private IEnumerable<Tuple<string, FileType>> ProcessReader(InformationReader reader, string projectDir)
 		{
+			const string GENERATED_NAMESPACE = "Storm.Generated";
+			reader.AdditionalNamespaces.Add(GENERATED_NAMESPACE);
+
 			List<Tuple<string, FileType>> result = new List<Tuple<string, FileType>>();
+			List<Tuple<ResourceDataTemplate, string, string>> viewHolderClasses = new List<Tuple<ResourceDataTemplate, string, string>>();
 			ViewFileProcessor processor = new ViewFileProcessor();
 			foreach (ActivityViewInfo info in reader.ActivityViewInformations)
 			{
@@ -109,7 +113,8 @@ namespace Storm.Binding.AndroidTarget
 				foreach (ResourceDataTemplate dataTemplate in resourceCollection.OfType<ResourceDataTemplate>())
 				{
 					dataTemplate.ResourceId = viewName + "_DataTemplates_" + dataTemplate.Key;
-					ProcessDataTemplate(dataTemplate, result, projectDir, processor, resourceCollection, reader.AdditionalNamespaces, info.Activity.NamespaceName);
+					string className = ProcessDataTemplate(dataTemplate, result, projectDir, processor, resourceCollection, reader.AdditionalNamespaces, info.Activity.NamespaceName);
+					viewHolderClasses.Add(new Tuple<ResourceDataTemplate, string, string>(dataTemplate, info.Activity.NamespaceName, className));
 				}
 
 				AbstractClassGenerator classGenerator;
@@ -134,10 +139,31 @@ namespace Storm.Binding.AndroidTarget
 				classGenerator.Generate(info.Activity.OutputFile);
 				result.Add(new Tuple<string, FileType>(classOutputRelativePath, FileType.Class));
 			}
+
+			//Create static class to process dataTemplate ViewHolders
+			ViewHolderFactoryGenerator factoryGenerator = new ViewHolderFactoryGenerator(GENERATED_NAMESPACE)
+			{
+				Templates = viewHolderClasses,
+				Namespaces = reader.AdditionalNamespaces,
+			};
+
+			string factoryPath = Path.Combine(ClassLocation, string.Format("{0}.generated.cs", ViewHolderFactoryGenerator.FACTORY_CLASS_NAME));
+			string factoryRelativePath = GetRelativePath(projectDir, factoryPath);
+			Log.LogMessage(MessageImportance.High, "\t### Generating factory class file {0}", factoryRelativePath);
+			factoryGenerator.Generate(factoryPath);
+			result.Add(new Tuple<string, FileType>(factoryRelativePath, FileType.Class));
+
+
+
+
 			return result;
 		}
 
-		private void ProcessDataTemplate(ResourceDataTemplate dataTemplate, List<Tuple<string, FileType>> result, string projectDir, ViewFileProcessor processor, IEnumerable<XmlResource> resourceCollection, IEnumerable<string> additionalNamespaces, string namespaceName)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns>The name of the ViewHolder class created for this DataTemplate</returns>
+		private string ProcessDataTemplate(ResourceDataTemplate dataTemplate, List<Tuple<string, FileType>> result, string projectDir, ViewFileProcessor processor, IEnumerable<XmlResource> resourceCollection, IEnumerable<string> additionalNamespaces, string namespaceName)
 		{
 			Tuple<List<XmlAttribute>, List<IdViewObject>> tupleResult = processor.ExtractBindingInformations(dataTemplate.RootElement);
 			List<XmlAttribute> bindingInformations = tupleResult.Item1;
@@ -164,6 +190,8 @@ namespace Storm.Binding.AndroidTarget
 			viewHolderGenerator.Generate(classOutputFile);
 
 			result.Add(new Tuple<string, FileType>(classRelativePath, FileType.Class));
+
+			return viewHolderClassName;
 		}
 	}
 }

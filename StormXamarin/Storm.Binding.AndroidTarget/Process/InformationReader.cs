@@ -24,7 +24,7 @@ namespace Storm.Binding.AndroidTarget.Process
 				ActivityViewInfoCollection input = serializer.Deserialize<ActivityViewInfoCollection>(reader);
 
 				ActivityViewInformations = input.List;
-				AdditionalNamespaces = input.Namespaces;
+				AdditionalNamespaces = input.Namespaces ?? new List<string>();
 
 				string baseDir = Path.GetDirectoryName(filename) ?? "";
 				//rewrite all path using baseDir
