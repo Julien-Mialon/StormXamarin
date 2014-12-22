@@ -4,7 +4,7 @@ namespace Storm.Mvvm.ViewSelectors
 {
 	public class SimpleViewSelector : ViewSelectorBase
 	{
-		public int DefaultView { get; set; }
+		public int View { get; set; }
 
 		public SimpleViewSelector(LayoutInflater layoutInflater) : base(layoutInflater)
 		{
@@ -13,7 +13,7 @@ namespace Storm.Mvvm.ViewSelectors
 
 		public override int GetViewId(object model)
 		{
-			return DefaultView;
+			return View;
 		}
 	}
 }

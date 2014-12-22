@@ -31,8 +31,8 @@
 		</DataTemplate>
 
 		<ViewSelector Key="SpinnerAdapter"
-					  Class="TestApp.Android.Selectors.SpinnerViewSelector"
-					  DefaultView="{Resource SpinnerItemTemplate}"
+					  Class="Storm.Mvvm.ViewSelectors.SimpleViewSelector"
+					  View="{Resource SpinnerItemTemplate}"
 					  />
 
 	</Resources>
