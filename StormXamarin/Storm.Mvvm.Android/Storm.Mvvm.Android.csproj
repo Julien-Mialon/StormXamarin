@@ -87,6 +87,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewSelectors\SimpleViewSelector.cs" />
     <Compile Include="ViewSelectors\ViewSelectorBase.cs" />
+    <Compile Include="Wrapper\ConverterHelper.cs" />
+    <Compile Include="Wrapper\JavaObjectExtension.cs" />
+    <Compile Include="Wrapper\SystemObjectExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Storm.Mvvm.Android.nuspec" />

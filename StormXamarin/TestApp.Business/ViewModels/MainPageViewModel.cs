@@ -97,11 +97,12 @@ namespace TestApp.Business.ViewModels
 
 	    private void PushAlertAction()
 	    {
-		    Container.Resolve<IMessageDialogService>().Show(Dialogs.COLOR_PICKER);
-			//, new Dictionary<string, object>()
-			//{
-			//	{"LabelText", "Default value for label text"}
-			//});
+		    NavigationService.Navigate(Views.ADAPTER);
+		    //Container.Resolve<IMessageDialogService>().Show(Dialogs.COLOR_PICKER);
+		    //, new Dictionary<string, object>()
+		    //{
+		    //	{"LabelText", "Default value for label text"}
+		    //});
 	    }
 
 	    private void ButtonAction()

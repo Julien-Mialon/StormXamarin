@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Storm.Mvvm.Annotations;
+using Storm.Mvvm.Wrapper;
 
 namespace Storm.Mvvm.Bindings
 {
@@ -57,18 +60,18 @@ namespace Storm.Mvvm.Bindings
 		{
 			if (!_property.PropertyType.IsInstanceOfType(value))
 			{
-				value = Convert.ChangeType(value, _property.PropertyType);
+				value = ConverterHelper.ChangeType(value, _property.PropertyType);
 			}
 
 			if (_property.CanRead)
 			{
 				object referenceValue = _property.GetValue(_context);
-				if (!Equals(referenceValue, value))
+				if (!Equals(referenceValue, value) && _property.CanWrite)
 				{
 					_property.SetValue(_context, value);
 				}
 			}
-			else
+			else if(_property.CanWrite)
 			{
 				_property.SetValue(_context, value);
 			}

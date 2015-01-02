@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Reflection;
+using Storm.Mvvm.Wrapper;
 
 namespace Storm.Mvvm.Bindings
 {
@@ -68,10 +69,13 @@ namespace Storm.Mvvm.Bindings
 				{
 					value = Expression.Converter.ConvertBack(value, SourceProperty.PropertyType, Expression.ConverterParameter, CultureInfo.CurrentUICulture);
 				}
-				
-				value = Convert.ChangeType(value, SourceProperty.PropertyType);
 
-				SourceProperty.SetValue(Context, value);
+				value = ConverterHelper.ChangeType(value, SourceProperty.PropertyType);
+				
+				if (SourceProperty.CanWrite)
+				{
+					SourceProperty.SetValue(Context, value);
+				}
 			}
 		}
 	}

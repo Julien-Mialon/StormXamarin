@@ -33,6 +33,17 @@
                 "inputFile": "../Views/MainFragment.xml",
                 "outputFile": "MainFragment.axml"
             }
+        },
+        {
+            "activity": {
+                "outputFile": "AdapterActivity.ui.cs",
+                "className": "AdapterActivity",
+                "namespaceName": "TestApp.Android.Activities"
+            },
+            "view": {
+                "inputFile": "../Views/Adapter.xml",
+                "outputFile": "Adapter.axml"
+            }
         }
     ]
 }

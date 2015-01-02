@@ -41,6 +41,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ViewModels\AdapterViewModel.cs" />
     <Compile Include="ViewModels\ColorPickerViewModel.cs" />
     <Compile Include="ViewModels\MainFragmentViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />

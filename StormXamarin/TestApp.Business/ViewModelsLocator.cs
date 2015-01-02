@@ -12,6 +12,7 @@ namespace TestApp.Business
 			container.RegisterFactory(x => new MainPageViewModel(x));
 			container.RegisterFactory(x => new SecondPageViewModel(x));
 			container.RegisterFactory(x => new MainFragmentViewModel(x));
+			container.RegisterFactory(x => new AdapterViewModel(x));
 			_container = container;
 		}
 
@@ -28,6 +29,11 @@ namespace TestApp.Business
 		public MainFragmentViewModel MainFragmentViewModel
 		{
 			get { return _container.Resolve<MainFragmentViewModel>(); }
+		}
+
+		public AdapterViewModel AdapterViewModel
+		{
+			get { return _container.Resolve<AdapterViewModel>(); }
 		}
 	}
 }

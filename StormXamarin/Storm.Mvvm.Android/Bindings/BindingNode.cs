@@ -115,7 +115,11 @@ namespace Storm.Mvvm.Bindings
 			PropertyInfo property = container.GetType().GetProperty(PropertyName, BindingFlags.Instance | BindingFlags.Public);
 			if (property != null)
 			{
-				return property.GetValue(container);
+				if (property.CanRead)
+				{
+					return property.GetValue(container);
+				}
+				return null;
 			}
 			throw new Exception("BindingNode : can not find property " + PropertyName + " in object of type " + container.GetType());
 		}

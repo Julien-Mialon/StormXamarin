@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\AdapterActivity.cs" />
     <Compile Include="Activities\ColorPicker.cs" />
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Activities\MainFragment.cs" />
@@ -97,6 +98,7 @@
     <Content Include="Properties\AndroidManifest.xml" />
     <AndroidResource Include="Resources\values-en\Strings.xml" />
     <AndroidResource Include="Resources\values-fr\Strings.xml" />
+    <Content Include="Views\Adapter.xml" />
     <None Include="Views\MainFragment.xml">
       <SubType>Designer</SubType>
     </None>

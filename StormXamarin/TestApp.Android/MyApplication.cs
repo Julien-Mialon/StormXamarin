@@ -27,6 +27,7 @@ namespace TestApp.Android
 			{
 				{Views.MAIN, typeof(MainActivity)},
 				{Views.SECOND, typeof(SecondActivity)},
+				{Views.ADAPTER, typeof(AdapterActivity)},
 			};
 			Dictionary<string, Type> dialogs = new Dictionary<string, Type>
 			{

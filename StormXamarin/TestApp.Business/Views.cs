@@ -4,6 +4,7 @@
 	{
 		public const string MAIN = "Main";
 		public const string SECOND = "Second";
+		public const string ADAPTER = "Adapter";
 	}
 
 	public static class Dialogs
