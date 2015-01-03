@@ -17,7 +17,7 @@ namespace Storm.Binding.AndroidTarget.Process
 
 		private int _viewObjectId = 0;
 
-		public XmlElement Read(string fileName)
+		public XmlElement Read(string fileName, Dictionary<string, string> viewComponents)
 		{
 			Stack<XmlElement> elements = new Stack<XmlElement>();
 			XmlElement current = null;
@@ -32,9 +32,15 @@ namespace Storm.Binding.AndroidTarget.Process
 					{
 						bool isAutoClose = reader.IsEmptyElement;
 
+						string elementName = reader.Name;
+						if (viewComponents.ContainsKey(elementName))
+						{
+							elementName = viewComponents[elementName];
+						}
+
 						XmlElement childElement = new XmlElement
 						{
-							Name = reader.Name,
+							Name = elementName,
 						};
 
 						if (current != null)
@@ -100,7 +106,7 @@ namespace Storm.Binding.AndroidTarget.Process
 		{
 			if (element.Name != "Resources")
 			{
-				writer.WriteStartElement(element.Name);
+				writer.WriteStartElement(ToLowerNamespace(element.Name));
 				foreach (XmlAttribute attr in element.Attributes)
 				{
 					WriteAttribute(writer, attr);
@@ -135,6 +141,19 @@ namespace Storm.Binding.AndroidTarget.Process
 			{
 				writer.WriteAttributeString(attribute.Name, attribute.Value);	
 			}
+		}
+
+		private string ToLowerNamespace(string input)
+		{
+			if (input.Contains("."))
+			{
+				int lastPosition = input.LastIndexOf('.');
+				string namespaceName = input.Substring(0, lastPosition);
+				string className = input.Substring(lastPosition);
+
+				input = namespaceName.ToLowerInvariant() + className;
+			}
+			return input;
 		}
 
 		public void Display(XmlElement element, int indent = 0)

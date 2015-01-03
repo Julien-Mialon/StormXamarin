@@ -1,14 +1,4 @@
-﻿using System;
-using System.CodeDom;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using Storm.Binding.AndroidTarget.Data;
-
-namespace Storm.Binding.AndroidTarget.Process
+﻿namespace Storm.Binding.AndroidTarget.Process
 {
 	// ReSharper disable BitwiseOperatorOnEnumWithoutFlags
 	//public class PartialClassGenerator

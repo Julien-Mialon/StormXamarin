@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using Storm.Binding.AndroidTarget.Data;
+using Storm.Binding.AndroidTarget.Res;
 
 namespace Storm.Binding.AndroidTarget.Process
 {
@@ -10,7 +12,9 @@ namespace Storm.Binding.AndroidTarget.Process
 	{
 		public List<ActivityViewInfo> ActivityViewInformations { get; private set; }
 
-		public List<string> AdditionalNamespaces { get; private set; } 
+		public List<string> AdditionalNamespaces { get; private set; }
+
+		public Dictionary<string, string> ViewComponents { get; private set; } 
 
 		public InformationReader(string filename, string classLocation, string resourceLocation)
 		{
@@ -35,6 +39,10 @@ namespace Storm.Binding.AndroidTarget.Process
 					info.View.InputFile = NormalizePath(Path.Combine(baseDir, info.View.InputFile));
 					info.View.OutputFile = NormalizePath(Path.Combine(baseDir, resourceLocation, info.View.OutputFile));
 				}
+
+				List<ViewComponent> components = input.Components ?? new List<ViewComponent>(); 
+				components.AddRange(DefaultComponents.Components);
+				ViewComponents = components.ToDictionary(x => x.Key, x => x.Value);
 			}
 			catch (Exception)
 			{

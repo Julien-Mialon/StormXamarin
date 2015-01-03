@@ -62,6 +62,8 @@
     <Compile Include="Bindings\EventToCommandProxy.cs" />
     <Compile Include="Bindings\PropertyBinding.cs" />
     <Compile Include="Bindings\TwoWayPropertyBinding.cs" />
+    <Compile Include="Components\BindableSpinner.cs" />
+    <Compile Include="Components\ISearchableAdapter.cs" />
     <Compile Include="Converters\IValueConverter.cs" />
     <Compile Include="Dialogs\AbstractDialogFragmentBase.cs" />
     <Compile Include="Dialogs\AlertDialogFragmentBase.cs" />

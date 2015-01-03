@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using Storm.Binding.AndroidTarget.Data;
@@ -97,7 +96,7 @@ namespace Storm.Binding.AndroidTarget
 			{
 				Log.LogMessage(MessageImportance.High, "\t# Generating for activity {0}.{1}", info.Activity.NamespaceName, info.Activity.ClassName);
 
-				XmlElement root = processor.Read(info.View.InputFile);
+				XmlElement root = processor.Read(info.View.InputFile, reader.ViewComponents);
 				Tuple<List<XmlAttribute>, List<IdViewObject>> tupleResult = processor.ExtractBindingInformations(root);
 				List<XmlAttribute> bindingInformations = tupleResult.Item1;
 				List<IdViewObject> views = tupleResult.Item2;

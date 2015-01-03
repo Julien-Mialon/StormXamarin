@@ -66,6 +66,7 @@
     <Compile Include="Process\ViewHolderClassGenerator.cs" />
     <Compile Include="Process\ViewHolderFactoryGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Res\DefaultComponents.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

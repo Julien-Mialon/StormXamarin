@@ -2,11 +2,12 @@
 using System.Collections.Specialized;
 using Android.Views;
 using Android.Widget;
+using Storm.Mvvm.Components;
 using Storm.Mvvm.ViewSelectors;
 
 namespace Storm.Mvvm
 {
-	public class BindableAdapter : BaseAdapter<object>
+	public class BindableAdapter : BaseAdapter<object>, ISearchableAdapter
 	{
 		private readonly IViewSelector _viewSelector;
 		private IList _collection;
@@ -52,6 +53,11 @@ namespace Storm.Mvvm
 			{
 				return _collection == null ? 0 : _collection.Count;
 			}
+		}
+
+		public int IndexOf(object value)
+		{
+			return _collection == null ? -1 : _collection.IndexOf(value);
 		}
 
 		private void Unregister(object collection)
