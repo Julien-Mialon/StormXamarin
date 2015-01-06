@@ -65,6 +65,7 @@
     <Compile Include="Components\BindableSpinner.cs" />
     <Compile Include="Components\ISearchableAdapter.cs" />
     <Compile Include="Converters\IValueConverter.cs" />
+    <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Dialogs\AbstractDialogFragmentBase.cs" />
     <Compile Include="Dialogs\AlertDialogFragmentBase.cs" />
     <Compile Include="Dialogs\DialogFragmentBase.cs" />
