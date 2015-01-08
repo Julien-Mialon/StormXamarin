@@ -68,7 +68,7 @@ namespace TestApp.Business.ViewModels
 
 		public AdapterViewModel(IContainer container) : base(container)
 		{
-			AddCommand = new DelegateCommand(AddAction);
+			AddCommand = new DelegateCommand<string>(AddAction);
 
 			int n = 1;
 			foreach (string s in new string[] {"Alpha", "Beta", "Omega"})
@@ -78,13 +78,13 @@ namespace TestApp.Business.ViewModels
 			SelectedItem = MyCollection[2];
 		}
 
-		private void AddAction()
+		private void AddAction(string input)
 		{
-			if (string.IsNullOrWhiteSpace(InputText))
+			if (string.IsNullOrWhiteSpace(input))
 			{
 				return;
 			}
-			MyCollection.Add(new ListItemModel(42, InputText));
+			MyCollection.Add(new ListItemModel(42, input));
 			InputText = "";
 		}
 	}

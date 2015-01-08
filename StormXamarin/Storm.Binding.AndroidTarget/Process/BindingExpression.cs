@@ -25,6 +25,9 @@ namespace Storm.Binding.AndroidTarget.Process
 
 		public CodePropertyReferenceExpression ViewSelectorReference { get; set; }
 
+		// only if a CommandParameter is specified
+		public CodePropertyReferenceExpression CommandParameterReference { get; set; }
+
 		// default value : OneWay
 		public BindingModes Mode { get; set; }
 

@@ -11,6 +11,8 @@ namespace Storm.Mvvm.Bindings
 
 		public ICommand Command { get; set; }
 
+		public CommandParameterProxy CommandParameter { get; set; }
+
 		static EventToCommandProxy()
 		{
 			_triggerMethodInfo = typeof (EventToCommandProxy).GetMethod("OnEventTriggered", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -26,13 +28,25 @@ namespace Storm.Mvvm.Bindings
 			Command = command;
 		}
 
+		public EventToCommandProxy(object context, EventInfo eventInfo, CommandParameterProxy commandParameter) : this(context, eventInfo)
+		{
+			CommandParameter = commandParameter;
+		}
+
+		public EventToCommandProxy(object context, EventInfo eventInfo, ICommand command, CommandParameterProxy commandParameter) : this(context, eventInfo)
+		{
+			Command = command;
+			CommandParameter = commandParameter;
+		}
+
 		[UsedImplicitly]
 		private void OnEventTriggered(object sender, EventArgs e)
 		{
 			ICommand command = Command;
-			if (command != null && command.CanExecute(e))
+			object parameter = CommandParameter == null ? e : CommandParameter.Value;
+			if (command != null && command.CanExecute(parameter))
 			{
-				command.Execute(e);
+				command.Execute(parameter);
 			}
 		}
 	}

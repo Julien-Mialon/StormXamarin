@@ -18,6 +18,8 @@ namespace Storm.Mvvm.Bindings
 
 		public BindingTargetType TargetType { get; set; }
 
+		public CommandParameterProxy CommandParameter { get; set; }
+
 		public BindingExpression()
 		{
 			

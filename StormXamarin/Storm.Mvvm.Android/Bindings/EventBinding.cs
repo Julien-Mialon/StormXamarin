@@ -26,7 +26,7 @@ namespace Storm.Mvvm.Bindings
 				throw new Exception("EventBinding : event with name " + Expression.TargetField + " does not exists in element of type " + TargetObject.GetType());
 			}
 
-			_eventProxy = new EventToCommandProxy(TargetObject, eventInfo);
+			_eventProxy = new EventToCommandProxy(TargetObject, eventInfo, Expression.CommandParameter);
 			_eventProxy.Attach();
 		}
 

@@ -40,13 +40,14 @@
 			  />
 
 	<EditText android:layout_width="fill_parent"
-				android:layout_height="60dp"
-				android:text="{Binding InputText, Mode=TwoWay, UpdateEvent=TextChanged}"
-				/>
+			  android:layout_height="60dp"
+			  android:text="{Binding InputText, Mode=TwoWay, UpdateEvent=TextChanged}"
+			  />
 	<Button android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:text="Ajouter"
 			click="{Binding AddCommand}"
+			CommandParameter="{Binding InputText}"
 			/>
 	
 	<TextView android:layout_width="fill_parent"
