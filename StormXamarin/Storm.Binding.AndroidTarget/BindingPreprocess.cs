@@ -111,7 +111,12 @@ namespace Storm.Binding.AndroidTarget
 				string viewName = Path.GetFileNameWithoutExtension(info.View.OutputFile);
 				foreach (ResourceDataTemplate dataTemplate in resourceCollection.OfType<ResourceDataTemplate>())
 				{
+					// generate all datatemplate key before generating data templates
 					dataTemplate.ResourceId = viewName + "_DataTemplates_" + dataTemplate.Key;
+				}
+
+				foreach (ResourceDataTemplate dataTemplate in resourceCollection.OfType<ResourceDataTemplate>())
+				{
 					string className = ProcessDataTemplate(dataTemplate, result, projectDir, processor, resourceCollection, reader.AdditionalNamespaces, info.Activity.NamespaceName);
 					viewHolderClasses.Add(new Tuple<ResourceDataTemplate, string, string>(dataTemplate, info.Activity.NamespaceName, className));
 				}
