@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -ne 2 ]; then
-	echo "Usage : nugetpack.sh [all|Mvvm.Android|Mvvm] [Push|No]"
+	echo "Usage : nugetpack.sh [all|Mvvm|Mvvm.Android|Mvvm.Tablet] [Push|No]"
 	exit;
 fi
 
@@ -10,8 +10,7 @@ cd nuget_build
 
 if [[ $1 == all || $1 == Mvvm ]]; then
 	cd Storm.Mvvm
-	echo -n "Generating Stom.Mvvm..."
-	#nuget pack Storm.Mvvm.csproj -Prop Configuration=Release -Verbosity quiet -NonInteractive -IncludeReferencedProjects
+	echo -n "Generating Storm.Mvvm..."
 	nuget pack -Verbosity quiet -NonInteractive
 	echo "				Done !"
 	if [[ $2 == Push ]]; then
@@ -26,7 +25,6 @@ fi
 if [[ $1 == all || $1 == Mvvm.Android ]]; then
 	cd Storm.Mvvm.Android
 	echo -n "Generating Storm.Mvvm.Android..."
-	#nuget pack Storm.Mvvm.Android.csproj -Prop Configuration=Release -Verbosity quiet -NonInteractive -IncludeReferencedProjects
 	nuget pack -Verbosity quiet -NonInteractive
 	echo "		Done !"
 	if [[ $2 == Push ]]; then
@@ -37,6 +35,20 @@ if [[ $1 == all || $1 == Mvvm.Android ]]; then
 	mv *.nupkg ../../nuget_packages
 	cd ..
 fi
+
+if [[ $1 == all || $1 == Mvvm.Tablet ]]; then
+	cd Storm.Mvvm.Tablet
+	echo -n "Generating Storm.Mvvm.Tablet..."
+	nuget pack -Verbosity quiet -NonInteractive
+	echo "				Done !"
+	if [[ $2 == Push ]]; then
+		echo -n "Uploading Storm.Mvvm.Tablet..."
+		nuget push *.nupkg
+		echo "				Done !"
+	fi
+	mv *.nupkg ../../nuget_packages
+	cd ..
+fi 
 
 cd ..
 echo ""

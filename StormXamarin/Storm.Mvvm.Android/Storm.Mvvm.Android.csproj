@@ -95,9 +95,6 @@
     <Compile Include="Wrapper\SystemObjectExtension.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Storm.Mvvm.Android.nuspec" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Storm.Mvvm\Storm.Mvvm.csproj">
       <Project>{1106aaa1-d2dd-4e12-8b9b-62bdfb7aee88}</Project>
       <Name>Storm.Mvvm</Name>
