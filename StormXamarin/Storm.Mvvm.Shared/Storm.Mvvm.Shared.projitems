@@ -13,5 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\StringFormatConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ToStringConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\NavigationHelper.cs" />
   </ItemGroup>
 </Project>

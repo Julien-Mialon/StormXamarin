@@ -84,7 +84,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Localization\LocalizationHelper.cs" />
-    <Compile Include="Services\NavigationHelper.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="PageView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
