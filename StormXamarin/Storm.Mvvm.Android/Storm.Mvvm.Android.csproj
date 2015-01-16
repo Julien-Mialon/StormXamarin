@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;ANDROID</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -66,7 +66,6 @@
     <Compile Include="Components\BindableSpinner.cs" />
     <Compile Include="Components\ISearchableAdapter.cs" />
     <Compile Include="Converters\IValueConverter.cs" />
-    <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Dialogs\AbstractDialogFragmentBase.cs" />
     <Compile Include="Dialogs\AlertDialogFragmentBase.cs" />
     <Compile Include="Dialogs\DialogFragmentBase.cs" />
@@ -105,6 +104,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <Import Project="..\Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems" Label="Shared" Condition="Exists('..\Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems')" />
+  <Import Project="..\Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems" Label="Shared" Condition="Exists('..\Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetPath) $(ProjectDir)..\nuget_build\Storm.Mvvm.Android\lib\MonoAndroid22\</PostBuildEvent>
