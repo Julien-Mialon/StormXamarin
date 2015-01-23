@@ -83,9 +83,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Localization\LocalizationHelper.cs" />
-    <Compile Include="Services\NavigationHelper.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="PageView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -99,6 +97,10 @@
       <Name>Storm.Mvvm</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Converters\" />
+  </ItemGroup>
+  <Import Project="..\Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems" Label="Shared" Condition="Exists('..\Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <ProjectExtensions />
