@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storm.Mvvm.Phone", "Storm.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storm.Binding.AndroidTarget", "Storm.Binding.AndroidTarget\Storm.Binding.AndroidTarget.csproj", "{25A36E16-5762-4053-9F46-C105577EBD2F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storm.Mvvm.Forms", "Storm.Mvvm.Forms\Storm.Mvvm.Forms.csproj", "{D0BBCB1C-74BD-44DC-BFC1-A26E92A50B00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +96,14 @@ Global
 		{25A36E16-5762-4053-9F46-C105577EBD2F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{25A36E16-5762-4053-9F46-C105577EBD2F}.Release|ARM.ActiveCfg = Release|Any CPU
 		{25A36E16-5762-4053-9F46-C105577EBD2F}.Release|x86.ActiveCfg = Release|Any CPU
+		{D0BBCB1C-74BD-44DC-BFC1-A26E92A50B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0BBCB1C-74BD-44DC-BFC1-A26E92A50B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0BBCB1C-74BD-44DC-BFC1-A26E92A50B00}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{D0BBCB1C-74BD-44DC-BFC1-A26E92A50B00}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D0BBCB1C-74BD-44DC-BFC1-A26E92A50B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0BBCB1C-74BD-44DC-BFC1-A26E92A50B00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0BBCB1C-74BD-44DC-BFC1-A26E92A50B00}.Release|ARM.ActiveCfg = Release|Any CPU
+		{D0BBCB1C-74BD-44DC-BFC1-A26E92A50B00}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,5 +119,6 @@ Global
 		{EB3F7EF1-B9F8-42B7-899B-6873DD7F46A4} = {A702AFC2-DCD8-43AE-8B7A-CE4FAF13A49E}
 		{3016A0CD-7362-4D27-9CA4-0527F740A8BE} = {6840389F-F3C7-4550-963C-17D67694C5DC}
 		{25A36E16-5762-4053-9F46-C105577EBD2F} = {E45250DF-952E-41F9-BC5C-8FEA483D1445}
+		{D0BBCB1C-74BD-44DC-BFC1-A26E92A50B00} = {8576A79E-8E92-4F92-A63A-1A45FED2BF7D}
 	EndGlobalSection
 EndGlobal
