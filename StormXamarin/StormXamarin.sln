@@ -36,6 +36,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp.Tablet", "TestApp.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storm.Mvvm.Forms", "Storm.Mvvm.Forms\Storm.Mvvm.Forms.csproj", "{D0BBCB1C-74BD-44DC-BFC1-A26E92A50B00}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{41BCEF73-88FC-4FBD-89C0-2B65A9D5BA32}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems*{99efd43e-c236-44c4-ab25-c4c7edb343a4}*SharedItemsImports = 13

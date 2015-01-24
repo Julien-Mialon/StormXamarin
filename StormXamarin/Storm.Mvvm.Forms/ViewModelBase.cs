@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Reflection;
 using Storm.Mvvm.Navigation;
+using Storm.Mvvm.Patterns;
+using Storm.Mvvm.Services;
 using Xamarin.Forms;
 
 namespace Storm.Mvvm
@@ -10,7 +12,10 @@ namespace Storm.Mvvm
 	{
 		private Dictionary<string, object> _navigationParameters;
 
-		public INavigation NavigationService { get; set; }
+		public INavigationService NavigationService
+		{
+			get { return LazySingletonInitializer<INavigationService>.Value; }
+		}
 
 		public virtual void Initialize(Dictionary<string, object> navigationParameters)
 		{
