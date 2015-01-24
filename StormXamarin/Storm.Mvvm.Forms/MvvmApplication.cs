@@ -21,7 +21,7 @@ namespace Storm.Mvvm
 
 			DependencyService.Get<ICurrentPageService>().Push(mainPage);
 			
-			MainPage = new NavigationPage(mainPage);
+			MainPage = new MvvmNavigationPage(mainPage);
 		}
 	}
 }

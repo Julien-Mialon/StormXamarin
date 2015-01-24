@@ -19,5 +19,9 @@ namespace Storm.Mvvm.Services
 
 
 		Task<Page> PopAsync(bool animated = true);
+
+		void OnPush(Page page, NavigationMode mode);
+
+		void OnPop(Page page, NavigationMode mode);
 	}
 }

@@ -30,10 +30,18 @@ namespace Storm.Mvvm.Services
 				vm.Initialize(parameters ?? new Dictionary<string, object>());
 			}
 
-			Task result = (mode == NavigationMode.Push) ?
-						CurrentPage.Navigation.PushAsync(page, animated) :
-						CurrentPage.Navigation.PushModalAsync(page, animated);
-			OnPush(page, mode);
+			Task result;
+			if (mode == NavigationMode.Push)
+			{
+				result = CurrentPage.Navigation.PushAsync(page, animated);
+				// Push will be handled by the MvvmNavigationPage
+			}
+			else
+			{
+				result = CurrentPage.Navigation.PushModalAsync(page, animated);
+				OnPush(page, mode);
+			}
+			
 			return result;
 		}
 
@@ -45,14 +53,21 @@ namespace Storm.Mvvm.Services
 		public Task<Page> PopAsync(bool animated = true)
 		{
 			Tuple<Page, NavigationMode> top = _pages.Pop();
-			Task<Page> result = (top.Item2 == NavigationMode.Push) ?
-							CurrentPage.Navigation.PopAsync(animated) :
-							CurrentPage.Navigation.PopModalAsync(animated);
-			OnPop(top.Item1, top.Item2);
+			Task<Page> result;
+			if (top.Item2 == NavigationMode.Push)
+			{
+				result = CurrentPage.Navigation.PopAsync(animated);
+				// Pop will be handled by the MvvmNavigationPage
+			}
+			else
+			{
+				result = CurrentPage.Navigation.PopModalAsync(animated);
+				OnPop(top.Item1, top.Item2);
+			}
 			return result;
 		}
 
-		protected void OnPush(Page page, NavigationMode mode)
+		public void OnPush(Page page, NavigationMode mode)
 		{
 			var handler = ViewPushed;
 			if (handler != null)
@@ -61,7 +76,7 @@ namespace Storm.Mvvm.Services
 			}
 		}
 
-		protected void OnPop(Page page, NavigationMode mode)
+		public void OnPop(Page page, NavigationMode mode)
 		{
 			var handler = ViewPopped;
 			if (handler != null)
