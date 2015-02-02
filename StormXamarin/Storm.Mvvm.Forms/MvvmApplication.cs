@@ -4,9 +4,9 @@ using Xamarin.Forms;
 
 namespace Storm.Mvvm
 {
-	public class MvvmApplication<TMainPage> : Application where TMainPage : Page, new()
+	public class MvvmApplication : Application
 	{
-		public MvvmApplication(Action serviceRegisterCallback = null)
+		public MvvmApplication(Func<Page> mainPageMaker, Action serviceRegisterCallback = null)
 		{
 			DependencyService.Register<INavigationService, NavigationService>();
 			DependencyService.Register<IDialogService, DialogService>();
@@ -17,11 +17,19 @@ namespace Storm.Mvvm
 				serviceRegisterCallback();
 			}
 
-			Page mainPage = new TMainPage();
+			Page mainPage = mainPageMaker();
 
 			DependencyService.Get<ICurrentPageService>().Push(mainPage);
-			
+
 			MainPage = new MvvmNavigationPage(mainPage);
+		}
+	}
+
+	public class MvvmApplication<TMainPage> : MvvmApplication where TMainPage : Page, new()
+	{
+		public MvvmApplication(Action serviceRegisterCallback = null) : base(() => new TMainPage(), serviceRegisterCallback)
+		{
+			
 		}
 	}
 }
