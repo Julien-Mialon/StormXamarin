@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Storm.Mvvm.Forms</id>
-	<version>1.3</version>
+	<version>1.5</version>
 	<title>Storm.Mvvm.Forms</title>
 	<authors>Julien Mialon</authors>
 	<owners>Julien Mialon</owners>
