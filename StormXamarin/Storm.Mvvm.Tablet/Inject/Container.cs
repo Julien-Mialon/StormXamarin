@@ -7,11 +7,11 @@ namespace Storm.Mvvm.Inject
 {
 	public class Container : ContainerBase
 	{
-		private Frame _rootFrame;
+		private readonly Frame _rootFrame;
 
 		public Container(Frame rootFrame)
 		{
-			
+			_rootFrame = rootFrame;
 		}
 
 		public void Initialize(Dictionary<string, Type> views)
