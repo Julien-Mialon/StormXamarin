@@ -1,10 +1,11 @@
 ﻿using System;
+using Object = Java.Lang.Object;
 
 namespace Storm.Mvvm.Wrapper
 {
 	public static class ConverterHelper
 	{
-		private static readonly Type _javaObjectType = typeof (Java.Lang.Object);
+		private static readonly Type _javaObjectType = typeof (Object);
 		public static object ChangeType(object value, Type conversionType)
 		{
 			if (value == null)
@@ -25,7 +26,7 @@ namespace Storm.Mvvm.Wrapper
 			}
 			if (valueIsJava)
 			{
-				value = (value as Java.Lang.Object).ToManaged();
+				value = (value as Object).ToManaged();
 			}
 			return Convert.ChangeType(value, conversionType);
 		}

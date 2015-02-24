@@ -1,4 +1,4 @@
-namespace Storm.Mvvm.Components
+namespace Storm.Mvvm.Interfaces
 {
 	public interface ISearchableAdapter
 	{

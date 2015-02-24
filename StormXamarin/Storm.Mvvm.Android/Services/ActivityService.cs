@@ -25,7 +25,7 @@ namespace Storm.Mvvm.Services
 			}
 			set
 			{
-				if (!object.Equals(_currentActivity, value))
+				if (!Equals(_currentActivity, value))
 				{
 					Activity oldValue = _currentActivity;
 					RaiseActivityChanging(oldValue, value);

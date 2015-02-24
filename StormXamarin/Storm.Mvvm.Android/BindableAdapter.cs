@@ -2,8 +2,7 @@
 using System.Collections.Specialized;
 using Android.Views;
 using Android.Widget;
-using Storm.Mvvm.Components;
-using Storm.Mvvm.ViewSelectors;
+using Storm.Mvvm.Interfaces;
 
 namespace Storm.Mvvm
 {
@@ -17,7 +16,7 @@ namespace Storm.Mvvm
 			get { return _collection; }
 			set
 			{
-				if (!object.Equals(_collection, value))
+				if (!Equals(_collection, value))
 				{
 					Unregister(_collection);
 					_collection = value as IList;

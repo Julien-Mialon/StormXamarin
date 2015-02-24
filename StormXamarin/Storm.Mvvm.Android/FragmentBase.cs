@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Android.App;
+using Android.OS;
 using Android.Views;
 using Storm.Mvvm.Bindings;
 
@@ -13,7 +14,7 @@ namespace Storm.Mvvm
 
 		protected View RootView { get; private set; }
 
-		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Android.OS.Bundle savedInstanceState)
+		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			if (RootView != null)
 			{

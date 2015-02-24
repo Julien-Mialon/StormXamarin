@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Runtime;
 using Android.Util;
 using Android.Widget;
+using Storm.Mvvm.Interfaces;
 
 namespace Storm.Mvvm.Components
 {

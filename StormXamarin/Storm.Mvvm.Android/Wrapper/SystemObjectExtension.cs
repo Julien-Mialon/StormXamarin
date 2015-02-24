@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using Object = Java.Lang.Object;
 
 namespace Storm.Mvvm.Wrapper
 {
@@ -8,7 +9,7 @@ namespace Storm.Mvvm.Wrapper
 	{
 		private static ConstructorInfo _constructor = null;
 
-		public static Java.Lang.Object WrapIntoJava(this object o)
+		public static Object WrapIntoJava(this object o)
 		{
 			if (_constructor == null)
 			{
@@ -28,7 +29,7 @@ namespace Storm.Mvvm.Wrapper
 					throw new Exception("Could not find appropriate constructor for type Android.Runtime.JavaObject");
 				}
 			}
-			return _constructor.Invoke(new object[] {o}) as Java.Lang.Object;
+			return _constructor.Invoke(new object[] {o}) as Object;
 		}
 	}
 }

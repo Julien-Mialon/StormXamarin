@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Android.Views;
 using Storm.Mvvm.Bindings;
+using Storm.Mvvm.Interfaces;
 
 namespace Storm.Mvvm.ViewSelectors
 {
@@ -25,7 +26,7 @@ namespace Storm.Mvvm.ViewSelectors
 			MethodInfo method = objectType.GetMethod("Get", BindingFlags.Public | BindingFlags.Static);
 			if (method == null)
 			{
-				throw new Exception("Can not find ViewHolderFactory, has your project been preprocessed ?");
+				throw new Exception("Can not find Get method in ViewHolderFactory, has your project been preprocessed ?");
 			}
 			_staticMethod = method;
 		}

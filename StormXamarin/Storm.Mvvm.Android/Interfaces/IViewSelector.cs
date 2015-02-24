@@ -1,6 +1,6 @@
 using Android.Views;
 
-namespace Storm.Mvvm.ViewSelectors
+namespace Storm.Mvvm.Interfaces
 {
 	public interface IViewSelector
 	{

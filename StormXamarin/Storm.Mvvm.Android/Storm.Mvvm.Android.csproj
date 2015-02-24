@@ -64,8 +64,8 @@
     <Compile Include="Bindings\PropertyBinding.cs" />
     <Compile Include="Bindings\TwoWayPropertyBinding.cs" />
     <Compile Include="Components\BindableSpinner.cs" />
-    <Compile Include="Components\ISearchableAdapter.cs" />
-    <Compile Include="Converters\IValueConverter.cs" />
+    <Compile Include="Interfaces\ISearchableAdapter.cs" />
+    <Compile Include="Interfaces\IValueConverter.cs" />
     <Compile Include="Dialogs\AbstractDialogFragmentBase.cs" />
     <Compile Include="Dialogs\AlertDialogFragmentBase.cs" />
     <Compile Include="Dialogs\DialogFragmentBase.cs" />
@@ -80,7 +80,7 @@
     <Compile Include="Services\LoggerService.cs" />
     <Compile Include="Services\MessageDialogService.cs" />
     <Compile Include="ViewSelectors\BaseViewHolder.cs" />
-    <Compile Include="ViewSelectors\IViewSelector.cs" />
+    <Compile Include="Interfaces\IViewSelector.cs" />
     <Compile Include="Services\AssetsService.cs" />
     <Compile Include="Services\DispatcherService.cs" />
     <Compile Include="Inject\AndroidContainer.cs" />
