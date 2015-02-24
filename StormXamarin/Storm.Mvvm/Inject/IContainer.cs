@@ -11,7 +11,11 @@ namespace Storm.Mvvm.Inject
 		void RegisterInstance<TClass>(TClass _object);
 		
 		void RegisterInstance<TInterface, TClass>(TClass _object) where TClass : TInterface;
-		
+
+		void RegisterLazyInstance<TClass>(Func<IContainer, TClass> factory);
+
+		void RegisterLazyInstance<TInterface, TClass>(Func<IContainer, TClass> factory) where TClass : TInterface;
+
 		TClass Resolve<TClass>();
 	}
 }

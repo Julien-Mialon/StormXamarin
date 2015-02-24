@@ -42,6 +42,18 @@ namespace Storm.Mvvm.Inject
 			_container.Register<TInterface>(_object);
 		}
 
+		public void RegisterLazyInstance<TClass>(Func<IContainer, TClass> factory)
+		{
+			IInjectionFactory<TClass> objectFactory = new InjectionLazyFactory<TClass>(factory);
+			_factories.Add(typeof(TClass), objectFactory);
+		}
+
+		public void RegisterLazyInstance<TInterface, TClass>(Func<IContainer, TClass> factory) where TClass : TInterface
+		{
+			IInjectionFactory<TClass> objectFactory = new InjectionLazyFactory<TClass>(factory);
+			_factories.Add(typeof(TInterface), objectFactory);
+		}
+
 		public void RegisterFactory<TClass>(Func<IContainer, TClass> factory)
 		{
 			IInjectionFactory<TClass> objectFactory = new InjectionFactory<TClass>(factory);
@@ -66,7 +78,14 @@ namespace Storm.Mvvm.Inject
 			{
 				throw new ArgumentException("TClass : factory = null");
 			}
-			return factory.Create(this);
+			TClass result = factory.Create(this);
+			if (factory.IsSingleFactory)
+			{
+				_factories.Remove(typeof (TClass));
+				RegisterInstance<TClass>(result);
+			}
+
+			return result;
 		}
 
 		#endregion

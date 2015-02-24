@@ -2,7 +2,7 @@
 {
 	public interface IInjectionFactory
 	{
-
+		bool IsSingleFactory { get; }
 	}
 
 	public interface IInjectionFactory<out T> : IInjectionFactory
