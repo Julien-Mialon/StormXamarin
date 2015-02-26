@@ -197,5 +197,15 @@ namespace Storm.Binding.AndroidTarget
 
 			return viewHolderClassName;
 		}
+
+		public static void LexLog(string message)
+		{
+			Logger.LogMessage(MessageImportance.High, "##### ====> {0}", message);
+		}
+
+		public static void YaccLog(string message)
+		{
+			
+		}
 	}
 }

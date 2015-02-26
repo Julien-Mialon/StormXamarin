@@ -55,6 +55,10 @@ namespace Storm.Binding.AndroidTarget.Process
 
 		public static BindingExpression EvaluateBindingExpression(XmlAttribute attribute, Dictionary<string, CodePropertyReferenceExpression> resources)
 		{
+			BindingLanguageParser parser = new BindingLanguageParser();
+			parser.Parse(attribute.Value);
+			BindingPreprocess.LexLog("");
+
 			string bindingValue = attribute.Value;
 			if (bindingValue.StartsWith(BINDING_EXPRESSION_START) && bindingValue.EndsWith(BINDING_EXPRESSION_END))
 			{
