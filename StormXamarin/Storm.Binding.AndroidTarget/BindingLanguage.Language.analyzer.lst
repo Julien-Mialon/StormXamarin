@@ -1,0 +1,66 @@
+
+// ==========================================================================
+//  GPLEX error listing for lex source file <BindingLanguage.Language.analyzer.lex>
+// ==========================================================================
+//  Version:  1.2.2
+//  Machine:  SURFACE-JULIEN
+//  DateTime: 26/02/2015 13:39:10
+//  UserName: Julian
+// ==========================================================================
+
+
+%namespace Storm.Binding.AndroidTarget
+%scannertype BindingLanguageScanner
+%visibility internal
+%tokentype Token
+
+%option stack, minimize, parser, verbose, persistbuffer, noembedbuffers
+
+
+OpenBracket				\{
+CloseBracket			\}
+Comma					,
+Equal					=
+
+BindingKeyword			Binding
+ResourceKeyword			Resource
+TranslationKeyword		Translation
+
+AttributeValue			([a-zA-Z0-9_\-]+)|('([^'"]*(\\')?)*')
+AttributeName			[a-zA-Z0-9_\-]+
+
+Eol             (\r\n?|\n)
+Space           [ \t]
+
+%{
+
+%}
+
+%%
+
+/* Scanner body */
+
+{OpenBracket}			{ LexLog("OpenBracket"); return (int)Token.OPEN_BRACKET; }
+{CloseBracket}			{ LexLog("CloseBracket"); return (int)Token.CLOSE_BRACKET; }
+{Comma}					{ LexLog("Comma"); return (int)Token.COMMA; }
+{Equal}					{ LexLog("Equal"); return (int)Token.EQUAL; }
+
+{BindingKeyword}		{ LexLog("Binding"); return (int)Token.BINDING; }
+{ResourceKeyword}		{ LexLog("Resource"); return (int)Token.RESOURCE; }
+{TranslationKeyword}	{ LexLog("Translation"); return (int)Token.TRANSLATION; }
+
+{AttributeValue}		{ LexLog("AttributeValue(" + yytext + ")"); GetContent(); return (int)Token.ATTRIBUTE_VALUE; }
+//^^^^^^^^^^^^^^
+// Warning: This pattern always overrides "{AttributeName}" 
+// ---------------------------------------------------------
+{AttributeName}			{ LexLog("AttributeName(" + yytext + ")"); GetContent(); return (int)Token.ATTRIBUTE_NAME; }
+//^^^^^^^^^^^^^
+// Warning: This pattern always overridden by "{AttributeValue}" 
+// --------------------------------------------------------------
+
+
+{Space}+		/* skip */
+{Eol}+			/* skip */
+
+%%// ==========================================================================
+
