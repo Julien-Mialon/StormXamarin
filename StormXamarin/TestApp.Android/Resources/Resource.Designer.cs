@@ -180,7 +180,10 @@ namespace TestApp.Android
 		{
 			
 			// aapt resource value: 0x7f040000
-			public const int Hello = 2130968576;
+			public const int Text_Text = 2130968576;
+			
+			// aapt resource value: 0x7f040001
+			public const int Title_Text = 2130968577;
 			
 			static String()
 			{

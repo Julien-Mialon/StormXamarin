@@ -68,19 +68,18 @@
     <Compile Include="Process\ViewHolderClassGenerator.cs" />
     <Compile Include="Process\ViewHolderFactoryGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReswToStrings.cs" />
     <Compile Include="Res\DefaultComponents.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="Storm.Mvvm.Android.targets">
-      <SubType>Designer</SubType>
+    <None Include="..\nuget_build\Storm.Mvvm.Android\build\Storm.Mvvm.Android.targets">
+      <Link>Storm.Mvvm.Android.targets</Link>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>echo "Copy targets file"
-copy $(ProjectDir)Storm.Mvvm.Android.targets $(ProjectDir)..\nuget_build\Storm.Mvvm.Android\build\
-echo "Copy dll file"
+    <PostBuildEvent>echo "Copy dll file"
 copy $(TargetPath) $(ProjectDir)..\nuget_build\Storm.Mvvm.Android\tools\
 echo "Copy dependency file"
 copy $(TargetDir)Newtonsoft.json.dll $(ProjectDir)..\nuget_build\Storm.Mvvm.Android\tools\

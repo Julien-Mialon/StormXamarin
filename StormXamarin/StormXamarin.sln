@@ -43,6 +43,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{41BCEF
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Globalization", "Globalization", "{30A5D428-2079-402B-BD8B-153D50E89702}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "en", "en", "{A5B7A9B3-BECD-4F0A-AB2C-2EAF909AC3C9}"
+	ProjectSection(SolutionItems) = preProject
+		TestApp.Resources\en\Resources.resw = TestApp.Resources\en\Resources.resw
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fr", "fr", "{B82CFC4E-FBA1-4246-8B1E-F7252A9DD150}"
+	ProjectSection(SolutionItems) = preProject
+		TestApp.Resources\fr\Resources.resw = TestApp.Resources\fr\Resources.resw
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems*{99efd43e-c236-44c4-ab25-c4c7edb343a4}*SharedItemsImports = 13
@@ -195,5 +207,8 @@ Global
 		{99EFD43E-C236-44C4-AB25-C4C7EDB343A4} = {8576A79E-8E92-4F92-A63A-1A45FED2BF7D}
 		{F1959B0F-7190-49B5-8A8E-61AB87F7879C} = {EF8DA5B4-B136-4530-8E13-1DEC0B1FFE62}
 		{D0BBCB1C-74BD-44DC-BFC1-A26E92A50B00} = {8576A79E-8E92-4F92-A63A-1A45FED2BF7D}
+		{30A5D428-2079-402B-BD8B-153D50E89702} = {EF8DA5B4-B136-4530-8E13-1DEC0B1FFE62}
+		{A5B7A9B3-BECD-4F0A-AB2C-2EAF909AC3C9} = {30A5D428-2079-402B-BD8B-153D50E89702}
+		{B82CFC4E-FBA1-4246-8B1E-F7252A9DD150} = {30A5D428-2079-402B-BD8B-153D50E89702}
 	EndGlobalSection
 EndGlobal
