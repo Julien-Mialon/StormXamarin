@@ -52,6 +52,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindingPreprocess.cs" />
+    <Compile Include="Compiler\BindingExpression.cs" />
+    <Compile Include="Compiler\CompileException.cs" />
+    <Compile Include="Compiler\Expression.cs" />
+    <Compile Include="Compiler\ExpressionFactory.cs" />
+    <Compile Include="Compiler\ExpressionType.cs" />
+    <Compile Include="Compiler\ResourceExpression.cs" />
+    <Compile Include="Compiler\TextExpression.cs" />
+    <Compile Include="Compiler\TranslationExpression.cs" />
     <Compile Include="Data\ActivityInfo.cs" />
     <Compile Include="Data\XmlElement.cs" />
     <Compile Include="Data\XmlResource.cs" />
@@ -80,29 +88,29 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup Label="BindingLanguageFiles">
-    <Compile Include="BindingLanguage.Parser.cs">
+    <Compile Include="Compiler\BindingLanguage.Parser.cs">
       <DependentUpon>BindingLanguage.parser</DependentUpon>
     </Compile>
-    <Compile Include="BindingLanguage.Parser.Generated.cs">
+    <Compile Include="Compiler\BindingLanguage.Parser.Generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BindingLanguage.Language.grammar.y</DependentUpon>
     </Compile>
-    <Compile Include="BindingLanguage.Scanner.cs">
+    <Compile Include="Compiler\BindingLanguage.Scanner.cs">
       <DependentUpon>BindingLanguage.parser</DependentUpon>
     </Compile>
-    <Compile Include="BindingLanguage.Scanner.Generated.cs">
+    <Compile Include="Compiler\BindingLanguage.Scanner.Generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BindingLanguage.Language.analyzer.lex</DependentUpon>
     </Compile>
-    <None Include="BindingLanguage.Language.analyzer.lex">
+    <None Include="Compiler\BindingLanguage.Language.analyzer.lex">
       <DependentUpon>BindingLanguage.parser</DependentUpon>
     </None>
-    <None Include="BindingLanguage.Language.grammar.y">
+    <None Include="Compiler\BindingLanguage.Language.grammar.y">
       <DependentUpon>BindingLanguage.parser</DependentUpon>
     </None>
-    <None Include="BindingLanguage.parser" />
+    <None Include="Compiler\BindingLanguage.parser" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -121,7 +129,7 @@ copy $(TargetDir)Newtonsoft.json.dll $(ProjectDir)..\nuget_build\Storm.Mvvm.Andr
     <GppgTool>"$(YltTools)gppg.exe"</GppgTool>
   </PropertyGroup>
   <PropertyGroup Label="GenerateBindingLanguageProperties">
-    <BindingLanguageParser>$(ProjectDir)BindingLanguage</BindingLanguageParser>
+    <BindingLanguageParser>$(ProjectDir)\Compiler\BindingLanguage</BindingLanguageParser>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -3,6 +3,7 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Storm.Binding.AndroidTarget.Compiler;
 using Storm.Binding.AndroidTarget.Data;
 
 namespace Storm.Binding.AndroidTarget.Process
@@ -56,7 +57,8 @@ namespace Storm.Binding.AndroidTarget.Process
 		public static BindingExpression EvaluateBindingExpression(XmlAttribute attribute, Dictionary<string, CodePropertyReferenceExpression> resources)
 		{
 			BindingLanguageParser parser = new BindingLanguageParser();
-			parser.Parse(attribute.Value);
+			bool parsingResult;
+			Expression result = parser.Parse(attribute.Value, out parsingResult);
 			BindingPreprocess.LexLog("");
 
 			string bindingValue = attribute.Value;

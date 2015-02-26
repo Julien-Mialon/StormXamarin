@@ -1,4 +1,4 @@
-namespace Storm.Binding.AndroidTarget
+namespace Storm.Binding.AndroidTarget.Compiler
 {
     internal partial class BindingLanguageScanner
     {
@@ -13,7 +13,7 @@ namespace Storm.Binding.AndroidTarget
 		        resultString = resultString.Replace("\\'", "'");
 	        }
 
-	        yylval.content = resultString;
+	        yylval.Content = resultString;
         }
 
 		public override void yyerror(string format, params object[] args)

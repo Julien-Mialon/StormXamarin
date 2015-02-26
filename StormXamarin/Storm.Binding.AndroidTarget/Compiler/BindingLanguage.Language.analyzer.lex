@@ -1,9 +1,9 @@
-%namespace Storm.Binding.AndroidTarget
+%namespace Storm.Binding.AndroidTarget.Compiler
 %scannertype BindingLanguageScanner
 %visibility internal
 %tokentype Token
 
-%option stack, minimize, parser, verbose, persistbuffer, noembedbuffers
+%option stack, minimize, parser, verbose, persistbuffer, noembedbuffers, caseinsensitive
 
 
 OpenBracket				\{
@@ -19,6 +19,7 @@ Identifier				([a-zA-Z0-9_\-.]+)|('([^'"]*(\\')?)*')
 
 Eol             (\r\n?|\n)
 Space           [ \t]
+
 
 %{
 

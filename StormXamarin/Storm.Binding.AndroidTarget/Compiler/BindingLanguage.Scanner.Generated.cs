@@ -6,9 +6,9 @@
 //
 //  GPLEX Version:  1.2.2
 //  Machine:  SURFACE-JULIEN
-//  DateTime: 26/02/2015 13:48:04
+//  DateTime: 26/02/2015 15:20:45
 //  UserName: Julian
-//  GPLEX input file <C:\Users\Julian\Source\Repos\StormXamarin\StormXamarin\Storm.Binding.AndroidTarget\BindingLanguage.Language.analyzer.lex - 26/02/2015 13:47:51>
+//  GPLEX input file <C:\Users\Julian\Source\Repos\StormXamarin\StormXamarin\Storm.Binding.AndroidTarget\\Compiler\BindingLanguage.Language.analyzer.lex - 26/02/2015 15:20:12>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: verbose, parser, stack, minimize
@@ -35,7 +35,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using QUT.GplexBuffers;
 
-namespace Storm.Binding.AndroidTarget
+namespace Storm.Binding.AndroidTarget.Compiler
 {   
     /// <summary>
     /// Summary Canonical example of GPLEX automaton
@@ -186,181 +186,181 @@ namespace Storm.Binding.AndroidTarget
 /* NxS[   6] */ // Shortest string "B"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+          4, 4, 4, 4, 4, 4, 28, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 28, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
 /* NxS[   7] */ // Shortest string "R"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+          4, 4, 21, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 21, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
 /* NxS[   8] */ // Shortest string "T"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 11, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 11, 
           4, 4, 4, 4, 4, 4, 4, 4}),
 /* NxS[   9] */ new Table(0, 0, -1, null), // Shortest string "{"
 /* NxS[  10] */ new Table(0, 0, -1, null), // Shortest string "}"
-/* NxS[  11] */ // Shortest string "Tr"
+/* NxS[  11] */ // Shortest string "TR"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
+          4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 12, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 12, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  12] */ // Shortest string "Tra"
+/* NxS[  12] */ // Shortest string "TRA"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 13, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 13, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  13] */ // Shortest string "Tran"
+/* NxS[  13] */ // Shortest string "TRAN"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
+          14, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           14, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  14] */ // Shortest string "Trans"
+/* NxS[  14] */ // Shortest string "TRANS"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+          4, 4, 4, 4, 4, 4, 4, 4, 4, 15, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 15, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  15] */ // Shortest string "Transl"
+/* NxS[  15] */ // Shortest string "TRANSL"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
+          4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 16, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 16, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  16] */ // Shortest string "Transla"
+/* NxS[  16] */ // Shortest string "TRANSLA"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
+          4, 17, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 17, 4, 4, 4, 4, 4, 4}),
-/* NxS[  17] */ // Shortest string "Translat"
+/* NxS[  17] */ // Shortest string "TRANSLAT"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+          4, 4, 4, 4, 4, 4, 18, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 18, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  18] */ // Shortest string "Translati"
+/* NxS[  18] */ // Shortest string "TRANSLATI"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 19, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 19, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  19] */ // Shortest string "Translatio"
+/* NxS[  19] */ // Shortest string "TRANSLATIO"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 20, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 20, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  20] */ // Shortest string "Translation"
+/* NxS[  20] */ // Shortest string "TRANSLATION"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  21] */ // Shortest string "Re"
+/* NxS[  21] */ // Shortest string "RE"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
+          22, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           22, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  22] */ // Shortest string "Res"
+/* NxS[  22] */ // Shortest string "RES"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 23, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 23, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  23] */ // Shortest string "Reso"
+/* NxS[  23] */ // Shortest string "RESO"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
+          4, 4, 24, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 24, 4, 4, 4, 4, 4}),
-/* NxS[  24] */ // Shortest string "Resou"
+/* NxS[  24] */ // Shortest string "RESOU"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 25, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 25, 
           4, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  25] */ // Shortest string "Resour"
+/* NxS[  25] */ // Shortest string "RESOUR"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+          26, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           26, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  26] */ // Shortest string "Resourc"
+/* NxS[  26] */ // Shortest string "RESOURC"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+          4, 4, 27, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 27, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  27] */ // Shortest string "Resource"
+/* NxS[  27] */ // Shortest string "RESOURCE"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  28] */ // Shortest string "Bi"
+/* NxS[  28] */ // Shortest string "BI"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 29, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 29, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  29] */ // Shortest string "Bin"
+/* NxS[  29] */ // Shortest string "BIN"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+          4, 30, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 30, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  30] */ // Shortest string "Bind"
+/* NxS[  30] */ // Shortest string "BIND"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+          4, 4, 4, 4, 4, 4, 31, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 31, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  31] */ // Shortest string "Bindi"
+/* NxS[  31] */ // Shortest string "BINDI"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 32, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 32, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  32] */ // Shortest string "Bindin"
+/* NxS[  32] */ // Shortest string "BINDIN"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+          4, 4, 4, 4, 33, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 4, -1, 4, 4, 
           4, 4, 4, 4, 33, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4}),
-/* NxS[  33] */ // Shortest string "Binding"
+/* NxS[  33] */ // Shortest string "BINDING"
       new Table(45, 78, -1, new sbyte[] {4, 4, -1, 4, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, -1, -1, -1, 4, 4, 
           4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
@@ -381,8 +381,8 @@ namespace Storm.Binding.AndroidTarget
           -1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, -1, -1, -1, 5, -1, 
           -1, -1, 4, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 4, 7, 4, 8, 4, 4, 4, 4, 4, 4, -1, -1, -1, -1, 
-          4, -1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
-          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9, -1, 10}),
+          4, -1, 4, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
+          4, 4, 4, 7, 4, 8, 4, 4, 4, 4, 4, 4, 9, -1, 10}),
 /* NxS[  37] */ // Shortest string "'"
       new Table(34, 59, 37, new sbyte[] {-1, 37, 37, 37, 37, 34, 
           37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 
@@ -835,26 +835,26 @@ LexLog("Comma"); return (int)Token.COMMA;
         case 6: // Recognized '{Identifier}',	Shortest string "B"
         case 7: // Recognized '{Identifier}',	Shortest string "R"
         case 8: // Recognized '{Identifier}',	Shortest string "T"
-        case 11: // Recognized '{Identifier}',	Shortest string "Tr"
-        case 12: // Recognized '{Identifier}',	Shortest string "Tra"
-        case 13: // Recognized '{Identifier}',	Shortest string "Tran"
-        case 14: // Recognized '{Identifier}',	Shortest string "Trans"
-        case 15: // Recognized '{Identifier}',	Shortest string "Transl"
-        case 16: // Recognized '{Identifier}',	Shortest string "Transla"
-        case 17: // Recognized '{Identifier}',	Shortest string "Translat"
-        case 18: // Recognized '{Identifier}',	Shortest string "Translati"
-        case 19: // Recognized '{Identifier}',	Shortest string "Translatio"
-        case 21: // Recognized '{Identifier}',	Shortest string "Re"
-        case 22: // Recognized '{Identifier}',	Shortest string "Res"
-        case 23: // Recognized '{Identifier}',	Shortest string "Reso"
-        case 24: // Recognized '{Identifier}',	Shortest string "Resou"
-        case 25: // Recognized '{Identifier}',	Shortest string "Resour"
-        case 26: // Recognized '{Identifier}',	Shortest string "Resourc"
-        case 28: // Recognized '{Identifier}',	Shortest string "Bi"
-        case 29: // Recognized '{Identifier}',	Shortest string "Bin"
-        case 30: // Recognized '{Identifier}',	Shortest string "Bind"
-        case 31: // Recognized '{Identifier}',	Shortest string "Bindi"
-        case 32: // Recognized '{Identifier}',	Shortest string "Bindin"
+        case 11: // Recognized '{Identifier}',	Shortest string "TR"
+        case 12: // Recognized '{Identifier}',	Shortest string "TRA"
+        case 13: // Recognized '{Identifier}',	Shortest string "TRAN"
+        case 14: // Recognized '{Identifier}',	Shortest string "TRANS"
+        case 15: // Recognized '{Identifier}',	Shortest string "TRANSL"
+        case 16: // Recognized '{Identifier}',	Shortest string "TRANSLA"
+        case 17: // Recognized '{Identifier}',	Shortest string "TRANSLAT"
+        case 18: // Recognized '{Identifier}',	Shortest string "TRANSLATI"
+        case 19: // Recognized '{Identifier}',	Shortest string "TRANSLATIO"
+        case 21: // Recognized '{Identifier}',	Shortest string "RE"
+        case 22: // Recognized '{Identifier}',	Shortest string "RES"
+        case 23: // Recognized '{Identifier}',	Shortest string "RESO"
+        case 24: // Recognized '{Identifier}',	Shortest string "RESOU"
+        case 25: // Recognized '{Identifier}',	Shortest string "RESOUR"
+        case 26: // Recognized '{Identifier}',	Shortest string "RESOURC"
+        case 28: // Recognized '{Identifier}',	Shortest string "BI"
+        case 29: // Recognized '{Identifier}',	Shortest string "BIN"
+        case 30: // Recognized '{Identifier}',	Shortest string "BIND"
+        case 31: // Recognized '{Identifier}',	Shortest string "BINDI"
+        case 32: // Recognized '{Identifier}',	Shortest string "BINDIN"
         case 34: // Recognized '{Identifier}',	Shortest string "''"
         case 35: // Recognized '{Identifier}',	Shortest string "'\\'"
 LexLog("Identifier(" + yytext + ")"); GetContent(); return (int)Token.IDENTIFIER;
@@ -868,13 +868,13 @@ LexLog("OpenBracket"); return (int)Token.OPEN_BRACKET;
         case 10: // Recognized '{CloseBracket}',	Shortest string "}"
 LexLog("CloseBracket"); return (int)Token.CLOSE_BRACKET;
             break;
-        case 20: // Recognized '{TranslationKeyword}',	Shortest string "Translation"
+        case 20: // Recognized '{TranslationKeyword}',	Shortest string "TRANSLATION"
 LexLog("Translation"); return (int)Token.TRANSLATION;
             break;
-        case 27: // Recognized '{ResourceKeyword}',	Shortest string "Resource"
+        case 27: // Recognized '{ResourceKeyword}',	Shortest string "RESOURCE"
 LexLog("Resource"); return (int)Token.RESOURCE;
             break;
-        case 33: // Recognized '{BindingKeyword}',	Shortest string "Binding"
+        case 33: // Recognized '{BindingKeyword}',	Shortest string "BINDING"
 LexLog("Binding"); return (int)Token.BINDING;
             break;
         default:
