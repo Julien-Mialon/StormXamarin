@@ -2,7 +2,7 @@ namespace Storm.Binding.AndroidTarget.Compiler
 {
 	public class ResourceExpression : Expression
 	{
-		public const string KEY = "Key";
+		public const string KEY = "Alias";
 
 		public override ExpressionType Type
 		{

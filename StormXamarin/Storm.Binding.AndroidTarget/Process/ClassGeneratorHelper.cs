@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Storm.Binding.AndroidTarget.Compiler;
-using Storm.Binding.AndroidTarget.Data;
+using Storm.Binding.AndroidTarget.Model;
 
 namespace Storm.Binding.AndroidTarget.Process
 {
@@ -31,7 +31,7 @@ namespace Storm.Binding.AndroidTarget.Process
 			"Android.OS",
 			"Storm.Mvvm",
 			"Storm.Mvvm.Bindings",
-			"Storm.Mvvm.Components",
+			"Storm.Mvvm.Aliases",
 			"Storm.Mvvm.ViewSelectors",
 		};
 

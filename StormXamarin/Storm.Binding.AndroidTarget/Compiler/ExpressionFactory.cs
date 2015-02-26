@@ -34,7 +34,7 @@ namespace Storm.Binding.AndroidTarget.Compiler
 
 			if (expr == null)
 			{
-				throw new ArgumentOutOfRangeException("type", type, "expecting Binding, Resource, Translation or Value");
+				throw new ArgumentOutOfRangeException("type", type, "expecting Binding, Resource, Translation or FullClassName");
 			}
 
 			foreach (Tuple<string, Expression> pair in attributes)

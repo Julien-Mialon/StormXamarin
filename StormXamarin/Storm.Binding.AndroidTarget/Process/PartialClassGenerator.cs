@@ -3,7 +3,7 @@
 	// ReSharper disable BitwiseOperatorOnEnumWithoutFlags
 	//public class PartialClassGenerator
 	//{
-	//	public void Generate(ActivityInfo activityInformations, List<string> additionalNamespaces, List<IdViewObject> views, List<XmlAttribute> bindingInformations, List<XmlResource> resourceCollection)
+	//	public void Generate(ActivityInfo activityInformations, FileDescriptions<string> additionalNamespaces, FileDescriptions<IdViewObject> views, FileDescriptions<XmlAttribute> bindingInformations, FileDescriptions<XmlResource> resourceCollection)
 	//	{
 	//		CodeCompileUnit codeUnit = new CodeCompileUnit();
 
@@ -13,7 +13,7 @@
 	//		CodeNamespace codeNamespace = new CodeNamespace(activityInformations.NamespaceName);
 	//		codeUnit.Namespaces.Add(codeNamespace);
 
-	//		List<string> namespaces = new List<string>()
+	//		FileDescriptions<string> namespaces = new FileDescriptions<string>()
 	//		{
 	//			"System",
 	//			"System.Collections.Generic",
@@ -49,8 +49,8 @@
 	//		CodeMemberMethod overrideMethod = new CodeMemberMethod
 	//		{
 	//			Attributes = MemberAttributes.Family | MemberAttributes.Override,
-	//			Name = "GetBindingPaths",
-	//			ReturnType = new CodeTypeReference("List<BindingObject>")
+	//			FullName = "GetBindingPaths",
+	//			ReturnType = new CodeTypeReference("FileDescriptions<BindingObject>")
 	//		};
 
 	//		GenerateMethodContent(overrideMethod, classDeclaration, bindingInformations, resourceCollection, activityInformations);
@@ -121,7 +121,7 @@
 	//			CodeMemberProperty property = new CodeMemberProperty
 	//			{
 	//				Attributes = MemberAttributes.Family | MemberAttributes.Final, 
-	//				Name = viewItem.Id,
+	//				FullName = viewItem.Id,
 	//				Type = new CodeTypeReference(viewItem.TypeName)
 	//			};
 
@@ -162,8 +162,8 @@
 
 	//	private void GenerateMethodContent(CodeMemberMethod method, CodeTypeDeclaration classDeclaration, IEnumerable<XmlAttribute> bindings, IEnumerable<XmlResource> resourceCollection, ActivityInfo activityInformations)
 	//	{
-	//		CodeObjectCreateExpression resultCollectionInitializer = new CodeObjectCreateExpression("List<BindingObject>");
-	//		method.Statements.Add(new CodeVariableDeclarationStatement("List<BindingObject>", "result", resultCollectionInitializer));
+	//		CodeObjectCreateExpression resultCollectionInitializer = new CodeObjectCreateExpression("FileDescriptions<BindingObject>");
+	//		method.Statements.Add(new CodeVariableDeclarationStatement("FileDescriptions<BindingObject>", "result", resultCollectionInitializer));
 
 	//		CodeVariableReferenceExpression resultReference = new CodeVariableReferenceExpression("result");
 
@@ -171,7 +171,7 @@
 	//		int expressionCounter = 0;
 
 	//		Dictionary<string, CodeVariableReferenceExpression> resources = GenerateResourceCode(method, resourceCollection.ToList(), activityInformations);
-	//		List<BindingExpression> expressions = bindings.Select(x => ClassGeneratorHelper.EvaluateBindingExpression(x, resources)).Where(x => x != null).ToList();
+	//		FileDescriptions<BindingExpression> expressions = bindings.Select(x => ClassGeneratorHelper.EvaluateBindingExpression(x, resources)).Where(x => x != null).ToList();
 
 	//		GenerateAdapterSystem(method, classDeclaration, expressions);
 
@@ -179,7 +179,7 @@
 	//		foreach (IGrouping<string, BindingExpression> bindingExpressions in expressions.GroupBy(x => x.TargetObjectId))
 	//		{
 	//			//create binding objects and get a code reference on it
-	//			CodeObjectCreateExpression objectCreateExpression = new CodeObjectCreateExpression("BindingObject", new CodePropertyReferenceExpression(new CodeThisReferenceExpression(), bindingExpressions.Key));
+	//			CodeObjectCreateExpression objectCreateExpression = new CodeObjectCreateExpression("BindingObject", new CodePropertyReferenceExpression(new CodeThisReferenceExpression(), bindingExpressions.Alias));
 	//			string objectName = string.Format("o{0}", objectCounter++);
 	//			method.Statements.Add(new CodeVariableDeclarationStatement("BindingObject", objectName, objectCreateExpression));
 
@@ -253,7 +253,7 @@
 	//	}
 
 	//	private Dictionary<string, CodeVariableReferenceExpression> GenerateResourceCode(CodeMemberMethod method, 
-	//		List<XmlResource> resourceCollection, ActivityInfo activityInformations)
+	//		FileDescriptions<XmlResource> resourceCollection, ActivityInfo activityInformations)
 	//	{
 	//		const string RESOURCE_NAME_FORMAT = "rsx_{0}";
 
@@ -267,7 +267,7 @@
 	//			method.Statements.Add(new CodeVariableDeclarationStatement(converter.ClassName, resourceName, objectCreateExpression));
 
 	//			CodeVariableReferenceExpression resourceReference = new CodeVariableReferenceExpression(resourceName);
-	//			res.Add(converter.Key, resourceReference);
+	//			res.Add(converter.Alias, resourceReference);
 	//		}
 
 	//		foreach (ResourceDataTemplate dataTemplate in resourceCollection.OfType<ResourceDataTemplate>())
@@ -278,7 +278,7 @@
 	//			method.Statements.Add(new CodeVariableDeclarationStatement(typeof(int), resourceName, rIdReference));
 
 	//			CodeVariableReferenceExpression resourceReference = new CodeVariableReferenceExpression(resourceName);
-	//			res.Add(dataTemplate.Key, resourceReference);
+	//			res.Add(dataTemplate.Alias, resourceReference);
 	//		}
 
 	//		CodePropertyReferenceExpression layoutInflaterReference;
@@ -301,7 +301,7 @@
 
 	//			//Get reference on new object
 	//			CodeVariableReferenceExpression resourceReference = new CodeVariableReferenceExpression(resourceName);
-	//			res.Add(viewSelector.Key, resourceReference);
+	//			res.Add(viewSelector.Alias, resourceReference);
 
 	//			//Affect property to view selector
 	//			foreach (KeyValuePair<string, string> property in viewSelector.Properties)
@@ -310,9 +310,9 @@
 	//				// Could be {Resource ...} or a simple string
 
 	//				CodeExpression propertyValueExpression;
-	//				if (ClassGeneratorHelper.IsResourceReferenceExpression(property.Value))
+	//				if (ClassGeneratorHelper.IsResourceReferenceExpression(property.FullClassName))
 	//				{
-	//					string resourceKey = ClassGeneratorHelper.ExtractResourceKey(property.Value);
+	//					string resourceKey = ClassGeneratorHelper.ExtractResourceKey(property.FullClassName);
 
 	//					if (res.ContainsKey(resourceKey))
 	//					{
@@ -326,11 +326,11 @@
 	//				}
 	//				else
 	//				{
-	//					propertyValueExpression = new CodePrimitiveExpression(property.Value);
+	//					propertyValueExpression = new CodePrimitiveExpression(property.FullClassName);
 	//				}
 
 	//				method.Statements.Add(new CodeAssignStatement(
-	//					new CodePropertyReferenceExpression(resourceReference, property.Key),
+	//					new CodePropertyReferenceExpression(resourceReference, property.Alias),
 	//					propertyValueExpression
 	//					));
 	//			}

@@ -26,13 +26,10 @@
 #define BYTEMODE
 
 using System;
-using System.IO;
-using System.Text;
-using System.Globalization;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Diagnostics.CodeAnalysis;
-
+using System.IO;
+using System.Reflection;
 using QUT.GplexBuffers;
 
 namespace Storm.Binding.AndroidTarget.Compiler
@@ -118,7 +115,7 @@ namespace Storm.Binding.AndroidTarget.Compiler
         public ScanBuff Buffer { get { return buffer; } }
         
         private static int GetMaxParseToken() {
-     System.Reflection.FieldInfo f = typeof(Token).GetField("maxParseToken");
+     FieldInfo f = typeof(Token).GetField("maxParseToken");
             return (f == null ? int.MaxValue : (int)f.GetValue(null));
         }
         

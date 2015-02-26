@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
+using Storm.Binding.AndroidTarget.Configuration.Model;
 using Storm.Binding.AndroidTarget.Data;
+using Storm.Binding.AndroidTarget.Model;
 using Storm.Binding.AndroidTarget.Process;
 
 namespace Storm.Binding.AndroidTarget
@@ -44,7 +46,7 @@ namespace Storm.Binding.AndroidTarget
 				return true;
 			}
 
-			Logger = this.Log;
+			Logger = Log;
 			try
 			{
 				Log.LogMessage(MessageImportance.High, "===> Preprocessing files for Android binding <===");
@@ -92,7 +94,7 @@ namespace Storm.Binding.AndroidTarget
 			List<Tuple<string, FileType>> result = new List<Tuple<string, FileType>>();
 			List<Tuple<ResourceDataTemplate, string, string>> viewHolderClasses = new List<Tuple<ResourceDataTemplate, string, string>>();
 			ViewFileProcessor processor = new ViewFileProcessor();
-			foreach (ActivityViewInfo info in reader.ActivityViewInformations)
+			foreach (FileBindingDescription info in reader.ActivityViewInformations)
 			{
 				Log.LogMessage(MessageImportance.High, "\t# Generating for activity {0}.{1}", info.Activity.NamespaceName, info.Activity.ClassName);
 

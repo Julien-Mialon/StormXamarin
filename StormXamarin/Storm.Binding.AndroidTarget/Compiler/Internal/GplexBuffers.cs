@@ -7,12 +7,24 @@
 // ==============================================================
 
 using System;
-using System.IO;
-using System.Text;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.Serialization;
 using System.Globalization;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Text;
+
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedMember.Local
+// ReSharper disable RedundantExplicitArraySize
+// ReSharper disable FieldCanBeMadeReadOnly.Local
+// ReSharper disable ArrangeThisQualifier
+// ReSharper disable EmptyConstructor
+// ReSharper disable RedundantCast
+// ReSharper disable RedundantNameQualifier
+// ReSharper disable HeuristicUnreachableCode
+// ReSharper disable RedundantEmptyDefaultSwitchBranch
 
 namespace QUT.GplexBuffers
 {
@@ -637,9 +649,9 @@ namespace QUT.GplexBuffers
         }
         #endregion
 
-        public Guesser(System.IO.Stream file) { SetSource(file); }
+        public Guesser(Stream file) { SetSource(file); }
 
-        public void SetSource(System.IO.Stream source)
+        public void SetSource(Stream source)
         {
             this.buffer = new BuildBuffer(source);
             code = buffer.Read();

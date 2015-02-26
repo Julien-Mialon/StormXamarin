@@ -3,11 +3,27 @@
 // (see accompanying GPPGcopyright.rtf)
 
 using System;
-using System.Text;
-using System.Globalization;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Runtime.Serialization;
+using System.Text;
+
+// ReSharper disable ParameterHidesMember
+// ReSharper disable ValueParameterNotUsed
+// ReSharper disable RedundantDefaultMemberInitializer
+
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedMember.Local
+// ReSharper disable RedundantExplicitArraySize
+// ReSharper disable FieldCanBeMadeReadOnly.Local
+// ReSharper disable ArrangeThisQualifier
+// ReSharper disable EmptyConstructor
+// ReSharper disable RedundantCast
+// ReSharper disable RedundantNameQualifier
+// ReSharper disable HeuristicUnreachableCode
+// ReSharper disable RedundantEmptyDefaultSwitchBranch
 
 namespace QUT.Gppg {
     /// <summary>
@@ -856,7 +872,7 @@ namespace QUT.Gppg {
         internal void Push( T value ) {
             if (tos >= array.Length) {
                 T[] newarray = new T[array.Length * 2];
-                System.Array.Copy( array, newarray, tos );
+                Array.Copy( array, newarray, tos );
                 array = newarray;
             }
             array[tos++] = value;

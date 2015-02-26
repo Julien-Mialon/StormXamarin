@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
-using Storm.Binding.AndroidTarget.Data;
+using Storm.Binding.AndroidTarget.Configuration.Model;
+using Storm.Binding.AndroidTarget.Model;
 
 namespace Storm.Binding.AndroidTarget.Res
 {
 	public static class DefaultComponents
 	{
-		public static List<ViewComponent> Components { get; private set; }
+		public static List<AliasDescription> Components { get; private set; }
 
 		static DefaultComponents()
 		{
-			Components = new List<ViewComponent>
+			Components = new List<AliasDescription>
 			{
-				new ViewComponent("BindableSpinner", "Storm.Mvvm.Components.BindableSpinner"),
+				new AliasDescription("BindableSpinner", "Storm.Mvvm.Aliases.BindableSpinner"),
 			};
 		}
 	}

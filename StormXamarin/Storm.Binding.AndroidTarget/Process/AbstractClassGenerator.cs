@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Microsoft.Build.Framework;
 using Storm.Binding.AndroidTarget.Data;
+using Storm.Binding.AndroidTarget.Model;
 
 namespace Storm.Binding.AndroidTarget.Process
 {
@@ -102,7 +103,7 @@ namespace Storm.Binding.AndroidTarget.Process
 			{
 				Attributes = GetOverrideMethodVisibility() | MemberAttributes.Override,
 				Name = GetOverrideMethodName(),
-				ReturnType = new CodeTypeReference("List<BindingObject>")
+				ReturnType = new CodeTypeReference("FileDescriptions<BindingObject>")
 			};
 
 			GenerateMethodContent(overrideMethod, bindingExpressions, viewElementReferences);
@@ -159,8 +160,8 @@ namespace Storm.Binding.AndroidTarget.Process
 
 		private void GenerateMethodContent(CodeMemberMethod method, IEnumerable<BindingExpression> expressions, Dictionary<string, CodePropertyReferenceExpression> viewElementReferences)
 		{
-			CodeObjectCreateExpression resultCollectionInitializer = new CodeObjectCreateExpression("List<BindingObject>");
-			method.Statements.Add(new CodeVariableDeclarationStatement("List<BindingObject>", "result", resultCollectionInitializer));
+			CodeObjectCreateExpression resultCollectionInitializer = new CodeObjectCreateExpression("FileDescriptions<BindingObject>");
+			method.Statements.Add(new CodeVariableDeclarationStatement("FileDescriptions<BindingObject>", "result", resultCollectionInitializer));
 
 			CodeVariableReferenceExpression resultReference = new CodeVariableReferenceExpression("result");
 
@@ -271,7 +272,7 @@ namespace Storm.Binding.AndroidTarget.Process
 					CodePropertyReferenceExpression commandParameterReference = GenerateProxyProperty(classDeclaration, propertyName, "CommandParameterProxy", new CodeObjectCreateExpression("CommandParameterProxy"));
 
 					commandParameterExpression.TargetObjectId = propertyName;
-					commandParameterExpression.TargetFieldId = "Value"; // Property name in CommandParameterProxy
+					commandParameterExpression.TargetFieldId = "FullClassName"; // Property name in CommandParameterProxy
 
 					commandParameterReferences.Add(commandParameterReference);
 

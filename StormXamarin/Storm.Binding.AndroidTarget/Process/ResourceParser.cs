@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Storm.Binding.AndroidTarget.Configuration.Model;
 using Storm.Binding.AndroidTarget.Data;
+using Storm.Binding.AndroidTarget.Model;
 
 namespace Storm.Binding.AndroidTarget.Process
 {
@@ -11,10 +13,10 @@ namespace Storm.Binding.AndroidTarget.Process
 		private const string ViewSelector = "ViewSelector";
 		private const string DataTemplate = "DataTemplate";
 
-		private const string KeyAttribute = "Key";
+		private const string KeyAttribute = "Alias";
 		private const string ClassAttribute = "Class";
 
-		public static IEnumerable<XmlResource> ParseResources(XmlElement element, ViewInfo viewInformation)
+		public static IEnumerable<XmlResource> ParseResources(XmlElement element, ViewDescription viewInformation)
 		{
 			if (element.Name == "Resources")
 			{
@@ -40,9 +42,9 @@ namespace Storm.Binding.AndroidTarget.Process
 						if (key != null && className != null)
 						{
 							ResourceViewSelector vs = new ResourceViewSelector(key, className);
-							foreach (var attribute in child.Attributes.Where(x => x.Name != KeyAttribute && x.Name != ClassAttribute))
+							foreach (var attribute in child.Attributes.Where(x => x.FullName != KeyAttribute && x.FullName != ClassAttribute))
 							{
-								vs.Properties.Add(attribute.Name, attribute.Value);
+								vs.Properties.Add(attribute.FullName, attribute.Value);
 							}
 							resources.Add(vs);
 						}
@@ -81,7 +83,7 @@ namespace Storm.Binding.AndroidTarget.Process
 
 		private static string ExtractAttribute(IEnumerable<XmlAttribute> attributes, string attributeName)
 		{
-			XmlAttribute attribute = attributes.SingleOrDefault(x => x.Name == attributeName);
+			XmlAttribute attribute = attributes.SingleOrDefault(x => x.FullName == attributeName);
 
 			if (attribute == null)
 			{

@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-using Storm.Binding.AndroidTarget.Data;
+using Storm.Binding.AndroidTarget.Configuration.Model;
+using Storm.Binding.AndroidTarget.Model;
 using Storm.Binding.AndroidTarget.Res;
 
 namespace Storm.Binding.AndroidTarget.Process
 {
 	class InformationReader
 	{
-		public List<ActivityViewInfo> ActivityViewInformations { get; private set; }
+		public List<FileBindingDescription> ActivityViewInformations { get; private set; }
 
 		public List<string> AdditionalNamespaces { get; private set; }
 
@@ -25,24 +26,23 @@ namespace Storm.Binding.AndroidTarget.Process
 				StreamReader re = new StreamReader(filename);
 				JsonTextReader reader = new JsonTextReader(re);
 
-				ActivityViewInfoCollection input = serializer.Deserialize<ActivityViewInfoCollection>(reader);
+				DescriptionFile input = serializer.Deserialize<DescriptionFile>(reader);
 
-				ActivityViewInformations = input.List;
+				ActivityViewInformations = input.FileDescriptions;
 				AdditionalNamespaces = input.Namespaces ?? new List<string>();
 
 				string baseDir = Path.GetDirectoryName(filename) ?? "";
 				//rewrite all path using baseDir
-				foreach (ActivityViewInfo info in ActivityViewInformations)
+				foreach (FileBindingDescription info in ActivityViewInformations)
 				{
-					//TODO : test if baseDir is necessary for *.OutputFile
-					info.Activity.OutputFile = NormalizePath(Path.Combine(baseDir, classLocation, info.Activity.OutputFile));
+					info.Activity.OutputFile = NormalizePath(Path.Combine(classLocation, string.Format("{0}.{1}.cs", info.Activity.NamespaceName, info.Activity.ClassName)));
 					info.View.InputFile = NormalizePath(Path.Combine(baseDir, info.View.InputFile));
-					info.View.OutputFile = NormalizePath(Path.Combine(baseDir, resourceLocation, info.View.OutputFile));
+					info.View.OutputFile = NormalizePath(Path.Combine(resourceLocation, info.View.OutputFile));
 				}
 
-				List<ViewComponent> components = input.Components ?? new List<ViewComponent>(); 
+				List<AliasDescription> components = input.Aliases ?? new List<AliasDescription>(); 
 				components.AddRange(DefaultComponents.Components);
-				ViewComponents = components.ToDictionary(x => x.Key, x => x.Value);
+				ViewComponents = components.ToDictionary(x => x.Alias, x => x.FullClassName);
 			}
 			catch (Exception)
 			{

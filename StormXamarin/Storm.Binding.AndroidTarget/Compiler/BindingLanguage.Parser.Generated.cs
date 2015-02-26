@@ -11,10 +11,9 @@
 // options: no-lines gplex
 
 using System;
-using System.Collections.Generic;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using QUT.Gppg;
 
 namespace Storm.Binding.AndroidTarget.Compiler
@@ -30,7 +29,7 @@ internal partial struct ValueType
 	public List<Tuple<string, Expression>> KeyValueList;
 }
 // Abstract base class for GPLEX scanners
-[GeneratedCodeAttribute( "Gardens Point Parser Generator", "1.5.2")]
+[GeneratedCode( "Gardens Point Parser Generator", "1.5.2")]
 internal abstract class ScanBase : AbstractScanner<ValueType,LexLocation> {
   private LexLocation __yylloc = new LexLocation();
   public override LexLocation yylloc { get { return __yylloc; } set { __yylloc = value; } }
@@ -38,7 +37,7 @@ internal abstract class ScanBase : AbstractScanner<ValueType,LexLocation> {
 }
 
 // Utility class for encapsulating token information
-[GeneratedCodeAttribute( "Gardens Point Parser Generator", "1.5.2")]
+[GeneratedCode( "Gardens Point Parser Generator", "1.5.2")]
 internal class ScanObj {
   public int token;
   public ValueType yylval;
@@ -48,7 +47,7 @@ internal class ScanObj {
   }
 }
 
-[GeneratedCodeAttribute( "Gardens Point Parser Generator", "1.5.2")]
+[GeneratedCode( "Gardens Point Parser Generator", "1.5.2")]
 internal partial class BindingLanguageParser: ShiftReduceParser<ValueType, LexLocation>
 {
 #pragma warning disable 649

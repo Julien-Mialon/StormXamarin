@@ -3,7 +3,7 @@
 	public class TranslationExpression : Expression
 	{
 		public const string UID = "Uid";
-		public const string KEY = "Key";
+		public const string KEY = "Alias";
 
 		public override ExpressionType Type
 		{

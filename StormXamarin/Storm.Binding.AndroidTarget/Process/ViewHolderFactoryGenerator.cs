@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Storm.Binding.AndroidTarget.Data;
 
 namespace Storm.Binding.AndroidTarget.Process
 {

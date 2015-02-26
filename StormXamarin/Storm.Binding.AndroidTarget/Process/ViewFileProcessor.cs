@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using XmlAttribute = Storm.Binding.AndroidTarget.Data.XmlAttribute;
-using XmlElement = Storm.Binding.AndroidTarget.Data.XmlElement;
+using XmlAttribute = Storm.Binding.AndroidTarget.Model.XmlAttribute;
+using XmlElement = Storm.Binding.AndroidTarget.Model.XmlElement;
 
 namespace Storm.Binding.AndroidTarget.Process
 {
@@ -57,7 +57,7 @@ namespace Storm.Binding.AndroidTarget.Process
 							reader.MoveToFirstAttribute();
 							do
 							{
-								childElement.Attributes.Add(new XmlAttribute { Name = reader.Name, Value = reader.Value });
+								childElement.Attributes.Add(new XmlAttribute { FullName = reader.Name, Value = reader.Value });
 							} while (reader.MoveToNextAttribute());
 						}
 
@@ -122,9 +122,9 @@ namespace Storm.Binding.AndroidTarget.Process
 
 		private void WriteAttribute(XmlWriter writer, XmlAttribute attribute)
 		{
-			if (attribute.Name.Contains(":"))
+			if (attribute.FullName.Contains(":"))
 			{
-				string[] splitted = attribute.Name.Split(':');
+				string[] splitted = attribute.FullName.Split(':');
 				string ns = splitted[0];
 				string name = splitted[1];
 
@@ -139,7 +139,7 @@ namespace Storm.Binding.AndroidTarget.Process
 			}
 			else
 			{
-				writer.WriteAttributeString(attribute.Name, attribute.Value);
+				writer.WriteAttributeString(attribute.FullName, attribute.Value);
 			}
 		}
 
@@ -167,7 +167,7 @@ namespace Storm.Binding.AndroidTarget.Process
 
 				foreach (XmlAttribute attr in element.Attributes)
 				{
-					Console.WriteLine("{0}{1}=\"{2}\"", attributeIndent, attr.Name, attr.Value);
+					Console.WriteLine("{0}{1}=\"{2}\"", attributeIndent, attr.FullName, attr.Value);
 				}
 
 				Console.WriteLine(element.Children.Any() ? "{0}>" : "{0}/>", attributeIndent);
@@ -236,7 +236,7 @@ namespace Storm.Binding.AndroidTarget.Process
 				XmlAttribute attribute = new XmlAttribute();
 				id = string.Format(VIEW_ID_FORMAT, _viewObjectId++);
 				attribute.Value = "@+id/" + id;
-				attribute.Name = "android:id";
+				attribute.FullName = "android:id";
 
 				element.Attributes.Add(attribute);
 				if (!isFragment)
