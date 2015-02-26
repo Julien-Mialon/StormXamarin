@@ -2,6 +2,10 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<UsingTask AssemblyFile="..\tools\Storm.Binding.AndroidTarget.dll" 
 			   TaskName="Storm.Binding.AndroidTarget.BindingPreprocess" />
+	<UsingTask AssemblyFile="..\tools\Storm.Binding.AndroidTarget.dll"
+			   TaskName="Storm.Binding.AndroidTarget.ReswToStrings" />
+
+
 	<!-- Define custom directory path -->
 	<PropertyGroup>
 		<PreprocessingTempLocation>$(MSBuildProjectDirectory)\generated.tmp\</PreprocessingTempLocation>
@@ -11,6 +15,7 @@
 	<!-- Define newly available build action -->
 	<ItemGroup>
 		<AvailableItemName Include="BindingProcess" />
+		<AvailableItemName Include="ReswFile" />
 	</ItemGroup>
 	
 	<Target Name="BeforeBuild">
@@ -32,10 +37,21 @@
 			<Compile Include="@(StormGeneratedActivityFiles)" />
 			<AndroidResource Include="@(StormGeneratedAndroidResource)" />
 		</ItemGroup>
+
+		<!-- Execute resw transformation -->
+		<ReswToStrings InputFiles="@(ReswFile)"
+					  >
+			<Output TaskParameter="GeneratedStrings" ItemName="StormGeneratedStrings" />
+		</ReswToStrings>
+
+		<ItemGroup>
+			<AndroidResource Include="@(StormGeneratedStrings)" />
+		</ItemGroup>
 	</Target>
   
 	<Target Name="AfterBuild">
 		<RemoveDir Directories="$(PreprocessingTempLocation)" />
 		<Delete Files="@(StormGeneratedAndroidResource)" />
+		<Delete Files="@(StormGeneratedStrings)" />
 	</Target>
 </Project>
