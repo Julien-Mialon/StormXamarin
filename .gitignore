@@ -182,3 +182,6 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 *.DotSettings
+
+# Xamarin android file
+Resource.Designer.cs
