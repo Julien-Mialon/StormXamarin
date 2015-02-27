@@ -3,13 +3,15 @@ using Storm.Binding.AndroidTarget.Configuration.Model;
 
 namespace Storm.Binding.AndroidTarget.Configuration
 {
-	public static class BaseConfigurationContainer
+	public static class DefaultConfiguration
 	{
 		public static IEnumerable<string> Namespaces { get; private set; }
 
 		public static IEnumerable<AliasDescription> Aliases { get; private set; }
 
-		static BaseConfigurationContainer()
+		public static IEnumerable<string> CustomAttribute { get; private set; } 
+
+		static DefaultConfiguration()
 		{
 			Aliases = new List<AliasDescription>
 			{
@@ -32,6 +34,11 @@ namespace Storm.Binding.AndroidTarget.Configuration
 				"Storm.Mvvm.Bindings",
 				"Storm.Mvvm.Components",
 				"Storm.Mvvm.ViewSelectors",
+			};
+
+			CustomAttribute = new List<string>
+			{
+				"CommandParameter",
 			};
 		}
 	}

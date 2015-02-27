@@ -26,7 +26,7 @@ namespace Storm.Binding.AndroidTarget.Process
 				StreamReader re = new StreamReader(filename);
 				JsonTextReader reader = new JsonTextReader(re);
 
-				DescriptionFile input = serializer.Deserialize<DescriptionFile>(reader);
+				ConfigurationFile input = serializer.Deserialize<ConfigurationFile>(reader);
 
 				ActivityViewInformations = input.FileDescriptions;
 				AdditionalNamespaces = input.Namespaces ?? new List<string>();

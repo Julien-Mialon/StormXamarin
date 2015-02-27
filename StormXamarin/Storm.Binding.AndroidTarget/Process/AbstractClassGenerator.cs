@@ -7,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Microsoft.Build.Framework;
-using Storm.Binding.AndroidTarget.Data;
 using Storm.Binding.AndroidTarget.Model;
 
 namespace Storm.Binding.AndroidTarget.Process
@@ -44,7 +43,7 @@ namespace Storm.Binding.AndroidTarget.Process
 
 		public IEnumerable<XmlAttribute> BindingAttributes { get; set; }
 
-		public IEnumerable<XmlResource> Resources { get; set; } 
+		public IEnumerable<Resource> Resources { get; set; } 
 
 		protected AbstractClassGenerator(string namespaceName, string className, CodeTypeReference baseClass)
 		{
@@ -312,7 +311,7 @@ namespace Storm.Binding.AndroidTarget.Process
 
 			if (Resources != null)
 			{
-				foreach (XmlResource resource in Resources)
+				foreach (Resource resource in Resources)
 				{
 					string resourceName = string.Format(RESOURCE_FORMAT, _resourceCounter++);
 					if (resource is ResourceConverter)

@@ -60,28 +60,34 @@
     <Compile Include="Compiler\ResourceExpression.cs" />
     <Compile Include="Compiler\TextExpression.cs" />
     <Compile Include="Compiler\TranslationExpression.cs" />
-    <Compile Include="Configuration\BaseConfigurationContainer.cs" />
+    <Compile Include="Configuration\DefaultConfiguration.cs" />
     <Compile Include="Configuration\ConfigurationReader.cs" />
     <Compile Include="Configuration\Model\ActivityDescription.cs" />
     <Compile Include="Configuration\Model\FileBindingDescription.cs" />
-    <Compile Include="Configuration\Model\DescriptionFile.cs" />
+    <Compile Include="Configuration\Model\ConfigurationFile.cs" />
     <Compile Include="Configuration\Model\FragmentDescription.cs" />
     <Compile Include="Configuration\Model\AliasDescription.cs" />
     <Compile Include="Configuration\Model\ViewDescription.cs" />
+    <Compile Include="Helper\ParsingHelper.cs" />
+    <Compile Include="Helper\PathHelper.cs" />
+    <Compile Include="Model\ResourceWithId.cs" />
     <Compile Include="Model\XmlAttribute.cs" />
     <Compile Include="Model\XmlElement.cs" />
-    <Compile Include="Data\XmlResource.cs" />
+    <Compile Include="Model\Resource.cs" />
     <Compile Include="Compiler\Internal\GplexBuffers.cs" />
+    <Compile Include="Preprocessor\ConfigurationPreprocessor.cs" />
+    <Compile Include="Preprocessor\DataTemplateProcessor.cs" />
+    <Compile Include="Preprocessor\ViewFileReader.cs" />
+    <Compile Include="Preprocessor\ViewFileWriter.cs" />
     <Compile Include="Process\AbstractClassGenerator.cs" />
     <Compile Include="Process\BindingExpression.cs" />
     <Compile Include="Process\ClassGeneratorHelper.cs" />
-    <Compile Include="Process\IdViewObject.cs" />
+    <Compile Include="Model\IdViewObject.cs" />
     <Compile Include="Process\InformationReader.cs" />
     <Compile Include="Process\PartialActivityClassGenerator.cs" />
     <Compile Include="Process\PartialClassGenerator.cs" />
     <Compile Include="Process\PartialFragmentClassGenerator.cs" />
-    <Compile Include="Process\ResourceParser.cs" />
-    <Compile Include="Process\ViewFileProcessor.cs" />
+    <Compile Include="Preprocessor\ViewFileProcessor.cs" />
     <Compile Include="Process\ViewHolderClassGenerator.cs" />
     <Compile Include="Process\ViewHolderFactoryGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -122,6 +128,9 @@
       <DependentUpon>BindingLanguage.parser</DependentUpon>
     </None>
     <None Include="Compiler\BindingLanguage.parser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

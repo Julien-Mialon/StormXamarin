@@ -14,11 +14,12 @@ namespace Storm.Binding.AndroidTarget.Configuration.Model
 		/// </summary>
 		public string NamespaceName { get; set; }
 
+		/// <summary>
+		/// Name of the outputFile, could be null, a name will be auto generated
+		/// </summary>
+		public string OutputFile { get; set; }
 
 		// Fields below are for processing and should not be used in json file !
-
-		[JsonIgnore]
-		public string OutputFile { get; set; }
 
 		/// <summary>
 		/// Useful for processing and to know if the current instance is a fragment or an Activity

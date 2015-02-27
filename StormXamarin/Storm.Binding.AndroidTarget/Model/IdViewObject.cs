@@ -1,4 +1,4 @@
-﻿namespace Storm.Binding.AndroidTarget.Process
+﻿namespace Storm.Binding.AndroidTarget.Model
 {
 	public class IdViewObject
 	{

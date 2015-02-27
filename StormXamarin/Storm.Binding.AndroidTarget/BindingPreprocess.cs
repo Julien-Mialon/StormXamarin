@@ -4,24 +4,16 @@ using System.IO;
 using System.Linq;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
+using Storm.Binding.AndroidTarget.Configuration;
 using Storm.Binding.AndroidTarget.Configuration.Model;
-using Storm.Binding.AndroidTarget.Data;
 using Storm.Binding.AndroidTarget.Model;
+using Storm.Binding.AndroidTarget.Preprocessor;
 using Storm.Binding.AndroidTarget.Process;
 
 namespace Storm.Binding.AndroidTarget
 {
 	public class BindingPreprocess : Task
 	{
-		private const string VIEWHOLDER_FORMAT = "AutoGen_ViewHolder_{0}";
-		private int _viewHolderCounter;
-
-		public enum FileType
-		{
-			Class,
-			Resource
-		}
-
 		public static TaskLoggingHelper Logger { get; private set; }
 
 		[Required]
@@ -51,19 +43,26 @@ namespace Storm.Binding.AndroidTarget
 			{
 				Log.LogMessage(MessageImportance.High, "===> Preprocessing files for Android binding <===");
 
-				string projectDir = InformationReader.NormalizePath(Environment.CurrentDirectory) + Path.DirectorySeparatorChar;
-				List<Tuple<string, FileType>> resultFiles = new List<Tuple<string, FileType>>();
-				foreach (ITaskItem file in InputFiles)
+				ConfigurationReader reader = new ConfigurationReader()
 				{
-					Log.LogMessage(MessageImportance.High, "\t=> Preprocessing json file : {0}", file.ItemSpec);
-					string filePath = file.ItemSpec;
-					InformationReader reader = new InformationReader(filePath, ClassLocation, ResourceLocation);
-					resultFiles.AddRange(ProcessReader(reader, projectDir));
+					DefaultClassLocation = ClassLocation,
+					DefaultResourceLocation = ResourceLocation,
+				};
+				ConfigurationPreprocessor preprocessor = new ConfigurationPreprocessor();
+
+				string projectDir = InformationReader.NormalizePath(Environment.CurrentDirectory) + Path.DirectorySeparatorChar;
+				foreach (ITaskItem inputFile in InputFiles)
+				{
+					string filePath = inputFile.ItemSpec;
+
+					Log.LogMessage(MessageImportance.High, "\t=> Preprocessing json file : {0}", inputFile);
+					ConfigurationFile file = reader.Read(filePath);
+
+					preprocessor.Process(file, projectDir);
 				}
 
-				GeneratedActivityFiles = resultFiles.Where(x => x.Item2 == FileType.Class).Select(x => (ITaskItem)new TaskItem(x.Item1)).ToArray();
-				GeneratedAndroidResource = resultFiles.Where(x => x.Item2 == FileType.Resource).Select(x => (ITaskItem)new TaskItem(x.Item1)).ToArray();
-
+				GeneratedActivityFiles = preprocessor.ClassFiles.Select(x => (ITaskItem)new TaskItem(x)).ToArray();
+				GeneratedAndroidResource = preprocessor.ResourceFiles.Select(x => (ITaskItem)new TaskItem(x)).ToArray();
 				Log.LogMessage(MessageImportance.High, "===> End preprocessing for Android binding, generate {0} class and {1} resources", GeneratedActivityFiles.Length, GeneratedAndroidResource.Length);
 			}
 			catch (Exception e)
@@ -75,16 +74,7 @@ namespace Storm.Binding.AndroidTarget
 			return !Log.HasLoggedErrors;
 		}
 
-		private string GetRelativePath(string projectDir, string file)
-		{
-			string normalized = InformationReader.NormalizePath(file);
-			if (normalized.StartsWith(projectDir, StringComparison.OrdinalIgnoreCase))
-			{
-				return file.Substring(projectDir.Length);
-			}
-			Log.LogError("Error, unable to get relative path from {0} compare to {1}", projectDir, file);
-			throw new Exception();
-		}
+		
 
 		private IEnumerable<Tuple<string, FileType>> ProcessReader(InformationReader reader, string projectDir)
 		{
@@ -99,10 +89,10 @@ namespace Storm.Binding.AndroidTarget
 				Log.LogMessage(MessageImportance.High, "\t# Generating for activity {0}.{1}", info.Activity.NamespaceName, info.Activity.ClassName);
 
 				XmlElement root = processor.Read(info.View.InputFile, reader.ViewComponents);
-				Tuple<List<XmlAttribute>, List<IdViewObject>> tupleResult = processor.ExtractBindingInformations(root);
+				Tuple<List<XmlAttribute>, List<IdViewObject>> tupleResult = processor.ExtractExpressions(root);
 				List<XmlAttribute> bindingInformations = tupleResult.Item1;
 				List<IdViewObject> views = tupleResult.Item2;
-				List<XmlResource> resourceCollection = ResourceParser.ParseResources(root, info.View).ToList();
+				List<Resource> resourceCollection = ResourceParser.ParseResources(root, info.View).ToList();
 
 				string viewOutputRelativePath = GetRelativePath(projectDir, info.View.OutputFile);
 				Log.LogMessage(MessageImportance.High, "\t### Generating view file {0}", viewOutputRelativePath);
@@ -169,9 +159,9 @@ namespace Storm.Binding.AndroidTarget
 		/// 
 		/// </summary>
 		/// <returns>The name of the ViewHolder class created for this DataTemplate</returns>
-		private string ProcessDataTemplate(ResourceDataTemplate dataTemplate, List<Tuple<string, FileType>> result, string projectDir, ViewFileProcessor processor, IEnumerable<XmlResource> resourceCollection, IEnumerable<string> additionalNamespaces, string namespaceName)
+		private string ProcessDataTemplate(ResourceDataTemplate dataTemplate, List<Tuple<string, FileType>> result, string projectDir, ViewFileProcessor processor, IEnumerable<Resource> resourceCollection, IEnumerable<string> additionalNamespaces, string namespaceName)
 		{
-			Tuple<List<XmlAttribute>, List<IdViewObject>> tupleResult = processor.ExtractBindingInformations(dataTemplate.RootElement);
+			Tuple<List<XmlAttribute>, List<IdViewObject>> tupleResult = processor.ExtractExpressions(dataTemplate.RootElement);
 			List<XmlAttribute> bindingInformations = tupleResult.Item1;
 			List<IdViewObject> views = tupleResult.Item2;
 

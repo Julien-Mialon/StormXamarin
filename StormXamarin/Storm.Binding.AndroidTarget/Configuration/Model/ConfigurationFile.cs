@@ -5,7 +5,7 @@ namespace Storm.Binding.AndroidTarget.Configuration.Model
 	/// <summary>
 	/// Root object to store data from configuration file
 	/// </summary>
-	public class DescriptionFile
+	public class ConfigurationFile
 	{
 		/// <summary>
 		/// List of additional namespaces to include into generated files
@@ -22,7 +22,7 @@ namespace Storm.Binding.AndroidTarget.Configuration.Model
 		/// </summary>
 		public List<FileBindingDescription> FileDescriptions { get; private set; }
 
-		public DescriptionFile()
+		public ConfigurationFile()
 		{
 			Namespaces = new List<string>();
 			Aliases = new List<AliasDescription>();
