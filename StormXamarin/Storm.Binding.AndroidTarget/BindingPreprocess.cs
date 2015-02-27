@@ -19,11 +19,8 @@ namespace Storm.Binding.AndroidTarget
 		[Required]
 		public ITaskItem[] InputFiles { get; set; }
 
-		[Required]
-		public string ClassLocation { get; set; }
-
-		[Required]
-		public string ResourceLocation { get; set; }
+		[Output]
+		public ITaskItem[] OutputDirectories { get; private set; }
 
 		[Output]
 		public ITaskItem[] GeneratedActivityFiles { get; private set; }
@@ -33,24 +30,21 @@ namespace Storm.Binding.AndroidTarget
 
 		public override bool Execute()
 		{
+			
 			if (InputFiles == null || InputFiles.Length == 0)
 			{
 				return true;
 			}
 
 			Logger = Log;
+			List<string> outputDirectories = new List<string>();
 			try
 			{
 				Log.LogMessage(MessageImportance.High, "===> Preprocessing files for Android binding <===");
 
-				ConfigurationReader reader = new ConfigurationReader()
-				{
-					DefaultClassLocation = ClassLocation,
-					DefaultResourceLocation = ResourceLocation,
-				};
+				ConfigurationReader reader = new ConfigurationReader();
 				ConfigurationPreprocessor preprocessor = new ConfigurationPreprocessor();
 
-				string projectDir = InformationReader.NormalizePath(Environment.CurrentDirectory) + Path.DirectorySeparatorChar;
 				foreach (ITaskItem inputFile in InputFiles)
 				{
 					string filePath = inputFile.ItemSpec;
@@ -58,7 +52,17 @@ namespace Storm.Binding.AndroidTarget
 					Log.LogMessage(MessageImportance.High, "\t=> Preprocessing json file : {0}", inputFile);
 					ConfigurationFile file = reader.Read(filePath);
 
-					preprocessor.Process(file, projectDir);
+					// check existence of output directory
+					foreach (string dir in new[] {file.ClassLocation, file.ResourceLocation})
+					{
+						if (!Directory.Exists(dir))
+						{
+							Directory.CreateDirectory(dir);
+							outputDirectories.Add(dir);
+						}
+					}
+
+					preprocessor.Process(file);
 				}
 
 				GeneratedActivityFiles = preprocessor.ClassFiles.Select(x => (ITaskItem)new TaskItem(x)).ToArray();
@@ -68,9 +72,8 @@ namespace Storm.Binding.AndroidTarget
 			catch (Exception e)
 			{
 				Log.LogErrorFromException(e, true);
-				return false;
 			}
-			
+			OutputDirectories = outputDirectories.Select(x => (ITaskItem)new TaskItem(x)).ToArray();
 			return !Log.HasLoggedErrors;
 		}
 
@@ -153,41 +156,6 @@ namespace Storm.Binding.AndroidTarget
 
 
 			return result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns>The name of the ViewHolder class created for this DataTemplate</returns>
-		private string ProcessDataTemplate(ResourceDataTemplate dataTemplate, List<Tuple<string, FileType>> result, string projectDir, ViewFileProcessor processor, IEnumerable<Resource> resourceCollection, IEnumerable<string> additionalNamespaces, string namespaceName)
-		{
-			Tuple<List<XmlAttribute>, List<IdViewObject>> tupleResult = processor.ExtractExpressions(dataTemplate.RootElement);
-			List<XmlAttribute> bindingInformations = tupleResult.Item1;
-			List<IdViewObject> views = tupleResult.Item2;
-
-			string viewOutputFile = Path.Combine(ResourceLocation, dataTemplate.ResourceId + ".axml");
-			string viewOutputRelativeFile = GetRelativePath(projectDir, viewOutputFile);
-			Log.LogMessage(MessageImportance.High, "\t\t### Generating view for DataTemplate {0} to file {1}", dataTemplate.Key, viewOutputRelativeFile);
-			processor.Write(dataTemplate.RootElement, viewOutputFile);
-
-			result.Add(new Tuple<string, FileType>(viewOutputRelativeFile, FileType.Resource));
-
-			string viewHolderClassName = string.Format(VIEWHOLDER_FORMAT, _viewHolderCounter++);
-			ViewHolderClassGenerator viewHolderGenerator = new ViewHolderClassGenerator(namespaceName, viewHolderClassName)
-			{
-				BindingAttributes = bindingInformations, 
-				ViewElements = views, 
-				Resources = resourceCollection, 
-				Namespaces = additionalNamespaces
-			};
-			string classOutputFile = Path.Combine(ClassLocation, viewHolderClassName + ".ui.cs");
-			string classRelativePath = GetRelativePath(projectDir, classOutputFile);
-			Log.LogMessage(MessageImportance.High, "\t\t### Generating class for DataTemplate {0} to file {1}", dataTemplate.Key, classRelativePath);
-			viewHolderGenerator.Generate(classOutputFile);
-
-			result.Add(new Tuple<string, FileType>(classRelativePath, FileType.Class));
-
-			return viewHolderClassName;
 		}
 
 		public static void LexLog(string message)

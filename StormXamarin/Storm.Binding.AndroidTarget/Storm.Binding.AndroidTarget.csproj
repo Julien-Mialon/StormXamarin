@@ -68,6 +68,7 @@
     <Compile Include="Configuration\Model\FragmentDescription.cs" />
     <Compile Include="Configuration\Model\AliasDescription.cs" />
     <Compile Include="Configuration\Model\ViewDescription.cs" />
+    <Compile Include="Helper\NameGeneratorHelper.cs" />
     <Compile Include="Helper\ParsingHelper.cs" />
     <Compile Include="Helper\PathHelper.cs" />
     <Compile Include="Model\ResourceWithId.cs" />
@@ -83,7 +84,6 @@
     <Compile Include="Process\BindingExpression.cs" />
     <Compile Include="Process\ClassGeneratorHelper.cs" />
     <Compile Include="Model\IdViewObject.cs" />
-    <Compile Include="Process\InformationReader.cs" />
     <Compile Include="Process\PartialActivityClassGenerator.cs" />
     <Compile Include="Process\PartialClassGenerator.cs" />
     <Compile Include="Process\PartialFragmentClassGenerator.cs" />
@@ -130,7 +130,7 @@
     <None Include="Compiler\BindingLanguage.parser" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\" />
+    <Folder Include="CodeGenerator\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

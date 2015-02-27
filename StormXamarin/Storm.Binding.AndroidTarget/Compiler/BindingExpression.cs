@@ -9,6 +9,7 @@
 		public const string UPDATE_EVENT = "UpdateEvent";
 		public const string TEMPLATE = "Template";
 		public const string TEMPLATE_SELECTOR = "TemplateSelector";
+		public const string ADAPTER = "Adapter";
 
 		public override ExpressionType Type
 		{
@@ -22,7 +23,7 @@
 
 		protected override string[] InternalAvailableKeys
 		{
-			get { return new[] { PATH, CONVERTER, CONVERTER_PARAMETER, MODE, UPDATE_EVENT, TEMPLATE, TEMPLATE_SELECTOR }; }
+			get { return new[] { PATH, CONVERTER, CONVERTER_PARAMETER, MODE, UPDATE_EVENT, TEMPLATE, TEMPLATE_SELECTOR, ADAPTER }; }
 		}
 	}
 }

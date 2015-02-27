@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Storm.Binding.AndroidTarget.Configuration.Model;
+using Storm.Binding.AndroidTarget.Helper;
 
 namespace Storm.Binding.AndroidTarget.Configuration
 {
@@ -9,7 +12,13 @@ namespace Storm.Binding.AndroidTarget.Configuration
 
 		public static IEnumerable<AliasDescription> Aliases { get; private set; }
 
-		public static IEnumerable<string> CustomAttribute { get; private set; } 
+		public static IEnumerable<string> CustomAttribute { get; private set; }
+
+		public static string ClassLocation { get; private set; }
+
+		public static string ResourceLocation { get; private set; }
+
+		public static string GeneratedNamespace { get; private set; }
 
 		static DefaultConfiguration()
 		{
@@ -40,6 +49,10 @@ namespace Storm.Binding.AndroidTarget.Configuration
 			{
 				"CommandParameter",
 			};
+
+			GeneratedNamespace = "Storm.Generated";
+			ClassLocation = PathHelper.Normalize(Path.Combine(PathHelper.ProjectDirectory, "Generated.tmp/"));
+			ResourceLocation = PathHelper.Normalize(Path.Combine(PathHelper.ProjectDirectory, "Resources/layout/"));
 		}
 	}
 }

@@ -22,6 +22,21 @@ namespace Storm.Binding.AndroidTarget.Configuration.Model
 		/// </summary>
 		public List<FileBindingDescription> FileDescriptions { get; private set; }
 
+		/// <summary>
+		/// Directory where to store all generated class files
+		/// </summary>
+		public string ClassLocation { get; set; }
+
+		/// <summary>
+		/// Directory where to store all generated resource layouts (usually : $(ProjectDir)/Resources/layout/)
+		/// </summary>
+		public string ResourceLocation { get; set; }
+
+		/// <summary>
+		/// Namespace for all generated classes
+		/// </summary>
+		public string GeneratedNamespace { get; set; }
+
 		public ConfigurationFile()
 		{
 			Namespaces = new List<string>();

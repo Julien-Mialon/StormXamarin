@@ -64,6 +64,7 @@
     <Compile Include="Bindings\PropertyBinding.cs" />
     <Compile Include="Bindings\TwoWayPropertyBinding.cs" />
     <Compile Include="Components\BindableSpinner.cs" />
+    <Compile Include="Interfaces\IMvvmAdapter.cs" />
     <Compile Include="Interfaces\ISearchableAdapter.cs" />
     <Compile Include="Interfaces\IValueConverter.cs" />
     <Compile Include="Dialogs\AbstractDialogFragmentBase.cs" />
@@ -79,8 +80,8 @@
     <Compile Include="Services\ActivityService.cs" />
     <Compile Include="Services\LoggerService.cs" />
     <Compile Include="Services\MessageDialogService.cs" />
-    <Compile Include="ViewSelectors\BaseViewHolder.cs" />
-    <Compile Include="Interfaces\IViewSelector.cs" />
+    <Compile Include="TemplateSelectors\BaseViewHolder.cs" />
+    <Compile Include="Interfaces\ITemplateSelector.cs" />
     <Compile Include="Services\AssetsService.cs" />
     <Compile Include="Services\DispatcherService.cs" />
     <Compile Include="Inject\AndroidContainer.cs" />
@@ -88,8 +89,8 @@
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewSelectors\SimpleViewSelector.cs" />
-    <Compile Include="ViewSelectors\ViewSelectorBase.cs" />
+    <Compile Include="TemplateSelectors\SimpleTemplateSelector.cs" />
+    <Compile Include="TemplateSelectors\AbstractTemplateSelector.cs" />
     <Compile Include="Wrapper\ConverterHelper.cs" />
     <Compile Include="Wrapper\JavaObjectExtension.cs" />
     <Compile Include="Wrapper\SystemObjectExtension.cs" />

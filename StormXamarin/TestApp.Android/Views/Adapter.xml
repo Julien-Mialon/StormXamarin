@@ -27,8 +27,8 @@
 			</LinearLayout>
 		</DataTemplate>
 
-		<ViewSelector Key="SpinnerAdapter"
-					  Class="Storm.Mvvm.ViewSelectors.SimpleViewSelector"
+		<TemplateSelector Key="SpinnerAdapter"
+					  Class="Storm.Mvvm.TemplateSelectors.SimpleTemplateSelector"
 					  View="{Resource SpinnerItemTemplate}"
 					  />
 
@@ -55,8 +55,8 @@
 			</LinearLayout>
 		</DataTemplate>
 
-		<ViewSelector Key="TestAdapter"
-					  Class="Storm.Mvvm.ViewSelectors.SimpleViewSelector"
+		<TemplateSelector Key="TestAdapter"
+					  Class="Storm.Mvvm.TemplateSelectors.SimpleTemplateSelector"
 					  View="{Resource TestItemTemplate}"
 					  />
 	
@@ -85,7 +85,7 @@
 	
 	<BindableSpinner android:layout_width="120dp"
 			 android:layout_height="40dp"
-			 adapter="{Binding MyCollection, ViewSelector={Resource SpinnerAdapter}}"
+			 adapter="{Binding MyCollection, TemplateSelector={Resource SpinnerAdapter}}"
 			 currentItem="{Binding SelectedItem, Mode=TwoWay, UpdateEvent=CurrentItemChanged}"
 			 />
 </LinearLayout>

@@ -5,42 +5,33 @@
 	<UsingTask AssemblyFile="..\tools\Storm.Binding.AndroidTarget.dll"
 			   TaskName="Storm.Binding.AndroidTarget.ReswToStrings" />
 
-
-	<!-- Define custom directory path -->
-	<PropertyGroup>
-		<PreprocessingTempLocation>$(MSBuildProjectDirectory)\generated.tmp\</PreprocessingTempLocation>
-		<ResourceLocation>$(MSBuildProjectDirectory)\Resources\layout\</ResourceLocation>
-	</PropertyGroup>
 	
 	<!-- Define newly available build action -->
 	<ItemGroup>
 		<AvailableItemName Include="BindingProcess" />
 		<AvailableItemName Include="ReswFile" />
 	</ItemGroup>
-	
+
 	<Target Name="BeforeBuild">
-		<!-- Create directories if not exists -->
-		<MakeDir Directories="$(PreprocessingTempLocation)" />
-		<MakeDir Directories="$(ResourceLocation)" />
-	  
 		<!-- Execute binding preprocessing -->
-		<BindingPreprocess InputFiles="@(BindingProcess)"
-						   ClassLocation="$(PreprocessingTempLocation)"
-						   ResourceLocation="$(ResourceLocation)"
-						   >
+		<BindingPreprocess InputFiles="@(BindingProcess)" ContinueOnError="ErrorAndStop">
 			<Output TaskParameter="GeneratedActivityFiles" ItemName="StormGeneratedActivityFiles" />
 			<Output TaskParameter="GeneratedAndroidResource" ItemName="StormGeneratedAndroidResource" />
+			<Output TaskParameter="OutputDirectories" ItemName="StormOutputDirectories" />
 		</BindingPreprocess>
-		
+
 		<!-- Declare new files to compile and use as resources -->
 		<ItemGroup>
 			<Compile Include="@(StormGeneratedActivityFiles)" />
 			<AndroidResource Include="@(StormGeneratedAndroidResource)" />
 		</ItemGroup>
+		
+		<OnError ExecuteTargets="StormCleanup" />
+	</Target>
 
+	<Target Name="BeforeBuild">
 		<!-- Execute resw transformation -->
-		<ReswToStrings InputFiles="@(ReswFile)"
-					  >
+		<ReswToStrings InputFiles="@(ReswFile)">
 			<Output TaskParameter="GeneratedStrings" ItemName="StormGeneratedStrings" />
 		</ReswToStrings>
 
@@ -48,10 +39,12 @@
 			<AndroidResource Include="@(StormGeneratedStrings)" />
 		</ItemGroup>
 	</Target>
-  
-	<Target Name="AfterBuild">
-		<RemoveDir Directories="$(PreprocessingTempLocation)" />
+
+	<Target Name="StormCleanup">
+		<RemoveDir Directories="@(StormOutputDirectories)" />
 		<Delete Files="@(StormGeneratedAndroidResource)" />
 		<Delete Files="@(StormGeneratedStrings)" />
 	</Target>
+	
+	<Target Name="AfterBuild" DependsOnTargets="StormCleanup" />
 </Project>

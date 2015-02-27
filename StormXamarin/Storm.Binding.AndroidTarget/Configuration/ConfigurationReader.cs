@@ -10,10 +10,6 @@ namespace Storm.Binding.AndroidTarget.Configuration
 {
 	public class ConfigurationReader
 	{
-		public string DefaultClassLocation { get; set; }
-
-		public string DefaultResourceLocation { get; set; }
-
 		public ConfigurationFile Read(string inputFile)
 		{
 			try
@@ -22,43 +18,53 @@ namespace Storm.Binding.AndroidTarget.Configuration
 
 				ConfigurationFile result = JsonConvert.DeserializeObject<ConfigurationFile>(content);
 
+				string relativePath = Path.GetDirectoryName(inputFile) ?? "";
+				//Set classLocation & resourceLocation if they are not set into the json file
+				result.ClassLocation = result.ClassLocation == null ? DefaultConfiguration.ClassLocation : PathHelper.Normalize(Path.Combine(relativePath, result.ClassLocation));
+				result.ResourceLocation = result.ResourceLocation == null ? DefaultConfiguration.ResourceLocation : PathHelper.Normalize(Path.Combine(relativePath, result.ResourceLocation));
+				if (string.IsNullOrWhiteSpace(result.GeneratedNamespace))
+				{
+					result.GeneratedNamespace = DefaultConfiguration.GeneratedNamespace;
+				}
+
 				//Add all default aliases if they have not been overriden
 				Dictionary<string, string> aliases = result.Aliases.ToDictionary(x => x.Alias, x => x.FullClassName);
-				foreach (AliasDescription alias in DefaultConfiguration.Aliases)
+				foreach (AliasDescription alias in DefaultConfiguration.Aliases.Where(alias => !aliases.ContainsKey(alias.Alias)))
 				{
-					if (!aliases.ContainsKey(alias.Alias))
-					{
-						result.Aliases.Add(alias);
-					}
+					result.Aliases.Add(alias);
 				}
 
 				//Add all default namespaces
-				foreach (string name in DefaultConfiguration.Namespaces)
+				foreach (string name in DefaultConfiguration.Namespaces.Where(name => !result.Namespaces.Contains(name)))
 				{
-					if (!result.Namespaces.Contains(name))
-					{
-						result.Namespaces.Add(name);
-					}
+					result.Namespaces.Add(name);
+				}
+				if (!result.Namespaces.Contains(result.GeneratedNamespace))
+				{
+					result.Namespaces.Add(result.GeneratedNamespace);
 				}
 				result.Namespaces.Sort();
 
-				string relativePath = Path.GetDirectoryName(inputFile) ?? "";
+				
 				//Process files to complete with full path
 				foreach (FileBindingDescription fileBinding in result.FileDescriptions)
 				{
 					if (string.IsNullOrWhiteSpace(fileBinding.Activity.OutputFile))
 					{
-						// generate auto name for file
+						// generate auto name for activity file
 						fileBinding.Activity.OutputFile = string.Format("{0}.{1}.cs", fileBinding.Activity.NamespaceName, fileBinding.Activity.ClassName);
 					}
 
-					// add generated directory
-					fileBinding.Activity.OutputFile = PathHelper.Normalize(Path.Combine(DefaultClassLocation, fileBinding.Activity.OutputFile));
-					fileBinding.View.InputFile = PathHelper.Normalize(Path.Combine(relativePath, fileBinding.View.InputFile));
 					if (string.IsNullOrWhiteSpace(fileBinding.View.OutputFile))
 					{
-						fileBinding.View.OutputFile = PathHelper.Normalize(Path.Combine(DefaultResourceLocation, fileBinding.View.OutputFile));
+						// generate auto name for view file
+						fileBinding.View.OutputFile = string.Format("{0}.axml", Path.GetFileNameWithoutExtension(fileBinding.View.InputFile));
 					}
+
+					// add full path as prefix to all file
+					fileBinding.Activity.OutputFile = PathHelper.Normalize(Path.Combine(result.ClassLocation, fileBinding.Activity.OutputFile));
+					fileBinding.View.OutputFile = PathHelper.Normalize(Path.Combine(result.ResourceLocation, fileBinding.View.OutputFile));
+					fileBinding.View.InputFile = PathHelper.Normalize(Path.Combine(relativePath, fileBinding.View.InputFile));
 				}
 
 				return result;

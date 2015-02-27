@@ -2,7 +2,7 @@
 using Android.Views;
 using Storm.Mvvm.Bindings;
 
-namespace Storm.Mvvm.ViewSelectors
+namespace Storm.Mvvm.TemplateSelectors
 {
 	public abstract class BaseViewHolder
 	{
