@@ -41,6 +41,7 @@ namespace Storm.Mvvm
 			return new List<BindingObject>();
 		}
 
+		//TODO : check if needed 
 		public List<BindingObject> GetBindingsForAdapters(int viewId)
 		{
 			return AdapterBindings.ContainsKey(viewId) ? AdapterBindings[viewId] : new List<BindingObject>();

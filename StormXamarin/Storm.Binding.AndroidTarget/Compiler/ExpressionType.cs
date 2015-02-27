@@ -6,5 +6,6 @@
 		Resource,
 		Translation,
 		Value,
+		BindingMode,
 	}
 }

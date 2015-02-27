@@ -42,7 +42,7 @@ namespace Storm.Binding.AndroidTarget.Configuration
 				"Storm.Mvvm",
 				"Storm.Mvvm.Bindings",
 				"Storm.Mvvm.Components",
-				"Storm.Mvvm.ViewSelectors",
+				"Storm.Mvvm.TemplateSelectors",
 			};
 
 			CustomAttribute = new List<string>

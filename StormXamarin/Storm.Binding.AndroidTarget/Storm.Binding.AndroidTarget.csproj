@@ -52,10 +52,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindingPreprocess.cs" />
+    <Compile Include="CodeGenerator\AbstractBindingHandlerClassGenerator.cs" />
+    <Compile Include="CodeGenerator\AbstractClassGenerator.cs" />
+    <Compile Include="CodeGenerator\Model\ExpressionContainer.cs" />
     <Compile Include="Compiler\BindingExpression.cs" />
     <Compile Include="Compiler\CompileException.cs" />
     <Compile Include="Compiler\Expression.cs" />
     <Compile Include="Compiler\ExpressionFactory.cs" />
+    <Compile Include="Compiler\ModeExpression.cs" />
     <Compile Include="Compiler\ExpressionType.cs" />
     <Compile Include="Compiler\ResourceExpression.cs" />
     <Compile Include="Compiler\TextExpression.cs" />
@@ -68,9 +72,11 @@
     <Compile Include="Configuration\Model\FragmentDescription.cs" />
     <Compile Include="Configuration\Model\AliasDescription.cs" />
     <Compile Include="Configuration\Model\ViewDescription.cs" />
+    <Compile Include="Helper\CodeGeneratorHelper.cs" />
     <Compile Include="Helper\NameGeneratorHelper.cs" />
     <Compile Include="Helper\ParsingHelper.cs" />
     <Compile Include="Helper\PathHelper.cs" />
+    <Compile Include="Model\BindingMode.cs" />
     <Compile Include="Model\ResourceWithId.cs" />
     <Compile Include="Model\XmlAttribute.cs" />
     <Compile Include="Model\XmlElement.cs" />
@@ -129,9 +135,7 @@
     </None>
     <None Include="Compiler\BindingLanguage.parser" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CodeGenerator\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>echo "Copy dll file"

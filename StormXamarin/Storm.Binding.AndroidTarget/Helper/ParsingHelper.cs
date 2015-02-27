@@ -90,7 +90,12 @@ namespace Storm.Binding.AndroidTarget.Helper
 
 		public static bool IsAttributeWithExpression(XmlAttribute attribute)
 		{
-			string trimmed = attribute.Value.Trim();
+			return IsExpressionValue(attribute.Value);
+		}
+
+		public static bool IsExpressionValue(string value)
+		{
+			string trimmed = value.Trim();
 			return trimmed.StartsWith("{") && trimmed.EndsWith("}");
 		}
 	}

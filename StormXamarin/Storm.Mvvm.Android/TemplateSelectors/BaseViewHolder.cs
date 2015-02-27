@@ -12,6 +12,7 @@ namespace Storm.Mvvm.TemplateSelectors
 
 		protected object ViewModel { get; private set; }
 
+		//TODO : check if we need the inflater ?
 		protected BaseViewHolder(LayoutInflater layoutInflater, View view)
 		{
 			LayoutInflater = layoutInflater;
@@ -24,6 +25,9 @@ namespace Storm.Mvvm.TemplateSelectors
 			BindingProcessor.ProcessBinding(ViewModel, this, GetBindingPaths());
 		}
 
-		public abstract List<BindingObject> GetBindingPaths();
+		public virtual List<BindingObject> GetBindingPaths()
+		{
+			return new List<BindingObject>();
+		}
 	}
 }

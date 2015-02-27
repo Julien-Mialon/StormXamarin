@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Storm.Binding.AndroidTarget.Model;
 
 namespace Storm.Binding.AndroidTarget.Compiler
 {
     internal partial class BindingLanguageParser
     {
-		
-
         public BindingLanguageParser() : base(null) { }
 
         public Expression Parse(string s, out bool result)
@@ -18,8 +17,43 @@ namespace Storm.Binding.AndroidTarget.Compiler
             Scanner = new BindingLanguageScanner(stream);
 
             result = Parse();
-	        return result ? CurrentSemanticValue.Expression : null;
+	        if (result)
+	        {
+		        ProcessModeNodes(CurrentSemanticValue.Expression);
+		        return CurrentSemanticValue.Expression;
+	        }
+	        return null;
         }
+
+		// Replace all mode by ModeExpression instead of TextExpression
+	    private void ProcessModeNodes(Expression expression)
+	    {
+		    if (expression.IsOfType(ExpressionType.Binding) && expression.Has(BindingExpression.MODE))
+		    {
+			    TextExpression text = expression.Get<TextExpression>(BindingExpression.MODE);
+			    if (text != null)
+			    {
+				    BindingMode mode;
+				    if (Enum.TryParse(text.Value, true, out mode))
+				    {
+					    expression.Replace(BindingExpression.MODE, new ModeExpression {Value = mode});
+				    }
+				    else
+				    {
+					    BindingPreprocess.Logger.LogError("Invalid value for Mode in binding Expression actual value is {0}", text.Value);
+				    }
+			    }
+			    else
+			    {
+				    BindingPreprocess.Logger.LogError("Invalid value for Mode in binding expression actual value is of type {0}", expression[BindingExpression.MODE].Type.ToString());
+			    }
+		    }
+
+		    foreach (Expression child in expression.Attributes.Values)
+		    {
+			    ProcessModeNodes(child);
+		    }
+	    }
 
 	    private List<Tuple<string, Expression>> CreateAndAdd(string key, Expression value)
 	    {

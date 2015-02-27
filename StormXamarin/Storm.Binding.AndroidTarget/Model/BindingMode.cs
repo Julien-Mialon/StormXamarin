@@ -1,9 +1,9 @@
-﻿namespace Storm.Mvvm.Bindings
+﻿namespace Storm.Binding.AndroidTarget.Model
 {
 	public enum BindingMode
 	{
 		OneWay,
 		OneWayToSource,
-		TwoWay,
+		TwoWay
 	}
 }

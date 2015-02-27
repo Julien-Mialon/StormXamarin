@@ -29,7 +29,17 @@ namespace Storm.Binding.AndroidTarget.Compiler
 			string correctKey = key == null ? ContentKey : AvailableKeys.FirstOrDefault(x => x.Equals(key, StringComparison.InvariantCultureIgnoreCase));
 			if (correctKey != null)
 			{
-				_attributes.Add(key, value);
+				_attributes.Add(correctKey, value);
+			}
+		}
+
+		public void Replace(string key, Expression value)
+		{
+			string correctKey = key == null ? ContentKey : AvailableKeys.FirstOrDefault(x => x.Equals(key, StringComparison.InvariantCultureIgnoreCase));
+			if (correctKey != null)
+			{
+				_attributes.Remove(correctKey);
+				_attributes.Add(correctKey, value);
 			}
 		}
 
@@ -65,6 +75,36 @@ namespace Storm.Binding.AndroidTarget.Compiler
 		public Expression this[string key]
 		{
 			get { return Get<Expression>(key); }
+		}
+
+		public bool CheckCorrectness()
+		{
+			Dictionary<string, IEnumerable<ExpressionType>> expected = GetExpectedValueType();
+			foreach (string key in Attributes.Keys)
+			{
+				Expression child = Attributes[key];
+				if (!expected[key].Any(child.IsOfType) || !child.CheckCorrectness())
+				{
+					return false;
+				}
+				
+			}
+			return CheckConstraints();
+		}
+
+		public bool IsOfType(ExpressionType type)
+		{
+			return Type == type;
+		}
+
+		protected virtual Dictionary<string, IEnumerable<ExpressionType>> GetExpectedValueType()
+		{
+			return new Dictionary<string, IEnumerable<ExpressionType>>();
+		}
+
+		protected virtual bool CheckConstraints()
+		{
+			return true;
 		}
 	}
 }

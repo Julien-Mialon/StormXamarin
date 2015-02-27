@@ -1,4 +1,8 @@
-﻿namespace Storm.Binding.AndroidTarget.Compiler
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using Storm.Binding.AndroidTarget.Model;
+
+namespace Storm.Binding.AndroidTarget.Compiler
 {
 	public class BindingExpression : Expression
 	{
@@ -24,6 +28,59 @@
 		protected override string[] InternalAvailableKeys
 		{
 			get { return new[] { PATH, CONVERTER, CONVERTER_PARAMETER, MODE, UPDATE_EVENT, TEMPLATE, TEMPLATE_SELECTOR, ADAPTER }; }
+		}
+
+		protected override Dictionary<string, IEnumerable<ExpressionType>> GetExpectedValueType()
+		{
+			return new Dictionary<string, IEnumerable<ExpressionType>>
+			{
+				{PATH, new List<ExpressionType> {ExpressionType.Value}},
+				{CONVERTER, new List<ExpressionType> {ExpressionType.Binding, ExpressionType.Resource}},
+				{CONVERTER_PARAMETER, new List<ExpressionType> {ExpressionType.Binding, ExpressionType.Resource, ExpressionType.Translation, ExpressionType.Value}},
+				{MODE, new List<ExpressionType> {ExpressionType.BindingMode}},
+				{UPDATE_EVENT, new List<ExpressionType> {ExpressionType.Value}},
+				{TEMPLATE, new List<ExpressionType> {ExpressionType.Resource}},
+				{TEMPLATE_SELECTOR, new List<ExpressionType> {ExpressionType.Resource}},
+				{ADAPTER, new List<ExpressionType> {ExpressionType.Resource}},
+			};
+		}
+
+		protected override bool CheckConstraints()
+		{
+			if (Has(CONVERTER_PARAMETER) && !Has(CONVERTER))
+			{
+				BindingPreprocess.Logger.LogError("A binding expression can not have a ConverterParameter without a Converter");
+				return false;
+			}
+
+			if (Has(MODE))
+			{
+				BindingMode mode = Get<ModeExpression>(MODE).Value;
+
+				if (Has(UPDATE_EVENT) && mode == BindingMode.OneWay)
+				{
+					BindingPreprocess.Logger.LogError("Binding expression with mode OneWay can not have an UpdateEvent");
+					return false;
+				}
+				if (!Has(UPDATE_EVENT) && (mode == BindingMode.OneWayToSource || mode == BindingMode.TwoWay))
+				{
+					BindingPreprocess.Logger.LogError("Binding expression with mode TwoWay or OneWayToSource need to have an UpdateEvent");
+					return false;
+				}
+			}
+
+			if (Has(TEMPLATE) && Has(TEMPLATE_SELECTOR))
+			{
+				BindingPreprocess.Logger.LogError("Binding expression can not have Template & TemplateSelector");
+				return false;
+			}
+
+			if (Has(ADAPTER) && !Has(TEMPLATE) && !Has(TEMPLATE_SELECTOR))
+			{
+				BindingPreprocess.Logger.LogError("Binding expression can only have Adapter if they also have a Template or a TemplateSelector");
+				return false;
+			}
+			return true;
 		}
 	}
 }

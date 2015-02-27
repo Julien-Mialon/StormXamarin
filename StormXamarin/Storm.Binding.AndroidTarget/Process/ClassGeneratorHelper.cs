@@ -31,7 +31,7 @@ namespace Storm.Binding.AndroidTarget.Process
 			"Android.OS",
 			"Storm.Mvvm",
 			"Storm.Mvvm.Bindings",
-			"Storm.Mvvm.Aliases",
+			"Storm.Mvvm.Components",
 			"Storm.Mvvm.ViewSelectors",
 		};
 
