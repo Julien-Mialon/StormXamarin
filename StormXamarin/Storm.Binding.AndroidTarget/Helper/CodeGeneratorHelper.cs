@@ -2,29 +2,35 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using Storm.Binding.AndroidTarget.Model;
+
 // ReSharper disable BitwiseOperatorOnEnumWithoutFlags
 
 namespace Storm.Binding.AndroidTarget.Helper
 {
 	public static class CodeGeneratorHelper
 	{
-		private static Dictionary<string, Type> _baseTypes = new Dictionary<string, Type>
+		#region base types
+
+		private static readonly Dictionary<string, Type> BaseTypes = new Dictionary<string, Type>
 		{
-			{"int", typeof(int)},
-			{"bool", typeof(bool)},
-			{"short", typeof(short)},
-			{"long", typeof(long)},
-			{"float", typeof(float)},
-			{"double", typeof(double)},
-			{"string", typeof(string)},
-			{"char", typeof(char)},
+			{"int", typeof (int)},
+			{"bool", typeof (bool)},
+			{"short", typeof (short)},
+			{"long", typeof (long)},
+			{"float", typeof (float)},
+			{"double", typeof (double)},
+			{"string", typeof (string)},
+			{"char", typeof (char)},
 		};
+
+		#endregion
 
 		public static CodeTypeReference GetTypeReferenceFromName(string typeName)
 		{
-			if (_baseTypes.ContainsKey(typeName))
+			if (BaseTypes.ContainsKey(typeName))
 			{
-				return new CodeTypeReference(_baseTypes[typeName]);
+				return new CodeTypeReference(BaseTypes[typeName]);
 			}
 			Type type = Type.GetType(typeName, false);
 			if (type == null || type.FullName.StartsWith("Storm.Binding.AndroidTarget"))
@@ -96,6 +102,16 @@ namespace Storm.Binding.AndroidTarget.Helper
 			return GetFieldReference(field.Name);
 		}
 
+		public static CodeMethodReferenceExpression GetMethodReference(string methodName)
+		{
+			return new CodeMethodReferenceExpression(new CodeThisReferenceExpression(), methodName);
+		}
+
+		public static CodeMethodReferenceExpression GetMethodReference(CodeMemberMethod method)
+		{
+			return new CodeMethodReferenceExpression(new CodeThisReferenceExpression(), method.Name);
+		}
+
 		public static Tuple<CodeMemberField, CodeMemberProperty> GenerateProxyProperty(string propertyName, string propertyType, CodeExpression rightAssignExpression)
 		{
 			CodeMemberField field = GenerateField(propertyType);
@@ -134,6 +150,50 @@ namespace Storm.Binding.AndroidTarget.Helper
 			CodeMemberProperty property = GenerateProperty(propertyName, propertyType, getStatements);
 
 			return new Tuple<CodeMemberField, CodeMemberProperty>(field, property);
+		}
+
+		public static CodeFieldReferenceExpression GetAndroidResourceReference(ResourcePart resourcePart, string name)
+		{
+			string str;
+			switch (resourcePart)
+			{
+				case ResourcePart.Id:
+					str = "Id";
+					break;
+				case ResourcePart.Layout:
+					str = "Layout";
+					break;
+				default:
+					throw new ArgumentOutOfRangeException("resourcePart", resourcePart, "Expected Id or Layout");
+			}
+
+			return new CodeFieldReferenceExpression(new CodeTypeReferenceExpression(string.Format("Resource.{0}", str)), name);
+		}
+
+		public static List<CodeStatement> GenerateStatementsCreateAndAssign(CodeFieldReferenceExpression fieldReference, string type, Dictionary<string, string> propertyAssignments)
+		{
+			List<CodeStatement> statements = new List<CodeStatement>
+			{
+				new CodeAssignStatement(fieldReference, new CodeObjectCreateExpression(GetTypeReferenceFromName(type)))
+			};
+			statements.AddRange(propertyAssignments.Select(item => 
+				new CodeAssignStatement(new CodePropertyReferenceExpression(fieldReference, item.Key), new CodePrimitiveExpression(item.Value))));
+
+			return statements;
+		}
+
+		public static CodeStatement CreateStartRegionStatement(string name)
+		{
+			CodeStatement statement = new CodeStatement();
+			statement.StartDirectives.Add(new CodeRegionDirective(CodeRegionMode.Start, name));
+			return statement;
+		}
+
+		public static CodeStatement CreateEndRegionStatement()
+		{
+			CodeStatement statement = new CodeStatement();
+			statement.EndDirectives.Add(new CodeRegionDirective(CodeRegionMode.End, ""));
+			return statement;
 		}
 	}
 }

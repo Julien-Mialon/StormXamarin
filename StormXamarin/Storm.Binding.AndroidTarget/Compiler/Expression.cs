@@ -33,6 +33,15 @@ namespace Storm.Binding.AndroidTarget.Compiler
 			}
 		}
 
+		public void Remove(string key)
+		{
+			string correctKey = key == null ? ContentKey : AvailableKeys.FirstOrDefault(x => x.Equals(key, StringComparison.InvariantCultureIgnoreCase));
+			if (correctKey != null && _attributes.ContainsKey(correctKey))
+			{
+				_attributes.Remove(correctKey);
+			}
+		}
+
 		public void Replace(string key, Expression value)
 		{
 			string correctKey = key == null ? ContentKey : AvailableKeys.FirstOrDefault(x => x.Equals(key, StringComparison.InvariantCultureIgnoreCase));

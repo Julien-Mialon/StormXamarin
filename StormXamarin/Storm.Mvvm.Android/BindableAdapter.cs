@@ -51,7 +51,7 @@ namespace Storm.Mvvm
 
 		public override View GetView(int position, View convertView, ViewGroup parent)
 		{
-			return _templateSelector.GetView(this[position], parent, convertView);
+			return TemplateSelector.GetView(this[position], parent, convertView);
 		}
 
 		public override int Count
@@ -92,7 +92,7 @@ namespace Storm.Mvvm
 
 		private void NotifyDataChanged()
 		{
-			if (_templateSelector != null)
+			if (TemplateSelector != null)
 			{
 				NotifyDataSetChanged();
 			}

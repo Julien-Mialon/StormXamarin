@@ -75,9 +75,9 @@ namespace Storm.Binding.AndroidTarget.Compiler
 				return false;
 			}
 
-			if (Has(ADAPTER) && !Has(TEMPLATE) && !Has(TEMPLATE_SELECTOR))
+			if (Has(ADAPTER) && (Has(TEMPLATE) || Has(TEMPLATE_SELECTOR)))
 			{
-				BindingPreprocess.Logger.LogError("Binding expression can only have Adapter if they also have a Template or a TemplateSelector");
+				BindingPreprocess.Logger.LogError("Binding expression can not have Adapter if they have a Template or a TemplateSelector");
 				return false;
 			}
 			return true;

@@ -37,6 +37,30 @@ namespace Storm.Binding.AndroidTarget.Configuration.Model
 		/// </summary>
 		public string GeneratedNamespace { get; set; }
 
+		/// <summary>
+		/// Name of the class to use as default TemplateSelector if none is provided in Binding expression.
+		/// This class has to implement ITemplateSelector.
+		/// </summary>
+		public string DefaultTemplateSelector { get; set; }
+
+		/// <summary>
+		/// Name of the field to assign the Template to the DefaultTemplateSelector class.
+		/// This field has to be of type int.
+		/// </summary>
+		public string DefaultTemplateSelectorField { get; set; }
+
+		/// <summary>
+		/// Name of the class to use as default Adapter if none is provided in Binding expression.
+		/// This class has to implement IMvvmAdapter.
+		/// </summary>
+		public string DefaultAdapter { get; set; }
+
+		/// <summary>
+		/// Name of the field to assign the TemplateSelector to the DefaultAdapter class.
+		/// This field has to be of type ITemplateSelector.
+		/// </summary>
+		public string DefaultAdapterField { get; set; }
+
 		public ConfigurationFile()
 		{
 			Namespaces = new List<string>();

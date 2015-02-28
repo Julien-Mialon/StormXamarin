@@ -5,10 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Storm.Binding.AndroidTarget.Configuration.Model;
+using Storm.Binding.AndroidTarget.Helper;
 
 namespace Storm.Binding.AndroidTarget.CodeGenerator
 {
-	public class AbstractClassGenerator
+	public abstract class AbstractClassGenerator
 	{
 		public string ClassName { get; set; }
 
@@ -18,17 +20,19 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 
 		public bool IsPartialClass { get; set; }
 
-		public CodeTypeReference BaseClassType { get; set; }
+		public ConfigurationFile Configuration { get; set; }
 
-		public List<CodeMemberEvent> Events { get; private set; }
+		public string BaseClassType { get; set; }
 
-		public List<CodeMemberField> Fields { get; private set; }
+		protected List<CodeMemberEvent> Events { get; private set; }
 
-		public List<CodeMemberProperty> Properties { get; private set; }
+		protected List<CodeMemberField> Fields { get; private set; }
 
-		public List<CodeMemberMethod> Methods { get; private set; }
+		protected List<CodeMemberProperty> Properties { get; private set; }
 
-		public AbstractClassGenerator()
+		protected List<CodeMemberMethod> Methods { get; private set; }
+
+		protected AbstractClassGenerator()
 		{
 			Events = new List<CodeMemberEvent>();
 			Fields = new List<CodeMemberField>();
@@ -58,7 +62,7 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 			};
 			if (BaseClassType != null)
 			{
-				classDeclaration.BaseTypes.Add(BaseClassType);
+				classDeclaration.BaseTypes.Add(CodeGeneratorHelper.GetTypeReferenceFromName(BaseClassType));
 			}
 			codeNamespace.Types.Add(classDeclaration);
 

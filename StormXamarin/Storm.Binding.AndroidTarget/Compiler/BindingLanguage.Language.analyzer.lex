@@ -13,7 +13,7 @@ Equal					=
 
 BindingKeyword			Binding
 ResourceKeyword			Resource
-TranslationKeyword		Translation
+TranslationKeyword		Translation|Tr
 
 Identifier				([a-zA-Z0-9_\-.]+)|('([^'"]*(\\')?)*')
 

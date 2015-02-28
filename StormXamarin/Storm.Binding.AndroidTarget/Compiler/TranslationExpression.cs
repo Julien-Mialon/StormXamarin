@@ -26,8 +26,8 @@ namespace Storm.Binding.AndroidTarget.Compiler
 		{
 			return new Dictionary<string, IEnumerable<ExpressionType>>
 			{
-				{UID, new List<ExpressionType> {ExpressionType.Binding, ExpressionType.Value}},
-				{KEY, new List<ExpressionType> {ExpressionType.Binding, ExpressionType.Value}},
+				{UID, new List<ExpressionType> {ExpressionType.Value}},
+				{KEY, new List<ExpressionType> {ExpressionType.Value}},
 			};
 		}
 

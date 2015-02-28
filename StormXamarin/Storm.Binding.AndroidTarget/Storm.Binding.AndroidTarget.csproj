@@ -54,7 +54,10 @@
     <Compile Include="BindingPreprocess.cs" />
     <Compile Include="CodeGenerator\AbstractBindingHandlerClassGenerator.cs" />
     <Compile Include="CodeGenerator\AbstractClassGenerator.cs" />
+    <Compile Include="CodeGenerator\ActivityGenerator.cs" />
+    <Compile Include="CodeGenerator\FragmentGenerator.cs" />
     <Compile Include="CodeGenerator\Model\ExpressionContainer.cs" />
+    <Compile Include="CodeGenerator\ViewHolderGenerator.cs" />
     <Compile Include="Compiler\BindingExpression.cs" />
     <Compile Include="Compiler\CompileException.cs" />
     <Compile Include="Compiler\Expression.cs" />
@@ -77,6 +80,7 @@
     <Compile Include="Helper\ParsingHelper.cs" />
     <Compile Include="Helper\PathHelper.cs" />
     <Compile Include="Model\BindingMode.cs" />
+    <Compile Include="Model\ResourcePart.cs" />
     <Compile Include="Model\ResourceWithId.cs" />
     <Compile Include="Model\XmlAttribute.cs" />
     <Compile Include="Model\XmlElement.cs" />

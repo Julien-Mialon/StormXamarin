@@ -9,6 +9,8 @@ namespace Storm.Binding.AndroidTarget.Model
 
 		public Dictionary<string, string> Properties { get; private set; }
 
+		public string Type { get; set; }
+
 		public XmlElement ResourceElement { get; set; }
 
 		public string PropertyName { get; set; }

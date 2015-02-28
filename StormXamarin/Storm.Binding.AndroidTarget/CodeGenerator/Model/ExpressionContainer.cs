@@ -9,5 +9,7 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator.Model
 		public string TargetObject { get; set; }
 
 		public string TargetField { get; set; }
+
+		public bool IsTargetingResource { get; set; }
 	}
 }

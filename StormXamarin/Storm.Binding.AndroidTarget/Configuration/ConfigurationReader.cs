@@ -26,6 +26,22 @@ namespace Storm.Binding.AndroidTarget.Configuration
 				{
 					result.GeneratedNamespace = DefaultConfiguration.GeneratedNamespace;
 				}
+				if (string.IsNullOrWhiteSpace(result.DefaultTemplateSelector))
+				{
+					result.DefaultTemplateSelector = DefaultConfiguration.TemplateSelector;
+				}
+				if (string.IsNullOrWhiteSpace(result.DefaultTemplateSelectorField))
+				{
+					result.DefaultTemplateSelectorField = DefaultConfiguration.TemplateSelectorField;
+				}
+				if (string.IsNullOrWhiteSpace(result.DefaultAdapter))
+				{
+					result.DefaultAdapter = DefaultConfiguration.Adapter;
+				}
+				if (string.IsNullOrWhiteSpace(result.DefaultAdapterField))
+				{
+					result.DefaultAdapterField = DefaultConfiguration.AdapterField;
+				}
 
 				//Add all default aliases if they have not been overriden
 				Dictionary<string, string> aliases = result.Aliases.ToDictionary(x => x.Alias, x => x.FullClassName);

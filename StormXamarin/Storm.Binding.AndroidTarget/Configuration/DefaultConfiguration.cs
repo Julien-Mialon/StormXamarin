@@ -20,6 +20,14 @@ namespace Storm.Binding.AndroidTarget.Configuration
 
 		public static string GeneratedNamespace { get; private set; }
 
+		public static string TemplateSelector { get; private set; }
+
+		public static string TemplateSelectorField { get; private set; }
+
+		public static string Adapter { get; private set; }
+
+		public static string AdapterField { get; private set; }
+
 		static DefaultConfiguration()
 		{
 			Aliases = new List<AliasDescription>
@@ -53,6 +61,11 @@ namespace Storm.Binding.AndroidTarget.Configuration
 			GeneratedNamespace = "Storm.Generated";
 			ClassLocation = PathHelper.Normalize(Path.Combine(PathHelper.ProjectDirectory, "Generated.tmp/"));
 			ResourceLocation = PathHelper.Normalize(Path.Combine(PathHelper.ProjectDirectory, "Resources/layout/"));
+
+			TemplateSelector = "Storm.Mvvm.TemplateSelectors.SimpleTemplateSelector";
+			TemplateSelectorField = "Template";
+			Adapter = "Storm.Mvvm.BindableAdapter";
+			AdapterField = "TemplateSelector";
 		}
 	}
 }

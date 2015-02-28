@@ -1,8 +1,7 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Build.Utilities;
 using Storm.Binding.AndroidTarget.CodeGenerator.Model;
 using Storm.Binding.AndroidTarget.Compiler;
@@ -11,14 +10,23 @@ using Storm.Binding.AndroidTarget.Model;
 
 namespace Storm.Binding.AndroidTarget.CodeGenerator
 {
-	public class AbstractBindingHandlerClassGenerator : AbstractClassGenerator
+	public abstract class AbstractBindingHandlerClassGenerator : AbstractClassGenerator
 	{
 		private readonly BindingLanguageParser _expressionParser = new BindingLanguageParser();
 
 		private TaskLoggingHelper Log { get { return BindingPreprocess.Logger; } }
 
-		public void Preprocess(List<XmlAttribute> expressionAttributes, List<Resource> resources)
+		public void Preprocess(List<XmlAttribute> expressionAttributes, List<Resource> resources, List<IdViewObject> viewElements)
 		{
+			// Create all properties for viewElements
+			Dictionary<string, CodePropertyReferenceExpression> viewElementReferences = viewElements.ToDictionary(x => x.Id, x =>
+			{
+				Tuple<CodeMemberField, CodeMemberProperty> result = CodeGeneratorHelper.GenerateProxyProperty(x.Id, x.TypeName, new CodeMethodInvokeExpression(GetFindViewByIdReference(x.TypeName), CodeGeneratorHelper.GetAndroidResourceReference(ResourcePart.Id, x.Id)));
+				Fields.Add(result.Item1);
+				Properties.Add(result.Item2);
+				return CodeGeneratorHelper.GetPropertyReference(result.Item2);
+			});
+
 			// Eval all expressions
 			List<ExpressionContainer> expressions = (from attribute in expressionAttributes
 													let expressionResult = EvaluateExpression(attribute.Value)
@@ -27,7 +35,8 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 													{
 														Expression = expressionResult,
 														TargetObject = attribute.AttachedId,
-														TargetField = attribute.LocalName
+														TargetField = attribute.LocalName,
+														IsTargetingResource = false,
 													}).ToList();
 			// Affect a property name to all resources and check if some has expression as attribute value
 			foreach (Resource res in resources)
@@ -42,7 +51,7 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 					{
 						if (CheckCorrectExpressionInResource(expr))
 						{
-							Log.LogError("Expression {0} is invalid in a resource context", propertyItem.Value);
+							Log.LogError("Expression {0} is invalid in a resource context (you cannot use binding)", propertyItem.Value);
 						}
 						else
 						{
@@ -51,6 +60,7 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 								Expression = expr,
 								TargetObject = res.PropertyName,
 								TargetField = propertyItem.Key,
+								IsTargetingResource = true,
 							});
 						}
 					}
@@ -72,26 +82,164 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 					neededResource.Add(key, res);
 				}
 			}
-			
-			// TODO create property/fields for resources
-			
-		}
 
-		private List<ExpressionContainer> CreatePropertiesForResources(IEnumerable<Resource> resources)
-		{
-			List<ExpressionContainer> expressions = new List<ExpressionContainer>();
 
-			foreach (Resource resource in resources)
+			// Go through all binding expression and find those where we need to declare implicit resources
+			// Will also remove all Template & TemplateSelector fields in BindingExpression
+			// to only have a fully prepared adapter
+			foreach (Expression bindingExpression in expressions.SelectMany(expression => GetBindingExpressions(expression.Expression)).ToList())
 			{
-				if (resource is ResourceWithId)
+				if (bindingExpression.Has(BindingExpression.TEMPLATE))
 				{
-					string id = ((ResourceWithId) resource).ResourceId;
+					// create a template selector
+					string templateSelectorKey = NameGeneratorHelper.GetResourceKey();
+					string templateSelectorPropertyName = NameGeneratorHelper.GetResourceName();
+					neededResource.Add(templateSelectorKey, new Resource(templateSelectorKey)
+					{
+						PropertyName = templateSelectorPropertyName,
+						ResourceElement = null,
+						Type = Configuration.DefaultTemplateSelector
+					});
+					expressions.Add(new ExpressionContainer
+					{
+						Expression = bindingExpression[BindingExpression.TEMPLATE],
+						TargetField = Configuration.DefaultTemplateSelectorField,
+						TargetObject = templateSelectorPropertyName,
+						IsTargetingResource = true,
+					});
+					bindingExpression.Remove(BindingExpression.TEMPLATE);
 
-
+					ResourceExpression templateSelectorResourceExpression = new ResourceExpression();
+					templateSelectorResourceExpression.Add(ResourceExpression.KEY, new TextExpression
+					{
+						Value = templateSelectorKey
+					});
+					bindingExpression.Add(BindingExpression.TEMPLATE_SELECTOR, templateSelectorResourceExpression);
+				}
+				
+				if (bindingExpression.Has(BindingExpression.TEMPLATE_SELECTOR))
+				{
+					// create an adapter
+					string adapterKey = NameGeneratorHelper.GetResourceKey();
+					string adapterName = NameGeneratorHelper.GetResourceName();
+					neededResource.Add(adapterKey, new Resource(adapterKey)
+					{
+						PropertyName = adapterName,
+						ResourceElement = null,
+						Type = Configuration.DefaultAdapter
+					});
+					expressions.Add(new ExpressionContainer()
+					{
+						Expression = bindingExpression[BindingExpression.TEMPLATE_SELECTOR],
+						TargetField = Configuration.DefaultAdapterField,
+						TargetObject = adapterName,
+						IsTargetingResource = true,
+					});
+					bindingExpression.Remove(BindingExpression.TEMPLATE_SELECTOR);
+					ResourceExpression adapterResourceExpression = new ResourceExpression();
+					adapterResourceExpression.Add(ResourceExpression.KEY, new TextExpression
+					{
+						Value = adapterKey
+					});
+					bindingExpression.Add(BindingExpression.ADAPTER, adapterResourceExpression);
 				}
 			}
 
-			return expressions;
+			// Create all properties for resources
+			Dictionary<string, CodePropertyReferenceExpression> resourceReferences = CreatePropertiesForResources(neededResource.Values);
+
+
+			// Create a setup resources method to initalize resources with all {Resource ...} and {Translation ...} expressions
+			List<ExpressionContainer> expressionsTargetingResources = expressions.Where(x => x.IsTargetingResource).ToList();
+			expressions.RemoveAll(x => x.IsTargetingResource);
+
+			CodeMethodReferenceExpression setupResourcesReference = CreateSetupResourcesMethod(expressionsTargetingResources, resourceReferences);
+
+		}
+
+		private CodeMethodReferenceExpression CreateSetupResourcesMethod(List<ExpressionContainer> expressions, Dictionary<string, CodePropertyReferenceExpression> resourceReferences)
+		{
+			List<ExpressionContainer> translationExpressions = expressions.Where(x => x.Expression.IsOfType(ExpressionType.Translation)).ToList();
+			List<ExpressionContainer> resourceExpressions = expressions.Where(x => x.Expression.IsOfType(ExpressionType.Resource)).ToList();
+
+			CodeMemberMethod method = new CodeMemberMethod()
+			{
+				Attributes = MemberAttributes.Private,
+				Name = NameGeneratorHelper.SETUP_RESOURCES_NAME,
+			};
+
+			// TODO : rework it => should have a 
+			//		=> Translation setup (for all top level translation)
+			//		=> Resource setup (for all top level resource)
+			//		=> Binding (for returning)
+
+
+			method.Statements.Add(CodeGeneratorHelper.CreateStartRegionStatement("Translation setup"));
+			method.Statements.AddRange(CreateStatementsForTranslation(translationExpressions).ToArray());
+			method.Statements.Add(CodeGeneratorHelper.CreateEndRegionStatement());
+
+			method.Statements.Add(CodeGeneratorHelper.CreateStartRegionStatement("Resource setup"));
+			method.Statements.AddRange(CreateStatementsForTranslation(translationExpressions).ToArray());
+			method.Statements.Add(CodeGeneratorHelper.CreateEndRegionStatement());
+
+			Methods.Add(method);
+
+			return CodeGeneratorHelper.GetMethodReference(method);
+		}
+
+		private List<CodeStatement> CreateStatementsForTranslation(List<ExpressionContainer> translationExpressions)
+		{
+			List<CodeStatement> statements = new List<CodeStatement>();
+
+			foreach (ExpressionContainer expression in translationExpressions)
+			{
+				
+			}
+
+			return statements;
+		}
+
+		private Dictionary<string, CodePropertyReferenceExpression> CreatePropertiesForResources(IEnumerable<Resource> resources)
+		{
+			return resources.ToDictionary(resource => resource.Key, resource =>
+			{
+				ResourceWithId resourceWithId = resource as ResourceWithId;
+				if (resourceWithId != null) // in case of data templates
+				{
+					// Just return the id
+					// int MyResource { get { return Resource.Id.****; } }
+					List<CodeStatement> statements = new List<CodeStatement>
+					{
+						new CodeMethodReturnStatement(CodeGeneratorHelper.GetAndroidResourceReference(ResourcePart.Layout, resourceWithId.ResourceId)),
+					};
+					CodeMemberProperty propertyResult = CodeGeneratorHelper.GenerateProperty(resource.PropertyName, "int", statements);
+					Properties.Add(propertyResult);
+					return CodeGeneratorHelper.GetPropertyReference(propertyResult);
+				}
+
+				// create a proxy property to handle the resource
+				string type = resource.Type;
+				Dictionary<string, string> assignments = resource.Properties;
+				Tuple<CodeMemberField, CodeMemberProperty> result = CodeGeneratorHelper.GenerateProxyProperty(resource.PropertyName, type, fieldReference => CodeGeneratorHelper.GenerateStatementsCreateAndAssign(fieldReference, type, assignments));
+
+				Fields.Add(result.Item1);
+				Properties.Add(result.Item2);
+				return CodeGeneratorHelper.GetPropertyReference(result.Item2);
+			});
+		}
+
+		private List<Expression> GetBindingExpressions(Expression expression)
+		{
+			List<Expression> result = new List<Expression>();
+
+			if (expression.IsOfType(ExpressionType.Binding))
+			{
+				result.Add(expression);
+			}
+
+			result.AddRange(expression.Attributes.Values.SelectMany(GetBindingExpressions));
+			
+			return result;
 		}
 
 		private Expression EvaluateExpression(string content)
@@ -145,5 +293,9 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 
 			return result;
 		}
+
+		protected abstract CodeMethodReferenceExpression GetFindViewByIdReference(string typeName);
+
+		protected abstract CodePropertyReferenceExpression GetLayoutInflaterReference();
 	}
 }
