@@ -91,7 +91,7 @@ namespace Storm.Binding.AndroidTarget.Helper
 		{
 			return GetPropertyReference(property.Name);
 		}
-
+		
 		public static CodeFieldReferenceExpression GetFieldReference(string fieldName)
 		{
 			return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), fieldName);
@@ -194,6 +194,19 @@ namespace Storm.Binding.AndroidTarget.Helper
 			CodeStatement statement = new CodeStatement();
 			statement.EndDirectives.Add(new CodeRegionDirective(CodeRegionMode.End, ""));
 			return statement;
+		}
+
+		public static CodeStatement GetSetValueWithReflectionStatement(string targetObject, string targetField, CodeExpression value)
+		{
+			CodePropertyReferenceExpression targetReference = CodeGeneratorHelper.GetPropertyReference(targetObject);
+
+			CodeMethodInvokeExpression getTypeMethodInvoke = new CodeMethodInvokeExpression(targetReference, "GetType");
+			CodeMethodInvokeExpression getPropertyMethodInvoke = new CodeMethodInvokeExpression(getTypeMethodInvoke, "GetProperty",
+				new CodePrimitiveExpression(targetField),
+				new CodeSnippetExpression("BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance")
+			);
+			CodeMethodInvokeExpression setValueMethodInvoke = new CodeMethodInvokeExpression(getPropertyMethodInvoke, "SetValue", targetReference, value);
+			return new CodeExpressionStatement(setValueMethodInvoke);
 		}
 	}
 }

@@ -13,7 +13,10 @@ namespace Storm.Mvvm
 	{
 		protected ViewModelBase ViewModel { get; private set; }
 
-		protected Dictionary<int, List<BindingObject>> AdapterBindings { get; private set; } 
+		//TODO : check if really needed
+		protected Dictionary<int, List<BindingObject>> AdapterBindings { get; private set; }
+
+		protected ILocalizationService LocalizationService { get; private set; }
 
 		private ActivityState _activityState = ActivityState.Uninitialized;
 		private string _parametersKey;
@@ -21,6 +24,8 @@ namespace Storm.Mvvm
 		public ActivityBase()
 		{
 			AdapterBindings = new Dictionary<int, List<BindingObject>>();
+
+			LocalizationService = DependencyService.Container.Resolve<ILocalizationService>();
 		}
 
 		protected override void OnCreate(Bundle savedInstanceState)

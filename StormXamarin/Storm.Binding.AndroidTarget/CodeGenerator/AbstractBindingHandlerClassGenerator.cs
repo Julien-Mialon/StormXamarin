@@ -150,54 +150,45 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 
 
 			// Create a setup resources method to initalize resources with all {Resource ...} and {Translation ...} expressions
-			List<ExpressionContainer> expressionsTargetingResources = expressions.Where(x => x.IsTargetingResource).ToList();
-			expressions.RemoveAll(x => x.IsTargetingResource);
+			
+			List<ExpressionContainer> translationExpressions = expressions.Where(x => x.Expression.IsOfType(ExpressionType.Translation)).ToList();
+			List<ExpressionContainer> expressionsTargetingResources = expressions.Where(x => x.IsTargetingResource && !x.Expression.IsOfType(ExpressionType.Translation)).ToList();
+			List<ExpressionContainer> resourceExpressions = expressions.Where(x => !x.IsTargetingResource && x.Expression.IsOfType(ExpressionType.Resource)).ToList();
+			List<ExpressionContainer> bindingExpressions = expressions.Where(x => !x.IsTargetingResource && x.Expression.IsOfType(ExpressionType.Binding)).ToList();
+
+			CodeMethodReferenceExpression assignTranslationMethodReference = CreateAssignTranslationMethod(translationExpressions);
 
 			CodeMethodReferenceExpression setupResourcesReference = CreateSetupResourcesMethod(expressionsTargetingResources, resourceReferences);
 
 		}
 
-		private CodeMethodReferenceExpression CreateSetupResourcesMethod(List<ExpressionContainer> expressions, Dictionary<string, CodePropertyReferenceExpression> resourceReferences)
+		private CodeMethodReferenceExpression CreateAssignTranslationMethod(List<ExpressionContainer> expressions)
 		{
-			List<ExpressionContainer> translationExpressions = expressions.Where(x => x.Expression.IsOfType(ExpressionType.Translation)).ToList();
-			List<ExpressionContainer> resourceExpressions = expressions.Where(x => x.Expression.IsOfType(ExpressionType.Resource)).ToList();
-
-			CodeMemberMethod method = new CodeMemberMethod()
+			CodeMemberMethod method = new CodeMemberMethod
 			{
 				Attributes = MemberAttributes.Private,
-				Name = NameGeneratorHelper.SETUP_RESOURCES_NAME,
+				Name = NameGeneratorHelper.ASSIGN_TRANSLATION_METHOD_NAME,
 			};
 
-			// TODO : rework it => should have a 
-			//		=> Translation setup (for all top level translation)
-			//		=> Resource setup (for all top level resource)
-			//		=> Binding (for returning)
+			CodePropertyReferenceExpression localizationServiceReference = CodeGeneratorHelper.GetPropertyReference(NameGeneratorHelper.LOCALIZATION_SERVICE_PROPERTY_NAME);
+			foreach (ExpressionContainer expression in expressions)
+			{
+				// statements to get property
+				CodePropertyReferenceExpression targetReference = CodeGeneratorHelper.GetPropertyReference(expression.TargetObject);
 
-
-			method.Statements.Add(CodeGeneratorHelper.CreateStartRegionStatement("Translation setup"));
-			method.Statements.AddRange(CreateStatementsForTranslation(translationExpressions).ToArray());
-			method.Statements.Add(CodeGeneratorHelper.CreateEndRegionStatement());
-
-			method.Statements.Add(CodeGeneratorHelper.CreateStartRegionStatement("Resource setup"));
-			method.Statements.AddRange(CreateStatementsForTranslation(translationExpressions).ToArray());
-			method.Statements.Add(CodeGeneratorHelper.CreateEndRegionStatement());
+				CodeMethodInvokeExpression getTypeMethodInvoke = new CodeMethodInvokeExpression(targetReference, "GetType");
+				CodeMethodInvokeExpression getPropertyMethodInvoke = new CodeMethodInvokeExpression(getTypeMethodInvoke, "GetProperty",
+					new CodePrimitiveExpression(expression.TargetField),
+					new CodeSnippetExpression("BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance")
+				);
+				CodeMethodInvokeExpression setValueMethodInvoke = new CodeMethodInvokeExpression(getPropertyMethodInvoke, "SetValue", targetReference, adapterReference);
+				method.Statements.Add(new CodeExpressionStatement(setValueMethodInvoke));
+			}
 
 			Methods.Add(method);
-
 			return CodeGeneratorHelper.GetMethodReference(method);
 		}
 
-		private List<CodeStatement> CreateStatementsForTranslation(List<ExpressionContainer> translationExpressions)
-		{
-			List<CodeStatement> statements = new List<CodeStatement>();
-
-			foreach (ExpressionContainer expression in translationExpressions)
-			{
-				
-			}
-
-			return statements;
-		}
 
 		private Dictionary<string, CodePropertyReferenceExpression> CreatePropertiesForResources(IEnumerable<Resource> resources)
 		{

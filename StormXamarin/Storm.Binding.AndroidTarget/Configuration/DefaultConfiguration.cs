@@ -50,6 +50,7 @@ namespace Storm.Binding.AndroidTarget.Configuration
 				"Storm.Mvvm",
 				"Storm.Mvvm.Bindings",
 				"Storm.Mvvm.Components",
+				"Storm.Mvvm.Services",
 				"Storm.Mvvm.TemplateSelectors",
 			};
 

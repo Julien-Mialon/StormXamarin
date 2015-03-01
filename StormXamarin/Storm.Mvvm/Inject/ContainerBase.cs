@@ -20,6 +20,8 @@ namespace Storm.Mvvm.Inject
 		protected ContainerBase()
 		{
 			_container = new Container();
+
+			DependencyService.Attach(this);
 		}
 
 		#endregion
