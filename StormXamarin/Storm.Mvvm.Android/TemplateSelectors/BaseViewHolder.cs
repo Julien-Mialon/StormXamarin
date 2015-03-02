@@ -6,19 +6,12 @@ namespace Storm.Mvvm.TemplateSelectors
 {
 	public abstract class BaseViewHolder
 	{
-		protected LayoutInflater LayoutInflater { get; private set; }
+		internal LayoutInflater LayoutInflater { get; set; }
 
-		protected View View { get; private set; }
+		internal View View { get; set; }
 
 		protected object ViewModel { get; private set; }
-
-		//TODO : check if we need the inflater ?
-		protected BaseViewHolder(LayoutInflater layoutInflater, View view)
-		{
-			LayoutInflater = layoutInflater;
-			View = view;
-		}
-
+		
 		public void SetViewModel(object model)
 		{
 			ViewModel = model;
