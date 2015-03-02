@@ -28,6 +28,8 @@ namespace Storm.Binding.AndroidTarget.Configuration
 
 		public static string AdapterField { get; private set; }
 
+		public static bool CaseSensitivity { get; private set; }
+
 		static DefaultConfiguration()
 		{
 			Aliases = new List<AliasDescription>
@@ -67,6 +69,7 @@ namespace Storm.Binding.AndroidTarget.Configuration
 			TemplateSelectorField = "Template";
 			Adapter = "Storm.Mvvm.BindableAdapter";
 			AdapterField = "TemplateSelector";
+			CaseSensitivity = false;
 		}
 	}
 }

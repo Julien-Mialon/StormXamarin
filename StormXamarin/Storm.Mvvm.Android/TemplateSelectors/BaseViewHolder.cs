@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using Android.Views;
 using Storm.Mvvm.Bindings;
-using Storm.Mvvm.Inject;
-using Storm.Mvvm.Services;
 
 namespace Storm.Mvvm.TemplateSelectors
 {
@@ -14,15 +12,11 @@ namespace Storm.Mvvm.TemplateSelectors
 
 		protected object ViewModel { get; private set; }
 
-		protected ILocalizationService LocalizationService { get; private set; }
-
 		//TODO : check if we need the inflater ?
 		protected BaseViewHolder(LayoutInflater layoutInflater, View view)
 		{
 			LayoutInflater = layoutInflater;
 			View = view;
-
-			LocalizationService = DependencyService.Container.Resolve<ILocalizationService>();
 		}
 
 		public void SetViewModel(object model)

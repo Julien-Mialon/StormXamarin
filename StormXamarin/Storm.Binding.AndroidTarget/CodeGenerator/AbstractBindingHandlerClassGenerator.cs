@@ -27,10 +27,13 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 				return CodeGeneratorHelper.GetPropertyReference(result.Item2);
 			});
 
+			// Generate property for ILocalizationService LocalizationService
+			CodePropertyReferenceExpression localizationServiceReference = CreateLocalizationServiceProperty();
+
 			// Eval all expressions
 			List<ExpressionContainer> expressions = (from attribute in expressionAttributes
-													let expressionResult = EvaluateExpression(attribute.Value)
-													where expressionResult != null
+													 let expressionResult = EvaluateExpression(attribute.Value)
+													 where expressionResult != null
 													 select new ExpressionContainer
 													{
 														Expression = expressionResult,
@@ -116,7 +119,7 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 					});
 					bindingExpression.Add(BindingExpression.TEMPLATE_SELECTOR, templateSelectorResourceExpression);
 				}
-				
+
 				if (bindingExpression.Has(BindingExpression.TEMPLATE_SELECTOR))
 				{
 					// create an adapter
@@ -150,19 +153,55 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 
 
 			// Create a setup resources method to initalize resources with all {Resource ...} and {Translation ...} expressions
-			
+
 			List<ExpressionContainer> translationExpressions = expressions.Where(x => x.Expression.IsOfType(ExpressionType.Translation)).ToList();
 			List<ExpressionContainer> expressionsTargetingResources = expressions.Where(x => x.IsTargetingResource && !x.Expression.IsOfType(ExpressionType.Translation)).ToList();
 			List<ExpressionContainer> resourceExpressions = expressions.Where(x => !x.IsTargetingResource && x.Expression.IsOfType(ExpressionType.Resource)).ToList();
 			List<ExpressionContainer> bindingExpressions = expressions.Where(x => !x.IsTargetingResource && x.Expression.IsOfType(ExpressionType.Binding)).ToList();
 
-			CodeMethodReferenceExpression assignTranslationMethodReference = CreateAssignTranslationMethod(translationExpressions);
-
+			CodeMethodReferenceExpression assignTranslationMethodReference = CreateAssignTranslationMethod(translationExpressions, localizationServiceReference);
 			CodeMethodReferenceExpression setupResourcesReference = CreateSetupResourcesMethod(expressionsTargetingResources, resourceReferences);
-
+			CodeMethodReferenceExpression setupResourceForViewElement = CreateSetupResourceForViewElementMethod(resourceExpressions, resourceReferences);
+			CreateBindingOverrideMethod(bindingExpressions, localizationServiceReference, resourceReferences, assignTranslationMethodReference, setupResourcesReference, setupResourceForViewElement);
 		}
 
-		private CodeMethodReferenceExpression CreateAssignTranslationMethod(List<ExpressionContainer> expressions)
+		private CodePropertyReferenceExpression CreateLocalizationServiceProperty()
+		{
+			CodeMethodReferenceExpression resolveMethodReference = new CodeMethodReferenceExpression(
+					new CodePropertyReferenceExpression(new CodeTypeReferenceExpression(CodeGeneratorHelper.GetTypeReferenceFromName("DependencyService")), "Container"),
+					"Resolve",
+					CodeGeneratorHelper.GetTypeReferenceFromName("ILocalizationService")
+					);
+			CodeMethodInvokeExpression invokeMethod = new CodeMethodInvokeExpression(resolveMethodReference);
+
+			Tuple<CodeMemberField, CodeMemberProperty> result = CodeGeneratorHelper.GenerateProxyProperty(NameGeneratorHelper.LOCALIZATION_SERVICE_PROPERTY_NAME, "ILocalizationService", invokeMethod);
+
+			Fields.Add(result.Item1);
+			Properties.Add(result.Item2);
+
+			return CodeGeneratorHelper.GetPropertyReference(result.Item2);
+		}
+
+		private void CreateBindingOverrideMethod(List<ExpressionContainer> bindingExpressions, CodePropertyReferenceExpression localizationServiceReference, Dictionary<string, CodePropertyReferenceExpression> resourceReferences, params CodeMethodReferenceExpression[] preCallMethods)
+		{
+			CodeMemberMethod method = new CodeMemberMethod
+			{
+				Attributes = MemberAttributes.Family | MemberAttributes.Override,
+				Name = NameGeneratorHelper.GET_BINDING_METHOD_NAME,
+				ReturnType = CodeGeneratorHelper.GetTypeReferenceFromName("List<BindingObject>"),
+			};
+
+			foreach (CodeMethodReferenceExpression preCallMethod in preCallMethods)
+			{
+				method.Statements.Add(new CodeMethodInvokeExpression(preCallMethod));
+			}
+
+
+
+			Methods.Add(method);
+		}
+
+		private CodeMethodReferenceExpression CreateAssignTranslationMethod(List<ExpressionContainer> expressions, CodePropertyReferenceExpression localizationServiceReference)
 		{
 			CodeMemberMethod method = new CodeMemberMethod
 			{
@@ -170,25 +209,107 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 				Name = NameGeneratorHelper.ASSIGN_TRANSLATION_METHOD_NAME,
 			};
 
-			CodePropertyReferenceExpression localizationServiceReference = CodeGeneratorHelper.GetPropertyReference(NameGeneratorHelper.LOCALIZATION_SERVICE_PROPERTY_NAME);
 			foreach (ExpressionContainer expression in expressions)
 			{
-				// statements to get property
-				CodePropertyReferenceExpression targetReference = CodeGeneratorHelper.GetPropertyReference(expression.TargetObject);
-
-				CodeMethodInvokeExpression getTypeMethodInvoke = new CodeMethodInvokeExpression(targetReference, "GetType");
-				CodeMethodInvokeExpression getPropertyMethodInvoke = new CodeMethodInvokeExpression(getTypeMethodInvoke, "GetProperty",
-					new CodePrimitiveExpression(expression.TargetField),
-					new CodeSnippetExpression("BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance")
-				);
-				CodeMethodInvokeExpression setValueMethodInvoke = new CodeMethodInvokeExpression(getPropertyMethodInvoke, "SetValue", targetReference, adapterReference);
-				method.Statements.Add(new CodeExpressionStatement(setValueMethodInvoke));
+				List<CodeExpression> parameters = new List<CodeExpression>();
+				if (expression.Expression.Has(TranslationExpression.UID))
+				{
+					//use method with two parameters.
+					parameters.Add(new CodePrimitiveExpression(expression.Expression.GetValue(TranslationExpression.UID)));
+				}
+				if(expression.Expression.Has(TranslationExpression.KEY))
+				{
+					//use method with only key parameter.
+					parameters.Add(new CodePrimitiveExpression(expression.Expression.GetValue(TranslationExpression.KEY)));
+				}
+				CodeMethodInvokeExpression valueReference = new CodeMethodInvokeExpression(localizationServiceReference, "GetString", parameters.ToArray());
+				method.Statements.Add(SetValueStatement(CodeGeneratorHelper.GetPropertyReference(expression.TargetObject), expression.TargetField, valueReference))
 			}
 
 			Methods.Add(method);
 			return CodeGeneratorHelper.GetMethodReference(method);
 		}
 
+		private CodeMethodReferenceExpression CreateSetupResourcesMethod(List<ExpressionContainer> expressions, Dictionary<string, CodePropertyReferenceExpression> resourceReferences)
+		{
+			CodeMemberMethod method = new CodeMemberMethod
+			{
+				Attributes = MemberAttributes.Private,
+				Name = NameGeneratorHelper.ASSIGN_RESOURCE_TO_RESOURCE_METHOD_NAME,
+			};
+
+			// Create dependency graph to check for cycle in resource assignment
+			Dictionary<string, DependencyNode> dependencies = resourceReferences.ToDictionary(x => x.Value.PropertyName, x => new DependencyNode(x.Value.PropertyName));
+			foreach (ExpressionContainer expression in expressions)
+			{
+				string source = expression.TargetObject;
+				string targetKey = expression.Expression.GetValue(ResourceExpression.KEY);
+				string target = resourceReferences[targetKey].PropertyName;
+
+				dependencies[source].Add(dependencies[target]);
+			}
+
+			// Check for cycle
+			List<DependencyNode> processedNodes = new List<DependencyNode>();
+			List<DependencyNode> waitingNodes = dependencies.Values.ToList();
+			while (waitingNodes.Any())
+			{
+				DependencyNode node = waitingNodes.FirstOrDefault(x => x.Dependencies.All(o => o.IsMarked));
+
+				if (node == null)
+				{
+					Log.LogError("Error : Circular references in Resources");
+					throw new InvalidOperationException("Cirular references");
+				}
+
+				node.IsMarked = true;
+				processedNodes.Add(node);
+			}
+
+			// If no cycles, we have the order to assign all resources in correct order
+			Dictionary<DependencyNode, IEnumerable<ExpressionContainer>> orderedExpressions = processedNodes.ToDictionary(x => x, x => expressions.Where(o => o.TargetObject == x.Id));
+			foreach (DependencyNode node in processedNodes)
+			{
+				foreach (ExpressionContainer expression in orderedExpressions[node])
+				{
+					string resourceKey = expression.Expression.GetValue(ResourceExpression.KEY);
+					method.Statements.Add(SetValueStatement(CodeGeneratorHelper.GetPropertyReference(expression.TargetObject), expression.TargetField, resourceReferences[resourceKey]));
+				}
+			}
+
+			Methods.Add(method);
+			return CodeGeneratorHelper.GetMethodReference(method);
+		}
+
+		private CodeMethodReferenceExpression CreateSetupResourceForViewElementMethod(List<ExpressionContainer> expressions, Dictionary<string, CodePropertyReferenceExpression> resourceReferences)
+		{
+			CodeMemberMethod method = new CodeMemberMethod
+			{
+				Attributes = MemberAttributes.Private,
+				Name = NameGeneratorHelper.ASSIGN_RESOURCE_TO_VIEW_METHOD_NAME,
+			};
+
+			foreach (ExpressionContainer expression in expressions)
+			{
+				string resourceKey = expression.Expression.GetValue(ResourceExpression.KEY);
+				method.Statements.Add(SetValueStatement(CodeGeneratorHelper.GetPropertyReference(expression.TargetObject), expression.TargetField, resourceReferences[resourceKey]));
+			}
+
+			Methods.Add(method);
+			return CodeGeneratorHelper.GetMethodReference(method);
+		}
+
+		private CodeStatement SetValueStatement(CodeExpression targetReference, string propertyTargetName, CodeExpression assignExpression)
+		{
+			if (Configuration.CaseSensitivity.GetValueOrDefault())
+			{
+				//In case CaseSensitivity is enabled, just give the value to the property
+				return new CodeAssignStatement(new CodePropertyReferenceExpression(targetReference, propertyTargetName), assignExpression);
+			}
+			
+			//If we are in mode CaseInsensitivity, use reflection to ignore case in property naming (slower execution)
+			return CodeGeneratorHelper.GetSetValueWithReflectionStatement(targetReference, propertyTargetName, assignExpression);
+		}
 
 		private Dictionary<string, CodePropertyReferenceExpression> CreatePropertiesForResources(IEnumerable<Resource> resources)
 		{
@@ -229,7 +350,7 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 			}
 
 			result.AddRange(expression.Attributes.Values.SelectMany(GetBindingExpressions));
-			
+
 			return result;
 		}
 

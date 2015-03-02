@@ -196,16 +196,14 @@ namespace Storm.Binding.AndroidTarget.Helper
 			return statement;
 		}
 
-		public static CodeStatement GetSetValueWithReflectionStatement(string targetObject, string targetField, CodeExpression value)
+		public static CodeStatement GetSetValueWithReflectionStatement(CodeExpression targetObjectReference, string targetField, CodeExpression value)
 		{
-			CodePropertyReferenceExpression targetReference = CodeGeneratorHelper.GetPropertyReference(targetObject);
-
-			CodeMethodInvokeExpression getTypeMethodInvoke = new CodeMethodInvokeExpression(targetReference, "GetType");
+			CodeMethodInvokeExpression getTypeMethodInvoke = new CodeMethodInvokeExpression(targetObjectReference, "GetType");
 			CodeMethodInvokeExpression getPropertyMethodInvoke = new CodeMethodInvokeExpression(getTypeMethodInvoke, "GetProperty",
 				new CodePrimitiveExpression(targetField),
 				new CodeSnippetExpression("BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance")
 			);
-			CodeMethodInvokeExpression setValueMethodInvoke = new CodeMethodInvokeExpression(getPropertyMethodInvoke, "SetValue", targetReference, value);
+			CodeMethodInvokeExpression setValueMethodInvoke = new CodeMethodInvokeExpression(getPropertyMethodInvoke, "SetValue", targetObjectReference, value);
 			return new CodeExpressionStatement(setValueMethodInvoke);
 		}
 	}

@@ -42,6 +42,10 @@ namespace Storm.Binding.AndroidTarget.Configuration
 				{
 					result.DefaultAdapterField = DefaultConfiguration.AdapterField;
 				}
+				if (!result.CaseSensitivity.HasValue)
+				{
+					result.CaseSensitivity = DefaultConfiguration.CaseSensitivity;
+				}
 
 				//Add all default aliases if they have not been overriden
 				Dictionary<string, string> aliases = result.Aliases.ToDictionary(x => x.Alias, x => x.FullClassName);

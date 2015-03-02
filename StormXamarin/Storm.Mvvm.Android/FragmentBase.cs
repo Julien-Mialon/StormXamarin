@@ -5,8 +5,6 @@ using Android.App;
 using Android.OS;
 using Android.Views;
 using Storm.Mvvm.Bindings;
-using Storm.Mvvm.Inject;
-using Storm.Mvvm.Services;
 
 namespace Storm.Mvvm
 {
@@ -16,12 +14,8 @@ namespace Storm.Mvvm
 
 		protected View RootView { get; private set; }
 
-		protected ILocalizationService LocalizationService { get; private set; }
-
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			LocalizationService = DependencyService.Container.Resolve<ILocalizationService>();
-
 			if (RootView != null)
 			{
 				ViewGroup parent = (ViewGroup)RootView.Parent;
@@ -73,6 +67,7 @@ namespace Storm.Mvvm
 			}
 
 			storage = value;
+			// ReSharper disable once ExplicitCallerInfoArgument : need it here
 			RaisePropertyChanged(propertyName);
 
 			return true;

@@ -102,7 +102,7 @@ namespace Storm.Binding.AndroidTarget.Process
 			{
 				Attributes = GetOverrideMethodVisibility() | MemberAttributes.Override,
 				Name = GetOverrideMethodName(),
-				ReturnType = new CodeTypeReference("FileDescriptions<BindingObject>")
+				ReturnType = new CodeTypeReference("List<BindingObject>")
 			};
 
 			GenerateMethodContent(overrideMethod, bindingExpressions, viewElementReferences);

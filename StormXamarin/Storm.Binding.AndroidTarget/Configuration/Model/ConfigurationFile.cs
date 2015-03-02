@@ -61,6 +61,12 @@ namespace Storm.Binding.AndroidTarget.Configuration.Model
 		/// </summary>
 		public string DefaultAdapterField { get; set; }
 
+		/// <summary>
+		/// Boolean to enable or disable the case sensitivity in property name in xml files for binding properties.
+		/// Enabling this will have better performance but you can not use "as is" old android xml view file since property now have an upper case first letter.
+		/// </summary>
+		public bool? CaseSensitivity { get; set; }
+
 		public ConfigurationFile()
 		{
 			Namespaces = new List<string>();
