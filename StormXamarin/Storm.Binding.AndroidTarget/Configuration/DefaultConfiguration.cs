@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using Storm.Binding.AndroidTarget.Configuration.Model;
 using Storm.Binding.AndroidTarget.Helper;
@@ -52,6 +51,7 @@ namespace Storm.Binding.AndroidTarget.Configuration
 				"Storm.Mvvm",
 				"Storm.Mvvm.Bindings",
 				"Storm.Mvvm.Components",
+				"Storm.Mvvm.Inject",
 				"Storm.Mvvm.Services",
 				"Storm.Mvvm.TemplateSelectors",
 			};

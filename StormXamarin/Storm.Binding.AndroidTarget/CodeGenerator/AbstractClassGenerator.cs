@@ -15,9 +15,7 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 		public string ClassName { get; set; }
 
 		public string NamespaceName { get; set; }
-
-		public List<string> Namespaces { get; set; }
-
+		
 		public bool IsPartialClass { get; set; }
 
 		public ConfigurationFile Configuration { get; set; }
@@ -51,14 +49,14 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 			codeUnit.Namespaces.AddRange(new []{globalNamespace, codeNamespace});
 
 			// add all using statements
-			globalNamespace.Imports.AddRange(Namespaces.Select(x => new CodeNamespaceImport(x)).ToArray());
+			globalNamespace.Imports.AddRange(Configuration.Namespaces.Select(x => new CodeNamespaceImport(x)).ToArray());
 
 			// create class
 			CodeTypeDeclaration classDeclaration = new CodeTypeDeclaration(ClassName)
 			{
 				IsClass = true,
 				IsPartial = IsPartialClass,
-				TypeAttributes = TypeAttributes.NestedAssembly,
+				TypeAttributes = TypeAttributes.Public,
 			};
 			if (BaseClassType != null)
 			{

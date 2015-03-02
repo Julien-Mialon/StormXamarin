@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
+using Storm.Binding.AndroidTarget.CodeGenerator;
 using Storm.Binding.AndroidTarget.Configuration.Model;
 using Storm.Binding.AndroidTarget.Helper;
 using Storm.Binding.AndroidTarget.Model;
@@ -51,22 +52,64 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 				ResourceFiles.Add(viewOutputRelativePath);
 
 				//filter resources for DataTemplate
-				List<ResourceWithId> dataTemplatesResources = resources.Where(x => ParsingHelper.IsDataTemplateTag(x.ResourceElement)).Select(x => new ResourceWithId(x)).ToList();
+				List<DataTemplateResource> dataTemplatesResources = resources.Where(x => ParsingHelper.IsDataTemplateTag(x.ResourceElement)).Select(x => new DataTemplateResource(x)).ToList();
 				resources.RemoveAll(x => ParsingHelper.IsDataTemplateTag(x.ResourceElement));
 
 				//assign an id to all data template before processing it (could be loop or just unordered things)
 				string viewName = Path.GetFileNameWithoutExtension(fileBindingDescription.View.OutputFile);
-				foreach (ResourceWithId dataTemplate in dataTemplatesResources)
+				foreach (DataTemplateResource dataTemplate in dataTemplatesResources)
 				{
-					dataTemplate.ResourceId = string.Format("{0}_DT_{1}", viewName, dataTemplate.Key);
+					dataTemplate.ViewId = string.Format("{0}_DT_{1}", viewName, dataTemplate.Key);
+					dataTemplate.ViewHolderClassName = NameGeneratorHelper.GetViewHolderName();
 				}
 
 				//process each data template
-				foreach (ResourceWithId dataTemplate in dataTemplatesResources)
+				foreach (DataTemplateResource dataTemplate in dataTemplatesResources)
 				{
 					dataTemplateProcessor.Process(dataTemplate, resources, dataTemplatesResources, configurationFile);
 				}
+
+				string classOutputFile = fileBindingDescription.Activity.OutputFile;
+				string classOutputRelativePath = PathHelper.GetRelativePath(classOutputFile);
+
+				List<Resource> mergedResources = new List<Resource>(resources);
+				mergedResources.AddRange(dataTemplatesResources);
+				AbstractBindingHandlerClassGenerator generator;
+				if (fileBindingDescription.Activity.IsFragment)
+				{
+					Log.LogMessage(MessageImportance.High, "\t\t Generating class file for Fragment to {0}", classOutputRelativePath);
+
+					generator = new FragmentGenerator
+					{
+						BaseClassType = null,
+						ClassName = fileBindingDescription.Activity.ClassName,
+						Configuration = configurationFile,
+						IsPartialClass = true,
+						NamespaceName = fileBindingDescription.Activity.NamespaceName,
+					};
+				}
+				else
+				{
+					Log.LogMessage(MessageImportance.High, "\t\t Generating class file for Activity to {0}", classOutputRelativePath);
+
+					generator = new ActivityGenerator
+					{
+						BaseClassType = null,
+						ClassName = fileBindingDescription.Activity.ClassName,
+						Configuration = configurationFile,
+						IsPartialClass = true,
+						NamespaceName = fileBindingDescription.Activity.NamespaceName,
+					};
+				}
+
+				generator.Preprocess(expressionAttributes, mergedResources, viewObjects);
+				generator.Generate(classOutputFile);
+
+				ClassFiles.Add(classOutputRelativePath);
 			}
+
+			ClassFiles.AddRange(dataTemplateProcessor.ClassFiles);
+			ResourceFiles.AddRange(dataTemplateProcessor.ResourceFiles);
 		}
 
 	}

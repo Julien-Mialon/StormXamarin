@@ -37,7 +37,7 @@ expressionKeyword		: BINDING		{ $$.ExpressionType = ExpressionType.Binding; }
 expressionContent		: 
 						| values							{ $$.KeyValueList = CreateAndAdd(null, $1.Expression); }
 						| values COMMA dualContent			{ $$.KeyValueList = CreateAndAdd(null, $1.Expression); CopyList($3, $$); }
-						| dualContent						{ CopyList($1, $$); }
+						| dualContent						{ $$ = $1; }
 						;
 
 dualContent				: IDENTIFIER EQUAL values						{ $$.KeyValueList = CreateAndAdd($1.Content, $3.Expression); }

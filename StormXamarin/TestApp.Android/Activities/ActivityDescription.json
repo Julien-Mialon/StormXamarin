@@ -1,12 +1,6 @@
 ﻿{
     "namespaces": [ "TestApp.Android" ],
-    "components": [
-        {
-            "key": "BindableAdapter",
-            "value": "Storm.Mvvm.Components.BindableAdapter"
-        }
-    ],
-    "list": [
+    "fileDescriptions": [
         {
             "activity": {
                 "namespaceName": "TestApp.Android.Activities",

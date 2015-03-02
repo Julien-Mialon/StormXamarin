@@ -80,7 +80,7 @@
     <Compile Include="Services\ActivityService.cs" />
     <Compile Include="Services\LoggerService.cs" />
     <Compile Include="Services\MessageDialogService.cs" />
-    <Compile Include="TemplateSelectors\BaseViewHolder.cs" />
+    <Compile Include="BaseViewHolder.cs" />
     <Compile Include="Interfaces\ITemplateSelector.cs" />
     <Compile Include="Services\AssetsService.cs" />
     <Compile Include="Services\DispatcherService.cs" />
@@ -89,7 +89,7 @@
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TemplateSelectors\DataTemplate.cs" />
+    <Compile Include="DataTemplate.cs" />
     <Compile Include="TemplateSelectors\SimpleTemplateSelector.cs" />
     <Compile Include="TemplateSelectors\AbstractTemplateSelector.cs" />
     <Compile Include="Wrapper\ConverterHelper.cs" />

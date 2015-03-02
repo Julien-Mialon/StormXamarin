@@ -1,7 +1,8 @@
 using System;
 using Android.Views;
+using Storm.Mvvm.TemplateSelectors;
 
-namespace Storm.Mvvm.TemplateSelectors
+namespace Storm.Mvvm
 {
 	public class DataTemplate
 	{

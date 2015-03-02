@@ -68,7 +68,10 @@ namespace TestApp.Business.ViewModels
 
 		public AdapterViewModel(IContainer container) : base(container)
 		{
-			AddCommand = new DelegateCommand<string>(AddAction);
+			//TODO : to use when CommandParameter works again
+			//AddCommand = new DelegateCommand<string>(AddAction);
+
+			AddCommand = new DelegateCommand(AddAction);
 
 			int n = 1;
 			foreach (string s in new string[] {"Alpha", "Beta", "Omega"})
@@ -86,6 +89,11 @@ namespace TestApp.Business.ViewModels
 			}
 			MyCollection.Add(new ListItemModel(42, input));
 			InputText = "";
+		}
+
+		private void AddAction()
+		{
+			AddAction(InputText);
 		}
 	}
 }

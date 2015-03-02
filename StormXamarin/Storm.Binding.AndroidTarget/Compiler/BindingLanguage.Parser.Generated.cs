@@ -3,10 +3,10 @@
 // (see accompanying GPPGcopyright.rtf)
 
 // GPPG version 1.5.2
-// Machine:  SURFACE-JULIEN
-// DateTime: 26/02/2015 15:20:45
-// UserName: Julian
-// Input file <C:\Users\Julian\Source\Repos\StormXamarin\StormXamarin\Storm.Binding.AndroidTarget\\Compiler\BindingLanguage.Language.grammar.y - 26/02/2015 15:20:42>
+// Machine:  AELITA
+// DateTime: 02/03/2015 23:35:01
+// UserName: Julien
+// Input file <D:\Projects\StormXamarin\StormXamarin\Storm.Binding.AndroidTarget\\Compiler\BindingLanguage.Language.grammar.y - 02/03/2015 23:33:12>
 
 // options: no-lines gplex
 
@@ -131,7 +131,7 @@ internal partial class BindingLanguageParser: ShiftReduceParser<ValueType, LexLo
 { CurrentSemanticValue.KeyValueList = CreateAndAdd(null, ValueStack[ValueStack.Depth-3].Expression); CopyList(ValueStack[ValueStack.Depth-1], CurrentSemanticValue); }
         break;
       case 9: // expressionContent -> dualContent
-{ CopyList(ValueStack[ValueStack.Depth-1], CurrentSemanticValue); }
+{ CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
         break;
       case 10: // dualContent -> IDENTIFIER, EQUAL, values
 { CurrentSemanticValue.KeyValueList = CreateAndAdd(ValueStack[ValueStack.Depth-3].Content, ValueStack[ValueStack.Depth-1].Expression); }

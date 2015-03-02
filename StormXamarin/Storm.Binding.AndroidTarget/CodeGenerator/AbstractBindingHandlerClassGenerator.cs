@@ -21,13 +21,12 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 		public void Preprocess(List<XmlAttribute> expressionAttributes, List<Resource> resources, List<IdViewObject> viewElements)
 		{
 			// Create all properties for viewElements
-			Dictionary<string, CodePropertyReferenceExpression> viewElementReferences = viewElements.ToDictionary(x => x.Id, x =>
+			foreach (IdViewObject viewElement in viewElements)
 			{
-				Tuple<CodeMemberField, CodeMemberProperty> result = CodeGeneratorHelper.GenerateProxyProperty(x.Id, x.TypeName, new CodeMethodInvokeExpression(GetFindViewByIdReference(x.TypeName), CodeGeneratorHelper.GetAndroidResourceReference(ResourcePart.Id, x.Id)));
+				Tuple<CodeMemberField, CodeMemberProperty> result = CodeGeneratorHelper.GenerateProxyProperty(viewElement.Id, viewElement.TypeName, new CodeMethodInvokeExpression(GetFindViewByIdReference(viewElement.TypeName), CodeGeneratorHelper.GetAndroidResourceReference(ResourcePart.Id, viewElement.Id)));
 				Fields.Add(result.Item1);
 				Properties.Add(result.Item2);
-				return CodeGeneratorHelper.GetPropertyReference(result.Item2);
-			});
+			}
 
 			// Generate property for ILocalizationService LocalizationService
 			CodePropertyReferenceExpression localizationServiceReference = CreateLocalizationServiceProperty();
@@ -180,9 +179,9 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 					bool oldTargetType = expression.IsTargetingResource;
 
 					// retarget the binding expression to be targeted to Adapter.Collection
-					expression.TargetField = Configuration.DefaultAdapterField;
+					expression.TargetField = "Collection";
 					expression.TargetObject = adapterResource.PropertyName;
-					expression.IsTargetingResource = true;
+					expression.IsTargetingResource = false; //TODO : false for debug mode only, need to see what we can do about that ?
 
 					// add a new expression to target the old object/field couple and affect the adapter with the resource expression
 					expressions.Add(new ExpressionContainer
@@ -201,14 +200,14 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 
 			// Create a setup resources method to initalize resources with all {Resource ...} and {Translation ...} expressions
 			List<ExpressionContainer> translationExpressions = expressions.Where(x => x.Expression.IsOfType(ExpressionType.Translation)).ToList();
-			List<ExpressionContainer> expressionsTargetingResources = expressions.Where(x => x.IsTargetingResource && !x.Expression.IsOfType(ExpressionType.Translation)).ToList();
+			List<ExpressionContainer> expressionsTargetingResources = expressions.Where(x => x.IsTargetingResource && x.Expression.IsOfType(ExpressionType.Resource)).ToList();
 			List<ExpressionContainer> resourceExpressions = expressions.Where(x => !x.IsTargetingResource && x.Expression.IsOfType(ExpressionType.Resource)).ToList();
 			List<ExpressionContainer> bindingExpressions = expressions.Where(x => !x.IsTargetingResource && x.Expression.IsOfType(ExpressionType.Binding)).ToList();
 
 			CodeMethodReferenceExpression assignTranslationMethodReference = CreateAssignTranslationMethod(translationExpressions, localizationServiceReference);
 			CodeMethodReferenceExpression setupResourcesReference = CreateSetupResourcesMethod(expressionsTargetingResources, resourceReferences);
 			CodeMethodReferenceExpression setupResourceForViewElement = CreateSetupResourceForViewElementMethod(resourceExpressions, resourceReferences);
-			CreateBindingOverrideMethod(bindingExpressions, viewElementReferences, localizationServiceReference, resourceReferences, assignTranslationMethodReference, setupResourcesReference, setupResourceForViewElement);
+			CreateBindingOverrideMethod(bindingExpressions, localizationServiceReference, resourceReferences, assignTranslationMethodReference, setupResourcesReference, setupResourceForViewElement);
 		}
 
 		private CodePropertyReferenceExpression CreateLocalizationServiceProperty()
@@ -228,7 +227,7 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 			return CodeGeneratorHelper.GetPropertyReference(result.Item2);
 		}
 
-		private void CreateBindingOverrideMethod(List<ExpressionContainer> bindingExpressions, Dictionary<string, CodePropertyReferenceExpression> viewElementReferences, CodePropertyReferenceExpression localizationServiceReference, Dictionary<string, CodePropertyReferenceExpression> resourceReferences, params CodeMethodReferenceExpression[] preCallMethods)
+		private void CreateBindingOverrideMethod(List<ExpressionContainer> bindingExpressions, CodePropertyReferenceExpression localizationServiceReference, Dictionary<string, CodePropertyReferenceExpression> resourceReferences, params CodeMethodReferenceExpression[] preCallMethods)
 		{
 			CodeTypeReference listOfBindingObjectTypeReference = CodeGeneratorHelper.GetTypeReferenceFromName("List<BindingObject>");
 			CodeTypeReference bindingObjectTypeReference = CodeGeneratorHelper.GetTypeReferenceFromName("BindingObject");
@@ -254,7 +253,7 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 			foreach (IGrouping<string, ExpressionContainer> groupedExpressions in bindingExpressions.GroupBy(x => x.TargetObject))
 			{
 				// create a variable for this binding object and build it with the Property of the view element
-				variableCreationResult = CodeGeneratorHelper.CreateVariable(bindingObjectTypeReference, NameGeneratorHelper.GetBindingObjectName(), viewElementReferences[groupedExpressions.Key]);
+				variableCreationResult = CodeGeneratorHelper.CreateVariable(bindingObjectTypeReference, NameGeneratorHelper.GetBindingObjectName(), CodeGeneratorHelper.GetPropertyReference(groupedExpressions.Key));//viewElementReferences[groupedExpressions.Key]);
 				method.Statements.Add(variableCreationResult.Item1);
 
 				CodeVariableReferenceExpression objectReference = variableCreationResult.Item2;
@@ -416,6 +415,7 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 
 				node.IsMarked = true;
 				processedNodes.Add(node);
+				waitingNodes.Remove(node);
 			}
 
 			// If no cycles, we have the order to assign all resources in correct order
@@ -467,25 +467,30 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 		{
 			return resources.ToDictionary(resource => resource.Key, resource =>
 			{
-				ResourceWithId resourceWithId = resource as ResourceWithId;
-				if (resourceWithId != null) // in case of data templates
+				DataTemplateResource dataTemplateResource = resource as DataTemplateResource;
+				Tuple<CodeMemberField, CodeMemberProperty> result;
+				if (dataTemplateResource != null) // in case of data templates
 				{
-					// Just return the id
-					// int MyResource { get { return Resource.Id.****; } }
-					List<CodeStatement> statements = new List<CodeStatement>
+					const string type = "Storm.Mvvm.DataTemplate";
+					result = CodeGeneratorHelper.GenerateProxyProperty(resource.PropertyName, type, fieldReference => new List<CodeStatement>
 					{
-						new CodeMethodReturnStatement(CodeGeneratorHelper.GetAndroidResourceReference(ResourcePart.Layout, resourceWithId.ResourceId)),
-					};
-					CodeMemberProperty propertyResult = CodeGeneratorHelper.GenerateProperty(resource.PropertyName, "int", statements);
-					Properties.Add(propertyResult);
-					return CodeGeneratorHelper.GetPropertyReference(propertyResult);
+						// _field = new DataTemplate();
+						new CodeAssignStatement(fieldReference, new CodeObjectCreateExpression(CodeGeneratorHelper.GetTypeReferenceFromName(type))), 
+						// _field.ViewId = Resource.Id.***
+						new CodeAssignStatement(new CodePropertyReferenceExpression(fieldReference, "ViewId"), CodeGeneratorHelper.GetAndroidResourceReference(ResourcePart.Layout, dataTemplateResource.ViewId)), 
+						// _field.LayoutInflater = LayoutInflater;
+						new CodeAssignStatement(new CodePropertyReferenceExpression(fieldReference, "LayoutInflater"), GetLayoutInflaterReference()), 
+						// _field.ViewHolderType = typeof(viewholder class)
+						new CodeAssignStatement(new CodePropertyReferenceExpression(fieldReference, "ViewHolderType"), new CodeTypeOfExpression(string.Format("{0}.{1}", Configuration.GeneratedNamespace, dataTemplateResource.ViewHolderClassName))),
+					});
 				}
-
-				// create a proxy property to handle the resource
-				string type = resource.Type;
-				Dictionary<string, string> assignments = resource.Properties;
-				Tuple<CodeMemberField, CodeMemberProperty> result = CodeGeneratorHelper.GenerateProxyProperty(resource.PropertyName, type, fieldReference => CodeGeneratorHelper.GenerateStatementsCreateAndAssign(fieldReference, type, assignments));
-
+				else
+				{
+					// create a proxy property to handle the resource
+					string type = resource.Type;
+					Dictionary<string, string> assignments = resource.Properties;
+					result = CodeGeneratorHelper.GenerateProxyProperty(resource.PropertyName, type, fieldReference => CodeGeneratorHelper.GenerateStatementsCreateAndAssign(fieldReference, type, assignments));
+				}
 				Fields.Add(result.Item1);
 				Properties.Add(result.Item2);
 				return CodeGeneratorHelper.GetPropertyReference(result.Item2);

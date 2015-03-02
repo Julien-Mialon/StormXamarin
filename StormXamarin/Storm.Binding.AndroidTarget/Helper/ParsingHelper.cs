@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Storm.Binding.AndroidTarget.Configuration;
 using Storm.Binding.AndroidTarget.Model;

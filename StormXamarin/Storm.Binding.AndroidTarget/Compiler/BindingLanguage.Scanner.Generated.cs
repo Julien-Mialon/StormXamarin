@@ -5,10 +5,10 @@
 //  See accompanying file GPLEXcopyright.rtf.
 //
 //  GPLEX Version:  1.2.2
-//  Machine:  SURFACE-JULIEN
-//  DateTime: 26/02/2015 15:20:45
-//  UserName: Julian
-//  GPLEX input file <C:\Users\Julian\Source\Repos\StormXamarin\StormXamarin\Storm.Binding.AndroidTarget\\Compiler\BindingLanguage.Language.analyzer.lex - 26/02/2015 15:20:12>
+//  Machine:  AELITA
+//  DateTime: 02/03/2015 23:35:01
+//  UserName: Julien
+//  GPLEX input file <D:\Projects\StormXamarin\StormXamarin\Storm.Binding.AndroidTarget\\Compiler\BindingLanguage.Language.analyzer.lex - 28/02/2015 19:47:06>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: verbose, parser, stack, minimize
@@ -832,7 +832,6 @@ LexLog("Comma"); return (int)Token.COMMA;
         case 6: // Recognized '{Identifier}',	Shortest string "B"
         case 7: // Recognized '{Identifier}',	Shortest string "R"
         case 8: // Recognized '{Identifier}',	Shortest string "T"
-        case 11: // Recognized '{Identifier}',	Shortest string "TR"
         case 12: // Recognized '{Identifier}',	Shortest string "TRA"
         case 13: // Recognized '{Identifier}',	Shortest string "TRAN"
         case 14: // Recognized '{Identifier}',	Shortest string "TRANS"
@@ -865,6 +864,7 @@ LexLog("OpenBracket"); return (int)Token.OPEN_BRACKET;
         case 10: // Recognized '{CloseBracket}',	Shortest string "}"
 LexLog("CloseBracket"); return (int)Token.CLOSE_BRACKET;
             break;
+        case 11: // Recognized '{TranslationKeyword}',	Shortest string "TR"
         case 20: // Recognized '{TranslationKeyword}',	Shortest string "TRANSLATION"
 LexLog("Translation"); return (int)Token.TRANSLATION;
             break;

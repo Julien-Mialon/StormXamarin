@@ -97,7 +97,11 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 						viewsId.Add(new IdViewObject(element.LocalName, id));
 					}
 				}
-				else if(ParsingHelper.IsCustomAttribute(attribute) || ParsingHelper.IsAttributeWithExpression(attribute))
+				else if (ParsingHelper.IsCustomAttribute(attribute))
+				{
+					//TODO : play with that again to support custom attribute like CommandParameter
+				}
+				else if(ParsingHelper.IsAttributeWithExpression(attribute))
 				{
 					bindings.Add(attribute);
 				}
@@ -118,6 +122,9 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 					viewsId.Add(new IdViewObject(element.LocalName, id));
 				}
 			}
+
+			//TODO : remove line below to support custom attribute
+			element.Attributes.RemoveAll(ParsingHelper.IsCustomAttribute);
 
 			foreach (XmlAttribute attribute in bindings)
 			{

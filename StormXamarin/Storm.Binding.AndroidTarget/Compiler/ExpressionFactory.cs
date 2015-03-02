@@ -34,18 +34,21 @@ namespace Storm.Binding.AndroidTarget.Compiler
 
 			if (expr == null)
 			{
-				throw new ArgumentOutOfRangeException("type", type, "expecting Binding, Resource, Translation or FullClassName");
+				throw new ArgumentOutOfRangeException("type", type, "expecting Binding, Resource, Translation or Value");
 			}
 
-			foreach (Tuple<string, Expression> pair in attributes)
+			if (attributes != null)
 			{
-				if (expr.IsCorrectKey(pair.Item1))
+				foreach (Tuple<string, Expression> pair in attributes)
 				{
-					expr.Add(pair.Item1, pair.Item2);
-				}
-				else
-				{
-					throw new CompileException(string.Format("Unexpected attribute with key {0}", pair.Item1));
+					if (expr.IsCorrectKey(pair.Item1))
+					{
+						expr.Add(pair.Item1, pair.Item2);
+					}
+					else
+					{
+						throw new CompileException(string.Format("Unexpected attribute with key {0}", pair.Item1));
+					}
 				}
 			}
 

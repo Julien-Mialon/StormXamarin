@@ -82,7 +82,7 @@
     <Compile Include="Helper\PathHelper.cs" />
     <Compile Include="Model\BindingMode.cs" />
     <Compile Include="Model\ResourcePart.cs" />
-    <Compile Include="Model\ResourceWithId.cs" />
+    <Compile Include="Model\DataTemplateResource.cs" />
     <Compile Include="Model\XmlAttribute.cs" />
     <Compile Include="Model\XmlElement.cs" />
     <Compile Include="Model\Resource.cs" />
@@ -91,19 +91,10 @@
     <Compile Include="Preprocessor\DataTemplateProcessor.cs" />
     <Compile Include="Preprocessor\ViewFileReader.cs" />
     <Compile Include="Preprocessor\ViewFileWriter.cs" />
-    <Compile Include="Process\AbstractClassGenerator.cs" />
-    <Compile Include="Process\BindingExpression.cs" />
-    <Compile Include="Process\ClassGeneratorHelper.cs" />
     <Compile Include="Model\IdViewObject.cs" />
-    <Compile Include="Process\PartialActivityClassGenerator.cs" />
-    <Compile Include="Process\PartialClassGenerator.cs" />
-    <Compile Include="Process\PartialFragmentClassGenerator.cs" />
     <Compile Include="Preprocessor\ViewFileProcessor.cs" />
-    <Compile Include="Process\ViewHolderClassGenerator.cs" />
-    <Compile Include="Process\ViewHolderFactoryGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReswToStrings.cs" />
-    <Compile Include="Res\DefaultComponents.cs" />
     <Compile Include="Compiler\Internal\ShiftReduceParserCode.cs" />
   </ItemGroup>
   <ItemGroup>

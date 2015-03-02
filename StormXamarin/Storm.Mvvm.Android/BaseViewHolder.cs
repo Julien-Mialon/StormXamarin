@@ -2,13 +2,13 @@
 using Android.Views;
 using Storm.Mvvm.Bindings;
 
-namespace Storm.Mvvm.TemplateSelectors
+namespace Storm.Mvvm
 {
 	public abstract class BaseViewHolder
 	{
-		internal LayoutInflater LayoutInflater { get; set; }
+		protected internal LayoutInflater LayoutInflater { get; set; }
 
-		internal View View { get; set; }
+		protected internal View View { get; set; }
 
 		protected object ViewModel { get; private set; }
 		
@@ -18,7 +18,7 @@ namespace Storm.Mvvm.TemplateSelectors
 			BindingProcessor.ProcessBinding(ViewModel, this, GetBindingPaths());
 		}
 
-		public virtual List<BindingObject> GetBindingPaths()
+		protected virtual List<BindingObject> GetBindingPaths()
 		{
 			return new List<BindingObject>();
 		}

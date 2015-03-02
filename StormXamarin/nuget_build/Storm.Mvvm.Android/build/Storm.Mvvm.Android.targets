@@ -25,12 +25,8 @@
 			<Compile Include="@(StormGeneratedActivityFiles)" />
 			<AndroidResource Include="@(StormGeneratedAndroidResource)" />
 		</ItemGroup>
-		
-		<OnError ExecuteTargets="StormCleanup" />
-	</Target>
 
-	<Target Name="BeforeBuild">
-		<!-- Execute resw transformation -->
+		<!--Execute resw transformation--> 
 		<ReswToStrings InputFiles="@(ReswFile)">
 			<Output TaskParameter="GeneratedStrings" ItemName="StormGeneratedStrings" />
 		</ReswToStrings>
@@ -38,8 +34,11 @@
 		<ItemGroup>
 			<AndroidResource Include="@(StormGeneratedStrings)" />
 		</ItemGroup>
+
+		<OnError ExecuteTargets="StormCleanup" />
 	</Target>
 
+	
 	<Target Name="StormCleanup">
 		<RemoveDir Directories="@(StormOutputDirectories)" />
 		<Delete Files="@(StormGeneratedAndroidResource)" />

@@ -17,8 +17,6 @@
 		private const string EXPRESSION_FORMAT = "generated_bindingExpression_{0}";
 		
 		public const string LOCALIZATION_SERVICE_PROPERTY_NAME = "Generated_LocalizationService";
-		private const string ADAPTER_INTERNAL_NAME = "adapter";
-		private const string VIEW_SELECTOR_INTERNAL_NAME = "viewSelector";
 
 		private static int _viewObjectId;
 		private static int _viewHolderCounter;

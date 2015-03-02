@@ -29,10 +29,15 @@ namespace Storm.Binding.AndroidTarget.Compiler
 			get { return new[] { PATH, CONVERTER, CONVERTER_PARAMETER, MODE, UPDATE_EVENT, TEMPLATE, TEMPLATE_SELECTOR, ADAPTER }; }
 		}
 
+		protected override string[] InternalOverridableKeys
+		{
+			get { return new[] { PATH }; }
+		}
+
 		public BindingExpression()
 		{
 			//Set default value for Path
-			Add(PATH, new TextExpression {Value = ""});
+			Add(PATH, new TextExpression { Value = "" });
 		}
 
 		protected override Dictionary<string, IEnumerable<ExpressionType>> GetExpectedValueType()

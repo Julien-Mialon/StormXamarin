@@ -7,18 +7,23 @@ namespace Storm.Binding.AndroidTarget.Compiler
 	public abstract class Expression
 	{
 		private string[] _keys;
+		private string[] _overridableKeys;
 		private readonly Dictionary<string, Expression> _attributes = new Dictionary<string, Expression>();
 
 		public abstract ExpressionType Type { get; }
 
 		public string[] AvailableKeys { get { return _keys ?? (_keys = InternalAvailableKeys); } }
 
+		public string[] OverridableKeys { get { return _overridableKeys ?? (_overridableKeys = InternalOverridableKeys); } }
+
 		public IReadOnlyDictionary<string, Expression> Attributes { get { return _attributes; } }
 
 		protected abstract string ContentKey { get; }
 
 		protected abstract string[] InternalAvailableKeys { get; }
-		
+
+		protected virtual string[] InternalOverridableKeys { get { return new string[]{}; } }
+
 		public bool IsCorrectKey(string key)
 		{
 			return key == null || AvailableKeys.Any(x => x.Equals(key, StringComparison.InvariantCultureIgnoreCase));
@@ -29,7 +34,15 @@ namespace Storm.Binding.AndroidTarget.Compiler
 			string correctKey = key == null ? ContentKey : AvailableKeys.FirstOrDefault(x => x.Equals(key, StringComparison.InvariantCultureIgnoreCase));
 			if (correctKey != null)
 			{
+				if (_attributes.ContainsKey(correctKey))
+				{
+					if (OverridableKeys.Contains(correctKey))
+					{
+						_attributes.Remove(correctKey);
+					}
+				}
 				_attributes.Add(correctKey, value);
+
 			}
 		}
 
