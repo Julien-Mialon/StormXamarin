@@ -82,6 +82,15 @@ namespace Storm.Binding.AndroidTarget.Helper
 			return field;
 		}
 
+		public static Tuple<CodeVariableDeclarationStatement, CodeVariableReferenceExpression> CreateVariable(CodeTypeReference typeReference, string name, params CodeExpression[] constructorParameters)
+		{
+			CodeObjectCreateExpression initializer = new CodeObjectCreateExpression(typeReference, constructorParameters);
+			CodeVariableDeclarationStatement statement = new CodeVariableDeclarationStatement(typeReference, name, initializer);
+			CodeVariableReferenceExpression reference = new CodeVariableReferenceExpression(name);
+
+			return new Tuple<CodeVariableDeclarationStatement, CodeVariableReferenceExpression>(statement, reference);
+		}
+
 		public static CodePropertyReferenceExpression GetPropertyReference(string propertyName)
 		{
 			return new CodePropertyReferenceExpression(new CodeThisReferenceExpression(), propertyName);

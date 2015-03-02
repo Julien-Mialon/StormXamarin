@@ -8,6 +8,8 @@ using Storm.Binding.AndroidTarget.Compiler;
 using Storm.Binding.AndroidTarget.Helper;
 using Storm.Binding.AndroidTarget.Model;
 
+// ReSharper disable BitwiseOperatorOnEnumWithoutFlags
+
 namespace Storm.Binding.AndroidTarget.CodeGenerator
 {
 	public abstract class AbstractBindingHandlerClassGenerator : AbstractClassGenerator
@@ -131,7 +133,7 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 						ResourceElement = null,
 						Type = Configuration.DefaultAdapter
 					});
-					expressions.Add(new ExpressionContainer()
+					expressions.Add(new ExpressionContainer
 					{
 						Expression = bindingExpression[BindingExpression.TEMPLATE_SELECTOR],
 						TargetField = Configuration.DefaultAdapterField,
@@ -148,12 +150,56 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 				}
 			}
 
+			// In order to check if all adapter are not used more than once since we need them to be unique target
+			Dictionary<string, bool> usedAdapter = new Dictionary<string, bool>();
+			foreach(ExpressionContainer expression in expressions.Where(x => x.Expression.IsOfType(ExpressionType.Binding)).ToList())
+			{
+				Expression bindingExpression = expression.Expression;
+				if (bindingExpression.Has(BindingExpression.ADAPTER))
+				{
+					// expression in Adapter could only be Resource (since it's an android platform specific things, a binding expression would not have any sense)
+					Expression resourceExpression = bindingExpression[BindingExpression.ADAPTER];
+					string adapterKey = resourceExpression.GetValue(ResourceExpression.KEY);
+					Resource adapterResource = neededResource[adapterKey];
+
+					if (usedAdapter.ContainsKey(adapterKey))
+					{
+						Log.LogError("The adapter with key {0} is used more than once which could lead to issue, you need one adapter per use !", adapterKey);
+					}
+					else
+					{
+						usedAdapter.Add(adapterKey, true);
+					}
+
+					// remove the adapter property
+					bindingExpression.Remove(BindingExpression.ADAPTER);
+
+					// store old target info
+					string oldTargetField = expression.TargetField;
+					string oldTargetObject = expression.TargetObject;
+					bool oldTargetType = expression.IsTargetingResource;
+
+					// retarget the binding expression to be targeted to Adapter.Collection
+					expression.TargetField = Configuration.DefaultAdapterField;
+					expression.TargetObject = adapterResource.PropertyName;
+					expression.IsTargetingResource = true;
+
+					// add a new expression to target the old object/field couple and affect the adapter with the resource expression
+					expressions.Add(new ExpressionContainer
+					{
+						IsTargetingResource = oldTargetType,
+						TargetField = oldTargetField,
+						TargetObject = oldTargetObject,
+						Expression = resourceExpression,
+					});
+				}
+			}
+
 			// Create all properties for resources
 			Dictionary<string, CodePropertyReferenceExpression> resourceReferences = CreatePropertiesForResources(neededResource.Values);
 
 
 			// Create a setup resources method to initalize resources with all {Resource ...} and {Translation ...} expressions
-
 			List<ExpressionContainer> translationExpressions = expressions.Where(x => x.Expression.IsOfType(ExpressionType.Translation)).ToList();
 			List<ExpressionContainer> expressionsTargetingResources = expressions.Where(x => x.IsTargetingResource && !x.Expression.IsOfType(ExpressionType.Translation)).ToList();
 			List<ExpressionContainer> resourceExpressions = expressions.Where(x => !x.IsTargetingResource && x.Expression.IsOfType(ExpressionType.Resource)).ToList();
@@ -162,7 +208,7 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 			CodeMethodReferenceExpression assignTranslationMethodReference = CreateAssignTranslationMethod(translationExpressions, localizationServiceReference);
 			CodeMethodReferenceExpression setupResourcesReference = CreateSetupResourcesMethod(expressionsTargetingResources, resourceReferences);
 			CodeMethodReferenceExpression setupResourceForViewElement = CreateSetupResourceForViewElementMethod(resourceExpressions, resourceReferences);
-			CreateBindingOverrideMethod(bindingExpressions, localizationServiceReference, resourceReferences, assignTranslationMethodReference, setupResourcesReference, setupResourceForViewElement);
+			CreateBindingOverrideMethod(bindingExpressions, viewElementReferences, localizationServiceReference, resourceReferences, assignTranslationMethodReference, setupResourcesReference, setupResourceForViewElement);
 		}
 
 		private CodePropertyReferenceExpression CreateLocalizationServiceProperty()
@@ -182,13 +228,17 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 			return CodeGeneratorHelper.GetPropertyReference(result.Item2);
 		}
 
-		private void CreateBindingOverrideMethod(List<ExpressionContainer> bindingExpressions, CodePropertyReferenceExpression localizationServiceReference, Dictionary<string, CodePropertyReferenceExpression> resourceReferences, params CodeMethodReferenceExpression[] preCallMethods)
+		private void CreateBindingOverrideMethod(List<ExpressionContainer> bindingExpressions, Dictionary<string, CodePropertyReferenceExpression> viewElementReferences, CodePropertyReferenceExpression localizationServiceReference, Dictionary<string, CodePropertyReferenceExpression> resourceReferences, params CodeMethodReferenceExpression[] preCallMethods)
 		{
+			CodeTypeReference listOfBindingObjectTypeReference = CodeGeneratorHelper.GetTypeReferenceFromName("List<BindingObject>");
+			CodeTypeReference bindingObjectTypeReference = CodeGeneratorHelper.GetTypeReferenceFromName("BindingObject");
+			CodeTypeReference bindingExpressionTypeReference = CodeGeneratorHelper.GetTypeReferenceFromName("BindingExpression");
+
 			CodeMemberMethod method = new CodeMemberMethod
 			{
 				Attributes = MemberAttributes.Family | MemberAttributes.Override,
 				Name = NameGeneratorHelper.GET_BINDING_METHOD_NAME,
-				ReturnType = CodeGeneratorHelper.GetTypeReferenceFromName("List<BindingObject>"),
+				ReturnType = listOfBindingObjectTypeReference
 			};
 
 			foreach (CodeMethodReferenceExpression preCallMethod in preCallMethods)
@@ -196,9 +246,122 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 				method.Statements.Add(new CodeMethodInvokeExpression(preCallMethod));
 			}
 
+			var variableCreationResult = CodeGeneratorHelper.CreateVariable(listOfBindingObjectTypeReference, "result");
+			method.Statements.Add(variableCreationResult.Item1);
+			CodeVariableReferenceExpression resultReference = variableCreationResult.Item2;
 
+			// group binding expression by target object to simplify
+			foreach (IGrouping<string, ExpressionContainer> groupedExpressions in bindingExpressions.GroupBy(x => x.TargetObject))
+			{
+				// create a variable for this binding object and build it with the Property of the view element
+				variableCreationResult = CodeGeneratorHelper.CreateVariable(bindingObjectTypeReference, NameGeneratorHelper.GetBindingObjectName(), viewElementReferences[groupedExpressions.Key]);
+				method.Statements.Add(variableCreationResult.Item1);
+
+				CodeVariableReferenceExpression objectReference = variableCreationResult.Item2;
+				method.Statements.Add(new CodeMethodInvokeExpression(resultReference, "Add", objectReference));
+
+
+				foreach (ExpressionContainer expressionContainer in groupedExpressions)
+				{
+					Expression expression = expressionContainer.Expression;
+					// create a binding expression for this
+					variableCreationResult = CodeGeneratorHelper.CreateVariable(bindingExpressionTypeReference, NameGeneratorHelper.GetBindingExpressionName(), new CodePrimitiveExpression(expressionContainer.TargetField),
+						new CodePrimitiveExpression(expression.GetValue(BindingExpression.PATH)));
+					method.Statements.Add(variableCreationResult.Item1);
+
+					CodeVariableReferenceExpression expressionReference = variableCreationResult.Item2;
+
+					if (expression.Has(BindingExpression.MODE) && expression.Get<ModeExpression>(BindingExpression.MODE).Value != BindingMode.OneWay)
+					{
+						// Expression could only be of type ModeExpression
+						BindingMode mode = expression.Get<ModeExpression>(BindingExpression.MODE).Value;
+						method.Statements.Add(new CodeAssignStatement(new CodePropertyReferenceExpression(expressionReference, "Mode"),
+							new CodeFieldReferenceExpression(new CodeTypeReferenceExpression("BindingMode"), mode.ToString())));
+
+					}
+					if (expression.Has(BindingExpression.UPDATE_EVENT) && !string.IsNullOrWhiteSpace(expression.GetValue(BindingExpression.UPDATE_EVENT)))
+					{
+						// Expression could only be of type Text
+						string updateEvent = expression.GetValue(BindingExpression.UPDATE_EVENT);
+						method.Statements.Add(new CodeAssignStatement(new CodePropertyReferenceExpression(expressionReference, "UpdateEvent"), new CodePrimitiveExpression(updateEvent)));
+					}
+					if (expression.Has(BindingExpression.CONVERTER))
+					{
+						// Expression could be type Resource or (Binding : not implemented for now)
+						Expression converterExpression = expression[BindingExpression.CONVERTER];
+						if (converterExpression.IsOfType(ExpressionType.Binding))
+						{
+							Log.LogError("Binding expression for converter is not implemented yet");
+							throw new NotImplementedException("Binding expression for converter is not implemented yet");
+						}
+						else if (converterExpression.IsOfType(ExpressionType.Resource))
+						{
+							string resourceKey = converterExpression.GetValue(ResourceExpression.KEY);
+							CodePropertyReferenceExpression resourceReference = resourceReferences[resourceKey];
+
+							method.Statements.Add(new CodeAssignStatement(new CodePropertyReferenceExpression(expressionReference, "Converter"), resourceReference));
+						}
+					}
+					if (expression.Has(BindingExpression.CONVERTER_PARAMETER))
+					{
+						// Expression could be of type Resource, Translation, Text or (Binding : not implemented for now)
+						Expression converterParameterExpression = expression[BindingExpression.CONVERTER_PARAMETER];
+						if (converterParameterExpression.IsOfType(ExpressionType.Binding))
+						{
+							Log.LogError("Binding expression for converter parameter is not implemented yet");
+							throw new NotImplementedException("Binding expression for converter parameter is not implemented yet");
+						}
+						else if (converterParameterExpression.IsOfType(ExpressionType.Resource))
+						{
+							string resourceKey = converterParameterExpression.GetValue(ResourceExpression.KEY);
+							CodePropertyReferenceExpression resourceReference = resourceReferences[resourceKey];
+
+							method.Statements.Add(new CodeAssignStatement(new CodePropertyReferenceExpression(expressionReference, "ConverterParameter"), resourceReference));
+						}
+						else if (converterParameterExpression.IsOfType(ExpressionType.Translation))
+						{
+							CodeMethodInvokeExpression valueReference = GenerateStatementToGetTranslation(localizationServiceReference, converterParameterExpression);
+							method.Statements.Add(new CodeAssignStatement(new CodePropertyReferenceExpression(expressionReference, "ConverterParameter"), valueReference));
+						}
+						else if (converterParameterExpression.IsOfType(ExpressionType.Value))
+						{
+							TextExpression textExpression = converterParameterExpression as TextExpression;
+							if (textExpression != null)
+							{
+								string converterParameterValue = textExpression.Value;
+								method.Statements.Add(new CodeAssignStatement(new CodePropertyReferenceExpression(expressionReference, "ConverterParameter"), new CodePrimitiveExpression(converterParameterValue)));
+							}
+							else
+							{
+								throw new InvalidOperationException("Can't get a textExpression from a ExpressionType.Value expression...");
+							}
+						}
+					}
+
+					method.Statements.Add(new CodeMethodInvokeExpression(objectReference, "AddExpression", expressionReference));
+				}
+			}
+
+			method.Statements.Add(new CodeMethodReturnStatement(resultReference));
 
 			Methods.Add(method);
+		}
+
+		private CodeMethodInvokeExpression GenerateStatementToGetTranslation(CodePropertyReferenceExpression localizationServiceReference, Expression translationExpression)
+		{
+			List<CodeExpression> parameters = new List<CodeExpression>();
+			if (translationExpression.Has(TranslationExpression.UID))
+			{
+				//use method with two parameters.
+				parameters.Add(new CodePrimitiveExpression(translationExpression.GetValue(TranslationExpression.UID)));
+			}
+			if (translationExpression.Has(TranslationExpression.KEY))
+			{
+				//use method with only key parameter.
+				parameters.Add(new CodePrimitiveExpression(translationExpression.GetValue(TranslationExpression.KEY)));
+			}
+			CodeMethodInvokeExpression valueReference = new CodeMethodInvokeExpression(localizationServiceReference, "GetString", parameters.ToArray());
+			return valueReference;
 		}
 
 		private CodeMethodReferenceExpression CreateAssignTranslationMethod(List<ExpressionContainer> expressions, CodePropertyReferenceExpression localizationServiceReference)
@@ -211,19 +374,8 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 
 			foreach (ExpressionContainer expression in expressions)
 			{
-				List<CodeExpression> parameters = new List<CodeExpression>();
-				if (expression.Expression.Has(TranslationExpression.UID))
-				{
-					//use method with two parameters.
-					parameters.Add(new CodePrimitiveExpression(expression.Expression.GetValue(TranslationExpression.UID)));
-				}
-				if(expression.Expression.Has(TranslationExpression.KEY))
-				{
-					//use method with only key parameter.
-					parameters.Add(new CodePrimitiveExpression(expression.Expression.GetValue(TranslationExpression.KEY)));
-				}
-				CodeMethodInvokeExpression valueReference = new CodeMethodInvokeExpression(localizationServiceReference, "GetString", parameters.ToArray());
-				method.Statements.Add(SetValueStatement(CodeGeneratorHelper.GetPropertyReference(expression.TargetObject), expression.TargetField, valueReference))
+				CodeMethodInvokeExpression valueReference = GenerateStatementToGetTranslation(localizationServiceReference, expression.Expression);
+				method.Statements.Add(SetValueStatement(CodeGeneratorHelper.GetPropertyReference(expression.TargetObject), expression.TargetField, valueReference));
 			}
 
 			Methods.Add(method);

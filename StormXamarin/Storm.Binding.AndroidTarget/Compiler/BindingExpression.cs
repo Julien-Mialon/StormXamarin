@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using Storm.Binding.AndroidTarget.Model;
 
 namespace Storm.Binding.AndroidTarget.Compiler
@@ -28,6 +27,12 @@ namespace Storm.Binding.AndroidTarget.Compiler
 		protected override string[] InternalAvailableKeys
 		{
 			get { return new[] { PATH, CONVERTER, CONVERTER_PARAMETER, MODE, UPDATE_EVENT, TEMPLATE, TEMPLATE_SELECTOR, ADAPTER }; }
+		}
+
+		public BindingExpression()
+		{
+			//Set default value for Path
+			Add(PATH, new TextExpression {Value = ""});
 		}
 
 		protected override Dictionary<string, IEnumerable<ExpressionType>> GetExpectedValueType()
