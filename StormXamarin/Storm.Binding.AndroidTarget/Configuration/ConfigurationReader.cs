@@ -65,7 +65,11 @@ namespace Storm.Binding.AndroidTarget.Configuration
 				}
 				result.Namespaces.Sort();
 
-				
+
+				List<string> resourceFiles = result.GlobalResourceFiles.Select(x => PathHelper.Normalize(Path.Combine(relativePath, x))).ToList();
+				result.GlobalResourceFiles.Clear();
+				result.GlobalResourceFiles.AddRange(resourceFiles);
+
 				//Process files to complete with full path
 				foreach (FileBindingDescription fileBinding in result.FileDescriptions)
 				{

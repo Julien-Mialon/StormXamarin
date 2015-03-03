@@ -22,6 +22,8 @@ namespace Storm.Binding.AndroidTarget.Configuration.Model
 		/// </summary>
 		public List<FileBindingDescription> FileDescriptions { get; private set; }
 
+		public List<string> GlobalResourceFiles { get; private set; } 
+
 		/// <summary>
 		/// Directory where to store all generated class files
 		/// </summary>
@@ -72,6 +74,7 @@ namespace Storm.Binding.AndroidTarget.Configuration.Model
 			Namespaces = new List<string>();
 			Aliases = new List<AliasDescription>();
 			FileDescriptions = new List<FileBindingDescription>();
+			GlobalResourceFiles = new List<string>();
 		}
 	}
 }

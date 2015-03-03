@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Build.Utilities;
 using Storm.Binding.AndroidTarget.Helper;
 using Storm.Binding.AndroidTarget.Model;
 
@@ -63,6 +64,43 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 				element.Children.Remove(toRemoveChild);
 			}
 
+			return result;
+		}
+
+		public List<Resource> ExtractGlobalResources(XmlElement element)
+		{
+			List<Resource> result = new List<Resource>();
+			
+			if (ParsingHelper.IsResourceTag(element))
+			{
+				// parse content to get resources
+				foreach (XmlElement resourceElement in element.Children)
+				{
+					XmlAttribute keyAttribute = ParsingHelper.GetResourceKeyAttribute(resourceElement);
+					if (keyAttribute == null)
+					{
+						BindingPreprocess.Logger.LogError("You have a resource of type {0} with no key", string.IsNullOrWhiteSpace(resourceElement.NamespaceName) ? resourceElement.LocalName : string.Format("{0}:{1}", resourceElement.NamespaceName, resourceElement.LocalName));
+					}
+					else
+					{
+						Resource resource = new Resource(keyAttribute.Value)
+						{
+							ResourceElement = resourceElement,
+							Type = resourceElement.LocalName,
+						};
+						foreach (XmlAttribute attribute in resourceElement.Attributes.Where(x => !ParsingHelper.IsResourceKeyAttribute(x)))
+						{
+							resource.Properties.Add(attribute.LocalName, attribute.Value);
+						}
+						result.Add(resource);
+					}
+				}
+			}
+			else
+			{
+				throw new Exception("Global resource files which do not start with a resource tag");
+			}
+			
 			return result;
 		}
 

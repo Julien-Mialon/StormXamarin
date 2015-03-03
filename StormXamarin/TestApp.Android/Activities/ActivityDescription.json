@@ -1,5 +1,6 @@
 ﻿{
     "namespaces": [ "TestApp.Android" ],
+    "globalResourceFiles":   ["../Views/Resources.xml" ],
     "fileDescriptions": [
         {
             "activity": {

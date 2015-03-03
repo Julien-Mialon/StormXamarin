@@ -4,34 +4,6 @@
 			  android:orientation="vertical"
 			  android:layout_width="fill_parent"
 			  android:layout_height="fill_parent">
-	<Resources>
-		<conv:IntToColorConverter Key="IntToColorConverter" />
-		<conv:StringToUpperConverter Key="StringToUpperConverter" />
-		<conv:ToStringConverter Key="ToStringConverter" />
-		
-		<DataTemplate Key="SpinnerItemTemplate">
-			<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-						  android:orientation="horizontal"
-						  android:layout_width="fill_parent"
-						  android:layout_height="fill_parent">
-				
-				<TextView android:layout_width="wrap_content"
-						  android:layout_height="fill_parent"
-						  text="{Binding}"
-						  />
-				<TextView android:layout_width="wrap_content"
-						  android:layout_height="fill_parent"
-						  android:text=" / "
-						  />
-				<TextView android:layout_width="wrap_content"
-						  android:layout_height="fill_parent"
-						  text="{Binding}"
-						  />
-				
-			</LinearLayout>
-		</DataTemplate>
-	</Resources>
-	
 	<EditText android:layout_width="fill_parent"
 			  android:layout_height="60dp"
 			  android:text="{Binding InputText, Mode=TwoWay, UpdateEvent=TextChanged}"
@@ -83,6 +55,6 @@
 	<Spinner android:id="ComboBox"
 			 android:layout_width="120dp"
 			 android:layout_height="40dp"
-			 adapter="{Binding MyCollection, Template={Resource SpinnerItemTemplate}}"
+			 adapter="{Binding MyCollection, Template={Resource Main_SpinnerItemTemplate}}"
 			 />
 </LinearLayout>

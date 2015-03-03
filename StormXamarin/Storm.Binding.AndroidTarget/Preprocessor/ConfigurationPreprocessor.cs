@@ -32,6 +32,36 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 
 			DataTemplateProcessor dataTemplateProcessor = new DataTemplateProcessor(viewFileProcessor, viewFileWriter);
 
+			List<Resource> globalResources = new List<Resource>();
+			List<DataTemplateResource> globalDataTemplateResources = new List<DataTemplateResource>();
+			foreach (string resourceFile in configurationFile.GlobalResourceFiles)
+			{
+				string resourceRelativePath = PathHelper.GetRelativePath(resourceFile);
+
+				Log.LogMessage(MessageImportance.High, "\t# Preprocessing resource file {0}", resourceRelativePath);
+
+				List<Resource> resources = viewFileProcessor.ExtractGlobalResources(viewFileReader.Read(resourceFile));
+				List<DataTemplateResource> dataTemplatesResources = resources.Where(x => ParsingHelper.IsDataTemplateTag(x.ResourceElement)).Select(x => new DataTemplateResource(x)).ToList();
+				resources.RemoveAll(x => ParsingHelper.IsDataTemplateTag(x.ResourceElement));
+
+				//assign an id to all data template before processing it (could be loop or just unordered things)
+				string viewName = Path.GetFileNameWithoutExtension(resourceFile);
+				foreach (DataTemplateResource dataTemplate in dataTemplatesResources)
+				{
+					dataTemplate.ViewId = string.Format("G_{0}_DT_{1}", viewName, dataTemplate.Key);
+					dataTemplate.ViewHolderClassName = NameGeneratorHelper.GetViewHolderName();
+				}
+
+				globalResources.AddRange(resources);
+				globalDataTemplateResources.AddRange(dataTemplatesResources);
+			}
+			//process each data template
+			foreach (DataTemplateResource dataTemplate in globalDataTemplateResources)
+			{
+				dataTemplateProcessor.Process(dataTemplate, globalResources, globalDataTemplateResources, configurationFile);
+			}
+
+
 			foreach (FileBindingDescription fileBindingDescription in configurationFile.FileDescriptions)
 			{
 				string viewInputRelativePath = PathHelper.GetRelativePath(fileBindingDescription.View.InputFile);
@@ -63,17 +93,22 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 					dataTemplate.ViewHolderClassName = NameGeneratorHelper.GetViewHolderName();
 				}
 
+				List<Resource> totalResources = new List<Resource>(resources);
+				totalResources.AddRange(globalResources);
+				List<DataTemplateResource> totalDataTemplateResources = new List<DataTemplateResource>(dataTemplatesResources);
+				totalDataTemplateResources.AddRange(globalDataTemplateResources);
+
 				//process each data template
 				foreach (DataTemplateResource dataTemplate in dataTemplatesResources)
 				{
-					dataTemplateProcessor.Process(dataTemplate, resources, dataTemplatesResources, configurationFile);
+					dataTemplateProcessor.Process(dataTemplate, totalResources, totalDataTemplateResources, configurationFile);
 				}
 
 				string classOutputFile = fileBindingDescription.Activity.OutputFile;
 				string classOutputRelativePath = PathHelper.GetRelativePath(classOutputFile);
 
-				List<Resource> mergedResources = new List<Resource>(resources);
-				mergedResources.AddRange(dataTemplatesResources);
+				List<Resource> mergedResources = new List<Resource>(totalResources);
+				mergedResources.AddRange(totalDataTemplateResources);
 				AbstractBindingHandlerClassGenerator generator;
 				if (fileBindingDescription.Activity.IsFragment)
 				{
