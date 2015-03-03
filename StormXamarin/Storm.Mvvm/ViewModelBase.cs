@@ -10,12 +10,12 @@ namespace Storm.Mvvm
 	{
 		#region Fields
 
-		protected IContainer Container = null;
-		protected INavigationService NavigationService = null;
-		protected IDispatcherService DispatcherService = null;
-		protected ILoggerService LoggerService = null;
+		protected IContainer Container;
+		protected INavigationService NavigationService;
+		protected IDispatcherService DispatcherService;
+		protected ILoggerService LoggerService;
 
-		protected NavigationParametersContainer NavigationParameters = null;
+		protected NavigationParametersContainer NavigationParameters;
 
 		#endregion
 
@@ -49,7 +49,7 @@ namespace Storm.Mvvm
 			if (NavigationParameters != null)
 			{
 				//Process auto navigation parameters property
-				foreach (PropertyInfo property in this.GetType().GetRuntimeProperties().Where(x => x.GetCustomAttribute<NavigationParameterAttribute>(true) != null))
+				foreach (PropertyInfo property in GetType().GetRuntimeProperties().Where(x => x.GetCustomAttribute<NavigationParameterAttribute>(true) != null))
 				{
 					NavigationParameterAttribute attribute = property.GetCustomAttribute<NavigationParameterAttribute>(true);
 

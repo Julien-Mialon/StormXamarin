@@ -52,31 +52,86 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindingPreprocess.cs" />
-    <Compile Include="Data\ActivityInfo.cs" />
-    <Compile Include="Data\XmlElement.cs" />
-    <Compile Include="Data\XmlResource.cs" />
-    <Compile Include="Process\AbstractClassGenerator.cs" />
-    <Compile Include="Process\BindingExpression.cs" />
-    <Compile Include="Process\ClassGeneratorHelper.cs" />
-    <Compile Include="Process\IdViewObject.cs" />
-    <Compile Include="Process\InformationReader.cs" />
-    <Compile Include="Process\PartialActivityClassGenerator.cs" />
-    <Compile Include="Process\PartialClassGenerator.cs" />
-    <Compile Include="Process\PartialFragmentClassGenerator.cs" />
-    <Compile Include="Process\ResourceParser.cs" />
-    <Compile Include="Process\ViewFileProcessor.cs" />
-    <Compile Include="Process\ViewHolderClassGenerator.cs" />
-    <Compile Include="Process\ViewHolderFactoryGenerator.cs" />
+    <Compile Include="CodeGenerator\AbstractBindingHandlerClassGenerator.cs" />
+    <Compile Include="CodeGenerator\AbstractClassGenerator.cs" />
+    <Compile Include="CodeGenerator\ActivityGenerator.cs" />
+    <Compile Include="CodeGenerator\FragmentGenerator.cs" />
+    <Compile Include="CodeGenerator\Model\DependencyNode.cs" />
+    <Compile Include="CodeGenerator\Model\ExpressionContainer.cs" />
+    <Compile Include="CodeGenerator\ViewHolderGenerator.cs" />
+    <Compile Include="Compiler\BindingExpression.cs" />
+    <Compile Include="Compiler\CompileException.cs" />
+    <Compile Include="Compiler\Expression.cs" />
+    <Compile Include="Compiler\ExpressionFactory.cs" />
+    <Compile Include="Compiler\ModeExpression.cs" />
+    <Compile Include="Compiler\ExpressionType.cs" />
+    <Compile Include="Compiler\ResourceExpression.cs" />
+    <Compile Include="Compiler\TextExpression.cs" />
+    <Compile Include="Compiler\TranslationExpression.cs" />
+    <Compile Include="Configuration\DefaultConfiguration.cs" />
+    <Compile Include="Configuration\ConfigurationReader.cs" />
+    <Compile Include="Configuration\Model\ActivityDescription.cs" />
+    <Compile Include="Configuration\Model\FileBindingDescription.cs" />
+    <Compile Include="Configuration\Model\ConfigurationFile.cs" />
+    <Compile Include="Configuration\Model\FragmentDescription.cs" />
+    <Compile Include="Configuration\Model\AliasDescription.cs" />
+    <Compile Include="Configuration\Model\ViewDescription.cs" />
+    <Compile Include="Helper\CodeGeneratorHelper.cs" />
+    <Compile Include="Helper\NameGeneratorHelper.cs" />
+    <Compile Include="Helper\ParsingHelper.cs" />
+    <Compile Include="Helper\PathHelper.cs" />
+    <Compile Include="Model\BindingMode.cs" />
+    <Compile Include="Model\ResourcePart.cs" />
+    <Compile Include="Model\DataTemplateResource.cs" />
+    <Compile Include="Model\XmlAttribute.cs" />
+    <Compile Include="Model\XmlElement.cs" />
+    <Compile Include="Model\Resource.cs" />
+    <Compile Include="Compiler\Internal\GplexBuffers.cs" />
+    <Compile Include="Preprocessor\ConfigurationPreprocessor.cs" />
+    <Compile Include="Preprocessor\DataTemplateProcessor.cs" />
+    <Compile Include="Preprocessor\ViewFileReader.cs" />
+    <Compile Include="Preprocessor\ViewFileWriter.cs" />
+    <Compile Include="Model\IdViewObject.cs" />
+    <Compile Include="Preprocessor\ViewFileProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReswToStrings.cs" />
-    <Compile Include="Res\DefaultComponents.cs" />
+    <Compile Include="Compiler\Internal\ShiftReduceParserCode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\nuget_build\Storm.Mvvm.Android\build\Storm.Mvvm.Android.targets">
       <Link>Storm.Mvvm.Android.targets</Link>
     </None>
+    <None Include="..\nuget_build\Storm.Mvvm.Android\content\ActivityDescription.json">
+      <Link>ActivityDescription.json</Link>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup Label="BindingLanguageFiles">
+    <Compile Include="Compiler\BindingLanguage.Parser.cs">
+      <DependentUpon>BindingLanguage.parser</DependentUpon>
+    </Compile>
+    <Compile Include="Compiler\BindingLanguage.Parser.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BindingLanguage.Language.grammar.y</DependentUpon>
+    </Compile>
+    <Compile Include="Compiler\BindingLanguage.Scanner.cs">
+      <DependentUpon>BindingLanguage.parser</DependentUpon>
+    </Compile>
+    <Compile Include="Compiler\BindingLanguage.Scanner.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BindingLanguage.Language.analyzer.lex</DependentUpon>
+    </Compile>
+    <None Include="Compiler\BindingLanguage.Language.analyzer.lex">
+      <DependentUpon>BindingLanguage.parser</DependentUpon>
+    </None>
+    <None Include="Compiler\BindingLanguage.Language.grammar.y">
+      <DependentUpon>BindingLanguage.parser</DependentUpon>
+    </None>
+    <None Include="Compiler\BindingLanguage.parser" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>echo "Copy dll file"
@@ -85,12 +140,35 @@ echo "Copy dependency file"
 copy $(TargetDir)Newtonsoft.json.dll $(ProjectDir)..\nuget_build\Storm.Mvvm.Android\tools\
 </PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup Label="YltParsers">
+    <Names>BindingLanguage</Names>
+  </PropertyGroup>
+  <PropertyGroup Label="YltProperties">
+    <YltTools>$(SolutionDir)packages\YaccLexTools.0.2.2\tools\</YltTools>
+    <GplexTool>"$(YltTools)gplex.exe"</GplexTool>
+    <GppgTool>"$(YltTools)gppg.exe"</GppgTool>
+  </PropertyGroup>
+  <PropertyGroup Label="GenerateBindingLanguageProperties">
+    <BindingLanguageParser>$(ProjectDir)\Compiler\BindingLanguage</BindingLanguageParser>
+  </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <Target Name="BeforeBuild" DependsOnTargets="YltBuildGen" />
+  <Target Name="YltBuildGen" DependsOnTargets="GenerateBindingLanguage" />
+  <Target Name="GenerateBindingLanguage" Inputs="$(BindingLanguageParser).Language.analyzer.lex;$(BindingLanguageParser).Language.grammar.y" Outputs="$(BindingLanguageParser).Scanner.Generated.cs;$(BindingLanguageParser).Parser.Generated.cs">
+    <Message Text="Generating scanner for $(BindingLanguageParser) ..." />
+    <Exec Command="$(GplexTool) &quot;/out:$(BindingLanguageParser).Scanner.Generated.cs&quot; &quot;$(BindingLanguageParser).Language.analyzer.lex&quot;" WorkingDirectory="$(ProjectDir)" Outputs="$(GenDir)Scanner.cs">
+      <Output TaskParameter="Outputs" ItemName="BindingLanguageScanner" />
+    </Exec>
+    <Message Text="Generating parser for $(BindingLanguageParser) ..." />
+    <Exec Command="$(GppgTool) /no-lines /gplex &quot;$(BindingLanguageParser).Language.grammar.y&quot; &gt; &quot;$(BindingLanguageParser).Parser.Generated.cs&quot;" WorkingDirectory="$(ProjectDir)" Outputs="$(BindingLanguageParser).Parser.Generated.cs">
+      <Output TaskParameter="Outputs" ItemName="BindingLanguage" />
+    </Exec>
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

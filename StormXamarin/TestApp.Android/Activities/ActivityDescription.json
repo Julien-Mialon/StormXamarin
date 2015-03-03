@@ -1,15 +1,8 @@
 ﻿{
-    "namespaces": [ "Storm.Mvvm", "TestApp.Android" ],
-    "components": [
-        {
-            "key": "BindableAdapter",
-            "value": "Storm.Mvvm.Components.BindableAdapter"
-        }
-    ],
-    "list": [
+    "namespaces": [ "TestApp.Android" ],
+    "fileDescriptions": [
         {
             "activity": {
-                "outputFile": "MainActivity.ui.cs",
                 "namespaceName": "TestApp.Android.Activities",
                 "className": "MainActivity"
             },
@@ -20,7 +13,6 @@
         },
         {
             "activity": {
-                "outputFile": "SecondActivity.ui.cs",
                 "className": "SecondActivity",
                 "namespaceName": "TestApp.Android.Activities"
             },
@@ -31,7 +23,6 @@
         },
         {
             "fragment": {
-                "outputFile": "MainFragment.ui.cs",
                 "className": "MainFragment",
                 "namespaceName": "TestApp.Android.Activities"
             },
@@ -42,7 +33,6 @@
         },
         {
             "activity": {
-                "outputFile": "AdapterActivity.ui.cs",
                 "className": "AdapterActivity",
                 "namespaceName": "TestApp.Android.Activities"
             },

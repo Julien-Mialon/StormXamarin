@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  xmlns:conv="using:TestApp.Android.Converters"
 			  android:orientation="vertical"
 			  android:layout_width="fill_parent"
 			  android:layout_height="fill_parent">
 	<Resources>
-    	<Converter Key="StringToUpperConverter" Class="TestApp.Android.Converters.StringToUpperConverter" />
-		<Converter Key="IntToColorConverter" Class="TestApp.Android.Converters.IntToColorConverter" />
-		<Converter Key="ToStringConverter" Class="TestApp.Android.Converters.ToStringConverter" />
-
+		<conv:IntToColorConverter Key="IntToColorConverter" />
+		<conv:StringToUpperConverter Key="StringToUpperConverter" />
+		<conv:ToStringConverter Key="ToStringConverter" />
+		
 		<DataTemplate Key="SpinnerItemTemplate">
 			<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 						  android:orientation="horizontal"
@@ -29,12 +30,6 @@
 				
 			</LinearLayout>
 		</DataTemplate>
-
-		<ViewSelector Key="SpinnerAdapter"
-					  Class="Storm.Mvvm.ViewSelectors.SimpleViewSelector"
-					  View="{Resource SpinnerItemTemplate}"
-					  />
-
 	</Resources>
 	
 	<EditText android:layout_width="fill_parent"
@@ -88,6 +83,6 @@
 	<Spinner android:id="ComboBox"
 			 android:layout_width="120dp"
 			 android:layout_height="40dp"
-			 adapter="{Binding MyCollection, ViewSelector={Resource SpinnerAdapter}}"
+			 adapter="{Binding MyCollection, Template={Resource SpinnerItemTemplate}}"
 			 />
 </LinearLayout>

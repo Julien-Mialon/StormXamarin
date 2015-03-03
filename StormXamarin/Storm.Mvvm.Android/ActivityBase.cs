@@ -13,7 +13,8 @@ namespace Storm.Mvvm
 	{
 		protected ViewModelBase ViewModel { get; private set; }
 
-		protected Dictionary<int, List<BindingObject>> AdapterBindings { get; private set; } 
+		//TODO : check if really needed
+		protected Dictionary<int, List<BindingObject>> AdapterBindings { get; private set; }
 
 		private ActivityState _activityState = ActivityState.Uninitialized;
 		private string _parametersKey;
@@ -41,6 +42,7 @@ namespace Storm.Mvvm
 			return new List<BindingObject>();
 		}
 
+		//TODO : check if needed 
 		public List<BindingObject> GetBindingsForAdapters(int viewId)
 		{
 			return AdapterBindings.ContainsKey(viewId) ? AdapterBindings[viewId] : new List<BindingObject>();
@@ -113,6 +115,7 @@ namespace Storm.Mvvm
 			}
 
 			storage = value;
+			// ReSharper disable once ExplicitCallerInfoArgument : need it here
 			RaisePropertyChanged(propertyName);
 
 			return true;

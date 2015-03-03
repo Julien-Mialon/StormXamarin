@@ -7,9 +7,11 @@ using System.Xml.Linq;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 
-
 namespace Storm.Binding.AndroidTarget
 {
+	/// <summary>
+	/// Standalone tasks which help to transform Resw file to Strings.xml for Android.
+	/// </summary>
 	public class ReswToStrings : Task
 	{
 		[Required]

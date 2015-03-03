@@ -67,6 +67,7 @@ namespace Storm.Mvvm
 			}
 
 			storage = value;
+			// ReSharper disable once ExplicitCallerInfoArgument : need it here
 			RaisePropertyChanged(propertyName);
 
 			return true;
