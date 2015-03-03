@@ -11,5 +11,9 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator.Model
 		public string TargetField { get; set; }
 
 		public bool IsTargetingResource { get; set; }
+
+		public string CommandParameterTarget { get; set; }
+
+		public bool IsCommandParameterExpression { get; set; }
 	}
 }

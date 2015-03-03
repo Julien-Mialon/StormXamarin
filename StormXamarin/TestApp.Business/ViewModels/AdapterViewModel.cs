@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Storm.Mvvm;
 using Storm.Mvvm.Commands;
@@ -43,8 +38,8 @@ namespace TestApp.Business.ViewModels
 	public class AdapterViewModel : ViewModelBase
 	{
 		private ObservableCollection<ListItemModel> _myCollection = new ObservableCollection<ListItemModel>();
-		private ListItemModel _selectedItem = null;
-		private string _inputText = null;
+		private ListItemModel _selectedItem;
+		private string _inputText;
 
 		public string InputText
 		{
@@ -68,13 +63,11 @@ namespace TestApp.Business.ViewModels
 
 		public AdapterViewModel(IContainer container) : base(container)
 		{
-			//TODO : to use when CommandParameter works again
-			//AddCommand = new DelegateCommand<string>(AddAction);
+			AddCommand = new DelegateCommand<string>(AddAction);
 
-			AddCommand = new DelegateCommand(AddAction);
 
 			int n = 1;
-			foreach (string s in new string[] {"Alpha", "Beta", "Omega"})
+			foreach (string s in new[] {"Alpha", "Beta", "Omega"})
 			{
 				MyCollection.Add(new ListItemModel(n++, s));
 			}
@@ -89,11 +82,6 @@ namespace TestApp.Business.ViewModels
 			}
 			MyCollection.Add(new ListItemModel(42, input));
 			InputText = "";
-		}
-
-		private void AddAction()
-		{
-			AddAction(InputText);
 		}
 	}
 }

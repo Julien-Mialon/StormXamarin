@@ -121,6 +121,12 @@ namespace Storm.Binding.AndroidTarget.Helper
 			return new CodeMethodReferenceExpression(new CodeThisReferenceExpression(), method.Name);
 		}
 
+
+		public static Tuple<CodeMemberField, CodeMemberProperty> GenerateProxyProperty(string propertyName, string propertyType)
+		{
+			return GenerateProxyProperty(propertyName, propertyType, new CodeObjectCreateExpression(GetTypeReferenceFromName(propertyType)));
+		}
+
 		public static Tuple<CodeMemberField, CodeMemberProperty> GenerateProxyProperty(string propertyName, string propertyType, CodeExpression rightAssignExpression)
 		{
 			CodeMemberField field = GenerateField(propertyType);

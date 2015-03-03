@@ -2,6 +2,7 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.Build.Utilities;
 using Storm.Binding.AndroidTarget.CodeGenerator.Model;
 using Storm.Binding.AndroidTarget.Compiler;
@@ -196,7 +197,8 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 
 			// Create all properties for resources
 			Dictionary<string, CodePropertyReferenceExpression> resourceReferences = CreatePropertiesForResources(neededResource.Values);
-
+			// Generate all properties to handle CommandParameter and retarget all expressions if needed
+			GenerateCommandParameterProperties(expressions);
 
 			// Create a setup resources method to initalize resources with all {Resource ...} and {Translation ...} expressions
 			List<ExpressionContainer> translationExpressions = expressions.Where(x => x.Expression.IsOfType(ExpressionType.Translation)).ToList();
@@ -337,6 +339,12 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 						}
 					}
 
+					if (!string.IsNullOrWhiteSpace(expressionContainer.CommandParameterTarget))
+					{
+						method.Statements.Add(new CodeAssignStatement(new CodePropertyReferenceExpression(expressionReference, "CommandParameter"),
+							CodeGeneratorHelper.GetPropertyReference(expressionContainer.CommandParameterTarget)));
+					}
+
 					method.Statements.Add(new CodeMethodInvokeExpression(objectReference, "AddExpression", expressionReference));
 				}
 			}
@@ -449,6 +457,66 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 
 			Methods.Add(method);
 			return CodeGeneratorHelper.GetMethodReference(method);
+		}
+
+		private void GenerateCommandParameterProperties(List<ExpressionContainer> expressionContainers)
+		{
+			foreach (IGrouping<string, ExpressionContainer> expressions in expressionContainers.GroupBy(x => x.TargetObject))
+			{
+				const string attributeName = "CommandParameter";
+				Regex commandParameterEventRegex = new Regex("^(?<eventName>[a-zA-Z0-9_]+)\\." + attributeName, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+				List<ExpressionContainer> commandParameterEventExpressions = expressions.Where(x => commandParameterEventRegex.IsMatch(x.TargetField)).ToList();
+				ExpressionContainer commandParameterExpression = expressions.SingleOrDefault(x => attributeName.Equals(x.TargetField, StringComparison.InvariantCultureIgnoreCase));
+
+				commandParameterEventExpressions.ForEach(x => x.IsCommandParameterExpression = true);
+				if (commandParameterExpression != null)
+				{
+					commandParameterExpression.IsCommandParameterExpression = true;
+				}
+
+				foreach (ExpressionContainer expression in commandParameterEventExpressions)
+				{
+					//find associated event (if exists)
+					string eventName = commandParameterEventRegex.Match(expression.TargetField).Groups["eventName"].Value;
+					ExpressionContainer associatedExpression = expressions.FirstOrDefault(x => eventName.Equals(x.TargetField, StringComparison.InvariantCultureIgnoreCase) && !x.IsCommandParameterExpression);
+					if (associatedExpression != null)
+					{
+						// create proxy property CommandParameterProxy to handle this
+						var result = CodeGeneratorHelper.GenerateProxyProperty(NameGeneratorHelper.GetCommandParameterName(), "CommandParameterProxy");
+
+						Properties.Add(result.Item2);
+						Fields.Add(result.Item1);
+
+						string propertyName = CodeGeneratorHelper.GetPropertyReference(result.Item2).PropertyName;
+
+						// retarget the binding expression to this new property and to the Value field
+						expression.TargetObject = propertyName;
+						expression.TargetField = "Value";
+
+						associatedExpression.CommandParameterTarget = propertyName;
+					}
+				}
+
+				if (commandParameterExpression != null)
+				{
+					// create proxy property CommandParameterProxy to handle this
+					var result = CodeGeneratorHelper.GenerateProxyProperty(NameGeneratorHelper.GetCommandParameterName(), "CommandParameterProxy");
+
+					Properties.Add(result.Item2);
+					Fields.Add(result.Item1);
+
+					string propertyName = CodeGeneratorHelper.GetPropertyReference(result.Item2).PropertyName;
+
+					// retarget the binding expression to this new property and to the Value field
+					commandParameterExpression.TargetObject = propertyName;
+					commandParameterExpression.TargetField = "Value";
+
+					foreach(ExpressionContainer associatedExpression in expressions.Where(x => string.IsNullOrEmpty(x.CommandParameterTarget) && !x.IsCommandParameterExpression))
+					{
+						associatedExpression.CommandParameterTarget = propertyName;
+					}
+				}
+			}
 		}
 
 		private CodeStatement SetValueStatement(CodeExpression targetReference, string propertyTargetName, CodeExpression assignExpression)
