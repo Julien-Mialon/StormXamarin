@@ -85,20 +85,24 @@
   </ItemGroup>
   <ItemGroup>
     <BindingProcess Include="Activities\ActivityDescription.json" />
+    <ReswFile Include="..\TestApp.Resources\fr\Resources.resw">
+      <Link>Resources\values-fr\Resources.resw</Link>
+    </ReswFile>
+    <ReswFile Include="..\TestApp.Resources\en\Resources.resw">
+      <Link>Resources\values\Resources.resw</Link>
+    </ReswFile>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\AndroidManifest.xml" />
-    <AndroidResource Include="Resources\values-en\Strings.xml" />
-    <AndroidResource Include="Resources\values-fr\Strings.xml" />
     <Content Include="Views\Adapter.xml" />
+    <None Include="Views\Resources.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\MainFragment.xml">
       <SubType>Designer</SubType>
     </None>

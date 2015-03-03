@@ -6,9 +6,9 @@ using Storm.Mvvm.Interfaces;
 
 namespace Storm.Mvvm
 {
-	public class BindableAdapter : BaseAdapter<object>, ISearchableAdapter
+	public class BindableAdapter : BaseAdapter<object>, IMvvmAdapter, ISearchableAdapter
 	{
-		private readonly IViewSelector _viewSelector;
+		private ITemplateSelector _templateSelector;
 		private IList _collection;
 
 		public object Collection
@@ -16,7 +16,7 @@ namespace Storm.Mvvm
 			get { return _collection; }
 			set
 			{
-				if (!Equals(_collection, value))
+				if (!object.Equals(_collection, value))
 				{
 					Unregister(_collection);
 					_collection = value as IList;
@@ -26,9 +26,17 @@ namespace Storm.Mvvm
 			}
 		}
 
-		public BindableAdapter(IViewSelector viewSelector)
+		public ITemplateSelector TemplateSelector
 		{
-			_viewSelector = viewSelector;
+			get { return _templateSelector; }
+			set
+			{
+				if (!object.Equals(_templateSelector, value))
+				{
+					_templateSelector = value;
+					NotifyDataChanged();
+				}
+			}
 		}
 
 		public override object this[int position]
@@ -43,7 +51,7 @@ namespace Storm.Mvvm
 
 		public override View GetView(int position, View convertView, ViewGroup parent)
 		{
-			return _viewSelector.GetView(this[position], parent, convertView);
+			return TemplateSelector.GetView(this[position], parent, convertView);
 		}
 
 		public override int Count
@@ -61,18 +69,18 @@ namespace Storm.Mvvm
 
 		private void Unregister(object collection)
 		{
-			if (collection is INotifyCollectionChanged)
+			INotifyCollectionChanged observable = collection as INotifyCollectionChanged;
+			if (observable != null)
 			{
-				INotifyCollectionChanged observable = collection as INotifyCollectionChanged;
 				observable.CollectionChanged -= OnCollectionChanged;
 			}
 		}
 
 		private void Register(object collection)
 		{
-			if (collection is INotifyCollectionChanged)
+			INotifyCollectionChanged observable = collection as INotifyCollectionChanged;
+			if (observable != null)
 			{
-				INotifyCollectionChanged observable = collection as INotifyCollectionChanged;
 				observable.CollectionChanged += OnCollectionChanged;
 			}
 		}
@@ -84,7 +92,10 @@ namespace Storm.Mvvm
 
 		private void NotifyDataChanged()
 		{
-			NotifyDataSetChanged();
+			if (TemplateSelector != null)
+			{
+				NotifyDataSetChanged();
+			}
 		}
 	}
 }

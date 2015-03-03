@@ -39,6 +39,7 @@
     <Compile Include="Commands\AbstractCommand.cs" />
     <Compile Include="Events\ValueChangedEventArgs.cs" />
     <Compile Include="Events\ValueChangingEventArgs.cs" />
+    <Compile Include="Inject\DependencyService.cs" />
     <Compile Include="Inject\IInjectionFactory.cs" />
     <Compile Include="Inject\InjectionFactory.cs" />
     <Compile Include="Inject\ContainerBase.cs" />
