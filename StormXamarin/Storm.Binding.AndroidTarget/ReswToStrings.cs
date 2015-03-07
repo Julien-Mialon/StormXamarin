@@ -71,9 +71,10 @@ namespace Storm.Binding.AndroidTarget
 			foreach (var pair in items)
 			{
 				XmlNode elementNode = document.CreateElement("string");
-				elementNode.InnerText = pair.Item2;
+				elementNode.InnerText = processValue(pair.Item2);
 				XmlAttribute attributeName = document.CreateAttribute("name");
 				attributeName.Value = pair.Item1;
+				// ReSharper disable once PossibleNullReferenceException
 				elementNode.Attributes.Append(attributeName);
 
 				rootNode.AppendChild(elementNode);
@@ -81,6 +82,11 @@ namespace Storm.Binding.AndroidTarget
 
 
 			document.Save(outputFile);
+		}
+
+		private string processValue(string value)
+		{
+			return value.Replace("'", "\\'");
 		}
 	}
 }
