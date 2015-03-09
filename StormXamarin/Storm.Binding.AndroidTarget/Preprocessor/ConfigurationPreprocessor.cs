@@ -145,7 +145,28 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 
 			ClassFiles.AddRange(dataTemplateProcessor.ClassFiles);
 			ResourceFiles.AddRange(dataTemplateProcessor.ResourceFiles);
+
+			CreateDummyClass(configurationFile);
 		}
 
+		public void CreateDummyClass(ConfigurationFile file)
+		{
+			string className = NameGeneratorHelper.GetDummyClassName();
+			string namespaceName = file.GeneratedNamespace;
+
+			EmptyGenerator generator = new EmptyGenerator
+			{
+				ClassName = className,
+				IsPartialClass = false,
+				NamespaceName = namespaceName,
+				BaseClassType = null,
+				Configuration = file,
+			};
+			string outputFile = Path.Combine(file.ClassLocation, string.Format("{0}.{1}.cs", namespaceName, className));
+			string outputFileRelativePath = PathHelper.GetRelativePath(outputFile);
+			generator.Generate(outputFile);
+
+			ClassFiles.Add(outputFileRelativePath);
+		}
 	}
 }

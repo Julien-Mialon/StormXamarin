@@ -99,7 +99,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\AndroidManifest.xml" />
-    <Content Include="Views\Adapter.xml" />
+    <Content Include="Views\Adapter.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Views\Resources.xml">
       <SubType>Designer</SubType>
     </None>
