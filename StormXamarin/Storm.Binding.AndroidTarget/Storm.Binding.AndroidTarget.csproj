@@ -55,6 +55,7 @@
     <Compile Include="CodeGenerator\AbstractBindingHandlerClassGenerator.cs" />
     <Compile Include="CodeGenerator\AbstractClassGenerator.cs" />
     <Compile Include="CodeGenerator\ActivityGenerator.cs" />
+    <Compile Include="CodeGenerator\EmptyGenerator.cs" />
     <Compile Include="CodeGenerator\FragmentGenerator.cs" />
     <Compile Include="CodeGenerator\Model\DependencyNode.cs" />
     <Compile Include="CodeGenerator\Model\ExpressionContainer.cs" />

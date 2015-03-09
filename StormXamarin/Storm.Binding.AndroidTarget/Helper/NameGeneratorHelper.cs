@@ -1,4 +1,6 @@
-﻿namespace Storm.Binding.AndroidTarget.Helper
+﻿using System;
+
+namespace Storm.Binding.AndroidTarget.Helper
 {
 	public static class NameGeneratorHelper
 	{
@@ -15,6 +17,7 @@
 		private const string COMMAND_PARAMETER_FORMAT = "Generated_CommandParameter_{0}";
 		private const string OBJECT_FORMAT = "generated_bindingObject_{0}";
 		private const string EXPRESSION_FORMAT = "generated_bindingExpression_{0}";
+		public const string DUMMY_CLASS_NAME_FORMAT = "Generated_DummyEmptyClass_{0}";
 		
 		public const string LOCALIZATION_SERVICE_PROPERTY_NAME = "Generated_LocalizationService";
 
@@ -65,6 +68,11 @@
 		public static string GetBindingExpressionName()
 		{
 			return string.Format(EXPRESSION_FORMAT, _expressionCounter++);
+		}
+
+		public static string GetDummyClassName()
+		{
+			return string.Format(DUMMY_CLASS_NAME_FORMAT, DateTime.Now.Ticks);
 		}
 	}
 }
