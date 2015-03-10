@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Resources xmlns:conv="using:TestApp.Android.Converters">
+<Resources xmlns:conv="using:TestApp.Android.Converters"
+		   xmlns:plop="http://schemas.android.com/apk/res/android">
 	<conv:IntToColorConverter Key="IntToColorConverter" />
 	<conv:StringToUpperConverter Key="StringToUpperConverter" />
 	<conv:ToStringConverter Key="ToStringConverter" />
@@ -25,5 +26,10 @@
 
 		</LinearLayout>
 	</DataTemplate>
+	
+	<Style Key="GlobalFillWrap"
+		   plop:layout_width="fill_parent"
+		   plop:layout_height="wrap_content"
+		   />
 </Resources>
 	

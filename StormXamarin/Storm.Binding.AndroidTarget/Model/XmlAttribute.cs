@@ -8,6 +8,8 @@ namespace Storm.Binding.AndroidTarget.Model
 
 		public string Value { get; set; }
 
+		public string NamespaceUri { get; set; }
+
 		public string LocalName
 		{
 			get

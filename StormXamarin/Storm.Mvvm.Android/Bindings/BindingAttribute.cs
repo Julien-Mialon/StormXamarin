@@ -3,7 +3,7 @@ using System.Windows.Data;
 
 namespace Storm.Mvvm.Bindings
 {
-	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Event, Inherited = true, AllowMultiple = false)]
+	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Event)]
 	public sealed class BindingAttribute : Attribute
 	{
 		public string Path { get; set; }

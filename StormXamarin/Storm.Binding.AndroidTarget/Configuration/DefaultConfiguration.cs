@@ -13,6 +13,10 @@ namespace Storm.Binding.AndroidTarget.Configuration
 
 		public static IEnumerable<string> CustomAttribute { get; private set; }
 
+		public static IEnumerable<string> XmlOnlyAttributes { get; private set; }
+
+		public static string XmlStyleAttribute { get; private set; }
+
 		public static string ClassLocation { get; private set; }
 
 		public static string ResourceLocation { get; private set; }
@@ -59,6 +63,12 @@ namespace Storm.Binding.AndroidTarget.Configuration
 			CustomAttribute = new List<string>
 			{
 				"CommandParameter",
+			};
+
+			XmlStyleAttribute = "XmlStyle";
+			XmlOnlyAttributes = new List<string>
+			{
+				XmlStyleAttribute,
 			};
 
 			GeneratedNamespace = "Storm.Generated";

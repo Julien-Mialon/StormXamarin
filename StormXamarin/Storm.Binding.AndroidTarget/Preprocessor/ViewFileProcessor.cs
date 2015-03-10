@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Build.Utilities;
 using Storm.Binding.AndroidTarget.Helper;
 using Storm.Binding.AndroidTarget.Model;
 
@@ -118,6 +117,11 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 			
 			foreach (XmlAttribute attribute in element.Attributes)
 			{
+				if (ParsingHelper.IsXmlOnlyAttribute(attribute))
+				{
+					continue;
+				}
+
 				if (ParsingHelper.IsIdAttribute(attribute))
 				{
 					if (id != null)
@@ -129,7 +133,7 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 					// add @+id/ to use auto declare mechanism in Android
 					attribute.Value = "@+id/" + id;
 
-					//TODO : check why isFragment ?? (Could it be because of the type of Fragment is not View ?)
+					//check isFragment cause we will do a findViewById next and it will not works
 					if (!isFragment)
 					{
 						viewsId.Add(new IdViewObject(element.LocalName, id));
@@ -151,10 +155,11 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 				id = NameGeneratorHelper.GetViewId();
 				attribute.Value = "@+id/" + id;
 				attribute.FullName = "android:id";
+				attribute.NamespaceUri = "http://schemas.android.com/apk/res/android";
 
 				element.Attributes.Add(attribute);
 
-				//TODO : check why isFragment ?? (Could it be because of the type of Fragment is not View ?)
+				//check isFragment cause we will do a findViewById next and it will not works
 				if (!isFragment)
 				{
 					viewsId.Add(new IdViewObject(element.LocalName, id));
