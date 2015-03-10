@@ -84,6 +84,7 @@
     <Compile Include="Model\BindingMode.cs" />
     <Compile Include="Model\ResourcePart.cs" />
     <Compile Include="Model\DataTemplateResource.cs" />
+    <Compile Include="Model\StyleResource.cs" />
     <Compile Include="Model\XmlAttribute.cs" />
     <Compile Include="Model\XmlElement.cs" />
     <Compile Include="Model\Resource.cs" />

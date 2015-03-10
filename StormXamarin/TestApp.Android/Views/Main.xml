@@ -4,18 +4,24 @@
 			  android:orientation="vertical"
 			  android:layout_width="fill_parent"
 			  android:layout_height="fill_parent">
+	<Resources>
+		<Style Key="FillWrap"
+			   android:layout_width="fill_parent"
+			   android:layout_height="wrap_content"
+			   />
+	</Resources>
+	
+	
 	<EditText android:layout_width="fill_parent"
 			  android:layout_height="60dp"
 			  android:text="{Binding InputText, Mode=TwoWay, UpdateEvent=TextChanged}"
 			  />
 	
-	<Button android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
+	<Button XmlStyle="{Resource FillWrap}"
 			android:text="{Binding ButtonText, Converter={Resource StringToUpperConverter}, ConverterParameter='True', Mode=OneWay}"
 			click="{Binding ButtonCommand}" />
 	
-	<Button android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
+	<Button XmlStyle="{Resource GlobalFillWrap}"
 			android:text="{Binding PushText}"
 			click="{Binding PushAlertCommand}"
 			/>
