@@ -33,6 +33,7 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 			DataTemplateProcessor dataTemplateProcessor = new DataTemplateProcessor(viewFileProcessor, viewFileWriter);
 
 			List<Resource> globalResources = new List<Resource>();
+			List<StyleResource> globalStyleResources = new List<StyleResource>();
 			List<DataTemplateResource> globalDataTemplateResources = new List<DataTemplateResource>();
 			foreach (string resourceFile in configurationFile.GlobalResourceFiles)
 			{
@@ -41,6 +42,8 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 				Log.LogMessage(MessageImportance.High, "\t# Preprocessing resource file {0}", resourceRelativePath);
 
 				List<Resource> resources = viewFileProcessor.ExtractGlobalResources(viewFileReader.Read(resourceFile));
+				List<StyleResource> styleResources = resources.Where(x => ParsingHelper.IsStyleTag(x.ResourceElement)).Select(x => new StyleResource(x)).ToList();
+				resources.RemoveAll(x => ParsingHelper.IsStyleTag(x.ResourceElement));
 				List<DataTemplateResource> dataTemplatesResources = resources.Where(x => ParsingHelper.IsDataTemplateTag(x.ResourceElement)).Select(x => new DataTemplateResource(x)).ToList();
 				resources.RemoveAll(x => ParsingHelper.IsDataTemplateTag(x.ResourceElement));
 
@@ -53,12 +56,13 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 				}
 
 				globalResources.AddRange(resources);
+				globalStyleResources.AddRange(styleResources);
 				globalDataTemplateResources.AddRange(dataTemplatesResources);
 			}
 			//process each data template
 			foreach (DataTemplateResource dataTemplate in globalDataTemplateResources)
 			{
-				dataTemplateProcessor.Process(dataTemplate, globalResources, globalDataTemplateResources, configurationFile);
+				dataTemplateProcessor.Process(dataTemplate, globalResources, globalStyleResources, globalDataTemplateResources, configurationFile);
 			}
 
 
@@ -75,15 +79,22 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 				List<IdViewObject> viewObjects = expressionParsingResult.Item2;
 				List<XmlAttribute> expressionAttributes = expressionParsingResult.Item1;
 				List<Resource> resources = viewFileProcessor.ExtractResources(rootViewElement);
-
-				//Write the view file for Android (axml format)
-				Log.LogMessage(MessageImportance.High, "\t\t Generating view file {0}", viewOutputRelativePath);
-				viewFileWriter.Write(rootViewElement, fileBindingDescription.View.OutputFile);
-				ResourceFiles.Add(viewOutputRelativePath);
-
 				//filter resources for DataTemplate
 				List<DataTemplateResource> dataTemplatesResources = resources.Where(x => ParsingHelper.IsDataTemplateTag(x.ResourceElement)).Select(x => new DataTemplateResource(x)).ToList();
 				resources.RemoveAll(x => ParsingHelper.IsDataTemplateTag(x.ResourceElement));
+				//filter resources for Style
+				List<StyleResource> styleResources = resources.Where(x => ParsingHelper.IsStyleTag(x.ResourceElement)).Select(x => new StyleResource(x)).ToList();
+				resources.RemoveAll(x => ParsingHelper.IsStyleTag(x.ResourceElement));
+
+
+				List<StyleResource> totalStyleResources = new List<StyleResource>(styleResources);
+				totalStyleResources.AddRange(globalStyleResources);
+
+				//Write the view file for Android (axml format)
+				Log.LogMessage(MessageImportance.High, "\t\t Generating view file {0}", viewOutputRelativePath);
+				viewFileWriter.Write(rootViewElement, fileBindingDescription.View.OutputFile, totalStyleResources);
+				ResourceFiles.Add(viewOutputRelativePath);
+
 
 				//assign an id to all data template before processing it (could be loop or just unordered things)
 				string viewName = Path.GetFileNameWithoutExtension(fileBindingDescription.View.OutputFile);
@@ -101,7 +112,7 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 				//process each data template
 				foreach (DataTemplateResource dataTemplate in dataTemplatesResources)
 				{
-					dataTemplateProcessor.Process(dataTemplate, totalResources, totalDataTemplateResources, configurationFile);
+					dataTemplateProcessor.Process(dataTemplate, totalResources, totalStyleResources, totalDataTemplateResources, configurationFile);
 				}
 
 				string classOutputFile = fileBindingDescription.Activity.OutputFile;

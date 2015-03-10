@@ -1,6 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml;
+using Storm.Binding.AndroidTarget.Compiler;
+using Storm.Binding.AndroidTarget.Helper;
+using Storm.Binding.AndroidTarget.Model;
 using XmlAttribute = Storm.Binding.AndroidTarget.Model.XmlAttribute;
 using XmlElement = Storm.Binding.AndroidTarget.Model.XmlElement;
 
@@ -10,7 +15,7 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 	{
 		private readonly Dictionary<string, string> _nsDictionary = new Dictionary<string, string>();
 
-		public void Write(XmlElement root, string outputFile)
+		public void Write(XmlElement root, string outputFile, List<StyleResource> styleResources)
 		{
 			XmlWriterSettings settings = new XmlWriterSettings
 			{
@@ -25,47 +30,91 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 			{
 				writer.WriteStartDocument();
 
-				WriteElement(writer, root);
+				WriteElement(writer, root, styleResources);
 
 				writer.WriteEndDocument();
 			}
 		}
 
-		private void WriteElement(XmlWriter writer, XmlElement element)
+		private void WriteElement(XmlWriter writer, XmlElement element, List<StyleResource> styleResources)
 		{
 			writer.WriteStartElement(ToLowerNamespace(element.LocalName));
 			foreach (XmlAttribute attr in element.Attributes)
 			{
-				WriteAttribute(writer, attr);
+				WriteAttribute(writer, attr, styleResources);
 			}
 
 			foreach (XmlElement child in element.Children)
 			{
-				WriteElement(writer, child);
+				WriteElement(writer, child, styleResources);
 			}
 			writer.WriteEndElement();
 		}
 
-		private void WriteAttribute(XmlWriter writer, XmlAttribute attribute)
+		private void WriteAttribute(XmlWriter writer, XmlAttribute attribute, List<StyleResource> styleResources)
 		{
-			if (attribute.FullName.Contains(":"))
+			if (ParsingHelper.IsXmlOnlyAttribute(attribute))
 			{
-				string[] splitted = attribute.FullName.Split(':');
-				string ns = splitted[0];
-				string name = splitted[1];
-
-				if (ns == "xmlns")
-				{
-					_nsDictionary.Add(name, attribute.Value);
-				}
-				else
-				{
-					writer.WriteAttributeString(ns, name, _nsDictionary[ns], attribute.Value);
-				}
+				WriteSpecificAttribute(writer, attribute, styleResources);
 			}
 			else
 			{
-				writer.WriteAttributeString(attribute.FullName, attribute.Value);
+				if (!string.IsNullOrWhiteSpace(attribute.NamespaceUri))
+				{
+					string namespaceUri = attribute.NamespaceUri;
+					string localName = attribute.LocalName;
+					string namespaceName = attribute.FullName.Split(':')[0];
+
+					if (_nsDictionary.ContainsKey(namespaceUri))
+					{
+						namespaceName = _nsDictionary[namespaceUri];
+					}
+					else
+					{
+						_nsDictionary.Add(namespaceUri, namespaceName);
+					}
+
+					writer.WriteAttributeString(namespaceName, localName, namespaceUri, attribute.Value);
+				}
+				else
+				{
+					writer.WriteAttributeString(attribute.FullName, attribute.Value);
+				}
+			}
+		}
+
+		private void WriteSpecificAttribute(XmlWriter writer, XmlAttribute attribute, List<StyleResource> styleResources)
+		{
+			if (ParsingHelper.IsStyleAttribute(attribute))
+			{
+				BindingLanguageParser compiler = new BindingLanguageParser();
+				bool result;
+				Expression resultExpression = compiler.Parse(attribute.Value, out result);
+
+				if (!result)
+				{
+					throw new CompileException(string.Format("Can not compile expression {0}", attribute.Value));
+				}
+
+				if (!resultExpression.IsOfType(ExpressionType.Resource))
+				{
+					throw new CompileException(string.Format("Expecting resource expression for style, got {0}", attribute.Value));
+				}
+
+				string resourceKey = resultExpression.GetValue(ResourceExpression.KEY);
+				//find correct resource
+				StyleResource styleResource = styleResources.FirstOrDefault(x => resourceKey.Equals(x.Key, StringComparison.InvariantCultureIgnoreCase));
+
+				if (styleResource == null)
+				{
+					throw new IndexOutOfRangeException(string.Format("Resource with key {0} does not exists", resourceKey));
+				}
+
+				foreach (XmlAttribute attr in styleResource.ResourceElement.Attributes.Where(x => !ParsingHelper.IsResourceKeyAttribute(x)))
+				{
+					// write all attributes embedded in the style
+					WriteAttribute(writer, attr, styleResources);
+				}
 			}
 		}
 

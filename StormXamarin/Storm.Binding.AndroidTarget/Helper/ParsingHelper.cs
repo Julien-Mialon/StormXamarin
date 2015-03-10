@@ -13,6 +13,7 @@ namespace Storm.Binding.AndroidTarget.Helper
 		private const string ID_ATTRIBUTE = "id";
 		private const string RESOURCE_KEY_ATTRIBUTE = "key";
 		private const string DATATEMPLATE_TAG = "DataTemplate";
+		private const string STYLE_TAG = "Style";
 
 		/// <summary>
 		/// Check if an xml namespace is in fact a using uri to specify clr-namespace
@@ -51,6 +52,11 @@ namespace Storm.Binding.AndroidTarget.Helper
 			return IsTagNamed(element, DATATEMPLATE_TAG);
 		}
 
+		public static bool IsStyleTag(XmlElement element)
+		{
+			return IsTagNamed(element, STYLE_TAG);
+		}
+
 		private static bool IsTagNamed(XmlElement element, string name)
 		{
 			return name.Equals(element.LocalName, StringComparison.InvariantCultureIgnoreCase);
@@ -70,9 +76,19 @@ namespace Storm.Binding.AndroidTarget.Helper
 			return DefaultConfiguration.CustomAttribute.Any(x => IsAttributeNamed(attribute, x));
 		}
 
+		public static bool IsXmlOnlyAttribute(XmlAttribute attribute)
+		{
+			return DefaultConfiguration.XmlOnlyAttributes.Any(x => IsAttributeNamed(attribute, x));
+		}
+
 		public static bool IsResourceKeyAttribute(XmlAttribute attribute)
 		{
 			return IsAttributeNamed(attribute, RESOURCE_KEY_ATTRIBUTE);
+		}
+
+		public static bool IsStyleAttribute(XmlAttribute attribute)
+		{
+			return IsAttributeNamed(attribute, DefaultConfiguration.XmlStyleAttribute);
 		}
 
 		private static bool IsAttributeNamed(XmlAttribute attribute, string name)

@@ -86,7 +86,12 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 							{
 								if (reader.Prefix != "xmlns" || !ParsingHelper.IsUsingUri(reader.Value))
 								{
-									childElement.Attributes.Add(new XmlAttribute { FullName = reader.Name, Value = reader.Value });
+									childElement.Attributes.Add(new XmlAttribute
+									{
+										NamespaceUri = reader.NamespaceURI,
+										FullName = reader.Name, 
+										Value = reader.Value
+									});
 								}
 							} while (reader.MoveToNextAttribute());
 						}

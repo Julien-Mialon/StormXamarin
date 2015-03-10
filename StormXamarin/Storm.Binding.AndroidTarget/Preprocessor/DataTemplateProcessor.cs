@@ -31,7 +31,7 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 			ResourceFiles = new List<string>();
 		}
 
-		public void Process(DataTemplateResource dataTemplate, List<Resource> resources, List<DataTemplateResource> dataTemplatesResources, ConfigurationFile configurationFile)
+		public void Process(DataTemplateResource dataTemplate, List<Resource> resources, List<StyleResource> styleResources, List<DataTemplateResource> dataTemplatesResources, ConfigurationFile configurationFile)
 		{
 			string viewOutputFile = Path.Combine(configurationFile.ResourceLocation, string.Format("{0}.axml", dataTemplate.ViewId));
 			string viewOutputRelativePath = PathHelper.GetRelativePath(viewOutputFile);
@@ -43,15 +43,20 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 			List<XmlAttribute> expressionAttributes = expressionResult.Item1;
 			List<IdViewObject> viewObjects = expressionResult.Item2;
 			List<Resource> localResources = _viewFileProcessor.ExtractResources(dataTemplate.ResourceElement);
-
-			// now write a file for this data template
-			Log.LogMessage(MessageImportance.High, "\t\t\t Generating view file for DataTemplate to {0}", viewOutputRelativePath);
-			_viewFileWriter.Write(dataTemplate.ResourceElement, viewOutputFile);
-			ResourceFiles.Add(viewOutputRelativePath);
-
 			// filter resources to find any dataTemplate in it
 			List<DataTemplateResource> localDataTemplatesResources = localResources.Where(x => ParsingHelper.IsDataTemplateTag(x.ResourceElement)).Select(x => new DataTemplateResource(x)).ToList();
 			localResources.RemoveAll(x => ParsingHelper.IsDataTemplateTag(x.ResourceElement));
+			//filter resources for Style
+			List<StyleResource> localStyleResources = resources.Where(x => ParsingHelper.IsStyleTag(x.ResourceElement)).Select(x => new StyleResource(x)).ToList();
+			localStyleResources.AddRange(styleResources);
+			resources.RemoveAll(x => ParsingHelper.IsStyleTag(x.ResourceElement));
+
+			// now write a file for this data template
+			Log.LogMessage(MessageImportance.High, "\t\t\t Generating view file for DataTemplate to {0}", viewOutputRelativePath);
+			_viewFileWriter.Write(dataTemplate.ResourceElement, viewOutputFile, localStyleResources);
+			ResourceFiles.Add(viewOutputRelativePath);
+
+			
 
 			// assign an id to all data template before processing it
 			string viewName = dataTemplate.ViewId;
@@ -69,7 +74,7 @@ namespace Storm.Binding.AndroidTarget.Preprocessor
 
 			foreach (DataTemplateResource localDataTemplate in localDataTemplatesResources)
 			{
-				Process(localDataTemplate, mergedResources, mergedDataTemplatesResources, configurationFile);
+				Process(localDataTemplate, mergedResources, localStyleResources, mergedDataTemplatesResources, configurationFile);
 			}
 
 			string classOutputFile = Path.Combine(configurationFile.ClassLocation, string.Format("{0}.ui.cs", dataTemplate.ViewHolderClassName));
