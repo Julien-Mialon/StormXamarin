@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 using Microsoft.Build.Framework;
@@ -73,7 +74,7 @@ namespace Storm.Binding.AndroidTarget
 				XmlNode elementNode = document.CreateElement("string");
 				elementNode.InnerText = processValue(pair.Item2);
 				XmlAttribute attributeName = document.CreateAttribute("name");
-				attributeName.Value = pair.Item1;
+				attributeName.Value = processKey(pair.Item1);
 				// ReSharper disable once PossibleNullReferenceException
 				elementNode.Attributes.Append(attributeName);
 
@@ -82,6 +83,11 @@ namespace Storm.Binding.AndroidTarget
 
 
 			document.Save(outputFile);
+		}
+
+		private string processKey(string key)
+		{
+			return key.Replace(".", "__");
 		}
 
 		private string processValue(string value)

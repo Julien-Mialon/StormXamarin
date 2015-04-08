@@ -28,7 +28,12 @@
 	
 	<TextView android:layout_width="fill_parent"
 			  android:layout_height="wrap_content"
-			  android:text="{Binding InputText}"
+			  android:text="{Tr Text, Uid=Title}"
+			  />
+
+	<TextView android:layout_width="fill_parent"
+			  android:layout_height="wrap_content"
+			  android:text="{Tr Text, Uid=Text}"
 			  />
 
 	<TextView android:layout_width="fill_parent"

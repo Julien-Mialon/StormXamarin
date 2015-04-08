@@ -27,7 +27,7 @@ namespace Storm.Mvvm.Services
 
 		public string GetString(string uid, string property)
 		{
-			string key = string.Format("{0}_{1}", uid, property);
+			string key = string.Format("{0}__{1}", uid, property);
 			return (string.IsNullOrEmpty(uid) || !_strings.ContainsKey(key)) ? "" : _strings[key];
 		}
 	}
