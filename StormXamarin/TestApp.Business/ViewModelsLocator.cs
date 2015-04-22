@@ -9,10 +9,10 @@ namespace TestApp.Business
 
 		public static void Initialize(IContainer container)
 		{
-			container.RegisterFactory(x => new MainPageViewModel(x));
-			container.RegisterFactory(x => new SecondPageViewModel(x));
-			container.RegisterFactory(x => new MainFragmentViewModel(x));
-			container.RegisterFactory(x => new AdapterViewModel(x));
+			container.RegisterFactory(x => new MainPageViewModel());
+			container.RegisterFactory(x => new SecondPageViewModel());
+			container.RegisterFactory(x => new MainFragmentViewModel());
+			container.RegisterFactory(x => new AdapterViewModel());
 			_container = container;
 		}
 

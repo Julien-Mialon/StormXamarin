@@ -31,7 +31,7 @@ namespace TestApp.Business.ViewModels
 
 		public ICommand NegativeCommand { get; private set; }
 
-		public MainFragmentViewModel(IContainer container) : base(container)
+		public MainFragmentViewModel()
 		{
 			InputText = "";
 			LabelText = "";

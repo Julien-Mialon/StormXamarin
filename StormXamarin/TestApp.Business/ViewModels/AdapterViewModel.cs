@@ -61,7 +61,7 @@ namespace TestApp.Business.ViewModels
 
 		public ICommand AddCommand { get; private set; }
 
-		public AdapterViewModel(IContainer container) : base(container)
+		public AdapterViewModel()
 		{
 			AddCommand = new DelegateCommand<string>(AddAction);
 

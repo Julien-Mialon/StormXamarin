@@ -1,7 +1,6 @@
 ﻿using Storm.Mvvm;
 using Storm.Mvvm.Bindings;
 using Storm.Mvvm.Framework.ColorPicker;
-using Storm.Mvvm.Inject;
 using TestApp.Business.ViewModels;
 
 namespace TestApp.Android.Activities
@@ -13,7 +12,7 @@ namespace TestApp.Android.Activities
 	{
 		protected override ViewModelBase CreateViewModel()
 		{
-			return new ColorPickerViewModel(AndroidContainer.GetInstance());
+			return new ColorPickerViewModel();
 		}
 	}
 }

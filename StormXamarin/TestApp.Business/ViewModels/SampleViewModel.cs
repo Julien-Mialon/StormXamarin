@@ -27,7 +27,7 @@ namespace TestApp.Business.ViewModels.Sample
 		// The command bound to the button click 
 		public ICommand ButtonCommand { get; private set; }
 
-		public MainViewModel(IContainer container) : base(container)
+		public MainViewModel()
 		{
 			// Associate the command with function 
 			ButtonCommand = new DelegateCommand(ButtonAction);

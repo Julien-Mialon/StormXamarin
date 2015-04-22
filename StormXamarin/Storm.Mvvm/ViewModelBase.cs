@@ -10,10 +10,20 @@ namespace Storm.Mvvm
 	{
 		#region Fields
 
-		protected IContainer Container;
-		protected INavigationService NavigationService;
-		protected IDispatcherService DispatcherService;
-		protected ILoggerService LoggerService;
+		protected INavigationService NavigationService
+		{
+			get { return LazyResolver<INavigationService>.Service; }
+		}
+
+		protected IDispatcherService DispatcherService
+		{
+			get { return LazyResolver<IDispatcherService>.Service; }
+		}
+
+		protected ILoggerService LoggerService
+		{
+			get { return LazyResolver<ILoggerService>.Service; }
+		}
 
 		protected NavigationParametersContainer NavigationParameters;
 
@@ -24,14 +34,6 @@ namespace Storm.Mvvm
 		#endregion
 
 		#region Constructors
-
-		protected ViewModelBase(IContainer container)
-		{
-			Container = container;
-			NavigationService = Container.Resolve<INavigationService>();
-			DispatcherService = Container.Resolve<IDispatcherService>();
-			LoggerService = Container.Resolve<ILoggerService>();
-		}
 
 		#endregion
 
