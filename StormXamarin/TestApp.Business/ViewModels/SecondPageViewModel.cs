@@ -15,7 +15,7 @@ namespace TestApp.Business.ViewModels
 			set { SetProperty(ref _greetings, value); }
 		}
 
-		public SecondPageViewModel(IContainer container) : base(container)
+		public SecondPageViewModel()
 		{
 			Greetings = "Bonjour !";
 		}

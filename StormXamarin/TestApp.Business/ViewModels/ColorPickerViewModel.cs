@@ -37,7 +37,7 @@ namespace TestApp.Business.ViewModels
 
 		public ICommand OkCommand { get; private set; }
 
-		public ColorPickerViewModel(IContainer container) : base(container)
+		public ColorPickerViewModel()
 		{
 			ActualColor = ColorStatic.Color;
 			OkCommand = new DelegateCommand(OkAction);

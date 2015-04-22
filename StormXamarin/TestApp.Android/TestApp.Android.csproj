@@ -74,6 +74,7 @@
     <Compile Include="Activities\ColorPicker.cs" />
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Activities\MainFragment.cs" />
+    <Compile Include="Activities\TestFragment.cs" />
     <Compile Include="CompositionRoot\Container.cs" />
     <Compile Include="Converters\IntToColorConverter.cs" />
     <Compile Include="Converters\StringToUpperConverter.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Activities\SecondActivity.cs" />
+    <Compile Include="Service\ImagePickerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <BindingProcess Include="Activities\ActivityDescription.json" />
@@ -102,6 +104,9 @@
     <Content Include="Views\Adapter.xml">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Views\TestFragment.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\Resources.xml">
       <SubType>Designer</SubType>
     </None>

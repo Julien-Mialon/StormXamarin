@@ -40,12 +40,6 @@ namespace Storm.Mvvm.Inject
 
 		protected IActivityService ActivityService;
 
-		protected INavigationService NavigationService;
-		protected IDispatcherService DispatcherService;
-		protected IAssetsService AssetsService;
-		protected ILoggerService LoggerService;
-		protected IMessageDialogService MessageDialogService;
-
 
 		public AndroidContainer()
 		{
@@ -69,20 +63,14 @@ namespace Storm.Mvvm.Inject
 		protected virtual void Initialize(Application application, Dictionary<string, Type> views, Dictionary<string, Type> dialogs)
 		{
 			Application = application;
-
-			//Create services
-			NavigationService = new NavigationService(ActivityService, views);
-			DispatcherService = new DispatcherService(ActivityService);
-			AssetsService = new AssetsService(ActivityService);
-			LoggerService = new LoggerService();
-			MessageDialogService = new MessageDialogService(dialogs, ActivityService, NavigationService);
 			
 			//Register services
-			RegisterInstance<INavigationService>(NavigationService);
-			RegisterInstance<IDispatcherService>(DispatcherService);
-			RegisterInstance<IAssetsService>(AssetsService);
-			RegisterInstance<ILoggerService>(LoggerService);
-			RegisterInstance<IMessageDialogService>(MessageDialogService);
+			RegisterInstance<IActivityService>(ActivityService);
+			RegisterInstance<INavigationService>(new NavigationService(views));
+			RegisterInstance<IDispatcherService>(new DispatcherService());
+			RegisterInstance<IAssetsService>(new AssetsService());
+			RegisterInstance<ILoggerService>(new LoggerService());
+			RegisterInstance<IMessageDialogService>(new MessageDialogService(dialogs));
 
 			Initialize();
 		}

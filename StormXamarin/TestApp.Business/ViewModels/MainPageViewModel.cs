@@ -4,6 +4,7 @@ using Storm.Mvvm;
 using Storm.Mvvm.Commands;
 using Storm.Mvvm.Inject;
 using Storm.Mvvm.Services;
+using TestApp.Business.Interfaces;
 
 namespace TestApp.Business.ViewModels
 {
@@ -81,8 +82,7 @@ namespace TestApp.Business.ViewModels
 
 		public ICommand PushAlertCommand { get; private set; }
 
-		public MainPageViewModel(IContainer container)
-			: base(container)
+		public MainPageViewModel()
 		{
 			Data = new DataContainer();
 			ButtonCommand = new DelegateCommand(ButtonAction);
@@ -90,14 +90,16 @@ namespace TestApp.Business.ViewModels
 			ButtonText = "Hello world !!!!";
 			PushText = "ALERT !!!";
 
-			ILocalizationService localizationService = container.Resolve<ILocalizationService>();
+			ILocalizationService localizationService = LazyResolver<ILocalizationService>.Service;
 			string name = localizationService.GetString("Hello");
 			ButtonText = name;
 		}
 
 	    private void PushAlertAction()
 	    {
-		    NavigationService.Navigate(Views.ADAPTER);
+			LazyResolver<IImagePickerService>.Service.LaunchImagePicker();
+
+		    //NavigationService.Navigate(Views.ADAPTER);
 		    //Container.Resolve<IMessageDialogService>().Show(Dialogs.COLOR_PICKER);
 		    //, new Dictionary<string, object>()
 		    //{

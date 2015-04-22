@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using Android.App;
 using Storm.Mvvm.Inject;
 using Storm.Mvvm.Services;
+using TestApp.Android.Service;
 using TestApp.Business;
+using TestApp.Business.Interfaces;
 
 namespace TestApp.Android.CompositionRoot
 {
@@ -15,8 +17,8 @@ namespace TestApp.Android.CompositionRoot
 		{
 			base.Initialize(application, views, dialogs);
 
-			ILocalizationService localizationService = new LocalizationService(application, typeof(Resource.String));
-			RegisterInstance(localizationService);
+			RegisterInstance<IImagePickerService>(new ImagePickerService());
+			RegisterInstance<ILocalizationService>(new LocalizationService(application, typeof(Resource.String)));
 		}
 
 		protected override void Initialize()
