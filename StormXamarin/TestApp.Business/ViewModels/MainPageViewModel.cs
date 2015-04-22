@@ -4,6 +4,7 @@ using Storm.Mvvm;
 using Storm.Mvvm.Commands;
 using Storm.Mvvm.Inject;
 using Storm.Mvvm.Services;
+using TestApp.Business.Interfaces;
 
 namespace TestApp.Business.ViewModels
 {
@@ -97,7 +98,9 @@ namespace TestApp.Business.ViewModels
 
 	    private void PushAlertAction()
 	    {
-		    NavigationService.Navigate(Views.ADAPTER);
+			LazyResolver<IImagePickerService>.Service.LaunchImagePicker();
+
+		    //NavigationService.Navigate(Views.ADAPTER);
 		    //Container.Resolve<IMessageDialogService>().Show(Dialogs.COLOR_PICKER);
 		    //, new Dictionary<string, object>()
 		    //{

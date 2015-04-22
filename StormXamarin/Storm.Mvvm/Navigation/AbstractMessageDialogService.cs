@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
+using Storm.Mvvm.Inject;
 using Storm.Mvvm.Services;
 
 namespace Storm.Mvvm.Navigation
 {
 	public abstract class AbstractMessageDialogService : IMessageDialogService
 	{
-		private readonly INavigationService _navigationService;
-
-		protected AbstractMessageDialogService(INavigationService navigationService)
+		protected INavigationService NavigationService
 		{
-			_navigationService = navigationService;
+			get { return LazyResolver<INavigationService>.Service; }
 		}
 
 		public void Show(string dialogKey)
@@ -19,7 +18,7 @@ namespace Storm.Mvvm.Navigation
 
 		public void Show(string dialogKey, Dictionary<string, object> parameters)
 		{
-			string parametersKey = _navigationService.StoreMessageDialogParameters(dialogKey, parameters);
+			string parametersKey = NavigationService.StoreMessageDialogParameters(dialogKey, parameters);
 			ShowDialog(dialogKey, parametersKey);
 		}
 
