@@ -2,9 +2,11 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Android.App;
+using Android.Content;
 using Android.OS;
 using Storm.Mvvm.Bindings;
 using Storm.Mvvm.Inject;
+using Storm.Mvvm.Interfaces;
 using Storm.Mvvm.Services;
 
 namespace Storm.Mvvm
@@ -105,6 +107,19 @@ namespace Storm.Mvvm
 			RaisePropertyChanged(propertyName);
 
 			return true;
+		}
+
+		#endregion
+
+		#region Activity result handling
+
+		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+		{
+			base.OnActivityResult(requestCode, resultCode, data);
+
+			IActivityService activityService = LazyResolver<IActivityService>.Service;
+
+			activityService.ProcessActivityResult(requestCode, resultCode, data);
 		}
 
 		#endregion
