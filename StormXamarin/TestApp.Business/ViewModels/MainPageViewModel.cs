@@ -82,8 +82,7 @@ namespace TestApp.Business.ViewModels
 
 		public ICommand PushAlertCommand { get; private set; }
 
-		public MainPageViewModel(IContainer container)
-			: base(container)
+		public MainPageViewModel()
 		{
 			Data = new DataContainer();
 			ButtonCommand = new DelegateCommand(ButtonAction);
@@ -91,7 +90,7 @@ namespace TestApp.Business.ViewModels
 			ButtonText = "Hello world !!!!";
 			PushText = "ALERT !!!";
 
-			ILocalizationService localizationService = container.Resolve<ILocalizationService>();
+			ILocalizationService localizationService = LazyResolver<ILocalizationService>.Service;
 			string name = localizationService.GetString("Hello");
 			ButtonText = name;
 		}
