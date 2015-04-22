@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Android.Content;
 using Java.Lang;
+using Storm.Mvvm.Inject;
 using Storm.Mvvm.Interfaces;
 using Storm.Mvvm.Navigation;
 using Exception = System.Exception;
@@ -10,18 +11,21 @@ namespace Storm.Mvvm.Services
 {
 	public class NavigationService : AbstractNavigationService
 	{
-		private readonly IActivityService _activityService;
-		private readonly Dictionary<string, Type> _views; 
+		private readonly Dictionary<string, Type> _views;
 
-		public NavigationService(IActivityService activityService, Dictionary<string, Type> views)
+		protected IActivityService ActivityService
+		{
+			get { return LazyResolver<IActivityService>.Service; }
+		}
+
+		public NavigationService(Dictionary<string, Type> views)
 		{
 			_views = views;
-			_activityService = activityService;
 		}
 
 		public override bool CanGoBack
 		{
-			get { return _activityService.CurrentActivity != null; }
+			get { return ActivityService.CurrentActivity != null; }
 		}
 
 		public override bool CanGoForward
@@ -31,7 +35,7 @@ namespace Storm.Mvvm.Services
 
 		public override void GoBack()
 		{
-			_activityService.CurrentActivity.OnBackPressed();
+			ActivityService.CurrentActivity.OnBackPressed();
 		}
 
 		public override void GoForward()
@@ -53,9 +57,9 @@ namespace Storm.Mvvm.Services
 		protected override void NavigateToView(string view, string parametersKey)
 		{
 			Type activityType = GetViewOrThrow(view);
-			Intent activity = new Intent(_activityService.CurrentActivity, activityType);
+			Intent activity = new Intent(ActivityService.CurrentActivity, activityType);
 			activity.PutExtra("key", parametersKey);
-			_activityService.CurrentActivity.StartActivity(activity);
+			ActivityService.CurrentActivity.StartActivity(activity);
 		}
 
 		protected Type GetViewOrThrow(string view)

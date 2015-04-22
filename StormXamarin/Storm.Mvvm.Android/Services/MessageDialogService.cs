@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Storm.Mvvm.Dialogs;
+using Storm.Mvvm.Inject;
 using Storm.Mvvm.Interfaces;
 using Storm.Mvvm.Navigation;
 
@@ -10,12 +11,14 @@ namespace Storm.Mvvm.Services
 	{
 		private readonly Dictionary<string, Type> _dialogs;
 
-		private readonly IActivityService _activityService;
+		protected IActivityService ActivityService
+		{
+			get { return LazyResolver<IActivityService>.Service; }
+		}
 
-		public MessageDialogService(Dictionary<string, Type> dialogs, IActivityService activityService, INavigationService navigationService) : base(navigationService)
+		public MessageDialogService(Dictionary<string, Type> dialogs)
 		{
 			_dialogs = dialogs;
-			_activityService = activityService;
 		}
 
 		protected override void ShowDialog(string dialogKey, string parametersKey)
@@ -31,7 +34,7 @@ namespace Storm.Mvvm.Services
 				throw new Exception("Fragment does not inherit AbstractDialogFragmentBase");
 			}
 			fragment.ParametersKey = parametersKey;
-			fragment.Show(_activityService.CurrentActivity.FragmentManager, null);
+			fragment.Show(ActivityService.CurrentActivity.FragmentManager, null);
 		}
 	}
 }

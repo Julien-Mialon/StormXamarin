@@ -46,6 +46,7 @@
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Inject\IContainer.cs" />
     <Compile Include="Inject\InjectionLazyFactory.cs" />
+    <Compile Include="Inject\LazyResolver.cs" />
     <Compile Include="Navigation\AbstractMessageDialogService.cs" />
     <Compile Include="Navigation\AbstractNavigationService.cs" />
     <Compile Include="Navigation\NavigationParameterAttribute.cs" />
