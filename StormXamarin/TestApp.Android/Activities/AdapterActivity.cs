@@ -1,6 +1,5 @@
 ﻿using Android.App;
 using Android.OS;
-using Android.Widget;
 using Storm.Mvvm;
 using TestApp.Android.CompositionRoot;
 
@@ -17,4 +16,5 @@ namespace TestApp.Android.Activities
 			SetViewModel(Container.ViewModelsLocator.AdapterViewModel);
 		}
 	}
+
 }

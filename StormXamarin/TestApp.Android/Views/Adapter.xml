@@ -41,7 +41,9 @@
 			android:layout_height="wrap_content"
 			android:text="Ajouter"
 			click="{Binding AddCommand}"
+			tap="{Binding TapCommand}"
 			CommandParameter="{Binding InputText}"
+			click.CommandParameter="{Binding InputText}"
 			/>
 	
 	<TextView android:layout_width="fill_parent"

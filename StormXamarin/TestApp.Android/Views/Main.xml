@@ -68,4 +68,10 @@
 			 android:layout_height="40dp"
 			 adapter="{Binding MyCollection, Template={Resource Main_SpinnerItemTemplate}}"
 			 />
+
+	<fragment class="TestApp.Android.Activities.TestFragment"
+			  android:layout_width="fill_parent"
+			  android:layout_height="fill_parent"
+			  android:id="MyDummyFragment"
+			  />
 </LinearLayout>

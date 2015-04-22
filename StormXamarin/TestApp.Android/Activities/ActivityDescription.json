@@ -33,6 +33,16 @@
             }
         },
         {
+            "fragment": {
+                "className": "TestFragment",
+                "namespaceName": "TestApp.Android.Activities"
+            },
+            "view": {
+                "inputFile": "../Views/TestFragment.xml",
+                "outputFile": "TestFragment.axml"
+            }
+        },
+        {
             "activity": {
                 "className": "AdapterActivity",
                 "namespaceName": "TestApp.Android.Activities"
