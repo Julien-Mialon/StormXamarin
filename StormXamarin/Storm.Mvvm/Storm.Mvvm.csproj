@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Commands\AbstractCommand.cs" />
+    <Compile Include="Events\EventRaiserHelper.cs" />
     <Compile Include="Events\ValueChangedEventArgs.cs" />
     <Compile Include="Events\ValueChangingEventArgs.cs" />
     <Compile Include="Inject\DependencyService.cs" />

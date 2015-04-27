@@ -55,6 +55,7 @@ namespace TestApp.Business.ViewModels
 		{
 			LabelText = string.Format("Hello {0} !", InputText);
 			InputText = "";
+			LazyResolver<IMessageDialogService>.Service.DismissCurrentDialog();
 		}
 	}
 }

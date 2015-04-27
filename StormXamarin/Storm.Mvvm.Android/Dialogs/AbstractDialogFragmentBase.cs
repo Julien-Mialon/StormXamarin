@@ -6,6 +6,7 @@ using Android.App;
 using Android.Content;
 using Android.Views;
 using Storm.Mvvm.Bindings;
+using Storm.Mvvm.Events;
 using Storm.Mvvm.Services;
 
 namespace Storm.Mvvm.Dialogs
@@ -14,7 +15,8 @@ namespace Storm.Mvvm.Dialogs
 	{
 		private ActivityState _activityState = ActivityState.Uninitialized;
 
-		public event EventHandler CancelEvent;
+		public event EventHandler Canceled;
+		public event EventHandler Dismissed;
 
 		protected ViewModelBase ViewModel { get; set; }
 
@@ -27,8 +29,6 @@ namespace Storm.Mvvm.Dialogs
 
 		protected abstract ViewModelBase CreateViewModel();
 
-
-
 		protected void SetViewModel(ViewModelBase viewModel)
 		{
 			ViewModel = viewModel;
@@ -39,16 +39,21 @@ namespace Storm.Mvvm.Dialogs
 		{
 			return new List<BindingObject>();
 		}
-		
-		protected void RaiseCancelEvent()
+
+		#region Event Raiser parts
+
+		protected void RaiseCanceledEvent()
 		{
-			EventHandler handler = CancelEvent;
-			if (handler != null)
-			{
-				handler(this, EventArgs.Empty);
-			}
+			this.RaiseEvent(Canceled);
 		}
-		
+
+		protected void RaiseDismissedEvent()
+		{
+			this.RaiseEvent(Dismissed);
+		}
+
+		#endregion
+
 		#region Lifecycle implementation
 
 		public override void OnStart()
@@ -94,8 +99,14 @@ namespace Storm.Mvvm.Dialogs
 
 		public override void OnCancel(IDialogInterface dialog)
 		{
-			RaiseCancelEvent();
+			RaiseCanceledEvent();
 			base.OnCancel(dialog);
+		}
+
+		public override void OnDismiss(IDialogInterface dialog)
+		{
+			RaiseDismissedEvent();
+			base.OnDismiss(dialog);
 		}
 
 		#endregion
