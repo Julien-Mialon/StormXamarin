@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Reflection;
+using Android.Graphics.Drawables;
+using Android.OS;
+using Android.Views;
 using Storm.Mvvm.Annotations;
 using Storm.Mvvm.Wrapper;
 
@@ -13,7 +16,7 @@ namespace Storm.Mvvm.Bindings
 
 		public DependencyPropertyChangedEventArgs()
 		{
-			
+
 		}
 
 		public DependencyPropertyChangedEventArgs(string propertyName, object newValue)
@@ -42,13 +45,15 @@ namespace Storm.Mvvm.Bindings
 			_triggerMethodInfo = typeof(DependencyPropertyProxy).GetMethod("OnUpdateEventTriggered", BindingFlags.Instance | BindingFlags.NonPublic);
 		}
 
-		public DependencyPropertyProxy(object context, PropertyInfo property) : base(context, null, null)
+		public DependencyPropertyProxy(object context, PropertyInfo property)
+			: base(context, null, null)
 		{
 			_context = context;
 			_property = property;
 		}
 
-		public DependencyPropertyProxy(object context, PropertyInfo property, EventInfo updateEvent) : base(context, updateEvent, _triggerMethodInfo)
+		public DependencyPropertyProxy(object context, PropertyInfo property, EventInfo updateEvent)
+			: base(context, updateEvent, _triggerMethodInfo)
 		{
 			_context = context;
 			_property = property;
@@ -66,14 +71,44 @@ namespace Storm.Mvvm.Bindings
 				object referenceValue = _property.GetValue(_context);
 				if (!Equals(referenceValue, value) && _property.CanWrite)
 				{
+#if SUPPORT
+					WriteValue(value);
+#else
 					_property.SetValue(_context, value);
+#endif
 				}
 			}
-			else if(_property.CanWrite)
+			else if (_property.CanWrite)
 			{
+#if SUPPORT
+				WriteValue(value);
+#else
 				_property.SetValue(_context, value);
+#endif
 			}
 		}
+
+#if SUPPORT
+		private void WriteValue(object value)
+		{
+			// This method intercept write value to property to handle background problem (need to call method SetBackgroundDrawable instead of Background = if api >= 16)
+			View view = _context as View;
+			if (view != null)
+			{
+				if (string.Equals(_property.Name, "Background", StringComparison.InvariantCultureIgnoreCase))
+				{
+					if (Build.VERSION.SdkInt < BuildVersionCodes.JellyBean)
+					{
+						view.SetBackgroundDrawable(value as Drawable);
+						return;
+					}
+				}
+			}
+
+			// if not affected, use the normal method
+			_property.SetValue(_context, value);
+		}
+#endif
 
 		[UsedImplicitly]
 		private void OnUpdateEventTriggered(object sender, EventArgs e)
