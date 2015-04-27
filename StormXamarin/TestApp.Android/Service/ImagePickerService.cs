@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -20,22 +20,27 @@ namespace TestApp.Android.Service
 {
 	class ImagePickerService : IImagePickerService
 	{
-		public void LaunchImagePicker()
+		public Task<string> LaunchImagePickerAsync()
 		{
-			IActivityService activityService = LazyResolver<IActivityService>.Service;
-
-			var intent = new Intent(Intent.ActionPick, MediaStore.Images.Media.ExternalContentUri);
-			activityService.StartActivityForResult(intent, (result, data) =>
+			return AsyncHelper.CreateAsyncFromCallback<string>(resultCallback =>
 			{
-				if (result == Result.Ok)
+				IActivityService activityService = LazyResolver<IActivityService>.Service;
+				var intent = new Intent(Intent.ActionPick, MediaStore.Images.Media.ExternalContentUri);
+				activityService.StartActivityForResult(intent, (result, data) =>
 				{
-					Uri selectedImage = data.Data;
-					LazyResolver<ILoggerService>.Service.Log("Photo picked: " + selectedImage.Path,MessageSeverity.Critical);
-				}
-				else
-				{
-					LazyResolver<ILoggerService>.Service.Log("Pick photo canceled", MessageSeverity.Critical);
-				}
+					string res = null;
+					if (result == Result.Ok)
+					{
+						Uri selectedImage = data.Data;
+						res = selectedImage.Path;
+						LazyResolver<ILoggerService>.Service.Log("Photo picked: " + selectedImage.Path, MessageSeverity.Critical);
+					}
+					else
+					{
+						LazyResolver<ILoggerService>.Service.Log("Pick photo canceled", MessageSeverity.Critical);
+					}
+					resultCallback(res);
+				});
 			});
 		}
 	}

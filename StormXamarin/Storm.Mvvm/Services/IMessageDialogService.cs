@@ -7,5 +7,7 @@ namespace Storm.Mvvm.Services
 		void Show(string dialogKey);
 
 		void Show(string dialogKey, Dictionary<string, object> parameters);
+
+		void DismissCurrentDialog();
 	}
 }

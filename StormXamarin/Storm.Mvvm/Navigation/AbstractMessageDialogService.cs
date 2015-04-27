@@ -22,6 +22,8 @@ namespace Storm.Mvvm.Navigation
 			ShowDialog(dialogKey, parametersKey);
 		}
 
+		public abstract void DismissCurrentDialog();
+
 		protected abstract void ShowDialog(string dialogKey, string parametersKey);
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Android.App;
 using Android.OS;
+using Storm.Mvvm.Events;
 
 namespace Storm.Mvvm.Dialogs
 {
@@ -59,29 +60,17 @@ namespace Storm.Mvvm.Dialogs
 		
 		protected void RaisePositiveButtonEvent()
 		{
-			EventHandler handler = PositiveButtonEvent;
-			if (handler != null)
-			{
-				handler(this, EventArgs.Empty);
-			}
+			this.RaiseEvent(PositiveButtonEvent);
 		}
 
 		protected void RaiseNeutralButtonEvent()
 		{
-			EventHandler handler = NeutralButtonEvent;
-			if (handler != null)
-			{
-				handler(this, EventArgs.Empty);
-			}
+			this.RaiseEvent(NeutralButtonEvent);
 		}
 
 		protected void RaiseNegativeButtonEvent()
 		{
-			EventHandler handler = NegativeButtonEvent;
-			if (handler != null)
-			{
-				handler(this, EventArgs.Empty);
-			}
+			this.RaiseEvent(NegativeButtonEvent);
 		}
 	}
 }

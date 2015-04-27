@@ -95,11 +95,14 @@ namespace TestApp.Business.ViewModels
 			ButtonText = name;
 		}
 
-	    private void PushAlertAction()
+	    private async void PushAlertAction()
 	    {
-			LazyResolver<IImagePickerService>.Service.LaunchImagePicker();
+			//string imagePicker = await LazyResolver<IImagePickerService>.Service.LaunchImagePickerAsync();
+
+			//LoggerService.Log("Image picked with async pattern : " + imagePicker, MessageSeverity.Critical);
 
 		    //NavigationService.Navigate(Views.ADAPTER);
+		    LazyResolver<IMessageDialogService>.Service.Show(Dialogs.MAIN);
 		    //Container.Resolve<IMessageDialogService>().Show(Dialogs.COLOR_PICKER);
 		    //, new Dictionary<string, object>()
 		    //{
