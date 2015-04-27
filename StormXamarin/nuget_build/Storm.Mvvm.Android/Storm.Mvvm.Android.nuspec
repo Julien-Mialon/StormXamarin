@@ -2,7 +2,7 @@
 <package >
 	<metadata>
 		<id>Storm.Mvvm.Android</id>
-		<version>1.2.5</version>
+		<version>1.2.6</version>
 		<title>Storm.Mvvm.Android</title>
 		<authors>Julien Mialon</authors>
 		<owners>Julien Mialon</owners>
@@ -14,7 +14,7 @@
 		<copyright>Copyright 2014</copyright>
 		<tags>mvvm xamarin android xamarin.android storm</tags>
 		<dependencies>
-            <dependency id="Storm.Mvvm" version="1.2.1" />
+            <dependency id="Storm.Mvvm" version="1.2.2" />
         </dependencies>
 	</metadata>
 </package>
