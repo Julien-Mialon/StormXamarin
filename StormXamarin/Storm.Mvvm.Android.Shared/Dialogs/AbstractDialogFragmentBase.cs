@@ -1,29 +1,37 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+#if SUPPORT
+using Android.Support.V4.App;
+#else
 using Android.App;
+#endif
 using Android.Content;
-using Android.OS;
+using Android.Views;
 using Storm.Mvvm.Bindings;
-using Storm.Mvvm.Inject;
-using Storm.Mvvm.Interfaces;
+using Storm.Mvvm.Events;
 using Storm.Mvvm.Services;
 
-namespace Storm.Mvvm
+namespace Storm.Mvvm.Dialogs
 {
-	public class ActivityBase : Activity, INotifyPropertyChanged
+	public abstract class AbstractDialogFragmentBase : DialogFragment, INotifyPropertyChanged
 	{
-		protected ViewModelBase ViewModel { get; private set; }
-
 		private ActivityState _activityState = ActivityState.Uninitialized;
-		private string _parametersKey;
-		
-		protected override void OnCreate(Bundle savedInstanceState)
-		{
-			base.OnCreate(savedInstanceState);
 
-			_parametersKey = Intent.GetStringExtra("key");
-		}
+		public event EventHandler Canceled;
+		public event EventHandler Dismissed;
+
+		protected ViewModelBase ViewModel { get; set; }
+
+		protected View RootView { get; set; }
+
+		public string ParametersKey { get; set; }
+
+
+		protected abstract View CreateView(LayoutInflater inflater, ViewGroup container);
+
+		protected abstract ViewModelBase CreateViewModel();
 
 		protected void SetViewModel(ViewModelBase viewModel)
 		{
@@ -36,31 +44,44 @@ namespace Storm.Mvvm
 			return new List<BindingObject>();
 		}
 
+		#region Event Raiser parts
+
+		protected void RaiseCanceledEvent()
+		{
+			this.RaiseEvent(Canceled);
+		}
+
+		protected void RaiseDismissedEvent()
+		{
+			this.RaiseEvent(Dismissed);
+		}
+
+		#endregion
+
 		#region Lifecycle implementation
 
-		protected override void OnStart()
+		public override void OnStart()
 		{
 			base.OnStart();
-			AndroidContainer.GetInstance().UpdateActivity(this);
+			SetViewModel(CreateViewModel());
 			if (ViewModel != null && _activityState != ActivityState.Running)
 			{
-				ViewModel.OnNavigatedTo(new NavigationArgs(NavigationArgs.NavigationMode.New), _parametersKey);
+				ViewModel.OnNavigatedTo(new NavigationArgs(NavigationArgs.NavigationMode.New), ParametersKey);
 			}
 			_activityState = ActivityState.Running;
 		}
 
-		protected override void OnResume()
+		public override void OnResume()
 		{
 			base.OnResume();
-			AndroidContainer.GetInstance().UpdateActivity(this);
 			if (ViewModel != null && _activityState != ActivityState.Running)
 			{
-				ViewModel.OnNavigatedTo(new NavigationArgs(NavigationArgs.NavigationMode.Back), _parametersKey);
+				ViewModel.OnNavigatedTo(new NavigationArgs(NavigationArgs.NavigationMode.Back), ParametersKey);
 			}
 			_activityState = ActivityState.Running;
 		}
 
-		protected override void OnPause()
+		public override void OnPause()
 		{
 			base.OnPause();
 			if (ViewModel != null && _activityState != ActivityState.Stopped)
@@ -70,7 +91,7 @@ namespace Storm.Mvvm
 			_activityState = ActivityState.Stopped;
 		}
 
-		protected override void OnStop()
+		public override void OnStop()
 		{
 			base.OnStop();
 			if (ViewModel != null && _activityState != ActivityState.Stopped)
@@ -78,6 +99,18 @@ namespace Storm.Mvvm
 				ViewModel.OnNavigatedFrom(new NavigationArgs(NavigationArgs.NavigationMode.Back));
 			}
 			_activityState = ActivityState.Stopped;
+		}
+
+		public override void OnCancel(IDialogInterface dialog)
+		{
+			RaiseCanceledEvent();
+			base.OnCancel(dialog);
+		}
+
+		public override void OnDismiss(IDialogInterface dialog)
+		{
+			RaiseDismissedEvent();
+			base.OnDismiss(dialog);
 		}
 
 		#endregion
@@ -103,23 +136,10 @@ namespace Storm.Mvvm
 			}
 
 			storage = value;
-			// ReSharper disable once ExplicitCallerInfoArgument : need it here
+			// ReSharper disable once ExplicitCallerInfoArgument
 			RaisePropertyChanged(propertyName);
 
 			return true;
-		}
-
-		#endregion
-
-		#region Activity result handling
-
-		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
-		{
-			base.OnActivityResult(requestCode, resultCode, data);
-
-			IActivityService activityService = LazyResolver<IActivityService>.Service;
-
-			activityService.ProcessActivityResult(requestCode, resultCode, data);
 		}
 
 		#endregion

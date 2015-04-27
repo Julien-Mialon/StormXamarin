@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>564f0af1-50e3-4ab4-a3b1-9a73882c3f3b</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Storm.Mvvm</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ActivityBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ActivityState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ApplicationBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BaseViewHolder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BindableAdapter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\BindingAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\BindingBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\BindingElementAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\BindingExpression.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\BindingFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\BindingMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\BindingNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\BindingObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\BindingProcessor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\BindingTargetType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\CommandParameterProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\DependencyPropertyProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\EventBinding.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\EventHookBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\EventToCommandProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\PropertyBinding.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\TwoWayPropertyBinding.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\BindableSpinner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTemplate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Dialogs\AbstractDialogFragmentBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Dialogs\AlertDialogFragmentBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Dialogs\DialogFragmentBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Dialogs\DialogsButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FragmentBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\ColorPicker\ColorPanelView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\ColorPicker\ColorPickerDialog.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\ColorPicker\ColorPickerView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Inject\AndroidContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IActivityService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IMvvmAdapter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISearchableAdapter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ITemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AbstractServiceWithActivity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ActivityService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AssetsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DispatcherService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\LocalizationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\LoggerService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\MessageDialogService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\NavigationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TemplateSelectors\AbstractTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TemplateSelectors\SimpleTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wrapper\ConverterHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wrapper\JavaObjectExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wrapper\SystemObjectExtension.cs" />
+  </ItemGroup>
+</Project>

@@ -68,6 +68,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\Components\xamandroidsupportv4-18-21.0.3.0\lib\android\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activities\AdapterActivity.cs" />
@@ -94,6 +97,7 @@
     <ReswFile Include="..\TestApp.Resources\en\Resources.resw">
       <Link>Resources\values\Resources.resw</Link>
     </ReswFile>
+    <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
@@ -117,9 +121,9 @@
     <None Include="Views\Second.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Storm.Mvvm.Android\Storm.Mvvm.Android.csproj">
-      <Project>{eb3f7ef1-b9f8-42b7-899b-6873dd7f46a4}</Project>
-      <Name>Storm.Mvvm.Android</Name>
+    <ProjectReference Include="..\Storm.Mvvm.Android.Support\Storm.Mvvm.Android.Support.csproj">
+      <Project>{b02bfdf0-193a-47b3-a590-24f1cf9a53a0}</Project>
+      <Name>Storm.Mvvm.Android.Support</Name>
     </ProjectReference>
     <ProjectReference Include="..\Storm.Mvvm\Storm.Mvvm.csproj">
       <Project>{1106aaa1-d2dd-4e12-8b9b-62bdfb7aee88}</Project>
@@ -137,6 +141,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\layout\" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="xamandroidsupportv4-18">
+      <Visible>False</Visible>
+      <Version>21.0.3.0</Version>
+    </XamarinComponentReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="$(MSBuildProjectDirectory)\..\nuget_build\Storm.Mvvm.Android\build\Storm.Mvvm.Android.targets" />

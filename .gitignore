@@ -185,3 +185,6 @@ FakesAssemblies/
 
 # Xamarin android file
 Resource.Designer.cs
+
+# Components directory
+StormXamarin/Components

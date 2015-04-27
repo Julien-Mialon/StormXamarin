@@ -1,7 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+
+#if SUPPORT
+using Android.Support.V4.App;
+#else
 using Android.App;
+#endif
 using Android.OS;
 using Android.Views;
 using Storm.Mvvm.Bindings;

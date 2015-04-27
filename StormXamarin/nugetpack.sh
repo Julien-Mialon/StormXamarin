@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -ne 2 ]; then
-	echo "Usage : nugetpack.sh [all|Mvvm|Mvvm.Forms|Mvvm.Android|Mvvm.Tablet] [Push|No]"
+	echo "Usage : nugetpack.sh [all|Mvvm|Mvvm.Forms|Mvvm.Android|Mvvm.Android.Support|Mvvm.Tablet] [Push|No]"
 	exit;
 fi
 
@@ -43,6 +43,20 @@ if [[ $1 == all || $1 == Mvvm.Android ]]; then
 	echo "		Done !"
 	if [[ $2 == Push ]]; then
 		echo -n "Uploading Storm.Mvvm.Android..."
+		nuget push *.nupkg
+		echo "				Done !"
+	fi
+	mv *.nupkg ../../nuget_packages
+	cd ..
+fi
+
+if [[ $1 == all || $1 == Mvvm.Android.Support ]]; then
+	cd Storm.Mvvm.Android.Support
+	echo -n "Generating Storm.Mvvm.Android.Support..."
+	nuget pack -Verbosity quiet -NonInteractive
+	echo "		Done !"
+	if [[ $2 == Push ]]; then
+		echo -n "Uploading Storm.Mvvm.Android.Support..."
 		nuget push *.nupkg
 		echo "				Done !"
 	fi

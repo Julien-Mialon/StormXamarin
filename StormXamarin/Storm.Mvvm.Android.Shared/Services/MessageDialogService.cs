@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+#if SUPPORT
+using Android.Support.V4.App;
+#endif
 using Storm.Mvvm.Dialogs;
 using Storm.Mvvm.Inject;
 using Storm.Mvvm.Interfaces;
@@ -46,8 +49,18 @@ namespace Storm.Mvvm.Services
 			fragment.Dismissed += OnDialogDismissed;
 
 			_dialogStack.Push(fragment);
+#if SUPPORT
+			FragmentActivity fragmentActivity = ActivityService.CurrentActivity as FragmentActivity;
+			if (fragmentActivity == null)
+			{
+				throw new Exception("Activity does not inherit ActivityBase");
+			}
+
+			fragment.Show(fragmentActivity.SupportFragmentManager, null);
+#else
 			fragment.Show(ActivityService.CurrentActivity.FragmentManager, null);
-			
+#endif
+
 		}
 
 		private void OnDialogDismissed(object sender, EventArgs eventArgs)
