@@ -25,7 +25,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Bindings\BindingProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bindings\BindingTargetType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bindings\CommandParameterProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\DependencyPropertyChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bindings\DependencyPropertyProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bindings\DependencyPropertyProxy.Support.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bindings\EventBinding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bindings\EventHookBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bindings\EventToCommandProxy.cs" />
