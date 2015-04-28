@@ -1,4 +1,4 @@
-﻿#if !SUPPORT
+﻿#if SUPPORT
 using System;
 using System.Reflection;
 using Android.Graphics.Drawables;
@@ -9,23 +9,23 @@ using Storm.Mvvm.Wrapper;
 
 namespace Storm.Mvvm.Bindings
 {
-	/// <summary>
-	/// Goal of this class is to act just as a "standard" xaml DependencyProperty
-	///		- Provide event when property changed
-	///		- Set the property only if it changed
-	/// </summary>
 	class DependencyPropertyProxy : EventHookBase
 	{
 		public event EventHandler<DependencyPropertyChangedEventArgs> OnPropertyChanged;
 
 		private static readonly MethodInfo _triggerMethodInfo;
+		private static Action<DependencyPropertyProxy, object> _normalUpdateValueAction;
+		private static Action<DependencyPropertyProxy, object> _specializedBackgroundUpdateValueAction;
 
 		private readonly object _context;
 		private readonly PropertyInfo _property;
+		private Action<DependencyPropertyProxy, object> _updateValueAction;
 
 		static DependencyPropertyProxy()
 		{
 			_triggerMethodInfo = typeof(DependencyPropertyProxy).GetMethod("OnUpdateEventTriggered", BindingFlags.Instance | BindingFlags.NonPublic);
+			_normalUpdateValueAction = (context, value) => context.WriteStandardValue(value);
+			_specializedBackgroundUpdateValueAction = (context, value) => context.WriteBackgroundValue(value);
 		}
 
 		public DependencyPropertyProxy(object context, PropertyInfo property)
@@ -33,6 +33,7 @@ namespace Storm.Mvvm.Bindings
 		{
 			_context = context;
 			_property = property;
+			DetectProperty();
 		}
 
 		public DependencyPropertyProxy(object context, PropertyInfo property, EventInfo updateEvent)
@@ -40,6 +41,7 @@ namespace Storm.Mvvm.Bindings
 		{
 			_context = context;
 			_property = property;
+			DetectProperty();
 		}
 
 		public void SetValue(object value)
@@ -54,12 +56,12 @@ namespace Storm.Mvvm.Bindings
 				object referenceValue = _property.GetValue(_context);
 				if (!Equals(referenceValue, value) && _property.CanWrite)
 				{
-					_property.SetValue(_context, value);
+					_updateValueAction(this, value);
 				}
 			}
 			else if (_property.CanWrite)
 			{
-				_property.SetValue(_context, value);
+				_updateValueAction(this, value);
 			}
 		}
 
@@ -80,6 +82,37 @@ namespace Storm.Mvvm.Bindings
 			{
 				handler(this, new DependencyPropertyChangedEventArgs(_property.Name, _property.GetValue(_context)));
 			}
+		}
+
+		private void DetectProperty()
+		{
+			View view = _context as View;
+			if (view != null)
+			{
+				if (string.Equals(_property.Name, "Background", StringComparison.InvariantCultureIgnoreCase))
+				{
+					if (Build.VERSION.SdkInt < BuildVersionCodes.JellyBean)
+					{
+						_updateValueAction = _specializedBackgroundUpdateValueAction;
+					}
+				}
+			}
+
+			if (_updateValueAction == null)
+			{
+				_updateValueAction = _normalUpdateValueAction;
+			}
+		}
+
+		private void WriteStandardValue(object value)
+		{
+			_property.SetValue(_context, value);
+		}
+
+		private void WriteBackgroundValue(object value)
+		{
+			// ReSharper disable once PossibleNullReferenceException : checked before
+			(_context as View).SetBackgroundDrawable(value as Drawable);
 		}
 	}
 }
