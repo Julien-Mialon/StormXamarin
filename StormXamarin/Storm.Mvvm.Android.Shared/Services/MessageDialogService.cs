@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 #if SUPPORT
 using Android.Support.V4.App;
 #endif
@@ -13,7 +14,7 @@ namespace Storm.Mvvm.Services
 	public class MessageDialogService : AbstractMessageDialogService, IMessageDialogService
 	{
 		private readonly Dictionary<string, Type> _dialogs;
-		private readonly Stack<AbstractDialogFragmentBase> _dialogStack = new Stack<AbstractDialogFragmentBase>(); 
+		private readonly List<AbstractDialogFragmentBase> _dialogStack = new List<AbstractDialogFragmentBase>(); 
 
 		protected IActivityService ActivityService
 		{
@@ -29,7 +30,7 @@ namespace Storm.Mvvm.Services
 		{
 			if (_dialogStack.Count > 0)
 			{
-				_dialogStack.Peek().Dismiss();
+				_dialogStack.Last().Dismiss();
 			}
 		}
 
@@ -48,7 +49,7 @@ namespace Storm.Mvvm.Services
 			fragment.ParametersKey = parametersKey;
 			fragment.Dismissed += OnDialogDismissed;
 
-			_dialogStack.Push(fragment);
+			_dialogStack.Add(fragment);
 #if SUPPORT
 			FragmentActivity fragmentActivity = ActivityService.CurrentActivity as FragmentActivity;
 			if (fragmentActivity == null)
@@ -71,7 +72,8 @@ namespace Storm.Mvvm.Services
 				return;
 			}
 			dialog.Dismissed -= OnDialogDismissed;
-			_dialogStack.Pop();
+
+			_dialogStack.Remove(dialog);
 		}
 	}
 }
