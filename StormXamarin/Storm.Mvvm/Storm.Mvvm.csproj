@@ -40,6 +40,7 @@
     <Compile Include="Events\EventRaiserHelper.cs" />
     <Compile Include="Events\ValueChangedEventArgs.cs" />
     <Compile Include="Events\ValueChangingEventArgs.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Inject\DependencyService.cs" />
     <Compile Include="Inject\IInjectionFactory.cs" />
     <Compile Include="Inject\InjectionFactory.cs" />
@@ -48,6 +49,9 @@
     <Compile Include="Inject\IContainer.cs" />
     <Compile Include="Inject\InjectionLazyFactory.cs" />
     <Compile Include="Inject\LazyResolver.cs" />
+    <Compile Include="Messaging\Messenger.cs" />
+    <Compile Include="Messaging\IMessageReceiver.cs" />
+    <Compile Include="Messaging\MessageReceiver.cs" />
     <Compile Include="Navigation\AbstractMessageDialogService.cs" />
     <Compile Include="Navigation\AbstractNavigationService.cs" />
     <Compile Include="Navigation\NavigationParameterAttribute.cs" />
