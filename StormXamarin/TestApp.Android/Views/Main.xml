@@ -14,7 +14,11 @@
 	
 	<EditText android:layout_width="fill_parent"
 			  android:layout_height="60dp"
-			  android:text="{Binding InputText, Mode=TwoWay, UpdateEvent=TextChanged}"
+			  android:text="{Binding DataInput.Data.Text, Mode=TwoWay, UpdateEvent=TextChanged}"
+			  />
+	<TextView android:layout_width="fill_parent"
+			  android:layout_height="wrap_content"
+			  android:text="{Binding DataInput.Data.Text}"
 			  />
 	
 	<Button XmlStyle="{Resource FillWrap}"
