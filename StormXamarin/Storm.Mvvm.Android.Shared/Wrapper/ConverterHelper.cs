@@ -26,7 +26,11 @@ namespace Storm.Mvvm.Wrapper
 			}
 			if (valueIsJava)
 			{
-				value = (value as Object).ToManaged();
+				object underlyingObject = (value as Object).ToManaged();
+				if (underlyingObject != null)
+				{
+					value = underlyingObject;
+				}
 			}
 			return Convert.ChangeType(value, conversionType);
 		}

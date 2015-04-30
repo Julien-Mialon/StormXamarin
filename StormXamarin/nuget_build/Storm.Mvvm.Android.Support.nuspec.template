@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <package >
 	<metadata>
-		<id>Storm.Mvvm.Android.Support</id>
-		<version>1.2.9</version>
-		<title>Storm.Mvvm.Android.Support</title>
-		<authors>Julien Mialon</authors>
-		<owners>Julien Mialon</owners>
+		<id>{id}</id>
+		<version>{version}</version>
+		<title>{id}</title>
+		<authors>{author}</authors>
+		<owners>{author}</owners>
 		<licenseUrl>https://github.com/Julien-Mialon/StormXamarin/blob/master/LICENSE</licenseUrl>
 		<projectUrl>https://github.com/Julien-Mialon/StormXamarin</projectUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>

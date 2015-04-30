@@ -41,11 +41,14 @@ namespace Storm.Mvvm.Bindings
 		{
 			base.UpdateContext(context);
 
-			SourceProperty = Context.GetType().GetProperty(SourcePropertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
-
-			if (SourceProperty == null)
+			if (Context != null)
 			{
-				throw new Exception("TwoWayPropertyBinding : can not find property " + SourcePropertyName + " in object of type " + Context.GetType());
+				SourceProperty = Context.GetType().GetProperty(SourcePropertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+
+				if (SourceProperty == null)
+				{
+					throw new Exception("TwoWayPropertyBinding : can not find property " + SourcePropertyName + " in object of type " + Context.GetType());
+				}
 			}
 		}
 

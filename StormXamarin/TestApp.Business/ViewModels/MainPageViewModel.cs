@@ -4,7 +4,6 @@ using Storm.Mvvm;
 using Storm.Mvvm.Commands;
 using Storm.Mvvm.Inject;
 using Storm.Mvvm.Services;
-using TestApp.Business.Interfaces;
 
 namespace TestApp.Business.ViewModels
 {
@@ -12,6 +11,7 @@ namespace TestApp.Business.ViewModels
 	{
 		private string _text;
 		private int _count;
+		private DataContainer _data;
 
 		public string Text
 		{
@@ -23,6 +23,12 @@ namespace TestApp.Business.ViewModels
 		{
 			get { return _count; }
 			set { SetProperty(ref _count, value); }
+		}
+
+		public DataContainer Data
+		{
+			get { return _data; }
+			set { SetProperty(ref _data, value); }
 		}
 	}
 
@@ -37,6 +43,8 @@ namespace TestApp.Business.ViewModels
 		{
 			"NY", "Paris", "Milan", "Barcelone", "Moscou"
 		};
+
+	    private DataContainer _dataInput;
 
 
 	    public List<string> MyCollection
@@ -78,6 +86,12 @@ namespace TestApp.Business.ViewModels
 			private set { SetProperty(ref _data, value); }
 	    }
 
+	    public DataContainer DataInput
+	    {
+			get { return _dataInput; }
+			private set { SetProperty(ref _dataInput, value); }
+	    }
+
 		public ICommand ButtonCommand { get; private set; }
 
 		public ICommand PushAlertCommand { get; private set; }
@@ -97,12 +111,20 @@ namespace TestApp.Business.ViewModels
 
 	    private async void PushAlertAction()
 	    {
-			//string imagePicker = await LazyResolver<IImagePickerService>.Service.LaunchImagePickerAsync();
+		    if (DataInput == null)
+		    {
+			    DataInput = new DataContainer();
+		    }
+		    else
+		    {
+			    DataInput.Data = new DataContainer();
+		    }
+		    //string imagePicker = await LazyResolver<IImagePickerService>.Service.LaunchImagePickerAsync();
 
 			//LoggerService.Log("Image picked with async pattern : " + imagePicker, MessageSeverity.Critical);
 
 		    //NavigationService.Navigate(Views.ADAPTER);
-		    LazyResolver<IMessageDialogService>.Service.Show(Dialogs.MAIN);
+		    //LazyResolver<IMessageDialogService>.Service.Show(Dialogs.MAIN);
 		    //Container.Resolve<IMessageDialogService>().Show(Dialogs.COLOR_PICKER);
 		    //, new Dictionary<string, object>()
 		    //{
