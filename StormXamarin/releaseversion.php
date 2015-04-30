@@ -14,6 +14,23 @@
 		file_put_contents($outputFile, $content);
 	}
 
+	function readline()
+	{
+	    return rtrim( fgets( STDIN ), "\n" );
+	}
+	
+	function exec_system($command)
+	{
+		echo $command . PHP_EOL;
+		system($command);
+	}
+	
+	function move_chdir($path)
+	{
+		echo "cd " . $path . PHP_EOL;
+		chdir($path);
+	}
+
 	global $argc, $argv;
 	
 	
@@ -36,6 +53,7 @@
 	if($argc < 2)
 	{
 		echo "Usage : releaseversion.sh [Core|Forms|Android|AndroidSupport|Tablet]+ <version>";
+		die;
 	}
 
 	$releases = array();
@@ -70,8 +88,8 @@
 	
 	echo "# Creating release branch from develop" . PHP_EOL;
 	
-	$branchName = 'release/' . implode('', $releases) . '_v' . $versionNumber;
-	system('git checkout -b ' . $branchName . ' develop');
+	$branchName = 'release/' . implode('_', $releases) . '_v' . $versionNumber;
+	exec_system('git checkout -b ' . $branchName . ' develop');
 	
 	foreach($releases as $releaseName)
 	{
@@ -83,34 +101,34 @@
 		$templateFile = $path . '.nuspec.template';
 		
 		UpdateTemplate($templateFile, $nuspecFile, array('id' => $directory, 'author' => 'Julien Mialon', 'version' => $versionNumber));
+		exec_system("git add " . $nuspecFile);
+		move_chdir($path);
 		
-		chdir($path);
+		echo "Generating nuget package for " . $directory . " version " . $versionNumber . PHP_EOL;
+		//exec_system("nuget pack -Verbosity quiet -NonInteractive");
+		echo "Uploading nuget package " . $directory . " version " . $versionNumber . " to nuget server" . PHP_EOL;
+		//exec_system("nuget push -Verbosity quiet -NonInteractive *.nupkg");
+		exec_system("mv *.nupkg ../../nuget_packages");
 		
-		echo "Generating nuget package for " . $directory . " version " . $versionNumber;
-		system("nuget pack -Verbosity quiet -NonInteractive");
-		echo "Uploading nuget package " . $directory . " version " . $versionNumber . " to nuget server";
-		system("nuget push -Verbosity quiet -NonInteractive *.nupkg");
-		system("mv *.nupkg ../../nuget_packages");
-		
-		chdir('../..');
+		move_chdir('../..');
 	}
 	
 	echo "Add new packages to git" . PHP_EOL;
-	system("git add -f nuget_packages/*.nupkg");
+	exec_system("git add -f nuget_packages/*.nupkg");
 	$commitMessage = "Build file for release " . implode(' & ', $releases) . " in version " . $versionNumber;
 	$commitMessage = str_replace('"', '\\"', $commitMessage);
 	
 	echo "Commit packages to git" . PHP_EOL;
 	foreach($releases as $release)
 	{
-		system('git tag -a ' . $release . '_v' . $versionNumber);
+		exec_system('git tag -a ' . $release . '_v' . $versionNumber . ' -m "Release ' . $release . ' in version ' . $versionNumber . '"');
 	}
-	system('git commit -m "' . $commitMessage . '"');
+	exec_system('git commit -m "' . $commitMessage . '"');
 	
 	echo "Merging to branch master and develop" . PHP_EOL;;
-	system('git checkout master && git merge --no-ff ' . $branchName . ' && git push');
-	system('git checkout develop && git merge --no-ff ' . $branchName . ' && git push');
-	system('git branch -d ' . $branchName);
+	exec_system('git checkout master && git merge --no-ff ' . $branchName . ' && git push');
+	exec_system('git checkout develop && git merge --no-ff ' . $branchName . ' && git push');
+	exec_system('git branch -d ' . $branchName);
 	
 	echo "Finished Release ! :)" . PHP_EOL;
 	
