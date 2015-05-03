@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Storm.Mvvm.Services
 {
@@ -7,6 +8,10 @@ namespace Storm.Mvvm.Services
 		void Show(string dialogKey);
 
 		void Show(string dialogKey, Dictionary<string, object> parameters);
+
+		void Show(string dialogKey, Action dialogDismissed);
+
+		void Show(string dialogKey, Dictionary<string, object> parameters, Action dialogDismissed);
 
 		void DismissCurrentDialog();
 	}
