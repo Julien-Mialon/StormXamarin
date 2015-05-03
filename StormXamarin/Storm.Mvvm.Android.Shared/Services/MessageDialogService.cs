@@ -14,7 +14,7 @@ namespace Storm.Mvvm.Services
 	public class MessageDialogService : AbstractMessageDialogService, IMessageDialogService
 	{
 		private readonly Dictionary<string, Type> _dialogs;
-		private readonly List<AbstractDialogFragmentBase> _dialogStack = new List<AbstractDialogFragmentBase>(); 
+		private readonly List<Tuple<AbstractDialogFragmentBase, Action>> _dialogStack = new List<Tuple<AbstractDialogFragmentBase, Action>>(); 
 
 		protected IActivityService ActivityService
 		{
@@ -30,11 +30,11 @@ namespace Storm.Mvvm.Services
 		{
 			if (_dialogStack.Count > 0)
 			{
-				_dialogStack.Last().Dismiss();
+				_dialogStack.Last().Item1.Dismiss();
 			}
 		}
 
-		protected override void ShowDialog(string dialogKey, string parametersKey)
+		protected override void ShowDialog(string dialogKey, string parametersKey, Action dialogDismissed)
 		{
 			if (!_dialogs.ContainsKey(dialogKey))
 			{
@@ -49,7 +49,7 @@ namespace Storm.Mvvm.Services
 			fragment.ParametersKey = parametersKey;
 			fragment.Dismissed += OnDialogDismissed;
 
-			_dialogStack.Add(fragment);
+			_dialogStack.Add(new Tuple<AbstractDialogFragmentBase, Action>(fragment, dialogDismissed));
 #if SUPPORT
 			FragmentActivity fragmentActivity = ActivityService.CurrentActivity as FragmentActivity;
 			if (fragmentActivity == null)
@@ -72,8 +72,16 @@ namespace Storm.Mvvm.Services
 				return;
 			}
 			dialog.Dismissed -= OnDialogDismissed;
+			Tuple<AbstractDialogFragmentBase, Action> savedTuple = _dialogStack.FirstOrDefault(x => Equals(x.Item1, dialog));
 
-			_dialogStack.Remove(dialog);
+			if (savedTuple != null)
+			{
+				_dialogStack.Remove(savedTuple);
+				if (savedTuple.Item2 != null)
+				{
+					savedTuple.Item2();
+				}
+			}
 		}
 	}
 }
