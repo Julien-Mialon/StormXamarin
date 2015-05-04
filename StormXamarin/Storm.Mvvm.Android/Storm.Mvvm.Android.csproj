@@ -53,7 +53,6 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="..\Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems" Label="Shared" Condition="Exists('..\Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems')" />
-  <Import Project="..\Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems" Label="Shared" Condition="Exists('..\Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems')" />
   <Import Project="..\Storm.Mvvm.Android.Shared\Storm.Mvvm.Android.Shared.projitems" Label="Shared" Condition="Exists('..\Storm.Mvvm.Android.Shared\Storm.Mvvm.Android.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>
