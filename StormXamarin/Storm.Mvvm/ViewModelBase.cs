@@ -39,26 +39,30 @@ namespace Storm.Mvvm
 
 		public virtual void OnNavigatedTo(NavigationArgs e, string parametersKey)
 		{
-			NavigationParameters = NavigationService.GetParameters(parametersKey);
-
-			if (NavigationParameters != null)
+			// Load parameters only the first time you arrive on the view
+			if (e.Mode == NavigationArgs.NavigationMode.New)
 			{
-				//Process auto navigation parameters property
-				foreach (PropertyInfo property in GetType().GetRuntimeProperties().Where(x => x.GetCustomAttribute<NavigationParameterAttribute>(true) != null))
+				NavigationParameters = NavigationService.GetParameters(parametersKey);
+
+				if (NavigationParameters != null)
 				{
-					NavigationParameterAttribute attribute = property.GetCustomAttribute<NavigationParameterAttribute>(true);
-
-					string parameterName = attribute.Name ?? property.Name;
-					if (attribute.Mode == NavigationParameterMode.Required && !NavigationParameters.Has(parameterName))
+					//Process auto navigation parameters property
+					foreach (PropertyInfo property in GetType().GetRuntimeProperties().Where(x => x.GetCustomAttribute<NavigationParameterAttribute>(true) != null))
 					{
-						throw new ArgumentOutOfRangeException(string.Format("Missing required navigation parameter {0}", parameterName));
-					}
+						NavigationParameterAttribute attribute = property.GetCustomAttribute<NavigationParameterAttribute>(true);
 
-					if (NavigationParameters.Has(parameterName))
-					{
-						object keyValue = NavigationParameters.Get<object>(parameterName);
+						string parameterName = attribute.Name ?? property.Name;
+						if (attribute.Mode == NavigationParameterMode.Required && !NavigationParameters.Has(parameterName))
+						{
+							throw new ArgumentOutOfRangeException(string.Format("Missing required navigation parameter {0}", parameterName));
+						}
 
-						property.SetValue(this, keyValue);
+						if (NavigationParameters.Has(parameterName))
+						{
+							object keyValue = NavigationParameters.Get<object>(parameterName);
+
+							property.SetValue(this, keyValue);
+						}
 					}
 				}
 			}

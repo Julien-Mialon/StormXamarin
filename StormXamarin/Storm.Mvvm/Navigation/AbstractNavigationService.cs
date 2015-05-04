@@ -42,7 +42,9 @@ namespace Storm.Mvvm.Navigation
 		{
 			if (parametersKey != null && _parametersContainers.ContainsKey(parametersKey))
 			{
-				return _parametersContainers[parametersKey];
+				NavigationParametersContainer container = _parametersContainers[parametersKey];
+				_parametersContainers.Remove(parametersKey);
+				return container;
 			}
 			return null;
 		}
