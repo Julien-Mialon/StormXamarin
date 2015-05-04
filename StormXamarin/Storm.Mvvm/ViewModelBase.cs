@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Storm.Mvvm.Inject;
 using Storm.Mvvm.Navigation;
 using Storm.Mvvm.Services;
@@ -29,14 +30,6 @@ namespace Storm.Mvvm
 
 		#endregion
 
-		#region Properties
-
-		#endregion
-
-		#region Constructors
-
-		#endregion
-
 		#region Public methods
 
 		public virtual void OnNavigatedFrom(NavigationArgs e)
@@ -56,9 +49,17 @@ namespace Storm.Mvvm
 					NavigationParameterAttribute attribute = property.GetCustomAttribute<NavigationParameterAttribute>(true);
 
 					string parameterName = attribute.Name ?? property.Name;
-					object keyValue = NavigationParameters.Get<object>(parameterName);
+					if (attribute.Mode == NavigationParameterMode.Required && !NavigationParameters.Has(parameterName))
+					{
+						throw new ArgumentOutOfRangeException(string.Format("Missing required navigation parameter {0}", parameterName));
+					}
 
-					property.SetValue(this, keyValue);
+					if (NavigationParameters.Has(parameterName))
+					{
+						object keyValue = NavigationParameters.Get<object>(parameterName);
+
+						property.SetValue(this, keyValue);
+					}
 				}
 			}
 		}

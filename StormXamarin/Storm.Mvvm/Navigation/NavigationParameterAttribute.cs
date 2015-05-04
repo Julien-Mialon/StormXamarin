@@ -8,13 +8,17 @@ namespace Storm.Mvvm.Navigation
 		public NavigationParameterAttribute()
 		{
 			Name = null;
+			Mode = NavigationParameterMode.Required;
 		}
 
 		public NavigationParameterAttribute(string name)
 		{
 			Name = name;
+			Mode = NavigationParameterMode.Required;
 		}
 
 		public string Name { get; set; }
+
+		public NavigationParameterMode Mode { get; set; }
 	}
 }
