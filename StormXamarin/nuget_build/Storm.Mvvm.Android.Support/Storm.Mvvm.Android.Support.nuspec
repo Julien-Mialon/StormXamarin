@@ -2,7 +2,7 @@
 <package >
 	<metadata>
 		<id>Storm.Mvvm.Android.Support</id>
-		<version>1.2.10.1</version>
+		<version>1.2.12</version>
 		<title>Storm.Mvvm.Android.Support</title>
 		<authors>Julien Mialon</authors>
 		<owners>Julien Mialon</owners>
@@ -14,8 +14,21 @@
 		<copyright>Copyright 2014</copyright>
 		<tags>mvvm xamarin android xamarin.android storm support supportv4</tags>
 		<dependencies>
-            <dependency id="Storm.Mvvm" version="1.2.4" />
+            <dependency id="Storm.Mvvm" version="1.2.7" />
 			<dependency id="Xamarin.Android.Support.v4" version="21.0.3.0" />
         </dependencies>
 	</metadata>
+	<files>
+		<file src="build\Storm.Mvvm.Android.Support.targets" target="build" />
+		<file src="content\ActivityDescription.json" target="content" />
+		
+		<file src="..\..\Storm.Binding.AndroidTarget\bin\Release\Storm.Binding.AndroidTarget.dll" target="tools" />
+		<file src="..\..\Storm.Binding.AndroidTarget\bin\Release\Newtonsoft.Json.dll" target="tools" />
+		
+		<file src="..\..\Storm.Mvvm.Android.Support\bin\Release\Storm.Mvvm.Android.Support.dll" target="lib\MonoAndroid22" />
+		<file src="..\..\Storm.Mvvm.Android.Support\bin\Release\Storm.Mvvm.Android.Support.pdb" target="lib\MonoAndroid22" />
+		
+		<file src="..\..\Storm.Mvvm.Android.Support\**\*.cs" target="src" exclude="..\..\Storm.Mvvm.Android.Support\bin\**.*.cs;..\..\Storm.Mvvm.Android.Support\obj\**\*.cs;" />
+		<file src="..\..\Storm.Mvvm.Android.Shared\**\*.cs" target="src" />
+	</files>
 </package>
