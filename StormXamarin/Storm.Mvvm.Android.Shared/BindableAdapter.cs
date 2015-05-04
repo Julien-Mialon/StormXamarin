@@ -41,7 +41,14 @@ namespace Storm.Mvvm
 
 		public override object this[int position]
 		{
-			get { return _collection == null ? null : _collection[position]; }
+			get
+			{
+				if (_collection == null || position < 0 || position >= _collection.Count)
+				{
+					return null;
+				}
+				return _collection[position];
+			}
 		}
 
 		public override long GetItemId(int position)

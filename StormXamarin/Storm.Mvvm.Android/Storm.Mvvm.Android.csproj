@@ -53,12 +53,10 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="..\Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems" Label="Shared" Condition="Exists('..\Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems')" />
-  <Import Project="..\Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems" Label="Shared" Condition="Exists('..\Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems')" />
   <Import Project="..\Storm.Mvvm.Android.Shared\Storm.Mvvm.Android.Shared.projitems" Label="Shared" Condition="Exists('..\Storm.Mvvm.Android.Shared\Storm.Mvvm.Android.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) $(ProjectDir)..\nuget_build\Storm.Mvvm.Android\lib\MonoAndroid22\</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
