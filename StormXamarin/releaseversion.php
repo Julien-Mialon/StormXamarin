@@ -119,9 +119,12 @@
 	$commitMessage = str_replace('"', '\\"', $commitMessage);
 	
 	echo "Commit packages to git" . PHP_EOL;
+	$tags = array();
 	foreach($releases as $release)
 	{
-		exec_system('git tag -a ' . $release . '_v' . $versionNumber . ' -m "Release ' . $release . ' in version ' . $versionNumber . '"');
+		$tag = $release . '_v' . $versionNumber;
+		exec_system('git tag -a ' . $tag . ' -m "Release ' . $release . ' in version ' . $versionNumber . '"');
+		$tags[] = $tag;
 	}
 	exec_system('git commit -m "' . $commitMessage . '"');
 	
@@ -129,6 +132,13 @@
 	exec_system('git checkout master && git merge --no-ff ' . $branchName . ' && git push');
 	exec_system('git checkout develop && git merge --no-ff ' . $branchName . ' && git push');
 	exec_system('git branch -d ' . $branchName);
+	
+	// Push all tags
+	echo "Pushing tags to remote" . PHP_EOL;
+	foreach($tags as $tag)
+	{
+		exec_system('git push origin ' . $tag);
+	}
 	
 	echo "Finished Release ! :)" . PHP_EOL;
 	

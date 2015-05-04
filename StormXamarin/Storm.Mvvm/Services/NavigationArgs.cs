@@ -6,9 +6,7 @@
 		{
 			Back,
 			Forward,
-			New,
-			Refresh,
-			Reset,
+			New
 		}
 
 		public NavigationMode Mode { get; private set; }
