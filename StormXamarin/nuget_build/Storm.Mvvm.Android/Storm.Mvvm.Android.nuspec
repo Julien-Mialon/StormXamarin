@@ -17,4 +17,17 @@
             <dependency id="Storm.Mvvm" version="1.2.4" />
         </dependencies>
 	</metadata>
+	<files>
+		<file src="build\Storm.Mvvm.Android.targets" target="build" />
+		<file src="content\ActivityDescription.json" target="content" />
+		
+		<file src="..\..\Storm.Binding.AndroidTarget\bin\Release\Storm.Binding.AndroidTarget.dll" target="tools" />
+		<file src="..\..\Storm.Binding.AndroidTarget\bin\Release\Newtonsoft.Json.dll" target="tools" />
+		
+		<file src="..\..\Storm.Mvvm.Android\bin\Release\Storm.Mvvm.Android.dll" target="lib\MonoAndroid22" />
+		<file src="..\..\Storm.Mvvm.Android\bin\Release\Storm.Mvvm.Android.pdb" target="lib\MonoAndroid22" />
+		
+		<file src="..\..\Storm.Mvvm.Android\**\*.cs" target="src" exclude="..\..\Storm.Mvvm.Android\bin\**.*.cs;..\..\Storm.Mvvm.Android\obj\**\*.cs;" />
+		<file src="..\..\Storm.Mvvm.Android.Shared\**\*.cs" target="src" />
+	</files>
 </package>

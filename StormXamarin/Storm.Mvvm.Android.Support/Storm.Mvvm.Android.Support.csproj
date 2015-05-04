@@ -70,7 +70,8 @@
   <Import Project="..\Storm.Mvvm.Android.Shared\Storm.Mvvm.Android.Shared.projitems" Label="Shared" Condition="Exists('..\Storm.Mvvm.Android.Shared\Storm.Mvvm.Android.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetPath) $(ProjectDir)..\nuget_build\Storm.Mvvm.Android.Support\lib\MonoAndroid22\</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
