@@ -55,6 +55,7 @@
     <Compile Include="Navigation\AbstractMessageDialogService.cs" />
     <Compile Include="Navigation\AbstractNavigationService.cs" />
     <Compile Include="Navigation\NavigationParameterAttribute.cs" />
+    <Compile Include="Navigation\NavigationParameterMode.cs" />
     <Compile Include="Navigation\NavigationParametersContainer.cs" />
     <Compile Include="Services\IAssetsService.cs" />
     <Compile Include="Services\IMessageDialogService.cs" />
