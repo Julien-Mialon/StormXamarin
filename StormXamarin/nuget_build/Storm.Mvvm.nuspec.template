@@ -17,9 +17,4 @@
 			<dependency id="Funq.Portable" version="1.0.1" />
 		</dependencies>
 	</metadata>
-	<files>
-		<file src="..\..\Storm.Mvvm\bin\Release\Storm.Mvvm.dll" target="lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10" />
-		<file src="..\..\Storm.Mvvm\bin\Release\Storm.Mvvm.pdb" target="lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10" />
-		<file src="..\..\Storm.Mvvm\**\*.cs" target="src" exclude="..\..\Storm.Mvvm\bin\**.*.cs;..\..\Storm.Mvvm\obj\**\*.cs;" />
-	</files>
 </package>
