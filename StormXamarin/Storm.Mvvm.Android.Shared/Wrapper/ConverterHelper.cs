@@ -32,6 +32,12 @@ namespace Storm.Mvvm.Wrapper
 					value = underlyingObject;
 				}
 			}
+
+			if (conversionType.IsInstanceOfType(value))
+			{
+				return value;
+			}
+			
 			return Convert.ChangeType(value, conversionType);
 		}
 	}
