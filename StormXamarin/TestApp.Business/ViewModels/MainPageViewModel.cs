@@ -32,6 +32,11 @@ namespace TestApp.Business.ViewModels
 		}
 	}
 
+	public class ChildrenDataContainer : DataContainer
+	{
+		public int Id { get; set; }
+	}
+
     public class MainPageViewModel : ViewModelBase
     {
 		private string _buttonText = "";
@@ -39,15 +44,16 @@ namespace TestApp.Business.ViewModels
 	    private string _inputText;
 	    private DataContainer _data;
 	    private string _pushText = "";
-		private List<string> _myCollection = new List<string>()
+		private List<DataContainer> _myCollection = new List<DataContainer>()
 		{
-			"NY", "Paris", "Milan", "Barcelone", "Moscou"
+			new DataContainer() { Text = "Possible 1"},
+			new ChildrenDataContainer() { Text = "Possible 2"}
 		};
 
 	    private DataContainer _dataInput;
 
 
-	    public List<string> MyCollection
+		public List<DataContainer> MyCollection
 	    {
 		    get { return _myCollection; }
 	    }
@@ -62,6 +68,8 @@ namespace TestApp.Business.ViewModels
 			get { return _pushText; }
 			set { SetProperty(ref _pushText, value); }
 	    }
+
+	    public DataContainer Selected { get; set; }
 
 	    public int Color { get; set; }	
 
