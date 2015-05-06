@@ -21,10 +21,6 @@ namespace Storm.Mvvm.Services
 		{
 			get
 			{
-				if (_currentActivity == null)
-				{
-					throw new Exception("Activity == null");
-				}
 				return _currentActivity;
 			}
 			set
