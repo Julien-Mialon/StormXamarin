@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Windows.ApplicationModel;
 using Windows.UI.Xaml;
 using Storm.Mvvm.Services;
 
@@ -40,7 +41,7 @@ namespace Storm.Mvvm.Localization
 		private static void UidChangedCallback(object sender, DependencyPropertyChangedEventArgs args)
 		{
 #if DEBUG
-			if (DesignerProperties.IsInDesignTool)
+			if(DesignMode.DesignModeEnabled)
 			{
 				return;
 			}
@@ -62,7 +63,7 @@ namespace Storm.Mvvm.Localization
 		private static void PropertiesChangedCallback(object sender, DependencyPropertyChangedEventArgs args)
 		{
 #if DEBUG
-			if (DesignerProperties.IsInDesignTool)
+			if (DesignMode.DesignModeEnabled)
 			{
 				return;
 			}
@@ -81,7 +82,7 @@ namespace Storm.Mvvm.Localization
 		private static void UpdateProperties(DependencyObject attachedObject, string properties, string uid)
 		{
 #if DEBUG
-			if (DesignerProperties.IsInDesignTool)
+			if (DesignMode.DesignModeEnabled)
 			{
 				return;
 			}

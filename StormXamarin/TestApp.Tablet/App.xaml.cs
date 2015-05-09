@@ -71,6 +71,8 @@ namespace TestApp.Tablet
                 Window.Current.Content = rootFrame;
             }
 
+	        Bootstrap.Initialize(rootFrame);
+
             if (rootFrame.Content == null)
             {
                 // Quand la pile de navigation n'est pas restaurée, accédez à la première page,

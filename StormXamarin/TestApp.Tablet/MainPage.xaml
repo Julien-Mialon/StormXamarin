@@ -5,9 +5,36 @@
     xmlns:local="using:TestApp.Tablet"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+	DataContext="{Binding HomeViewModel, Source={StaticResource Locator}}"
+	>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+				Orientation="Vertical"
+				>
+		<TextBlock Text="Your name: " 
+				   FontSize="28"
+				   />
 
-    </Grid>
+		<TextBox Text="{Binding Name, Mode=TwoWay}" 
+				 FontSize="28"
+				 />
+		
+		<TextBlock FontSize="28">
+			<Run Text="Hello " />
+			<Run Text="{Binding Greetings}" />
+			<Run Text="!" />
+		</TextBlock>
+		
+		<StackPanel Orientation="Horizontal">
+			<Button Content="Navigation command"
+					FontSize="28"
+					Command="{Binding NavigationCommand}"
+					/>
+			<Button Content="Dialog command"
+					FontSize="28"
+					Command="{Binding DialogCommand}"
+					/>
+		</StackPanel>
+    </StackPanel>
 </Page>

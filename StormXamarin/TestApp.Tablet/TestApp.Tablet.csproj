@@ -103,13 +103,36 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <ProjectReference Include="..\Storm.Mvvm.Tablet\Storm.Mvvm.Tablet.csproj">
+      <Project>{0A0B594C-0502-4AA7-9F1A-428B99D89BE4}</Project>
+      <Name>Storm.Mvvm.Tablet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Storm.Mvvm\Storm.Mvvm.csproj">
+      <Project>{1106AAA1-D2DD-4E12-8B9B-62BDFB7AEE88}</Project>
+      <Name>Storm.Mvvm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestApp.Business\TestApp.Business.csproj">
+      <Project>{54DE00C9-B9E6-46AE-AD49-6D70D18D6232}</Project>
+      <Name>TestApp.Business</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Bootstrap.cs" />
+    <Compile Include="Container.cs" />
+    <Compile Include="DialogPage.xaml.cs">
+      <DependentUpon>DialogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainDialog.xaml.cs">
+      <DependentUpon>MainDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationPage.xaml.cs">
+      <DependentUpon>NavigationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -136,9 +159,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="DialogPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="NavigationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
