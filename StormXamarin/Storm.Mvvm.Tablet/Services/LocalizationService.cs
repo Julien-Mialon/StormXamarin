@@ -15,7 +15,7 @@ namespace Storm.Mvvm.Services
 
 		public LocalizationService()
 		{
-			_resourceLoader = new ResourceLoader();
+			_resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
 		}
 
 		public string GetString(string uid)
@@ -33,7 +33,8 @@ namespace Storm.Mvvm.Services
 			{
 				return "";
 			}
-			string key = string.Format("{0}_{1}", uid, property);
+			string key = string.Format("{0}.{1}", uid, property);
+
 			return _resourceLoader.GetString(key);
 		}
 	}

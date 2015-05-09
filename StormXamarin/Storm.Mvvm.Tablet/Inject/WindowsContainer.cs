@@ -42,6 +42,8 @@ namespace Storm.Mvvm.Inject
 		{
 			_rootFrame = rootFrame;
 
+
+			RegisterInstance<ILocalizationService>(new LocalizationService());
 			RegisterInstance<INavigationService>(new NavigationService(_rootFrame, views));
 			RegisterInstance<IMessageDialogService>(new MessageDialogService(dialogs));
 			RegisterInstance<IDispatcherService>(new DispatcherService(_rootFrame));

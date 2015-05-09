@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Windows.ApplicationModel;
 using Windows.UI.Xaml;
+using Storm.Mvvm.Inject;
 using Storm.Mvvm.Services;
 
 namespace Storm.Mvvm.Localization
@@ -13,7 +14,10 @@ namespace Storm.Mvvm.Localization
 		private const string UidPropertyName = "Uid";
 		private const string PropertiesPropertyName = "Properties";
 
-		public static ILocalizationService ResourceService;
+		public static ILocalizationService ResourceService
+		{
+			get { return LazyResolver<ILocalizationService>.Service; }
+		}
 
 		public static string GetUid(DependencyObject obj)
 		{

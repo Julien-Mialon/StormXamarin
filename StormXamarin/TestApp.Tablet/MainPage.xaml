@@ -5,6 +5,7 @@
     xmlns:local="using:TestApp.Tablet"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:localization="using:Storm.Mvvm.Localization"
     mc:Ignorable="d"
 	DataContext="{Binding HomeViewModel, Source={StaticResource Locator}}"
 	>
@@ -12,6 +13,13 @@
     <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 				Orientation="Vertical"
 				>
+		<TextBlock Text="- Default -" 
+				   FontSize="30"
+				   Margin="100"
+				   localization:LocalizationHelper.Properties="Text"
+				   localization:LocalizationHelper.Uid="Title"
+				   />
+		
 		<TextBlock Text="Your name: " 
 				   FontSize="28"
 				   />
