@@ -38,16 +38,17 @@ namespace Storm.Mvvm.Inject
 
 		private Frame _rootFrame;
 
-		public void Initialize(Frame rootFrame, Dictionary<string, Type> views, Dictionary<string, Type> dialogs)
+		protected virtual void Initialize(Frame rootFrame, Dictionary<string, Type> views, Dictionary<string, Type> dialogs)
 		{
 			_rootFrame = rootFrame;
-
 
 			RegisterInstance<ILocalizationService>(new LocalizationService());
 			RegisterInstance<INavigationService>(new NavigationService(_rootFrame, views));
 			RegisterInstance<IMessageDialogService>(new MessageDialogService(dialogs));
 			RegisterInstance<IDispatcherService>(new DispatcherService(_rootFrame));
 			RegisterInstance<ILoggerService>(new LoggerService());
+
+			Initialize();
 		}
 	}
 }
