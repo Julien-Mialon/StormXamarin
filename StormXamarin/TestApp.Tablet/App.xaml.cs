@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -82,6 +83,11 @@ namespace TestApp.Tablet
             }
             // Vérifiez que la fenêtre actuelle est active
             Window.Current.Activate();
+			/*
+			ResourceLoader loader = new ResourceLoader();
+	        var str = loader.GetString("Title/Text");
+	        var str2 = loader.GetString("Text.Text");
+			 */
         }
 
         /// <summary>

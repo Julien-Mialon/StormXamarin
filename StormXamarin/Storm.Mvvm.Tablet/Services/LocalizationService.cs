@@ -33,7 +33,7 @@ namespace Storm.Mvvm.Services
 			{
 				return "";
 			}
-			string key = string.Format("{0}.{1}", uid, property);
+			string key = string.Format("{0}/{1}", uid, property);
 
 			return _resourceLoader.GetString(key);
 		}
