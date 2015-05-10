@@ -29,7 +29,7 @@ namespace Storm.Mvvm.Inject
 		{
 			if (_instance == null)
 			{
-				throw new Exception("AndroidContainer has not been created");
+				throw new Exception("WindowsContainer has not been created");
 			}
 			return _instance;
 		}
