@@ -1,0 +1,238 @@
+<strong>What is Storm.Mvvm?</strong>
+
+Storm.Mvvm is (another) Mvvm framework to use with Xamarin. But compared to other framework like MvvmLight or MvvmCross, you have a really good support of Binding and all related things (like converter, resources ...) in it.
+
+Today full support is only available on Xamarin.Android, and most of the things are available on Windows 8. Implementation for Windows Phone 8 is a work in progress and support for Xamarin.iOS will be available as soon as I find an easy way to use binding with it. 
+
+The framework is available as multiple nuget packages: 
+<ul>
+	<li><a href="http://www.nuget.org/packages/Storm.Mvvm/">Storm.Mvvm</a> is the portable implementation (use it in your PCL projects)</li>
+	<li><a href="http://www.nuget.org/packages/Storm.Mvvm.Android/">Storm.Mvvm.Android</a> is the android implementation (use it in your Xamarin.Android projects)</li>
+	<li><a href="http://www.nuget.org/packages/Storm.Mvvm.Android.Support/">Storm.Mvvm.Android.Support</a> is the same as the android implementation but came with Support Library v4 to be able to use features like Fragment on Android 1.6 and further.</li>
+	<li><a href="http://www.nuget.org/packages/Storm.Mvvm.Tablet/">Storm.Mvvm.Tablet</a> is the Windows 8 implementation. (Only partial for now)</li>
+</ul>
+
+More to come: I planned to release the phone version and the iOS version the same way. Also an Android package with support for things like RecyclerView or CardView which came in Support Library v7 is in preparation and will be available soon.
+
+The Android version is today the most complete and up-to-date because of a project I'm working on which use this framework. The project is open source and you can check it on <a href="https://github.com/Julien-Mialon/IndiaRose">github.com/Julien-Mialon/IndiaRose</a> to see some samples of how to use this framework. Since only the Android support is complete, I'm going to use a sample with Android.
+
+
+<strong>How to design an Mvvm Android application with Storm.Mvvm</strong>
+
+Now, let's deep into code. First of all, suppose we create an android application (name it MyApplication.Android) and then create a PCL project to store our ViewModels (name it MyApplication.Portable). Next we need to import the correct nuget packages in both projects. (Storm.Mvvm for both and Storm.Mvvm.Android or support version in the android project) The core package has a dependencies to Funq for dependency injection so this package will be imported too.
+
+In this sample, we want to create a small app with:
+<ul>
+	<li>A button with the text "you've clicked X times on this button" where X will be the number of clicks,</li>
+	<li>An input text where the user can enter its name,</li>
+	<li>A label where the text will be "Hello X!" where X will be the content of the input text.</li>
+</ul>
+
+<em>ViewModel implementation</em>
+
+We are going to create our first ViewModel in the PCL project (Let’s call it HomeViewModel.cs). You have to make this ViewModel extend Storm.Mvvm.ViewModelBase which provide implementation for INotifyPropertyChanged (to update the view) and take care of navigation things. In order to implement our sample, we need in our ViewModel:
+<ul>
+	<li>A Command to react on button click (ButtonCommand)</li>
+	<li>A string for the button text (ButtonText)</li>
+	<li>A string for the input text (Name)</li>
+	<li>A string for the label (Greetings)</li>
+</ul>
+
+To update the view when a property change, we need to use the SetProperty method to affect its value (or you can raise the PropertyChanged event manually). A simple implementation for commands is provided with the framework: DelegateCommand (or DelegateCommand<T> if you need to pass a parameter to the command).
+
+The ViewModel code is available just below and shouldn't be strange for anyone who already used Mvvm. 
+
+[csharp]
+using System.Windows.Input;
+using Storm.Mvvm;
+using Storm.Mvvm.Commands;
+
+public class HomeViewModel: ViewModelBase
+{
+	private string _buttonText;
+	private string _name;
+	private string _greetings;
+	
+	private int _clickCounter = 0;
+	
+	public string ButtonText
+	{
+		get { return _buttonText; }
+		set { SetProperty(ref _buttonText, value); }
+	}
+	
+	public string Name
+	{
+		get { return _name; }
+		set 
+		{ 
+			if(SetProperty(ref _name, value))
+			{
+				// if the input changed, we need to update the associated label
+				Greetings = string.Format("Hello {0}!", value ?? "");
+			}
+		}
+	}
+	
+	public string Greetings
+	{
+		get { return _greetings; }
+		set { SetProperty(ref _greetings, value); }
+	}
+	
+	// Since it will only be affected once, we do not need to raise the PropertyChanged event there
+	public ICommand ButtonCommand { get; private set; }
+	
+	public HomeViewModel()
+	{
+		ButtonCommand = new DelegateCommand(ButtonClicked);
+		Greetings = "Hello !";
+		
+		// initialize button text
+		ButtonClicked();
+	}
+	
+	private void ButtonClicked()
+	{
+		ButtonText = string.Format("You've clicked {0} times on this button", _clickCounter++);
+	}
+}
+[/csharp]
+
+You can check that your portable project build without error at this point.
+
+<em>Android project configuration for Mvvm</em>
+
+For the android project, we need to adjust some configuration in order to initialize our framework correctly. First of all, remove everything in Resources/layout (do not remove the folder!) then, at the root of your project, create a MyMvvmApplication.cs file and put this code in it: 
+
+[csharp]
+using System;
+using Android.App;
+using Android.Runtime;
+using Storm.Mvvm;
+using Storm.Mvvm.Inject;
+
+[Application]
+public class MyMvvmApplication : ApplicationBase
+{
+	public MyMvvmApplication(IntPtr handle, JniHandleOwnership transfer) : base(handle,transfer)
+	{
+	}
+	
+	public override void OnCreate()
+	{
+		base.OnCreate();
+		AndroidContainer.CreateInstance<AndroidContainer>(this, null);
+	}
+}
+[/csharp]
+
+The last line of the OnCreate method is used to initialize some default services (like Navigation, Logging ...) we will use it in a next post. You can also add any initialization code you need in the OnCreate function.
+
+<em>The Android view</em>
+
+Next we will create the HomeActivity and the HomeView, for that, create the file HomeActivity.cs and HomeView.xml at the root of the project. The HomeActivity has to inherit ActivityBase and be a partial class. In this class, we will just link the View and the ViewModel with the Activity.
+
+[csharp]
+using Android.App;
+using Android.OS;
+using Storm.Mvvm;
+using MyApplication.Portable;
+
+[Activity(Label = "HomeActivity", MainLauncher = true, Icon = "@drawable/icon")]
+public partial class HomeActivity : ActivityBase
+{
+	protected override void OnCreate(Bundle bundle)
+	{
+		base.OnCreate(bundle);
+
+		// Set our view from the home file in layout
+		SetContentView(Resource.Layout.Home);
+		// Set our view model
+		SetViewModel(new HomeViewModel());
+	}
+}
+[/csharp]
+
+The SetContentView function come from Android, just be careful with the name of the view you give, you need to remember it. And the SetViewModel function associate your ViewModel with your View. Patterns like Locator to retrieve the ViewModel could be used but in our sample, we just create it with a new to simplify.
+
+Now for the view file, you can change its build action to "None" to avoid the build process to add it to your final apk. And in this file, you can write your normal android view, with a little bit of binding to use property provided by our ViewModel.
+
+[xml]
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:orientation="vertical"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent">
+	<Button android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			Click="{Binding ButtonCommand}"
+			Text="{Binding ButtonText}"
+			/>
+	
+	<EditText android:layout_width="match_parent"
+			  android:layout_height="60dp"
+			  Text="{Binding Name, Mode=TwoWay, UpdateEvent=TextChanged}"
+			  />
+			  
+	<TextView android:layout_width="match_parent"
+			  android:layout_height="wrap_content"
+			  Text="{Binding Greetings}"
+			  />
+</LinearLayout>
+[/xml]
+
+In this view file, you can see some binding expression, if you are comfortable with Mvvm, I'm sure you already used something like that. For the others, {Binding PropertyName} link the content of the property of the view model with name "PropertyName" to the current xml property. For instance with our TextView, Text="{Binding Greetings}" will update the Text property of the TextView every time the Greetings property in our ViewModel is updated. You can see you do not need the "android:" prefix for attribute using binding cause they will be translated to C# code. For the same reason, attributes name are case insensitive.
+
+Since Android doesn't natively support command and only event, if you bind a command to an event a proxy will handle the call to your command transparently. (CommandParameter are supported but will be introduced in another post)
+
+For basic binding, everything looks exactly like binding with WPF or Windows 8/Phone, The difference come with TwoWay binding. TwoWay binding allow the view to update the property of the ViewModel (which could be really useful in case of EditText) whereas the "standard" mode (OneWay) only update from the ViewModel to the View. 
+To make TwoWay binding works, we need to know the event raised when the property of the view is updated, that's why, you must provide an UpdateEvent. This UpdateEvent must be an event available in the control class you are binding to.
+
+To be able to run this sample, you only need one last things, specify links between view file and activity. Since the Binding engine will preprocess your view file to generate: 
+<ul>
+	<li>A valid android layout file (without bindings expressions),</li>
+	<li>C# code to handle all of your bindings (that's why your activity is marked partial).</li>
+</ul>
+He needs to associate one view with its activity. This information needs to be provided in a json file. A sample file (ActivityDescription.json) should have been added to your Android project with the nuget package. This file is just a sample to explain all available configurations.
+
+We are going to create a new file: MyApplication.json and set its build action to "BindingProcess" (If the build action is not available in the list, unload and reload your project and it should be available. If it's still not available, edit the .csproj file to change the build action manually). Only two things are required in this file, the root namespace of your Android application in "namespaces" and the link between your views and your activity in the "fileDescriptions" field. So you json file should look like:
+
+[javascript]
+{
+    "namespaces": [ "MyApplication.Android" ],
+    "fileDescriptions": [
+        {
+            "activity": {
+                "namespaceName": "MyApplication.Android",
+                "className": "HomeActivity"
+            },
+            "view": {
+                "inputFile": "HomeView.xml",
+                "outputFile": "Home.axml"
+            }
+        }
+	]
+}
+[/javascript]
+
+You need to take care of two things, that your activity namespace/class name are right and that your view output file match the name you put in the SetContentView function in your Activity. To specify the view input file, you need to give the path relative to the json file.
+
+Now, you should be able to run your application and see the magic of Mvvm with Android.
+To summarize what we've done so far:
+<ul>
+	<li>Create a PCL project for your ViewModels,</li>
+	<li>Create an Android application project for your Views,</li>
+	<li>Add nuget Storm.Mvvm to both projects,</li>
+	<li>Add nuget Storm.Mvvm.Android to the Android application project,</li>
+	<li>Code your ViewModel in PCL,</li>
+	<li>Create an Application to initialize framework in Android project,</li>
+	<li>Create an Activity and a View in Android project,</li>
+	<li>Create a json file to describe links between Activities and Views in Android project,</li>
+	<li>Run and enjoy your apps ;-)</li>
+</ul>
+	
+More posts to come about other feature of the framework like advanced binding, styles, IoC...
+
+Link to the project on github : <a href="https://github.com/Julien-Mialon/StormXamarin">github.com/Julien-Mialon/StormXamarin</a>
+A documentation is also available on github project wiki : <a href="https://github.com/Julien-Mialon/StormXamarin/wiki">github.com/Julien-Mialon/StormXamarin/wiki</a>

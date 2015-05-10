@@ -1,0 +1,33 @@
+﻿<mvvm:DialogPage
+    x:Class="TestApp.Tablet.DialogPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TestApp.Tablet"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mvvm="using:Storm.Mvvm"
+	DataContext="{Binding NavigationViewModel, Source={StaticResource Locator}}"
+	PopupHeight="300"
+    mc:Ignorable="d">
+
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<StackPanel Orientation="Vertical"
+					Margin="12">
+			<TextBlock FontSize="30">
+				<Run Text="Bouh " />
+				<Run Text="{Binding Name}" />
+				<Run Text=" !" />
+			</TextBlock>
+			           
+			
+			<Button Content="Back button"
+			        Command="{Binding DialogCloseCommand}"
+					FontSize="30" />
+			
+			<Button Content="Dialog button"
+					Command="{Binding OpenDialogCommand}"
+					FontSize="30"
+					/>
+		</StackPanel>
+	</Grid>
+</mvvm:DialogPage>

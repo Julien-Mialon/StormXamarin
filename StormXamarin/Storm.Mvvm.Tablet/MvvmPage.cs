@@ -23,7 +23,7 @@ namespace Storm.Mvvm
 
 			string parameterKey = e.Parameter as string;
 			ViewModelBase viewModel = DataContext as ViewModelBase;
-			if (viewModel != null && parameterKey != null)
+			if (viewModel != null)
 			{
 				viewModel.OnNavigatedTo(NavigationHelper.FromArgs(e), parameterKey);
 			}
