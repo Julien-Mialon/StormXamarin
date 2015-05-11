@@ -10,7 +10,7 @@ namespace Storm.Mvvm.Services
 	{
 		#region Fields
 
-		private readonly PhoneApplicationFrame _service = null;
+		private readonly PhoneApplicationFrame _service;
 		private readonly Dictionary<string, string> _views; 
 
 		#endregion

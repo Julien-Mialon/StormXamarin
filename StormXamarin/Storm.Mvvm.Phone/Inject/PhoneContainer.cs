@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Phone.Controls;
 using Storm.Mvvm.Services;
 
@@ -12,7 +9,7 @@ namespace Storm.Mvvm.Inject
 	{
 		#region Static members
 
-		private static PhoneContainer _instance = null;
+		private static PhoneContainer _instance;
 
 		public static T CreateInstance<T>(PhoneApplicationFrame rootFrame, Dictionary<string, string> views, object stringResources) where T : PhoneContainer, new()
 		{

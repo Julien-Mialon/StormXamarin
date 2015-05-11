@@ -83,6 +83,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="EventToCommand.cs" />
     <Compile Include="Inject\PhoneContainer.cs" />
     <Compile Include="Localization\LocalizationHelper.cs" />
     <Compile Include="Services\NavigationService.cs" />
@@ -98,7 +99,9 @@
       <Name>Storm.Mvvm</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="System.Windows.Interactivity, Version=3.9.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+  </ItemGroup>
   <Import Project="..\Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems" Label="Shared" Condition="Exists('..\Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
