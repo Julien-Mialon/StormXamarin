@@ -4,16 +4,20 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using Storm.Mvvm.Inject;
 using Storm.Mvvm.Services;
 
 namespace Storm.Mvvm.Localization
 {
 	public static class LocalizationHelper
 	{
-		private const string UidPropertyName = "Uid";
-		private const string PropertiesPropertyName = "Properties";
+		private const string UID_PROPERTY_NAME = "Uid";
+		private const string PROPERTIES_PROPERTY_NAME = "Properties";
 
-		public static ILocalizationService ResourceService;
+		private static ILocalizationService ResourceService
+		{
+			get { return LazyResolver<ILocalizationService>.Service; }
+		}
 
 		public static string GetUid(DependencyObject obj)
 		{
@@ -35,8 +39,8 @@ namespace Storm.Mvvm.Localization
 			obj.SetValue(PropertiesProperty, value);
 		}
 
-		public static readonly DependencyProperty UidProperty = DependencyProperty.RegisterAttached(UidPropertyName, typeof(string), typeof(LocalizationHelper), new PropertyMetadata(null, UidChangedCallback));
-		public static readonly DependencyProperty PropertiesProperty = DependencyProperty.RegisterAttached(PropertiesPropertyName, typeof(string), typeof(LocalizationHelper), new PropertyMetadata(null, PropertiesChangedCallback));
+		public static readonly DependencyProperty UidProperty = DependencyProperty.RegisterAttached(UID_PROPERTY_NAME, typeof(string), typeof(LocalizationHelper), new PropertyMetadata(null, UidChangedCallback));
+		public static readonly DependencyProperty PropertiesProperty = DependencyProperty.RegisterAttached(PROPERTIES_PROPERTY_NAME, typeof(string), typeof(LocalizationHelper), new PropertyMetadata(null, PropertiesChangedCallback));
 
 		private static void UidChangedCallback(object sender, DependencyPropertyChangedEventArgs args)
 		{

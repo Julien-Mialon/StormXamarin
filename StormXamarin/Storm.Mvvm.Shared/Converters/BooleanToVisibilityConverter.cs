@@ -1,6 +1,6 @@
 ﻿#if WINDOWS_APP || WINDOWS_PHONE
-using System;
 
+using System;
 #if WINDOWS_PHONE
 using System.Windows;
 using System.Windows.Data;
