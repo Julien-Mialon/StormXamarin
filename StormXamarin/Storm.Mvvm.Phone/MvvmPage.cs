@@ -6,19 +6,8 @@ using Storm.Mvvm.Services;
 
 namespace Storm.Mvvm
 {
-	public class PageView : PhoneApplicationPage
+	public class MvvmPage : PhoneApplicationPage
 	{
-		#region Constructors
-
-		public PageView()
-		{
-			SystemTray.SetIsVisible(this, false);
-			SupportedOrientations = SupportedPageOrientation.Portrait;
-			Orientation = PageOrientation.Portrait;
-		}
-
-		#endregion
-
 		#region Protected methods
 
 		protected override void OnNavigatedFrom(NavigationEventArgs e)

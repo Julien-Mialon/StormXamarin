@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Threading;
 
 namespace Storm.Mvvm.Services
@@ -22,7 +23,7 @@ namespace Storm.Mvvm.Services
 			_dispatcher.BeginInvoke(() =>
 			{
 				T result = action();
-				callback(result);
+				Task.Run(() => callback(result));
 			});
 		}
 	}
