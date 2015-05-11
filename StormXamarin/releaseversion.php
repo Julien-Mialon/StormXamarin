@@ -41,6 +41,7 @@
 		'Android' => 'Android',
 		'AndroidSupport' => 'AndroidSupport',
 		'Tablet' => 'Tablet',
+		'Phone' => 'Phone',
 	);
 	$directories = array(
 		'Core' => 'Storm.Mvvm',
@@ -48,11 +49,18 @@
 		'Android' => 'Storm.Mvvm.Android',
 		'AndroidSupport' => 'Storm.Mvvm.Android.Support',
 		'Tablet' => 'Storm.Mvvm.Tablet',
+		'Phone' => 'Storm.Mvvm.Phone',
 	);
 	
 	if($argc < 2)
 	{
-		echo "Usage : releaseversion.sh [Core|Forms|Android|AndroidSupport|Tablet]+ <version>";
+		$keys = array();
+		foreach($names as $key => $_)
+		{
+			$keys[] = $key;
+		}
+		
+		echo "Usage : releaseversion.sh [" . implode('|', $keys) . "]+ <version>";
 		die;
 	}
 
