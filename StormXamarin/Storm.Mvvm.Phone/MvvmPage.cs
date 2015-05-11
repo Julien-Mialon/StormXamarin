@@ -1,24 +1,12 @@
 ﻿using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
 using Storm.Mvvm.Navigation;
 using Storm.Mvvm.Services;
 
 namespace Storm.Mvvm
 {
-	public class PageView : PhoneApplicationPage
+	public class MvvmPage : PhoneApplicationPage
 	{
-		#region Constructors
-
-		public PageView()
-		{
-			SystemTray.SetIsVisible(this, false);
-			SupportedOrientations = SupportedPageOrientation.Portrait;
-			Orientation = PageOrientation.Portrait;
-		}
-
-		#endregion
-
 		#region Protected methods
 
 		protected override void OnNavigatedFrom(NavigationEventArgs e)
