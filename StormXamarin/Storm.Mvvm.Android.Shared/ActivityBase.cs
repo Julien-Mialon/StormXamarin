@@ -22,8 +22,23 @@ namespace Storm.Mvvm
 	public class ActivityBase : Activity, INotifyPropertyChanged
 #endif
 	{
+		private ViewModelBase _viewModel;
+		protected ViewModelBase ViewModel 
+		{
+			get { return _viewModel; }
+			private set
+			{
+				if (!Equals(_viewModel, value))
+				{
+					_viewModel = value;
 
-		protected ViewModelBase ViewModel { get; private set; }
+					if (_activityState == ActivityState.Running && value != null)
+					{
+						value.OnNavigatedTo(new NavigationArgs(NavigationArgs.NavigationMode.New), _parametersKey);
+					}
+				}
+			} 
+		}
 
 		private ActivityState _activityState = ActivityState.Uninitialized;
 		private string _parametersKey;

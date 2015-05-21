@@ -22,7 +22,23 @@ namespace Storm.Mvvm.Dialogs
 		public event EventHandler Canceled;
 		public event EventHandler Dismissed;
 
-		protected ViewModelBase ViewModel { get; set; }
+		private ViewModelBase _viewModel;
+		protected ViewModelBase ViewModel
+		{
+			get { return _viewModel; }
+			private set
+			{
+				if (!Equals(_viewModel, value))
+				{
+					_viewModel = value;
+
+					if (_activityState == ActivityState.Running && value != null)
+					{
+						value.OnNavigatedTo(new NavigationArgs(NavigationArgs.NavigationMode.New), ParametersKey);
+					}
+				}
+			}
+		}
 
 		protected View RootView { get; set; }
 
