@@ -14,7 +14,9 @@ namespace Storm.Mvvm.Services
 	public class MessageDialogService : AbstractMessageDialogService, IMessageDialogService
 	{
 		private readonly Dictionary<string, Type> _dialogs;
-		private readonly List<Tuple<AbstractDialogFragmentBase, Action>> _dialogStack = new List<Tuple<AbstractDialogFragmentBase, Action>>(); 
+		private readonly List<Tuple<AbstractDialogFragmentBase, Action, int>> _dialogStack = new List<Tuple<AbstractDialogFragmentBase, Action, int>>();
+
+		private int _dialogId = 1;
 
 		protected IActivityService ActivityService
 		{
@@ -34,7 +36,17 @@ namespace Storm.Mvvm.Services
 			}
 		}
 
-		protected override void ShowDialog(string dialogKey, string parametersKey, Action dialogDismissed)
+		public override void DismissDialog(int id)
+		{
+			Tuple<AbstractDialogFragmentBase, Action, int> dialog = _dialogStack.FirstOrDefault(x => x.Item3 == id);
+
+			if(dialog != null)
+			{
+				dialog.Item1.Dismiss();
+			}
+		}
+
+		protected override int ShowDialog(string dialogKey, string parametersKey, Action dialogDismissed)
 		{
 			if (!_dialogs.ContainsKey(dialogKey))
 			{
@@ -49,7 +61,8 @@ namespace Storm.Mvvm.Services
 			fragment.ParametersKey = parametersKey;
 			fragment.Dismissed += OnDialogDismissed;
 
-			_dialogStack.Add(new Tuple<AbstractDialogFragmentBase, Action>(fragment, dialogDismissed));
+			int id = _dialogId++;
+			_dialogStack.Add(new Tuple<AbstractDialogFragmentBase, Action, int>(fragment, dialogDismissed, id));
 #if SUPPORT
 			FragmentActivity fragmentActivity = ActivityService.CurrentActivity as FragmentActivity;
 			if (fragmentActivity == null)
@@ -61,7 +74,7 @@ namespace Storm.Mvvm.Services
 #else
 			fragment.Show(ActivityService.CurrentActivity.FragmentManager, null);
 #endif
-
+			return id;
 		}
 
 		private void OnDialogDismissed(object sender, EventArgs eventArgs)
@@ -72,7 +85,7 @@ namespace Storm.Mvvm.Services
 				return;
 			}
 			dialog.Dismissed -= OnDialogDismissed;
-			Tuple<AbstractDialogFragmentBase, Action> savedTuple = _dialogStack.FirstOrDefault(x => Equals(x.Item1, dialog));
+			Tuple<AbstractDialogFragmentBase, Action, int> savedTuple = _dialogStack.FirstOrDefault(x => Equals(x.Item1, dialog));
 
 			if (savedTuple != null)
 			{

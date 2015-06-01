@@ -12,29 +12,31 @@ namespace Storm.Mvvm.Navigation
 			get { return LazyResolver<INavigationService>.Service; }
 		}
 
-		public void Show(string dialogKey)
+		public int Show(string dialogKey)
 		{
-			ShowDialog(dialogKey, null, null);
+			return ShowDialog(dialogKey, null, null);
 		}
 
-		public void Show(string dialogKey, Dictionary<string, object> parameters)
+		public int Show(string dialogKey, Dictionary<string, object> parameters)
 		{
-			Show(dialogKey, parameters, null);
+			return Show(dialogKey, parameters, null);
 		}
 
-		public void Show(string dialogKey, Action dialogDismissed)
+		public int Show(string dialogKey, Action dialogDismissed)
 		{
-			ShowDialog(dialogKey, null, dialogDismissed);
+			return ShowDialog(dialogKey, null, dialogDismissed);
 		}
 
-		public void Show(string dialogKey, Dictionary<string, object> parameters, Action dialogDismissed)
+		public int Show(string dialogKey, Dictionary<string, object> parameters, Action dialogDismissed)
 		{
 			string parametersKey = NavigationService.StoreMessageDialogParameters(dialogKey, parameters);
-			ShowDialog(dialogKey, parametersKey, dialogDismissed);
+			return ShowDialog(dialogKey, parametersKey, dialogDismissed);
 		}
 
 		public abstract void DismissCurrentDialog();
 
-		protected abstract void ShowDialog(string dialogKey, string parametersKey, Action dialogDismissed);
+		public abstract void DismissDialog(int id);
+
+		protected abstract int ShowDialog(string dialogKey, string parametersKey, Action dialogDismissed);
 	}
 }
