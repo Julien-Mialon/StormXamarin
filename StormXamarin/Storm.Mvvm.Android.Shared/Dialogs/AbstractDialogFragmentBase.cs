@@ -11,11 +11,12 @@ using Android.Content;
 using Android.Views;
 using Storm.Mvvm.Bindings;
 using Storm.Mvvm.Events;
+using Storm.Mvvm.Navigation;
 using Storm.Mvvm.Services;
 
 namespace Storm.Mvvm.Dialogs
 {
-	public abstract class AbstractDialogFragmentBase : DialogFragment, INotifyPropertyChanged
+	public abstract class AbstractDialogFragmentBase : DialogFragment, INotifyPropertyChanged, IMvvmDialog
 	{
 		private ActivityState _activityState = ActivityState.Uninitialized;
 
@@ -44,6 +45,12 @@ namespace Storm.Mvvm.Dialogs
 
 		public string ParametersKey { get; set; }
 
+		public FragmentManager DialogFragmentManager { get; set; }
+
+		public void Show()
+		{
+			Show(DialogFragmentManager, null);
+		}
 
 		protected abstract View CreateView(LayoutInflater inflater, ViewGroup container);
 

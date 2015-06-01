@@ -1,7 +1,11 @@
-﻿using System.Windows.Navigation;
+﻿#region Usings 
+
+using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Storm.Mvvm.Navigation;
 using Storm.Mvvm.Services;
+
+#endregion
 
 namespace Storm.Mvvm
 {
@@ -15,7 +19,7 @@ namespace Storm.Mvvm
 
 			NavigationArgs args = NavigationHelper.FromArgs(e);
 			ViewModelBase vm = DataContext as ViewModelBase;
-			if(vm != null)
+			if (vm != null)
 			{
 				vm.OnNavigatedFrom(args);
 			}
@@ -26,7 +30,11 @@ namespace Storm.Mvvm
 			base.OnNavigatedTo(e);
 
 			NavigationArgs args = NavigationHelper.FromArgs(e);
-			string parametersKey = NavigationContext.QueryString["key"];
+			string parametersKey = null;
+			if (NavigationContext.QueryString.ContainsKey("key"))
+			{
+				parametersKey = NavigationContext.QueryString["key"];
+			}
 			ViewModelBase vm = DataContext as ViewModelBase;
 			if (vm != null)
 			{
