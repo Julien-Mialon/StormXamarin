@@ -7,11 +7,12 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Storm.Mvvm.Events;
+using Storm.Mvvm.Navigation;
 using Storm.Mvvm.Services;
 
 namespace Storm.Mvvm
 {
-	public class DialogPage : Page
+	public class DialogPage : Page, IMvvmDialog
 	{
 		#region Fields
 
@@ -51,6 +52,8 @@ namespace Storm.Mvvm
 			set { SetValue(CloseOnWindowChangeProperty, value); }
 		}
 
+		public string ParametersKey { get; set; }
+
 		#endregion
 
 		#region Dependency Properties
@@ -65,7 +68,8 @@ namespace Storm.Mvvm
 
 		#region Public Methods
 
-		public void Open(string parameterKey)
+
+		public void Show()
 		{
 			_popup = new Popup
 			{
@@ -99,14 +103,14 @@ namespace Storm.Mvvm
 			_viewModel = DataContext as ViewModelBase;
 			if (_viewModel != null)
 			{
-				_viewModel.OnNavigatedTo(new NavigationArgs(NavigationArgs.NavigationMode.New), parameterKey);
+				_viewModel.OnNavigatedTo(new NavigationArgs(NavigationArgs.NavigationMode.New), ParametersKey);
 			}
 		}
 
 		/// <summary>
 		/// Closes the Popup.
 		/// </summary>
-		public void Close()
+		public void Dismiss()
 		{
 			_popup.IsOpen = false;
 		}
@@ -132,7 +136,7 @@ namespace Storm.Mvvm
 		{
 			if (CloseOnWindowChange && e.WindowActivationState == CoreWindowActivationState.Deactivated)
 			{
-				Close();
+				Dismiss();
 			}
 		}
 
