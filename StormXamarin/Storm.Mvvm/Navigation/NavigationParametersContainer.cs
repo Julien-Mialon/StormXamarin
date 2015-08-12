@@ -12,7 +12,7 @@ namespace Storm.Mvvm.Navigation
 		public NavigationParametersContainer(string view, Dictionary<string, object> parameters)
 		{
 			Parameters = parameters;
-			Key = string.Format("{0}#{1:yyyyMMdd HH:mm:ss.fffffff}", view, DateTime.Now);
+			Key = string.Format("{0}_{1:yyyyMMdd_HHmmss_fffffff}", view, DateTime.Now);
 		}
 
 		public bool Has(string key)
