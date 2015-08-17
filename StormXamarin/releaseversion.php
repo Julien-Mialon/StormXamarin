@@ -42,6 +42,7 @@
 		'AndroidSupport' => 'AndroidSupport',
 		'Tablet' => 'Tablet',
 		'Phone' => 'Phone',
+		'Localization.Android' => 'Localization.Android'
 	);
 	$directories = array(
 		'Core' => 'Storm.Mvvm',
@@ -50,6 +51,7 @@
 		'AndroidSupport' => 'Storm.Mvvm.Android.Support',
 		'Tablet' => 'Storm.Mvvm.Tablet',
 		'Phone' => 'Storm.Mvvm.Phone',
+		'Localization.Android' => 'Storm.Localization.AndroidTarget'
 	);
 	
 	if($argc < 2)
