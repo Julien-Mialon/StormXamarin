@@ -3,19 +3,22 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Cirrious.MvvmCross.Droid.Views;
 using Cirrious.MvvmCross.ViewModels;
+using Storm.MvvmCross.Bindings;
+using Storm.MvvmCross.Bindings.Internal;
 
-namespace Storm.MvvmCross.Android
+namespace Storm.MvvmCross.Android.Views
 {
 	public class StormActivity : MvxActivity, INotifyPropertyChanged
 	{
 		protected override void OnViewModelSet()
 		{
 			base.OnViewModelSet();
+			BindingProcessor.ProcessBinding(ViewModel, this, ListBindingPath());
 		}
 
 		protected virtual List<BindingObject> ListBindingPath()
 		{
-			
+			return new List<BindingObject>();
 		}
 
 		#region INotifyPropertyChanged implementation
@@ -31,14 +34,14 @@ namespace Storm.MvvmCross.Android
 			}
 		}
 
-		protected virtual bool SetProperty<TValue>(ref TValue _storage, TValue value, [CallerMemberName] string propertyName = null)
+		protected virtual bool SetProperty<TValue>(ref TValue storage, TValue value, [CallerMemberName] string propertyName = null)
 		{
-			if (Equals(_storage, value))
+			if (Equals(storage, value))
 			{
 				return false;
 			}
 
-			_storage = value;
+			storage = value;
 			// ReSharper disable once ExplicitCallerInfoArgument
 			OnPropertyChanged(propertyName);
 
@@ -54,6 +57,12 @@ namespace Storm.MvvmCross.Android
 		protected override void OnViewModelSet()
 		{
 			base.OnViewModelSet();
+			BindingProcessor.ProcessBinding(ViewModel, this, ListBindingPath());
+		}
+
+		protected virtual List<BindingObject> ListBindingPath()
+		{
+			return new List<BindingObject>();
 		}
 
 		#region INotifyPropertyChanged implementation
@@ -69,14 +78,14 @@ namespace Storm.MvvmCross.Android
 			}
 		}
 
-		protected virtual bool SetProperty<TValue>(ref TValue _storage, TValue value, [CallerMemberName] string propertyName = null)
+		protected virtual bool SetProperty<TValue>(ref TValue storage, TValue value, [CallerMemberName] string propertyName = null)
 		{
-			if (Equals(_storage, value))
+			if (Equals(storage, value))
 			{
 				return false;
 			}
 
-			_storage = value;
+			storage = value;
 			// ReSharper disable once ExplicitCallerInfoArgument
 			OnPropertyChanged(propertyName);
 

@@ -61,6 +61,10 @@
       <HintPath>..\packages\MvvmCross.HotTuna.MvvmCrossLibraries.3.5.1\lib\MonoAndroid\Cirrious.MvvmCross.Droid.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Cirrious.MvvmCross.Droid.FullFragging, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.HotTuna.Droid.FullFragging.3.5.1\lib\MonoAndroid\Cirrious.MvvmCross.Droid.FullFragging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Cirrious.MvvmCross.Localization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmCross.HotTuna.CrossCore.3.5.1\lib\MonoAndroid\Cirrious.MvvmCross.Localization.dll</HintPath>
       <Private>True</Private>
@@ -73,8 +77,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapters\AbstractTemplateSelector.cs" />
+    <Compile Include="Adapters\BaseViewHolder.cs" />
+    <Compile Include="Adapters\BindableAdapter.cs" />
+    <Compile Include="Adapters\DataTemplate.cs" />
+    <Compile Include="Adapters\IMvvmAdapter.cs" />
+    <Compile Include="Adapters\ISearchableAdapter.cs" />
+    <Compile Include="Adapters\ITemplateSelector.cs" />
+    <Compile Include="Adapters\SimpleTemplateSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StormActivity.cs" />
+    <Compile Include="Views\StormActivity.cs" />
+    <Compile Include="Views\StormDialogFragment.cs" />
+    <Compile Include="Views\StormFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Storm.MvvmCross\Storm.MvvmCross.csproj">
@@ -85,9 +99,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Bindings\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="..\Storm.MvvmCross.Android.Shared\Storm.MvvmCross.Android.Shared.projitems" Label="Shared" Condition="Exists('..\Storm.MvvmCross.Android.Shared\Storm.MvvmCross.Android.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

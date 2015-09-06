@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using Cirrious.CrossCore;
 
 namespace Storm.MvvmCross.Bindings.Internal
 {
-	internal static class BindingProcessor
+	public static class BindingProcessor
 	{
-		public static void ProcessBinding(object viewModel, INotifyPropertyChanged viewContext, List<BindingObject> bindingObjects)
+		public static void ProcessBinding(object viewModel, object viewContext, List<BindingObject> bindingObjects)
 		{
 			BindingNode rootExpressionNode = new BindingNode(string.Empty);
 
