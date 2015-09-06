@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -6,8 +6,15 @@
     <SharedGUID>edc086b0-20d4-48d9-aedd-3993c5381a12</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Storm.MvvmCross.Android.Shared</Import_RootNamespace>
+    <Import_RootNamespace>Storm.MvvmCross.Android</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AndroidBinding.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AndroidBindingTypeConverterService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AndroidBindingSpecificEventService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AndroidBindingSpecificPropertyService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wrapper\ConverterHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wrapper\JavaObjectExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wrapper\SystemObjectExtension.cs" />
   </ItemGroup>
 </Project>
