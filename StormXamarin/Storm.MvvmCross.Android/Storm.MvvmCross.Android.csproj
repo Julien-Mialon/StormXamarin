@@ -89,6 +89,7 @@
     <Compile Include="Views\StormActivity.cs" />
     <Compile Include="Views\StormDialogFragment.cs" />
     <Compile Include="Views\StormFragment.cs" />
+    <Compile Include="Views\StormFragmentActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Storm.MvvmCross\Storm.MvvmCross.csproj">

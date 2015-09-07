@@ -5,10 +5,11 @@ using Cirrious.MvvmCross.Droid.Views;
 using Cirrious.MvvmCross.ViewModels;
 using Storm.MvvmCross.Bindings;
 using Storm.MvvmCross.Bindings.Internal;
+using MvxActivity = Cirrious.MvvmCross.Droid.FullFragging.Views.MvxActivity;
 
 namespace Storm.MvvmCross.Android.Views
 {
-	public class StormActivity : MvxActivity, INotifyPropertyChanged
+	public class StormFragmentActivity : MvxActivity, INotifyPropertyChanged
 	{
 		protected override void OnViewModelSet()
 		{
@@ -52,7 +53,7 @@ namespace Storm.MvvmCross.Android.Views
 
 	}
 
-	public class StormActivity<TViewModel> : StormActivity, IMvxAndroidView<TViewModel> where TViewModel : class, IMvxViewModel
+	public class StormFragmentActivity<TViewModel> : StormFragmentActivity, IMvxAndroidView<TViewModel> where TViewModel : class, IMvxViewModel
 	{
 		public new virtual TViewModel ViewModel
 		{
