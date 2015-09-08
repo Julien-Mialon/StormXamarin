@@ -188,3 +188,5 @@ Resource.Designer.cs
 
 # Components directory
 StormXamarin/Components
+
+StormXamarin/build/*

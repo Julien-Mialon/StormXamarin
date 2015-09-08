@@ -1,0 +1,82 @@
+﻿{
+	// You can add namespaces to generated file with the "namespaces" property
+	// It's mandatory to, at least, add your assembly default namespace
+	"namespaces": ["YourApp.Namespace", "Additional.Namespace"],
+	
+	// With "aliases" you can add xml tag alias to simplify view writing
+	"aliases": [
+		{
+			// Here, anytime a <RoundedImage ...> tag is encoutered in your views, it will be replaced by <mylibrary.components.RoundedImage>
+			"alias": "RoundedImage",
+			"fullclassname": "MyLibrary.Components.RoundedImage"
+		},
+		{
+			"alias": "SquareImage",
+			"fullclassname": "MyLibrary.Components.SquareImage"
+		}
+	],
+	
+	// With this property, you can add some resource file to global scope in order to use them from any other view (even between them)
+	"globalResourceFiles": [
+		"Styles/ButtonStyles.xml",
+		"Styles/TextViewStyles.xml"
+	],
+	
+	// fileDescriptions is the most important property since it's where you will define links between your view and code file
+	"fileDescriptions": [
+		{
+			// use activity if you have an activity and not a fragment
+			"activity": {
+				// fill the name of your class here
+				"className": "MyActivity",
+				// fill the namespace of your class here
+				"namespaceName": "MyApp.Activities",
+				// give a name to the generated file if you want
+				// this paramter is optional and a default name could be generated if you remove the next line
+				"outputFile": "MyApp_Activities_MyActivity.cs"
+			},
+			"view": {
+				// fill with the path to the view file (relative to the path of this json file)
+				"inputFile": "Path/To/The/View/File/Relative/To/Json/File.xml",
+				// fill with the name of the outputFile. Be careful, this name will be the one available in Resource.Layout.*
+				"outputFile": "MyView.axml"
+			}
+		},
+		{
+			// if you have a fragment and not an activity, use the fragment property instead.
+			"fragment": {
+				// fill the name of your class here
+				"className": "MyActivity",
+				// fill the namespace of your class here
+				"namespaceName": "MyApp.Activities",
+				// give a name to the generated file if you want
+				// this paramter is optional and a default name could be generated if you remove the next line
+				"outputFile": "MyApp_Activities_MyActivity.cs"
+			},
+			"view": {
+				// fill with the path to the view file (relative to the path of this json file)
+				"inputFile": "Path/To/The/View/File/Relative/To/Json/File.xml",
+				// fill with the name of the outputFile. Be careful, this name will be the one available in Resource.Layout.*
+				"outputFile": "MyView.axml"
+			}
+		}
+	],
+	
+	// With classlocation, you can change the default directory where all C# code will be generated
+	"classLocation": "Generated.tmp",
+	// With resourcelocation, you can change the default directory where view files are generated
+	"resourceLocation": "Resource/layout/",
+	// With generatednamespace, you can change the namespace used for all generated class
+	"generatedNamespace": "Storm.Generated",
+	
+	// fields below allow you to change the default Adapter and TemplateSelector to be used if none is provided in a binding expression.
+	// For TemplateSelector, the class should implement ITemplateSelector and have a property of type DataTemplate that you need to provide name in "defaultTemplateSelectorField"
+	// For Adapter, the class should implement IMvvmAdapter and IAdapter and have a property of type ITemplateSelector that you need to provide name in "defaultAdapterField"
+	"defaultTemplateSelector": "Storm.Mvvm.TemplateSelectors.SimpleTemplateSelector",
+	"defaultTemplateSelectorField": "Template",
+	"defaultAdapter": "Storm.Mvvm.BindableAdapter",
+	"defaultAdapterField": "TemplateSelector",
+
+	// You can enable or not the case sensitivity in android view file. Disabling it provide immediate compatibility with native Android view but decrease (slightly) the performance.
+	"caseSensitivity": false
+}

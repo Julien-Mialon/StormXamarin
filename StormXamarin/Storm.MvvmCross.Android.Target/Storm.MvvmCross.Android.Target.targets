@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<UsingTask AssemblyFile="Storm.MvvmCross.Android.Target.dll" TaskName="Storm.MvvmCross.Android.Target.BindingPreprocess" />
+	
+
+	<!-- Define newly available build action -->
+	<ItemGroup>
+		<AvailableItemName Include="BindingProcess" />
+	</ItemGroup>
+
+	<Target Name="BeforeBuild">
+		<!-- Execute binding preprocessing -->
+		<BindingPreprocess InputFiles="@(BindingProcess)" ContinueOnError="ErrorAndStop">
+			<Output TaskParameter="GeneratedActivityFiles" ItemName="StormAndroidBindingGeneratedActivityFiles" />
+			<Output TaskParameter="GeneratedAndroidResource" ItemName="StormAndroidBindingGeneratedAndroidResource" />
+			<Output TaskParameter="OutputDirectories" ItemName="StormAndroidBindingOutputDirectories" />
+		</BindingPreprocess>
+
+		<!-- Declare new files to compile and use as resources -->
+		<ItemGroup>
+			<Compile Include="@(StormAndroidBindingGeneratedActivityFiles)" />
+			<AndroidResource Include="@(StormAndroidBindingGeneratedAndroidResource)" />
+		</ItemGroup>
+
+		<OnError ExecuteTargets="StormCleanup" />
+	</Target>
+
+
+	<Target Name="StormCleanup">
+		<RemoveDir Directories="@(StormAndroidBindingOutputDirectories)" />
+		<Delete Files="@(StormAndroidBindingGeneratedAndroidResource)" />
+		<Delete Files="@(StormAndroidBindingGeneratedStrings)" />
+	</Target>
+
+	<Target Name="AfterBuild" DependsOnTargets="StormCleanup" />
+</Project>
