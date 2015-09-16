@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Specialized;
+using System.Linq;
 using Android.Views;
 using Android.Widget;
 using Storm.Mvvm.Interfaces;
@@ -20,12 +22,23 @@ namespace Storm.Mvvm
 				{
 					Unregister(_collection);
 					_collection = value as IList;
+					if (_collection == null)
+					{
+						if (value is IEnumerable)
+						{
+							_collection = ToIList((IEnumerable) value);
+						}
+						else if (value != null)
+						{
+							throw new InvalidOperationException("Binding with adapter only support collection binding which implement IEnumerable or IList");
+						}
+					}
 					Register(_collection);
 					NotifyDataChanged();
 				}
 			}
 		}
-
+		
 		public ITemplateSelector TemplateSelector
 		{
 			get { return _templateSelector; }
@@ -103,6 +116,16 @@ namespace Storm.Mvvm
 			{
 				NotifyDataSetChanged();
 			}
+		}
+
+		private IList ToIList(IEnumerable source)
+		{
+			ArrayList result = new ArrayList();
+			foreach (object item in source)
+			{
+				result.Add(item);
+			}
+			return result;
 		}
 	}
 }
