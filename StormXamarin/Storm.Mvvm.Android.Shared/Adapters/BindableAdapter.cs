@@ -6,7 +6,7 @@ using Android.Views;
 using Android.Widget;
 using Storm.Mvvm.Interfaces;
 
-namespace Storm.Mvvm
+namespace Storm.Mvvm.Adapters
 {
 	public class BindableAdapter : BaseAdapter<object>, IMvvmAdapter, ISearchableAdapter
 	{

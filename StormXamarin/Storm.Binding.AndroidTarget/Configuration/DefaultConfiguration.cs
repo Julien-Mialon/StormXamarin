@@ -77,7 +77,7 @@ namespace Storm.Binding.AndroidTarget.Configuration
 
 			TemplateSelector = "Storm.Mvvm.TemplateSelectors.SimpleTemplateSelector";
 			TemplateSelectorField = "Template";
-			Adapter = "Storm.Mvvm.BindableAdapter";
+			Adapter = "Storm.Mvvm.Adapters.BindableAdapter";
 			AdapterField = "TemplateSelector";
 			CaseSensitivity = false;
 		}
