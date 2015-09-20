@@ -53,9 +53,10 @@ namespace TestApp.Android.Activities
 
 			Spinner spinner = LazyComboBox;
 			//Spinner spinner = new Spinner(BaseContext);
-			spinner.Adapter = new LazyBindableAdapter(BaseContext, new EnumerableCursor(Enumerable.Range(0, 10)))
+			spinner.Adapter = new EfficientCursorAdapter()
 			{
-				TemplateSelector = new IntTemplateSelector(BaseContext)
+				Collection = new EnumerableCursor(Enumerable.Range(0, 10000)),
+				TemplateSelector = new IntTemplateSelector(BaseContext),
 			};
 
 			//Spinner spinner = FindViewById<Spinner>(Resource.Id.ComboBox);

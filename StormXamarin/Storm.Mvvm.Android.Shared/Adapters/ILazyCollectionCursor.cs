@@ -3,10 +3,13 @@ using Android.Database;
 
 namespace Storm.Mvvm.Adapters
 {
-    public interface ILazyCollectionCursor : ICursor
+    public interface ILazyCollectionCursor
     {
-		Action UpdateCallback { get; set; }
+	    event EventHandler CountChanged;
+	    event EventHandler CollectionChanged;
 
-	    object GetItem();
+		object this[int position] { get; }
+
+		int Count { get; }
     }
 }

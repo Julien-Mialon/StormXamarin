@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ActivityBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ActivityState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adapters\BindableAdapter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Adapters\EfficientCursorAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adapters\EnumerableCursor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adapters\ILazyCollectionCursor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adapters\LazyBindableAdapter.cs" />

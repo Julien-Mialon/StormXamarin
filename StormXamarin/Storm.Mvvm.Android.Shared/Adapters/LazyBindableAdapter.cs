@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.Database;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Storm.Mvvm.Interfaces;
@@ -60,13 +61,17 @@ namespace Storm.Mvvm.Adapters
 			// TemplateSelector
 			// Is CursorAdapter virtualized ? (reuse old views)
 		    
-			//TemplateSelector.GetView(((ILazyCollectionCursor) cursor).GetItem(), null, view);
-			
+			object item = ((ILazyCollectionCursor)cursor).GetItem();
+			TemplateSelector.GetView(item, null, view);
+
+		    Log.Wtf("ADAPTER", "BindView() with item {0}", item);
 	    }
 
 	    public override View NewView(Context context, ICursor cursor, ViewGroup parent)
 	    {
-		    return TemplateSelector.GetView(((ILazyCollectionCursor) cursor).GetItem(), parent, null);
+		    object item = ((ILazyCollectionCursor) cursor).GetItem();
+		    Log.Wtf("ADAPTER", "NewView() with item {0}", item);
+		    return TemplateSelector.GetView(item, parent, null);
 	    }
     }
 }
