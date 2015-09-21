@@ -38,6 +38,7 @@ namespace Storm.Binding.AndroidTarget.Configuration
 			Aliases = new List<AliasDescription>
 			{
 				new AliasDescription("BindableSpinner", "Storm.Mvvm.Components.BindableSpinner"),
+				new AliasDescription("BindableListView", "Storm.Mvvm.Components.BindableListView"),
 				new AliasDescription("SimpleViewSelector", "Storm.Mvvm.ViewSelectors.SimpleViewSelector"),
 			};
 
