@@ -1,9 +1,8 @@
 ﻿using System.Windows.Input;
 using Storm.Mvvm;
 using Storm.Mvvm.Commands;
-using Storm.Mvvm.Inject;
 
-namespace TestApp.Business.ViewModels.Sample
+namespace TestApp.Business.ViewModels
 {
 	public class MainViewModel : ViewModelBase
 	{

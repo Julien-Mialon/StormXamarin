@@ -1,9 +1,6 @@
 ﻿#if !SUPPORT
 using System;
 using System.Reflection;
-using Android.Graphics.Drawables;
-using Android.OS;
-using Android.Views;
 using Storm.Mvvm.Annotations;
 using Storm.Mvvm.Wrapper;
 
@@ -64,7 +61,10 @@ namespace Storm.Mvvm.Bindings
 		}
 
 		[UsedImplicitly]
+		// ReSharper disable once UnusedMember.Local
+		// ReSharper disable UnusedParameter.Local
 		private void OnUpdateEventTriggered(object sender, EventArgs e)
+		// ReSharper restore UnusedParameter.Local
 		{
 			//Event raised mean property changed so : 
 			// - Get the property value

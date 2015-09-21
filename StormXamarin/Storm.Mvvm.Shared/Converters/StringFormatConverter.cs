@@ -1,6 +1,5 @@
 ﻿using System;
 #if WINDOWS_APP
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 #else
 using System.Windows.Data;

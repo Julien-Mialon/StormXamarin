@@ -73,6 +73,11 @@
 	                 android:layout_height="40dp"
 	                 adapter="{Binding MyCollection, Template={Resource SpinnerTemplate}}"
 	                 currentItem="{Binding Selected, Mode=TwoWay, UpdateEvent=CurrentItemChanged}" />
+	
+	<BindableSpinner android:id="LazyComboBox"
+					 android:layout_width="120dp"
+					 android:layout_height="40dp"
+					 />
 
 	<fragment class="TestApp.Android.Activities.TestFragment"
 	          android:layout_width="fill_parent"

@@ -14,7 +14,7 @@ namespace Storm.Mvvm.TemplateSelectors
 			BindingDictionary = new Dictionary<int, List<BindingObject>>();
 		}
 
-		public View GetView(object model, ViewGroup parent, View oldView)
+		public virtual View GetView(object model, ViewGroup parent, View oldView)
 		{
 			DataTemplate newTemplate = GetTemplate(model);
 			int oldViewId = (oldView != null) ? (int)oldView.Tag : -1;
