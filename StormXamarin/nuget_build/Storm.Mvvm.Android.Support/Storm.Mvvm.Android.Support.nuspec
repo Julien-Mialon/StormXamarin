@@ -2,7 +2,7 @@
 <package >
 	<metadata>
 		<id>Storm.Mvvm.Android.Support</id>
-		<version>1.2.16</version>
+		<version>1.2.19</version>
 		<title>Storm.Mvvm.Android.Support</title>
 		<authors>Julien Mialon</authors>
 		<owners>Julien Mialon</owners>
@@ -14,7 +14,7 @@
 		<copyright>Copyright 2014</copyright>
 		<tags>mvvm xamarin android xamarin.android storm support supportv4</tags>
 		<dependencies>
-            <dependency id="Storm.Mvvm" version="1.2.8" />
+            <dependency id="Storm.Mvvm" version="1.2.9" />
 			<dependency id="Xamarin.Android.Support.v4" version="21.0.3.0" />
         </dependencies>
 	</metadata>

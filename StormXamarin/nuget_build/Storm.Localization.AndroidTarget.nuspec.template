@@ -9,12 +9,9 @@
 		<licenseUrl>https://github.com/Julien-Mialon/StormXamarin/blob/master/LICENSE</licenseUrl>
 		<projectUrl>https://github.com/Julien-Mialon/StormXamarin</projectUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<description>Mvvm implementation of Storm.Mvvm for Windows 8.1</description>
-		<releaseNotes>Initial release with basic system for Mvvm on Windows 8.1.</releaseNotes>
-		<copyright>Copyright 2014</copyright>
-		<tags>mvvm win81 storm</tags>
-		<dependencies>
-			<dependency id="Storm.Mvvm" version="1.2.9" />
-		</dependencies>
+		<description>Pre compilation task to help Localization on Android. This will simply turn Resw or Resx file to a Strings.xml for Android.</description>
+		<releaseNotes>Initial release.</releaseNotes>
+		<copyright>Copyright 2015</copyright>
+		<tags>mvvm xamarin android xamarin.android storm globalization localization</tags>
 	</metadata>
 </package>

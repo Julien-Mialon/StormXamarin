@@ -14,8 +14,7 @@ namespace Storm.Mvvm.Services
 	public class MessageDialogService : AbstractMessageDialogService, IMessageDialogService
 	{
 		private readonly Dictionary<string, Type> _dialogs;
-		private readonly List<Tuple<AbstractDialogFragmentBase, Action>> _dialogStack = new List<Tuple<AbstractDialogFragmentBase, Action>>(); 
-
+		
 		protected IActivityService ActivityService
 		{
 			get { return LazyResolver<IActivityService>.Service; }
@@ -25,16 +24,8 @@ namespace Storm.Mvvm.Services
 		{
 			_dialogs = dialogs;
 		}
-
-		public override void DismissCurrentDialog()
-		{
-			if (_dialogStack.Count > 0)
-			{
-				_dialogStack.Last().Item1.Dismiss();
-			}
-		}
-
-		protected override void ShowDialog(string dialogKey, string parametersKey, Action dialogDismissed)
+		
+		protected override IMvvmDialog ShowDialog(string dialogKey)
 		{
 			if (!_dialogs.ContainsKey(dialogKey))
 			{
@@ -46,42 +37,17 @@ namespace Storm.Mvvm.Services
 			{
 				throw new Exception("Fragment does not inherit AbstractDialogFragmentBase");
 			}
-			fragment.ParametersKey = parametersKey;
-			fragment.Dismissed += OnDialogDismissed;
-
-			_dialogStack.Add(new Tuple<AbstractDialogFragmentBase, Action>(fragment, dialogDismissed));
 #if SUPPORT
 			FragmentActivity fragmentActivity = ActivityService.CurrentActivity as FragmentActivity;
 			if (fragmentActivity == null)
 			{
 				throw new Exception("Activity does not inherit ActivityBase");
 			}
-
-			fragment.Show(fragmentActivity.SupportFragmentManager, null);
+			fragment.DialogFragmentManager = fragmentActivity.SupportFragmentManager;
 #else
-			fragment.Show(ActivityService.CurrentActivity.FragmentManager, null);
+			fragment.DialogFragmentManager = ActivityService.CurrentActivity.FragmentManager;
 #endif
-
-		}
-
-		private void OnDialogDismissed(object sender, EventArgs eventArgs)
-		{
-			AbstractDialogFragmentBase dialog = sender as AbstractDialogFragmentBase;
-			if (dialog == null)
-			{
-				return;
-			}
-			dialog.Dismissed -= OnDialogDismissed;
-			Tuple<AbstractDialogFragmentBase, Action> savedTuple = _dialogStack.FirstOrDefault(x => Equals(x.Item1, dialog));
-
-			if (savedTuple != null)
-			{
-				_dialogStack.Remove(savedTuple);
-				if (savedTuple.Item2 != null)
-				{
-					savedTuple.Item2();
-				}
-			}
+			return fragment;
 		}
 	}
 }
