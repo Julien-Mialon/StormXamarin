@@ -605,14 +605,7 @@ namespace Storm.Binding.AndroidTarget.CodeGenerator
 				return false;
 			}
 
-			foreach (Expression child in expr.Attributes.Values)
-			{
-				if (!CheckCorrectExpressionInResource(child))
-				{
-					return false;
-				}
-			}
-			return true;
+			return expr.Attributes.Values.All(CheckCorrectExpressionInResource);
 		}
 
 		private List<string> GetUsedResources(Expression expression)

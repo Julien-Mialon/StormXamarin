@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Specialized;
-using System.Linq;
 using Android.Views;
 using Android.Widget;
 using Storm.Mvvm.Interfaces;
 
-namespace Storm.Mvvm
+namespace Storm.Mvvm.Adapters
 {
 	public class BindableAdapter : BaseAdapter<object>, IMvvmAdapter, ISearchableAdapter
 	{
@@ -18,19 +17,25 @@ namespace Storm.Mvvm
 			get { return _collection; }
 			set
 			{
-				if (!object.Equals(_collection, value))
+				if (!Equals(_collection, value))
 				{
 					Unregister(_collection);
 					_collection = value as IList;
 					if (_collection == null)
 					{
-						if (value is IEnumerable)
+						IList list = value as IList;
+						IEnumerable enumerable = value as IEnumerable;
+						if (list != null)
 						{
-							_collection = ToIList((IEnumerable) value);
+							_collection = list;
+						}
+						else if (enumerable != null)
+						{
+							_collection = new EnumerableCursor(enumerable);
 						}
 						else if (value != null)
 						{
-							throw new InvalidOperationException("Binding with adapter only support collection binding which implement IEnumerable or IList");
+							throw new InvalidOperationException("Binding with adapter only support collection binding which implement IEnumerable");
 						}
 					}
 					Register(_collection);
@@ -44,7 +49,7 @@ namespace Storm.Mvvm
 			get { return _templateSelector; }
 			set
 			{
-				if (!object.Equals(_templateSelector, value))
+				if (!Equals(_templateSelector, value))
 				{
 					_templateSelector = value;
 					NotifyDataChanged();
@@ -87,21 +92,21 @@ namespace Storm.Mvvm
 			return _collection == null ? -1 : _collection.IndexOf(value);
 		}
 
-		private void Unregister(object collection)
-		{
-			INotifyCollectionChanged observable = collection as INotifyCollectionChanged;
-			if (observable != null)
-			{
-				observable.CollectionChanged -= OnCollectionChanged;
-			}
-		}
-
 		private void Register(object collection)
 		{
 			INotifyCollectionChanged observable = collection as INotifyCollectionChanged;
 			if (observable != null)
 			{
 				observable.CollectionChanged += OnCollectionChanged;
+			}
+		}
+
+		private void Unregister(object collection)
+		{
+			INotifyCollectionChanged observable = collection as INotifyCollectionChanged;
+			if (observable != null)
+			{
+				observable.CollectionChanged -= OnCollectionChanged;
 			}
 		}
 
@@ -116,16 +121,6 @@ namespace Storm.Mvvm
 			{
 				NotifyDataSetChanged();
 			}
-		}
-
-		private IList ToIList(IEnumerable source)
-		{
-			ArrayList result = new ArrayList();
-			foreach (object item in source)
-			{
-				result.Add(item);
-			}
-			return result;
 		}
 	}
 }

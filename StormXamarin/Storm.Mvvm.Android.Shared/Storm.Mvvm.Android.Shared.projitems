@@ -11,9 +11,11 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ActivityBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ActivityState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Adapters\BindableAdapter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Adapters\EnumerableCursor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Adapters\ILazyCollectionCursor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ApplicationBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BaseViewHolder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BindableAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bindings\BindingAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bindings\BindingBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bindings\BindingElementAttribute.cs" />
@@ -34,6 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Bindings\PropertyBinding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bindings\TwoWayPropertyBinding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\BindableSpinner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\BindableListView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Dialogs\AbstractDialogFragmentBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Dialogs\AlertDialogFragmentBase.cs" />

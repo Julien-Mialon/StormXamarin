@@ -52,8 +52,6 @@ namespace Storm.Mvvm
 				RootView = CreateView(inflater, container);
 			}
 
-			SetViewModel(CreateViewModel());
-
 			return RootView;
 		}
 

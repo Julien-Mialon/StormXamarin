@@ -12,14 +12,14 @@ namespace Storm.Mvvm.Commands
 
 		protected AbstractCommand(Action<object> executeCallback)
 		{
-			this._executeCallback = executeCallback;
+			_executeCallback = executeCallback;
 			_canExecuteCallback = o => true;
 		}
 
 		protected AbstractCommand(Action<object> executeCallback, Func<object, bool> canExecuteCallback)
 		{
-			this._executeCallback = executeCallback;
-			this._canExecuteCallback = canExecuteCallback;
+			_executeCallback = executeCallback;
+			_canExecuteCallback = canExecuteCallback;
 		}
 
 		public void RaiseCanExecuteChanged()
