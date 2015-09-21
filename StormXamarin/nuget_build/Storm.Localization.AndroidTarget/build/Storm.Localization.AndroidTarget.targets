@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<UsingTask AssemblyFile="..\tools\Storm.Localization.AndroidTarget.dll" 
+			   TaskName="Storm.Localization.AndroidTarget.ReswToStrings" />
+	<UsingTask AssemblyFile="..\tools\Storm.Binding.AndroidTarget.dll"
+			   TaskName="Storm.Localization.AndroidTarget.ResxToStrings" />
+
+	
+	<!-- Define newly available build action -->
+	<ItemGroup>
+		<AvailableItemName Include="ReswFile" />
+		<AvailableItemName Include="ResxFile" />
+	</ItemGroup>
+
+	<Target Name="BeforeBuild">
+		<!--Execute resw transformation--> 
+		<ReswToStrings InputFiles="@(ReswFile)">
+			<Output TaskParameter="GeneratedStrings" ItemName="StormGeneratedReswStrings" />
+		</ReswToStrings>
+
+		<ItemGroup>
+			<AndroidResource Include="@(StormGeneratedReswStrings)" />
+		</ItemGroup>
+
+		<!--Execute resx transformation-->
+		<ReswToStrings InputFiles="@(ResxFile)">
+			<Output TaskParameter="GeneratedStrings" ItemName="StormGeneratedResxStrings" />
+		</ReswToStrings>
+
+		<ItemGroup>
+			<AndroidResource Include="@(StormGeneratedResxStrings)" />
+		</ItemGroup>
+
+		<OnError ExecuteTargets="StormCleanup" />
+	</Target>
+
+	
+	<Target Name="StormCleanup">
+		<Delete Files="@(StormGeneratedResxStrings)" />
+		<Delete Files="@(StormGeneratedReswStrings)" />
+	</Target>
+	
+	<Target Name="AfterBuild" DependsOnTargets="StormCleanup" />
+</Project>
