@@ -18,10 +18,10 @@ namespace TestApp.Android.Service
 			return t;
 		}
 
-		public static Task<U> CreateAsyncFromCallback<T, U>(Action<Action<T>> asyncStarter, Func<T, U> resultHandler)
+		public static Task<TU> CreateAsyncFromCallback<T, TU>(Action<Action<T>> asyncStarter, Func<T, TU> resultHandler)
 		{
-			TaskCompletionSource<U> taskSource = new TaskCompletionSource<U>();
-			Task<U> t = taskSource.Task;
+			TaskCompletionSource<TU> taskSource = new TaskCompletionSource<TU>();
+			Task<TU> t = taskSource.Task;
 
 			Task.Factory.StartNew(() =>
 			{

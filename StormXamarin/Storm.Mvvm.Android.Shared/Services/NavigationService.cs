@@ -40,12 +40,14 @@ namespace Storm.Mvvm.Services
 
 		public override void GoForward()
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public override void ExitApplication()
 		{
+#pragma warning disable 618
 			JavaSystem.RunFinalizersOnExit(true);
+#pragma warning restore 618
 			JavaSystem.Exit(0);
 		}
 

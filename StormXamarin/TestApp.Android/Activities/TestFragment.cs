@@ -1,5 +1,3 @@
-using System;
-
 using Android.Views;
 using Storm.Mvvm;
 using TestApp.Android.CompositionRoot;

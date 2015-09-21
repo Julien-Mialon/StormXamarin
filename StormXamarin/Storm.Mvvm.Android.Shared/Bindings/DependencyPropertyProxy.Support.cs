@@ -14,8 +14,8 @@ namespace Storm.Mvvm.Bindings
 		public event EventHandler<DependencyPropertyChangedEventArgs> OnPropertyChanged;
 
 		private static readonly MethodInfo _triggerMethodInfo;
-		private static Action<DependencyPropertyProxy, object> _normalUpdateValueAction;
-		private static Action<DependencyPropertyProxy, object> _specializedBackgroundUpdateValueAction;
+		private static readonly Action<DependencyPropertyProxy, object> _normalUpdateValueAction;
+		private static readonly Action<DependencyPropertyProxy, object> _specializedBackgroundUpdateValueAction;
 
 		private readonly object _context;
 		private readonly PropertyInfo _property;
@@ -66,7 +66,11 @@ namespace Storm.Mvvm.Bindings
 		}
 
 		[UsedImplicitly]
-		private void OnUpdateEventTriggered(object sender, EventArgs e)
+		// ReSharper disable once UnusedMember.Local Used implicitly
+		
+		// ReSharper disable UnusedParameter.Local
+		private void OnUpdateEventTriggered(object sender, EventArgs args)
+		// ReSharper restore UnusedParameter.Local
 		{
 			//Event raised mean property changed so : 
 			// - Get the property value
@@ -112,7 +116,13 @@ namespace Storm.Mvvm.Bindings
 		private void WriteBackgroundValue(object value)
 		{
 			// ReSharper disable once PossibleNullReferenceException : checked before
-			(_context as View).SetBackgroundDrawable(value as Drawable);
+			View view = _context as View;
+			if (view != null)
+			{
+#pragma warning disable 618
+				view.SetBackgroundDrawable(value as Drawable);
+#pragma warning restore 618
+			}
 		}
 	}
 }

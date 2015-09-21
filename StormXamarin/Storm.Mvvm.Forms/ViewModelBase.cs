@@ -4,7 +4,6 @@ using System.Reflection;
 using Storm.Mvvm.Navigation;
 using Storm.Mvvm.Patterns;
 using Storm.Mvvm.Services;
-using Xamarin.Forms;
 
 namespace Storm.Mvvm
 {
@@ -24,7 +23,7 @@ namespace Storm.Mvvm
 			if (_navigationParameters != null)
 			{
 				//Process auto navigation parameters property
-				foreach (PropertyInfo property in this.GetType().GetRuntimeProperties().Where(x => x.GetCustomAttribute<NavigationParameterAttribute>(true) != null))
+				foreach (PropertyInfo property in GetType().GetRuntimeProperties().Where(x => x.GetCustomAttribute<NavigationParameterAttribute>(true) != null))
 				{
 					NavigationParameterAttribute attribute = property.GetCustomAttribute<NavigationParameterAttribute>(true);
 

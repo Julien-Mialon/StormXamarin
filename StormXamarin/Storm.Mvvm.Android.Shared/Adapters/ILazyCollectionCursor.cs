@@ -1,15 +1,11 @@
 ﻿using System;
-using Android.Database;
+using System.Collections;
+using System.Collections.Specialized;
 
 namespace Storm.Mvvm.Adapters
 {
-    public interface ILazyCollectionCursor
+    public interface ILazyCollectionCursor : IList, INotifyCollectionChanged
     {
-	    event EventHandler CountChanged;
-	    event EventHandler CollectionChanged;
-
-		object this[int position] { get; }
-
-		int Count { get; }
+	    
     }
 }

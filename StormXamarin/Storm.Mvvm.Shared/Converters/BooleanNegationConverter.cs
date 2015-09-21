@@ -1,6 +1,5 @@
 ﻿using System;
 #if WINDOWS_APP
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 #else
 using System.Windows.Data;
@@ -23,7 +22,7 @@ namespace Storm.Mvvm.Converters
 		    {
 			    if (parameter is string)
 			    {
-				    invert = bool.Parse(parameter as string);
+				    invert = bool.Parse((string) parameter);
 			    }
 				else if (parameter is bool)
 				{

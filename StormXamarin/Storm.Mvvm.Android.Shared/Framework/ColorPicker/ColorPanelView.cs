@@ -7,7 +7,7 @@ namespace Storm.Mvvm.Framework.ColorPicker
 {
 	internal class ColorPanelView : View
 	{
-		private const float BorderWidthPx = 1;
+		private const float BORDER_WIDTH_PX = 1;
 
 		private uint _color = 0xFF000000;
 		private uint _borderColor = 0xFF6E6E6E;
@@ -69,7 +69,7 @@ namespace Storm.Mvvm.Framework.ColorPicker
 			RectF rect = _colorRect;
 
 			// ReSharper disable once ConditionIsAlwaysTrueOrFalse
-			if (BorderWidthPx > 0)
+			if (BORDER_WIDTH_PX > 0)
 			{
 				_borderPaint.Color = new Color((int) _borderColor);
 				canvas.DrawRect(_drawingRect, _borderPaint);
@@ -106,10 +106,10 @@ namespace Storm.Mvvm.Framework.ColorPicker
 		{
 			RectF dRect = _drawingRect;
 
-			float left = dRect.Left + BorderWidthPx;
-			float top = dRect.Top + BorderWidthPx;
-			float bottom = dRect.Bottom - BorderWidthPx;
-			float right = dRect.Right - BorderWidthPx;
+			float left = dRect.Left + BORDER_WIDTH_PX;
+			float top = dRect.Top + BORDER_WIDTH_PX;
+			float bottom = dRect.Bottom - BORDER_WIDTH_PX;
+			float right = dRect.Right - BORDER_WIDTH_PX;
 
 			_colorRect = new RectF(left, top, right, bottom);
 		}

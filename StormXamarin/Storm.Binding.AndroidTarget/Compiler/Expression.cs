@@ -102,16 +102,10 @@ namespace Storm.Binding.AndroidTarget.Compiler
 		public bool CheckCorrectness()
 		{
 			Dictionary<string, IEnumerable<ExpressionType>> expected = GetExpectedValueType();
-			foreach (string key in Attributes.Keys)
-			{
-				Expression child = Attributes[key];
-				if (!expected[key].Any(child.IsOfType) || !child.CheckCorrectness())
-				{
-					return false;
-				}
-				
-			}
-			return CheckConstraints();
+			return !(from key in Attributes.Keys 
+				let child = Attributes[key] 
+				where !expected[key].Any(child.IsOfType) || !child.CheckCorrectness() 
+				select key).Any() && CheckConstraints();
 		}
 
 		public bool IsOfType(ExpressionType type)
