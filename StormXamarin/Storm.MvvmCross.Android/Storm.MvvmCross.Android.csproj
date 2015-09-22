@@ -81,6 +81,8 @@
     <Compile Include="Adapters\BaseViewHolder.cs" />
     <Compile Include="Adapters\BindableAdapter.cs" />
     <Compile Include="Adapters\DataTemplate.cs" />
+    <Compile Include="Adapters\EnumerableCursor.cs" />
+    <Compile Include="Adapters\ILazyCollectionCursor.cs" />
     <Compile Include="Adapters\IMvvmAdapter.cs" />
     <Compile Include="Adapters\ISearchableAdapter.cs" />
     <Compile Include="Adapters\ITemplateSelector.cs" />

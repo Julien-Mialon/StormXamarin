@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Specialized;
 using Android.Views;
 using Android.Widget;
@@ -15,10 +16,27 @@ namespace Storm.MvvmCross.Android.Adapters
 			get { return _collection; }
 			set
 			{
-				if (!object.Equals(_collection, value))
+				if (!Equals(_collection, value))
 				{
 					Unregister(_collection);
 					_collection = value as IList;
+					if (_collection == null)
+					{
+						IList list = value as IList;
+						IEnumerable enumerable = value as IEnumerable;
+						if (list != null)
+						{
+							_collection = list;
+						}
+						else if (enumerable != null)
+						{
+							_collection = new EnumerableCursor(enumerable);
+						}
+						else if (value != null)
+						{
+							throw new InvalidOperationException("Binding with adapter only support collection binding which implement IEnumerable");
+						}
+					}
 					Register(_collection);
 					NotifyDataChanged();
 				}
@@ -30,7 +48,7 @@ namespace Storm.MvvmCross.Android.Adapters
 			get { return _templateSelector; }
 			set
 			{
-				if (!object.Equals(_templateSelector, value))
+				if (!Equals(_templateSelector, value))
 				{
 					_templateSelector = value;
 					NotifyDataChanged();
@@ -73,21 +91,21 @@ namespace Storm.MvvmCross.Android.Adapters
 			return _collection == null ? -1 : _collection.IndexOf(value);
 		}
 
-		private void Unregister(object collection)
-		{
-			INotifyCollectionChanged observable = collection as INotifyCollectionChanged;
-			if (observable != null)
-			{
-				observable.CollectionChanged -= OnCollectionChanged;
-			}
-		}
-
 		private void Register(object collection)
 		{
 			INotifyCollectionChanged observable = collection as INotifyCollectionChanged;
 			if (observable != null)
 			{
 				observable.CollectionChanged += OnCollectionChanged;
+			}
+		}
+
+		private void Unregister(object collection)
+		{
+			INotifyCollectionChanged observable = collection as INotifyCollectionChanged;
+			if (observable != null)
+			{
+				observable.CollectionChanged -= OnCollectionChanged;
 			}
 		}
 
