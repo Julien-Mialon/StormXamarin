@@ -215,7 +215,7 @@ namespace Storm.MvvmCross.Android.Target.CodeGenerator
 		private CodePropertyReferenceExpression CreateLocalizationServiceProperty()
 		{
 			CodeMethodReferenceExpression resolveMethodReference = new CodeMethodReferenceExpression(
-					new CodePropertyReferenceExpression(new CodeTypeReferenceExpression(CodeGeneratorHelper.GetTypeReferenceFromName("DependencyService")), "Container"),
+					new CodeTypeReferenceExpression(CodeGeneratorHelper.GetTypeReferenceFromName("Mvx")),
 					"Resolve",
 					CodeGeneratorHelper.GetTypeReferenceFromName("ILocalizationService")
 					);
@@ -345,7 +345,7 @@ namespace Storm.MvvmCross.Android.Target.CodeGenerator
 							CodeGeneratorHelper.GetPropertyReference(expressionContainer.CommandParameterTarget)));
 					}
 
-					method.Statements.Add(new CodeMethodInvokeExpression(objectReference, "AddExpression", expressionReference));
+					method.Statements.Add(new CodeMethodInvokeExpression(new CodePropertyReferenceExpression(objectReference, "Expressions"), "Add", expressionReference));
 				}
 			}
 

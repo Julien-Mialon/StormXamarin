@@ -52,12 +52,11 @@ namespace Storm.MvvmCross.Android.Target.Configuration
 				"Android.Views",
 				"Android.Widget",
 				"Android.OS",
-				"Storm.Mvvm",
-				"Storm.Mvvm.Bindings",
-				"Storm.Mvvm.Components",
-				"Storm.Mvvm.Inject",
-				"Storm.Mvvm.Services",
-				"Storm.Mvvm.TemplateSelectors",
+				"Cirrious.CrossCore",
+				"Storm.MvvmCross.Bindings",
+				"Storm.MvvmCross.Interfaces",
+				"Storm.MvvmCross.Android.Views",
+				"Storm.MvvmCross.Android.Adapters",
 			};
 
 			CustomAttribute = new List<string>

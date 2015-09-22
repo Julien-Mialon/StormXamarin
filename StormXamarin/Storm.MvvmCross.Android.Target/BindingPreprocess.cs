@@ -77,7 +77,7 @@ namespace Storm.MvvmCross.Android.Target
 
 		public static void LexLog(string message)
 		{
-			//Logger.LogMessage(MessageImportance.High, "##### ====> {0}", message);
+			
 		}
 
 		public static void YaccLog(string message)

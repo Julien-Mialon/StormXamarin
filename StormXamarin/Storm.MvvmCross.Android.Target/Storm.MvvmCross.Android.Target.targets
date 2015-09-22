@@ -29,7 +29,6 @@
 	<Target Name="StormCleanup">
 		<RemoveDir Directories="@(StormAndroidBindingOutputDirectories)" />
 		<Delete Files="@(StormAndroidBindingGeneratedAndroidResource)" />
-		<Delete Files="@(StormAndroidBindingGeneratedStrings)" />
 	</Target>
 
 	<Target Name="AfterBuild" DependsOnTargets="StormCleanup" />

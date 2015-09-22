@@ -82,14 +82,16 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Setup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <BindingProcess Include="BindingDeclaration.json" />
+    <None Include="MainView.axml">
+      <SubType>AndroidResource</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\Main.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -109,6 +111,13 @@
       <Project>{5589832c-5ac1-4b22-b53b-e8787a6976e1}</Project>
       <Name>Storm.MvvmCross</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Test.MvvmCross.Business\Test.MvvmCross.Business.csproj">
+      <Project>{ED70080A-83C9-4F22-9158-4F78104C6FA5}</Project>
+      <Name>Test.MvvmCross.Business</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\layout\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

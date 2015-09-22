@@ -1,0 +1,15 @@
+﻿{
+	"namespaces": ["Test.MvvmCross.Android"],
+	"fileDescriptions": [
+		{
+			"activity": {
+				"className": "MainActivity",
+				"namespaceName": "Test.MvvmCross.Android",
+			},
+			"view": {
+				"inputFile": "MainView.axml",
+				"outputFile": "MainView.axml"
+			}
+		}
+	]
+}

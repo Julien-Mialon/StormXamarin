@@ -6,6 +6,16 @@ namespace Storm.MvvmCross.Bindings
 	{
 		public object TargetObject { get; set; }
 
-		public List<BindingExpression> Expressions { get; set; } 
+		public List<BindingExpression> Expressions { get; set; }
+
+		public BindingObject()
+		{
+			Expressions = new List<BindingExpression>();
+		}
+
+		public BindingObject(object target) : this()
+		{
+			TargetObject = target;
+		}
 	}
 }

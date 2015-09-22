@@ -63,6 +63,7 @@
     <Compile Include="Interfaces\IBindingSpecificEventService.cs" />
     <Compile Include="Interfaces\IBindingSpecificPropertyService.cs" />
     <Compile Include="Interfaces\IBindingTypeConverterService.cs" />
+    <Compile Include="Interfaces\ILocalizationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StormViewModel.cs" />
   </ItemGroup>

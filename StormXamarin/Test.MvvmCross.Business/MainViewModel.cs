@@ -4,7 +4,7 @@ using Storm.MvvmCross;
 
 namespace Test.MvvmCross.Business
 {
-	public class HomeViewModel : StormViewModel
+	public class MainViewModel : StormViewModel
 	{
 		private string _message;
 		private string _input;
@@ -23,7 +23,7 @@ namespace Test.MvvmCross.Business
 
 		public ICommand OkCommand { get; private set; }
 
-		public HomeViewModel()
+		public MainViewModel()
 		{
 			OkCommand = new MvxCommand(OkAction);
 		}
