@@ -11,9 +11,11 @@ namespace Storm.Mvvm.Components
     {
         public event EventHandler CurrentItemChanged;
 
+	    private object _currentItem;
+
         public object CurrentItem
         {
-            get { return SelectedItem; }
+            get { return SelectedItem ?? _currentItem; }
             set
             {
                 int position = -1;
@@ -31,6 +33,7 @@ namespace Storm.Mvvm.Components
                         SetSelection(position);
                     }
                 }
+	            _currentItem = value;
             }
         }
 
@@ -56,7 +59,16 @@ namespace Storm.Mvvm.Components
 
         private void Initialize()
         {
-            ItemSelected += (sender, args) => OnCurrentItemChanged();
+			ItemClick += (sender, args) =>
+	        {
+		        var adapter = Adapter as BaseAdapter;
+
+                if (adapter != null)
+                {
+	                _currentItem = adapter.GetItem(args.Position);
+					OnCurrentItemChanged();
+                }
+	        };
         }
 
         protected void OnCurrentItemChanged()

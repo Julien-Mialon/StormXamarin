@@ -69,7 +69,13 @@ namespace TestApp.Business.ViewModels
 			set { SetProperty(ref _pushText, value); }
 	    }
 
-	    public DataContainer Selected { get; set; }
+	    private DataContainer _selected;
+
+	    public DataContainer Selected
+	    {
+		    get { return _selected; }
+			set { _selected = value; }
+	    }
 
 	    public int Color { get; set; }	
 
