@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storm.Mvvm", "Storm.Mvvm\Storm.Mvvm.csproj", "{1106AAA1-D2DD-4E12-8B9B-62BDFB7AEE88}"
 EndProject
@@ -69,16 +69,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Compilation", "Compilation"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storm.Localization.AndroidTarget", "Storm.Localization.AndroidTarget\Storm.Localization.AndroidTarget.csproj", "{8926F735-B567-408E-916B-9AC5F67ADEB3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UWP", "UWP", "{05144003-C1E9-4E31-9AFD-9CB1CCF560AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storm.Mvvm.UWP", "Storm.Mvvm.UWP\Storm.Mvvm.UWP.csproj", "{12426443-E52E-4B42-B579-80367D7A4A76}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems*{b02bfdf0-193a-47b3-a590-24f1cf9a53a0}*SharedItemsImports = 4
 		Storm.Mvvm.Android.Shared\Storm.Mvvm.Android.Shared.projitems*{b02bfdf0-193a-47b3-a590-24f1cf9a53a0}*SharedItemsImports = 4
-		Storm.Mvvm.Android.Shared\Storm.Mvvm.Android.Shared.projitems*{564f0af1-50e3-4ab4-a3b1-9a73882c3f3b}*SharedItemsImports = 13
 		Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems*{99efd43e-c236-44c4-ab25-c4c7edb343a4}*SharedItemsImports = 13
 		Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems*{eb3f7ef1-b9f8-42b7-899b-6873dd7f46a4}*SharedItemsImports = 4
 		Storm.Mvvm.Android.Shared\Storm.Mvvm.Android.Shared.projitems*{eb3f7ef1-b9f8-42b7-899b-6873dd7f46a4}*SharedItemsImports = 4
 		Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems*{3016a0cd-7362-4d27-9ca4-0527f740a8be}*SharedItemsImports = 4
 		Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems*{0a0b594c-0502-4aa7-9f1a-428b99d89be4}*SharedItemsImports = 4
+		Storm.Mvvm.Shared\Storm.Mvvm.Shared.projitems*{12426443-e52e-4b42-b579-80367d7a4a76}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -227,6 +231,22 @@ Global
 		{8926F735-B567-408E-916B-9AC5F67ADEB3}.Release|ARM.ActiveCfg = Release|Any CPU
 		{8926F735-B567-408E-916B-9AC5F67ADEB3}.Release|x64.ActiveCfg = Release|Any CPU
 		{8926F735-B567-408E-916B-9AC5F67ADEB3}.Release|x86.ActiveCfg = Release|Any CPU
+		{12426443-E52E-4B42-B579-80367D7A4A76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12426443-E52E-4B42-B579-80367D7A4A76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12426443-E52E-4B42-B579-80367D7A4A76}.Debug|ARM.ActiveCfg = Debug|ARM
+		{12426443-E52E-4B42-B579-80367D7A4A76}.Debug|ARM.Build.0 = Debug|ARM
+		{12426443-E52E-4B42-B579-80367D7A4A76}.Debug|x64.ActiveCfg = Debug|x64
+		{12426443-E52E-4B42-B579-80367D7A4A76}.Debug|x64.Build.0 = Debug|x64
+		{12426443-E52E-4B42-B579-80367D7A4A76}.Debug|x86.ActiveCfg = Debug|x86
+		{12426443-E52E-4B42-B579-80367D7A4A76}.Debug|x86.Build.0 = Debug|x86
+		{12426443-E52E-4B42-B579-80367D7A4A76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12426443-E52E-4B42-B579-80367D7A4A76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12426443-E52E-4B42-B579-80367D7A4A76}.Release|ARM.ActiveCfg = Release|ARM
+		{12426443-E52E-4B42-B579-80367D7A4A76}.Release|ARM.Build.0 = Release|ARM
+		{12426443-E52E-4B42-B579-80367D7A4A76}.Release|x64.ActiveCfg = Release|x64
+		{12426443-E52E-4B42-B579-80367D7A4A76}.Release|x64.Build.0 = Release|x64
+		{12426443-E52E-4B42-B579-80367D7A4A76}.Release|x86.ActiveCfg = Release|x86
+		{12426443-E52E-4B42-B579-80367D7A4A76}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -252,5 +272,7 @@ Global
 		{564F0AF1-50E3-4AB4-A3B1-9A73882C3F3B} = {A702AFC2-DCD8-43AE-8B7A-CE4FAF13A49E}
 		{E75C0269-BC94-4BF3-B935-34201518680D} = {A702AFC2-DCD8-43AE-8B7A-CE4FAF13A49E}
 		{8926F735-B567-408E-916B-9AC5F67ADEB3} = {E75C0269-BC94-4BF3-B935-34201518680D}
+		{05144003-C1E9-4E31-9AFD-9CB1CCF560AA} = {8576A79E-8E92-4F92-A63A-1A45FED2BF7D}
+		{12426443-E52E-4B42-B579-80367D7A4A76} = {05144003-C1E9-4E31-9AFD-9CB1CCF560AA}
 	EndGlobalSection
 EndGlobal
