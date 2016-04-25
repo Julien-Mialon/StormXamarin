@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>Storm.Mvvm.UWP</id>
+		<version>1.2.10</version>
+		<title>Storm.Mvvm.UWP</title>
+		<authors>Julien Mialon</authors>
+		<owners>Julien Mialon</owners>
+		<licenseUrl>https://github.com/Julien-Mialon/StormXamarin/blob/master/LICENSE</licenseUrl>
+		<projectUrl>https://github.com/Julien-Mialon/StormXamarin</projectUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>Mvvm implementation of Storm.Mvvm for Windows 10 apps</description>
+		<releaseNotes>Initial release with basic system for Mvvm on Windows 10.</releaseNotes>
+		<copyright>Copyright 2016</copyright>
+		<tags>mvvm uwp uap storm</tags>
+		<dependencies>
+			<dependency id="Storm.Mvvm" version="1.2.10" />
+		</dependencies>
+	</metadata>
+</package>
