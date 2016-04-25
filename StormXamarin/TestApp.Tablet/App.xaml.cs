@@ -1,19 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Resources;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // Pour plus d'informations sur le modèle Application vide, consultez la page http://go.microsoft.com/fwlink/?LinkId=234227
@@ -23,7 +12,7 @@ namespace TestApp.Tablet
     /// <summary>
     /// Fournit un comportement spécifique à l'application afin de compléter la classe Application par défaut.
     /// </summary>
-    sealed partial class App : Application
+    sealed partial class App
     {
         /// <summary>
         /// Initialise l'objet d'application de singleton.  Il s'agit de la première ligne du code créé
@@ -31,8 +20,8 @@ namespace TestApp.Tablet
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+            Suspending += OnSuspending;
         }
 
         /// <summary>
@@ -46,7 +35,7 @@ namespace TestApp.Tablet
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                this.DebugSettings.EnableFrameRateCounter = true;
+                DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
 
@@ -57,15 +46,17 @@ namespace TestApp.Tablet
             if (rootFrame == null)
             {
                 // Créez un Frame utilisable comme contexte de navigation et naviguez jusqu'à la première page
-                rootFrame = new Frame();
-                // Définir la page par défaut
-                rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
+	            rootFrame = new Frame
+	            {
+		            Language = Windows.Globalization.ApplicationLanguages.Languages[0]
+	            };
 
-                rootFrame.NavigationFailed += OnNavigationFailed;
+	            // Définir la page par défaut
+	            rootFrame.NavigationFailed += OnNavigationFailed;
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
-                    //TODO: chargez l'état de l'application précédemment suspendue
+                    
                 }
 
                 // Placez le frame dans la fenêtre active
@@ -110,7 +101,6 @@ namespace TestApp.Tablet
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: enregistrez l'état de l'application et arrêtez toute activité en arrière-plan
             deferral.Complete();
         }
     }

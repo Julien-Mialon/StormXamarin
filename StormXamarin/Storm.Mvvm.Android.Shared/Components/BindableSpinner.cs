@@ -17,7 +17,7 @@ namespace Storm.Mvvm.Components
 			set
 			{
 				int position = -1;
-				ISearchableAdapter adapter = this.Adapter as ISearchableAdapter;
+				ISearchableAdapter adapter = Adapter as ISearchableAdapter;
 
 				if (adapter != null)
 				{
@@ -26,9 +26,9 @@ namespace Storm.Mvvm.Components
 
 				if (position >= 0)
 				{
-					if (this.SelectedItemPosition != position)
+					if (SelectedItemPosition != position)
 					{
-						this.SetSelection(position);
+						SetSelection(position);
 					}
 				}
 			}
@@ -56,7 +56,7 @@ namespace Storm.Mvvm.Components
 
 		private void Initialize()
 		{
-			this.ItemSelected += (sender, args) => OnCurrentItemChanged();
+			ItemSelected += (sender, args) => OnCurrentItemChanged();
 		}
 
 		protected void OnCurrentItemChanged()

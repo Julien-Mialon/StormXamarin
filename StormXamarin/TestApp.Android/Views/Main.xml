@@ -11,10 +11,10 @@
 		       android:layout_height="wrap_content" />
 
 		<DataTemplate Key="SpinnerTemplate">
-			<LinearLayout android:layout_width="wrap_content"
+			<LinearLayout android:layout_width="fill_parent"
 						  android:layout_height="wrap_content">
-				<TextView android:layout_width="wrap_content"
-						  android:layout_height="wrap_content"
+				<TextView android:layout_width="fill_parent"
+						  android:layout_height="40dp"
 						  Text="{Binding Text}"
 						  />
 			</LinearLayout>
@@ -67,13 +67,26 @@
 	      android:layout_height="40dp"
 	      background="{Binding ColorStatic.Color, Converter={Resource IntToColorConverter}}" />
 
-
+	<BindableListView android:id="ComboBox"
+					  android:layout_width="200dp"
+	                 android:layout_height="400dp"
+	                 adapter="{Binding MyCollection, Template={Resource SpinnerTemplate}}"
+	                 currentItem="{Binding Selected, Mode=TwoWay, UpdateEvent=CurrentItemChanged}" 
+					  />
+	
+	<!--
 	<BindableSpinner android:id="ComboBox"
 	                 android:layout_width="120dp"
 	                 android:layout_height="40dp"
 	                 adapter="{Binding MyCollection, Template={Resource SpinnerTemplate}}"
 	                 currentItem="{Binding Selected, Mode=TwoWay, UpdateEvent=CurrentItemChanged}" />
-
+	
+	-->
+	<BindableSpinner android:id="LazyComboBox"
+					 android:layout_width="120dp"
+					 android:layout_height="40dp"
+					 />
+	
 	<fragment class="TestApp.Android.Activities.TestFragment"
 	          android:layout_width="fill_parent"
 	          android:layout_height="fill_parent"

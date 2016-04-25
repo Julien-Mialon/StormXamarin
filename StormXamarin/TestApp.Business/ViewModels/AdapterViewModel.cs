@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using Storm.Mvvm;
 using Storm.Mvvm.Commands;
-using Storm.Mvvm.Inject;
 
 namespace TestApp.Business.ViewModels
 {

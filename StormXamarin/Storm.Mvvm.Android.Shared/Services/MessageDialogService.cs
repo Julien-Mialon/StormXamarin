@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 #if SUPPORT
 using Android.Support.V4.App;
 #endif

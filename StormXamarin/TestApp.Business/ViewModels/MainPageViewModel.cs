@@ -40,11 +40,11 @@ namespace TestApp.Business.ViewModels
     public class MainPageViewModel : ViewModelBase
     {
 		private string _buttonText = "";
-		private int _counter = 0;
+		private int _counter;
 	    private string _inputText;
 	    private DataContainer _data;
 	    private string _pushText = "";
-		private List<DataContainer> _myCollection = new List<DataContainer>()
+		private readonly List<DataContainer> _myCollection = new List<DataContainer>()
 		{
 			new DataContainer() { Text = "Possible 1"},
 			new ChildrenDataContainer() { Text = "Possible 2"}
@@ -69,7 +69,13 @@ namespace TestApp.Business.ViewModels
 			set { SetProperty(ref _pushText, value); }
 	    }
 
-	    public DataContainer Selected { get; set; }
+	    private DataContainer _selected;
+
+	    public DataContainer Selected
+	    {
+		    get { return _selected; }
+			set { _selected = value; }
+	    }
 
 	    public int Color { get; set; }	
 
@@ -117,7 +123,7 @@ namespace TestApp.Business.ViewModels
 			ButtonText = name;
 		}
 
-	    private async void PushAlertAction()
+	    private void PushAlertAction()
 	    {
 		    if (DataInput == null)
 		    {

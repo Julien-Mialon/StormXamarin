@@ -38,6 +38,7 @@ namespace Storm.Binding.AndroidTarget.Configuration
 			Aliases = new List<AliasDescription>
 			{
 				new AliasDescription("BindableSpinner", "Storm.Mvvm.Components.BindableSpinner"),
+				new AliasDescription("BindableListView", "Storm.Mvvm.Components.BindableListView"),
 				new AliasDescription("SimpleViewSelector", "Storm.Mvvm.ViewSelectors.SimpleViewSelector"),
 			};
 
@@ -77,7 +78,7 @@ namespace Storm.Binding.AndroidTarget.Configuration
 
 			TemplateSelector = "Storm.Mvvm.TemplateSelectors.SimpleTemplateSelector";
 			TemplateSelectorField = "Template";
-			Adapter = "Storm.Mvvm.BindableAdapter";
+			Adapter = "Storm.Mvvm.Adapters.BindableAdapter";
 			AdapterField = "TemplateSelector";
 			CaseSensitivity = false;
 		}

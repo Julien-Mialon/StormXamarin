@@ -7,7 +7,7 @@ namespace Storm.Mvvm.Bindings
 {
 	public class EventToCommandProxy : EventHookBase
 	{
-		private static readonly MethodInfo _triggerMethodInfo = null;
+		private static readonly MethodInfo _triggerMethodInfo;
 
 		public ICommand Command { get; set; }
 
@@ -40,7 +40,10 @@ namespace Storm.Mvvm.Bindings
 		}
 
 		[UsedImplicitly]
+		// ReSharper disable once UnusedMember.Local
+		// ReSharper disable UnusedParameter.Local
 		private void OnEventTriggered(object sender, EventArgs e)
+		// ReSharper restore UnusedParameter.Local
 		{
 			ICommand command = Command;
 			object parameter = CommandParameter == null ? e : CommandParameter.Value;

@@ -83,7 +83,7 @@ namespace Storm.Mvvm.Framework.ColorPicker
 			_pickerView.OnColorChanged += OnPickerColorChanged;
 
 			_oldPanelView.Color = OldColor;
-			_pickerView.setColor((int)OldColor, true);
+			_pickerView.SetColor((int)OldColor, true);
 
 			return rootView;
 		}
@@ -97,7 +97,7 @@ namespace Storm.Mvvm.Framework.ColorPicker
 		private void InitWithColor(uint color)
 		{
 			_oldPanelView.Color = color;
-			_pickerView.setColor((int)color, true);
+			_pickerView.SetColor((int)color, true);
 		}
 	}
 }

@@ -74,7 +74,7 @@
 	// For Adapter, the class should implement IMvvmAdapter and IAdapter and have a property of type ITemplateSelector that you need to provide name in "defaultAdapterField"
 	"defaultTemplateSelector": "Storm.Mvvm.TemplateSelectors.SimpleTemplateSelector",
 	"defaultTemplateSelectorField": "Template",
-	"defaultAdapter": "Storm.Mvvm.BindableAdapter",
+	"defaultAdapter": "Storm.Mvvm.Adapters.BindableAdapter",
 	"defaultAdapterField": "TemplateSelector",
 
 	// You can enable or not the case sensitivity in android view file. Disabling it provide immediate compatibility with native Android view but decrease (slightly) the performance.
