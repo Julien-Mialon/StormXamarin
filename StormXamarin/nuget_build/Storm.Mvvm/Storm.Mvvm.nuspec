@@ -2,7 +2,7 @@
 <package >
 	<metadata>
 		<id>Storm.Mvvm</id>
-		<version>1.2.10</version>
+		<version>1.2.11</version>
 		<title>Storm.Mvvm</title>
 		<authors>Julien Mialon</authors>
 		<owners>Julien Mialon</owners>
@@ -13,8 +13,5 @@
 		<releaseNotes>Initial release with basic system for Mvvm.</releaseNotes>
 		<copyright>Copyright 2014</copyright>
 		<tags>mvvm pcl storm</tags>
-		<dependencies>
-			<dependency id="Funq.Portable" version="1.0.1" />
-		</dependencies>
 	</metadata>
 </package>
