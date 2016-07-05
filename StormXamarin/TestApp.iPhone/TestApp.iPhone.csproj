@@ -86,9 +86,14 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <None Include="Info.plist" />
+    <None Include="GettingStarted.Xamarin" />
+    <None Include="Info.plist">
+      <SubType>Designer</SubType>
+    </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
+    <BundleResource Include="Resources\Base.lproj\Resources.resw" />
+    <BundleResource Include="Resources\fr.lproj\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
