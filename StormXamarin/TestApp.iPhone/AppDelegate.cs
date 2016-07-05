@@ -1,4 +1,5 @@
 ﻿using Foundation;
+using Storm.Localization;
 using UIKit;
 
 namespace TestApp.iPhone
@@ -24,8 +25,14 @@ namespace TestApp.iPhone
 			// If you have defined a root view controller, set it here:
 			// Window.RootViewController = myViewController;
 
+			string[] localizations = NSBundle.MainBundle.Localizations;
+			string content = NSBundle.MainBundle.LocalizedString("Text__Text", null);
+
+			string test = LocalizedStrings.Test;
+
 			// make the window visible
 			Window.MakeKeyAndVisible();
+
 
 			return true;
 		}

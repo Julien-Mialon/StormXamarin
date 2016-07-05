@@ -9,6 +9,8 @@
     <RootNamespace>TestApp.iPhone</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>TestAppiPhone</AssemblyName>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -84,6 +86,7 @@
     <CodesignKey>iPhone Distribution</CodesignKey>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Localization.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="GettingStarted.Xamarin" />
@@ -92,8 +95,12 @@
     </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
-    <BundleResource Include="Resources\Base.lproj\Resources.resw" />
-    <BundleResource Include="Resources\fr.lproj\Resources.resw" />
+    <BundleResource Include="Resources\Base.lproj\Localizable.strings" />
+    <BundleResource Include="Resources\es.lproj\Localizable.strings" />
+    <BundleResource Include="Resources\fr.lproj\Localizable.strings" />
+    <ReswFile Include="Resources\Base.lproj\Resources.resw" />
+    <ReswFile Include="Resources\fr.lproj\Resources.resw" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -105,4 +112,11 @@
     <Content Include="Entitlements.plist" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <Import Project="..\packages\Storm.Localization.Build.iOS.0.1.0\build\Storm.Localization.Build.iOS.targets" Condition="Exists('..\packages\Storm.Localization.Build.iOS.0.1.0\build\Storm.Localization.Build.iOS.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Storm.Localization.Build.iOS.0.1.0\build\Storm.Localization.Build.iOS.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Storm.Localization.Build.iOS.0.1.0\build\Storm.Localization.Build.iOS.targets'))" />
+  </Target>
 </Project>
