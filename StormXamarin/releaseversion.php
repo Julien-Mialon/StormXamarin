@@ -43,6 +43,7 @@
 		'Tablet' => 'Tablet',
 		'Phone' => 'Phone',
 		'Localization.Android' => 'Localization.Android',
+		'Localization.iOS' => 'Localization.iOS',
 		'UWP' => 'UWP',
 	);
 	$directories = array(
@@ -53,6 +54,7 @@
 		'Tablet' => 'Storm.Mvvm.Tablet',
 		'Phone' => 'Storm.Mvvm.Phone',
 		'Localization.Android' => 'Storm.Localization.AndroidTarget',
+		'Localization.iOS' => 'Storm.Localization.Build.iOS',
 		'UWP' => 'Storm.Mvvm.UWP',
 	);
 	
