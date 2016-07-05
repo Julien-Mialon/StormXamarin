@@ -41,6 +41,22 @@
     <Compile Include="Events\ValueChangedEventArgs.cs" />
     <Compile Include="Events\ValueChangingEventArgs.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Funq\Container.cs" />
+    <Compile Include="Funq\Container.LazyResolve.cs" />
+    <Compile Include="Funq\Container.Register.cs" />
+    <Compile Include="Funq\Container.Resolve.cs" />
+    <Compile Include="Funq\Container.ResolveImpl.cs" />
+    <Compile Include="Funq\Container.TryResolve.cs" />
+    <Compile Include="Funq\Fast\DependencyInjection.cs" />
+    <Compile Include="Funq\IFluentInterface.cs" />
+    <Compile Include="Funq\IFunqlet.cs" />
+    <Compile Include="Funq\Owner.cs" />
+    <Compile Include="Funq\ResolutionException.cs" />
+    <Compile Include="Funq\ReuseScope.cs" />
+    <Compile Include="Funq\ServiceEntry.cs" />
+    <Compile Include="Funq\ServiceEntry.Generic.cs" />
+    <Compile Include="Funq\ServiceKey.cs" />
+    <Compile Include="Funq\Syntax.cs" />
     <Compile Include="Inject\DependencyService.cs" />
     <Compile Include="Inject\IInjectionFactory.cs" />
     <Compile Include="Inject\InjectionFactory.cs" />
@@ -68,14 +84,6 @@
     <Compile Include="Services\ILocalizationService.cs" />
     <Compile Include="Services\ILoggerService.cs" />
     <Compile Include="ViewModelBase.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Funq.Portable">
-      <HintPath>..\packages\Funq.Portable.1.0.1\lib\Funq.Portable.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

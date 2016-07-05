@@ -1,5 +1,6 @@
 ﻿using System;
-#if WINDOWS_APP
+#if WINDOWS_APP || WINDOWS_UWP
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 #else
 using System.Windows.Data;
@@ -10,7 +11,7 @@ namespace Storm.Mvvm.Converters
 {
     public class BooleanNegationConverter : IValueConverter
     {
-#if WINDOWS_APP
+#if WINDOWS_APP || WINDOWS_UWP
 		public object Convert(object value, Type targetType, object parameter, string language)
 #else
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -34,7 +35,7 @@ namespace Storm.Mvvm.Converters
 		    return invert ? val : !val;
 	    }
 
-#if WINDOWS_APP
+#if WINDOWS_APP || WINDOWS_UWP
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
 #else
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

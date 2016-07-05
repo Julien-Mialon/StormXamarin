@@ -9,9 +9,9 @@
 		<licenseUrl>https://github.com/Julien-Mialon/StormXamarin/blob/master/LICENSE</licenseUrl>
 		<projectUrl>https://github.com/Julien-Mialon/StormXamarin</projectUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<description>Mvvm base compounds as PCL to implement on other platform</description>
-		<releaseNotes>Initial release with basic system for Mvvm.</releaseNotes>
-		<copyright>Copyright 2014</copyright>
-		<tags>mvvm pcl storm</tags>
+		<description>Pre compilation task to help Localization on iOS. This will simply turn Resw or Resx file to a Localizable.strings for iOS.</description>
+		<releaseNotes>Initial release.</releaseNotes>
+		<copyright>Copyright 2015</copyright>
+		<tags>mvvm xamarin iOS xamarin.ios storm globalization localization</tags>
 	</metadata>
 </package>

@@ -1,4 +1,4 @@
-﻿#if WINDOWS_APP || WINDOWS_PHONE
+﻿#if WINDOWS_APP || WINDOWS_PHONE || WINDOWS_UWP
 using System;
 using Storm.Mvvm.Services;
 #if WINDOWS_PHONE
