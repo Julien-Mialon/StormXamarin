@@ -20,6 +20,8 @@ namespace Storm.Localization.Build.iOS
 		[Output]
 		public ITaskItem[] GeneratedCSharp { get; private set; }
 
+		private readonly List<string> _keys = new List<string>();
+
 		public override bool Execute()
 		{
 			Log.LogMessage(MessageImportance.High, "===> Preprocessing strings files <===");
@@ -48,7 +50,16 @@ namespace Storm.Localization.Build.iOS
 				generatedFiles.Add(outputFile);
 			}
 
-			GeneratedStrings = generatedFiles.Select(x => (ITaskItem)new TaskItem(x)).ToArray();
+			if (generatedFiles.Count == 0)
+			{
+				GeneratedStrings = new ITaskItem[] { };
+				GeneratedCSharp = new ITaskItem[] { };
+			}
+			else
+			{
+				GeneratedStrings = generatedFiles.Select(x => (ITaskItem) new TaskItem(x)).ToArray();
+				GeneratedCSharp = new ITaskItem[] {new TaskItem(GenerateLocalizationClass())};
+			}
 			Log.LogMessage(MessageImportance.High, "===> End preprocessing strings files, generate {0} Localizable.strings", GeneratedStrings.Length);
 
 			return true;
@@ -68,6 +79,42 @@ namespace Storm.Localization.Build.iOS
 				items.Select(item => 
 					string.Format("\"{0}\" = \"{1}\";", ProcessKey(item.Item1), ProcessValue(item.Item2))
 				));
+
+			_keys.AddRange(items.Select(x => ProcessKey(x.Item1)));
+		}
+
+		private string GenerateLocalizationClass()
+		{
+			const string filename = "Localization.cs";
+
+			List<string> lines = new List<string>
+			{
+				"using System;",
+				"using Foundation;",
+				"",
+				"namespace Storm.Localization",
+				"{",
+				"\tinternal static class LocalizedStrings",
+				"\t{",
+			};
+
+			foreach (string key in _keys.Distinct())
+			{
+				lines.Add(string.Format("\t\tpublic static string {0}", key));
+				lines.Add("\t\t{");
+				lines.Add("\t\t\tget");
+				lines.Add("\t\t\t{");
+				lines.Add(string.Format("\t\t\t\treturn NSBundle.MainBundle.LocalizedString(\"{0}\", null);", key));
+				lines.Add("\t\t\t}");
+				lines.Add("\t\t}");
+			}
+
+			lines.Add("\t}");
+			lines.Add("}");
+
+			File.WriteAllLines(filename, lines);
+
+			return filename;
 		}
 
 		private string ProcessKey(string key)

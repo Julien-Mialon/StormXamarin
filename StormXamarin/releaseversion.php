@@ -121,7 +121,7 @@
 		echo "Generating nuget package for " . $directory . " version " . $versionNumber . PHP_EOL;
 		exec_system("nuget pack -Verbosity quiet -NonInteractive");
 		echo "Uploading nuget package " . $directory . " version " . $versionNumber . " to nuget server" . PHP_EOL;
-		exec_system("nuget push -Verbosity quiet -NonInteractive *.nupkg");
+		exec_system("nuget push -Verbosity quiet -Source https://www.nuget.org/api/v2/package -NonInteractive *.nupkg");
 		exec_system("mv *.nupkg ../../nuget_packages");
 		
 		move_chdir('../..');

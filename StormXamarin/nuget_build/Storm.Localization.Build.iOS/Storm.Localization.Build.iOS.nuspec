@@ -2,7 +2,7 @@
 <package >
 	<metadata>
 		<id>Storm.Localization.Build.iOS</id>
-		<version>0.1</version>
+		<version>0.2</version>
 		<title>Storm.Localization.Build.iOS</title>
 		<authors>Julien Mialon</authors>
 		<owners>Julien Mialon</owners>
