@@ -13,17 +13,13 @@ namespace Storm.Mvvm.Services
 		public event EventHandler<PagePushEventArgs> ViewPushed;
 		public event EventHandler<PagePopEventArgs> ViewPopped;
 
-		protected Page CurrentPage
-		{
-			get { return LazySingletonInitializer<ICurrentPageService>.Value.CurrentPage; }
-		}
+		protected Page CurrentPage => LazySingletonInitializer<ICurrentPageService>.Value.CurrentPage;
 
 		public Task PushAsync(Page page, Dictionary<string, object> parameters = null, NavigationMode mode = NavigationMode.Push, bool animated = true)
 		{
 			_pages.Push(new Tuple<Page, NavigationMode>(page, mode));
-
-			ViewModelBase vm = page.BindingContext as ViewModelBase;
-			if (vm != null)
+			
+			if (page.BindingContext is ViewModelBase vm)
 			{
 				vm.Initialize(parameters ?? new Dictionary<string, object>());
 			}
@@ -67,20 +63,12 @@ namespace Storm.Mvvm.Services
 
 		public void OnPush(Page page, NavigationMode mode)
 		{
-			var handler = ViewPushed;
-			if (handler != null)
-			{
-				handler(this, new PagePushEventArgs(page, mode));
-			}
+			ViewPushed?.Invoke(this, new PagePushEventArgs(page, mode));
 		}
 
 		public void OnPop(Page page, NavigationMode mode)
 		{
-			var handler = ViewPopped;
-			if (handler != null)
-			{
-				handler(this, new PagePopEventArgs(page, mode));
-			}
+			ViewPopped?.Invoke(this, new PagePopEventArgs(page, mode));
 		}
 	}
 }

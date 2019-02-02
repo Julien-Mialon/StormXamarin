@@ -6,13 +6,7 @@ namespace Storm.Mvvm.Services
 {
 	public class DialogService : IDialogService
 	{
-		protected Page CurrentPage
-		{
-			get
-			{
-				return LazySingletonInitializer<ICurrentPageService>.Value.CurrentPage;
-			}
-		}
+		protected Page CurrentPage => LazySingletonInitializer<ICurrentPageService>.Value.CurrentPage;
 
 		public Task<bool> DisplayAlertAsync(string title, string message, string accept, string cancel)
 		{

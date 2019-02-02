@@ -11,10 +11,7 @@ namespace Storm.Mvvm
 	{
 		private Dictionary<string, object> _navigationParameters;
 
-		public INavigationService NavigationService
-		{
-			get { return LazySingletonInitializer<INavigationService>.Value; }
-		}
+		public INavigationService NavigationService => LazySingletonInitializer<INavigationService>.Value;
 
 		public virtual void Initialize(Dictionary<string, object> navigationParameters)
 		{
@@ -37,7 +34,7 @@ namespace Storm.Mvvm
 
 		protected T GetNavigationParameter<T>(string key)
 		{
-			if (_navigationParameters.ContainsKey (key)) 
+			if (_navigationParameters.ContainsKey(key))
 			{
 				return (T)_navigationParameters[key];
 			}

@@ -6,10 +6,7 @@ namespace Storm.Mvvm
 {
 	public class MvvmNavigationPage : NavigationPage
 	{
-		public INavigationService NavigationService
-		{
-			get { return LazySingletonInitializer<INavigationService>.Value; }
-		}
+		public INavigationService NavigationService => LazySingletonInitializer<INavigationService>.Value;
 
 		public MvvmNavigationPage(Page root) : base(root)
 		{
