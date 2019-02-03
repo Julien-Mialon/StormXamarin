@@ -7,10 +7,7 @@ namespace Storm.Mvvm.Services
 	{
 		private readonly Stack<Page> _pages = new Stack<Page>();
 
-		public Page CurrentPage
-		{
-			get { return _pages.Peek(); }
-		}
+		public Page CurrentPage => _pages.Peek();
 
 		public CurrentPageService()
 		{
@@ -25,14 +22,8 @@ namespace Storm.Mvvm.Services
 			};
 		}
 
-		public void Push(Page newPage)
-		{
-			_pages.Push(newPage);
-		}
+		public void Push(Page newPage) => _pages.Push(newPage);
 
-		public void Pop()
-		{
-			_pages.Pop();
-		}
+		public void Pop() => _pages.Pop();
 	}
 }
